@@ -1,5 +1,7 @@
 import type { components } from "./schema";
 
+type Schemas = components["schemas"];
+
 export type Language = "fr" | "en";
 
 export type SchoolSummary = {
@@ -44,7 +46,51 @@ export type PermissionGroup = {
 };
 
 // Types generated from the backend OpenAPI schema (npm run gen:api).
-export type School = components["schemas"]["School"];
-export type Role = components["schemas"]["Role"];
-export type Member = components["schemas"]["Member"];
-export type AuditLogEntry = components["schemas"]["AuditLog"];
+export type School = Schemas["School"];
+export type Role = Schemas["Role"];
+export type Member = Schemas["Member"];
+export type AuditLogEntry = Schemas["AuditLog"];
+export type AcademicYear = Schemas["AcademicYear"];
+export type Term = Schemas["Term"];
+export type Level = Schemas["Level"];
+export type ClassGroup = Schemas["ClassGroup"];
+export type Subject = Schemas["Subject"];
+export type ClassSubject = Schemas["ClassSubject"];
+export type StudentListItem = Schemas["StudentList"];
+export type Student = Schemas["Student"];
+export type EnrollmentBrief = Schemas["EnrollmentBrief"];
+export type Guardian = Schemas["Guardian"];
+export type GuardianLink = Schemas["GuardianLink"];
+export type Staff = Schemas["Staff"];
+export type Enrollment = Schemas["Enrollment"];
+export type SchoolDocument = Schemas["Document"];
+export type PromoteResult = Schemas["PromoteResult"];
+
+export type Gender = "M" | "F";
+export type Relationship = "father" | "mother" | "guardian" | "other";
+
+export type DashboardSummary = {
+  academic_year: { id: number; name: string } | null;
+  students?: number;
+  students_male?: number;
+  students_female?: number;
+  classes?: number;
+  capacity?: number | null;
+  teachers?: number;
+  staff?: number;
+  new_enrollments_30d?: number;
+  by_level?: { level_id: number; level: string; count: number }[];
+};
+
+export type SearchHit = { id: number; title: string; subtitle: string; status?: string; student_id?: number | null };
+export type SearchResults = { students: SearchHit[]; guardians: SearchHit[]; staff: SearchHit[]; classes: SearchHit[] };
+
+export type ImportResult = {
+  total: number;
+  valid: number;
+  created: number;
+  errors: { row: number; column: string; message: string }[];
+  preview: Record<string, string | number | null>[];
+  columns_found: string[];
+  columns_missing: string[];
+};

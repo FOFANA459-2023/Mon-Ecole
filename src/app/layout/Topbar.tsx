@@ -12,6 +12,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { SearchCommand } from "@/features/search/SearchCommand";
 import { api } from "@/lib/api/client";
 import type { Language } from "@/lib/api/types";
 import { useAuth } from "@/lib/auth/context";
@@ -118,6 +119,7 @@ export function Topbar({ onOpenMenu }: { onOpenMenu: () => void }) {
       <Button variant="ghost" size="icon" className="lg:hidden" onClick={onOpenMenu} aria-label={t("nav.menu")}>
         <Menu />
       </Button>
+      <SearchCommand />
       <div className="flex-1" />
       <LanguageMenu />
       <ThemeMenu />

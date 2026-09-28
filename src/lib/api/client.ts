@@ -112,10 +112,11 @@ async function toApiError(res: Response): Promise<ApiError> {
   return new ApiError(res.status, { code: `http_${res.status}`, message: res.statusText, fields: {} });
 }
 
-export async function apiRequest<T>(path: string, options: RequestOptions = {}): Promise<T> {
+/** Send a request with the session headers, refreshing the access token once on 401. */
+async function send(path: string, options: RequestOptions): Promise<Response> {
   const { method = "GET", body, query, signal, auth = true } = options;
   const url = buildUrl(path, query);
-  const send = () =>
+  const attempt = () =>
     fetch(url, {
       method,
       headers: buildHeaders(body),
@@ -126,11 +127,11 @@ export async function apiRequest<T>(path: string, options: RequestOptions = {}):
 
   let res: Response;
   try {
-    res = await send();
+    res = await attempt();
     if (res.status === 401 && auth) {
       const token = await refreshAccessToken();
       if (token) {
-        res = await send();
+        res = await attempt();
       } else {
         state.onSessionExpired?.();
       }
@@ -139,10 +140,22 @@ export async function apiRequest<T>(path: string, options: RequestOptions = {}):
     if (error instanceof DOMException && error.name === "AbortError") throw error;
     throw new ApiError(0, { code: "network_error", message: "Network error", fields: {} });
   }
-
   if (!res.ok) throw await toApiError(res);
+  return res;
+}
+
+export async function apiRequest<T>(path: string, options: RequestOptions = {}): Promise<T> {
+  const res = await send(path, options);
   if (res.status === 204) return undefined as T;
   return (await res.json()) as T;
+}
+
+/** Fetch a file (PDF, spreadsheet…) with the user's session; returns the blob and the server's filename. */
+export async function apiFile(path: string, query?: Query): Promise<{ blob: Blob; filename: string | null }> {
+  const res = await send(path, { query });
+  const disposition = res.headers.get("Content-Disposition") ?? "";
+  const match = /filename="?([^";]+)"?/i.exec(disposition);
+  return { blob: await res.blob(), filename: match ? match[1] : null };
 }
 
 export const api = {

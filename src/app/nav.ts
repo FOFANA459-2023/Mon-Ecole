@@ -41,12 +41,12 @@ export type NavItem = {
 // Menu order follows the Terms of Reference (§4).
 export const NAV_ITEMS: NavItem[] = [
   { key: "dashboard", to: "/", icon: LayoutDashboard, anyOf: [] },
-  { key: "enrollments", to: "/enrollments", icon: UserPlus, anyOf: ["enrollments.view"], phase: 2 },
-  { key: "students", to: "/students", icon: GraduationCap, anyOf: ["students.view"], phase: 2 },
+  { key: "enrollments", to: "/enrollments", icon: UserPlus, anyOf: ["enrollments.view"] },
+  { key: "students", to: "/students", icon: GraduationCap, anyOf: ["students.view"] },
   { key: "administration", to: "/administration", icon: Building2, anyOf: ["administration.view"], phase: 5 },
-  { key: "classes", to: "/classes", icon: School, anyOf: ["classes.view"], phase: 2 },
-  { key: "subjects", to: "/subjects", icon: BookOpen, anyOf: ["subjects.view"], phase: 2 },
-  { key: "teachers", to: "/teachers", icon: Users, anyOf: ["staff.view"], phase: 2 },
+  { key: "classes", to: "/classes", icon: School, anyOf: ["classes.view"] },
+  { key: "subjects", to: "/subjects", icon: BookOpen, anyOf: ["subjects.view"] },
+  { key: "teachers", to: "/teachers", icon: Users, anyOf: ["staff.view"] },
   { key: "finance", to: "/finance", icon: Wallet, anyOf: ["finance.view"], phase: 3 },
   { key: "cashRegister", to: "/cash-register", icon: Landmark, anyOf: ["cash.view"], phase: 3 },
   { key: "attendance", to: "/attendance", icon: CalendarCheck, anyOf: ["attendance.view"], phase: 4 },
@@ -57,6 +57,7 @@ export const NAV_ITEMS: NavItem[] = [
 
 export const SETTINGS_TABS = [
   { key: "school", to: "/settings/school", anyOf: [] as string[] },
+  { key: "academic", to: "/settings/academic", anyOf: [] as string[] },
   { key: "users", to: "/settings/users", anyOf: ["users.manage"] },
   { key: "roles", to: "/settings/roles", anyOf: ["users.manage"] },
   { key: "audit", to: "/settings/audit", anyOf: ["audit.view"] },

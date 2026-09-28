@@ -4,6 +4,84 @@
  */
 
 export interface paths {
+    "/api/v1/academic-years/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * @description CRUD for school-owned records: scoped to the current school, audited on every write.
+         *
+         *     Subclasses set `queryset`, `serializer_class`, `required_permissions` and `audit_module`.
+         */
+        get: operations["academic_years_list"];
+        put?: never;
+        /**
+         * @description CRUD for school-owned records: scoped to the current school, audited on every write.
+         *
+         *     Subclasses set `queryset`, `serializer_class`, `required_permissions` and `audit_module`.
+         */
+        post: operations["academic_years_create"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/academic-years/{id}/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * @description CRUD for school-owned records: scoped to the current school, audited on every write.
+         *
+         *     Subclasses set `queryset`, `serializer_class`, `required_permissions` and `audit_module`.
+         */
+        get: operations["academic_years_retrieve"];
+        put?: never;
+        post?: never;
+        /**
+         * @description CRUD for school-owned records: scoped to the current school, audited on every write.
+         *
+         *     Subclasses set `queryset`, `serializer_class`, `required_permissions` and `audit_module`.
+         */
+        delete: operations["academic_years_destroy"];
+        options?: never;
+        head?: never;
+        /**
+         * @description CRUD for school-owned records: scoped to the current school, audited on every write.
+         *
+         *     Subclasses set `queryset`, `serializer_class`, `required_permissions` and `audit_module`.
+         */
+        patch: operations["academic_years_partial_update"];
+        trace?: never;
+    };
+    "/api/v1/academic-years/{id}/set-current/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * @description CRUD for school-owned records: scoped to the current school, audited on every write.
+         *
+         *     Subclasses set `queryset`, `serializer_class`, `required_permissions` and `audit_module`.
+         */
+        post: operations["academic_years_set_current_create"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/v1/audit-logs/": {
         parameters: {
             query?: never;
@@ -137,6 +215,523 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/v1/class-subjects/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * @description CRUD for school-owned records: scoped to the current school, audited on every write.
+         *
+         *     Subclasses set `queryset`, `serializer_class`, `required_permissions` and `audit_module`.
+         */
+        get: operations["class_subjects_list"];
+        put?: never;
+        /**
+         * @description CRUD for school-owned records: scoped to the current school, audited on every write.
+         *
+         *     Subclasses set `queryset`, `serializer_class`, `required_permissions` and `audit_module`.
+         */
+        post: operations["class_subjects_create"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/class-subjects/{id}/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * @description CRUD for school-owned records: scoped to the current school, audited on every write.
+         *
+         *     Subclasses set `queryset`, `serializer_class`, `required_permissions` and `audit_module`.
+         */
+        get: operations["class_subjects_retrieve"];
+        put?: never;
+        post?: never;
+        /**
+         * @description CRUD for school-owned records: scoped to the current school, audited on every write.
+         *
+         *     Subclasses set `queryset`, `serializer_class`, `required_permissions` and `audit_module`.
+         */
+        delete: operations["class_subjects_destroy"];
+        options?: never;
+        head?: never;
+        /**
+         * @description CRUD for school-owned records: scoped to the current school, audited on every write.
+         *
+         *     Subclasses set `queryset`, `serializer_class`, `required_permissions` and `audit_module`.
+         */
+        patch: operations["class_subjects_partial_update"];
+        trace?: never;
+    };
+    "/api/v1/classes/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * @description CRUD for school-owned records: scoped to the current school, audited on every write.
+         *
+         *     Subclasses set `queryset`, `serializer_class`, `required_permissions` and `audit_module`.
+         */
+        get: operations["classes_list"];
+        put?: never;
+        /**
+         * @description CRUD for school-owned records: scoped to the current school, audited on every write.
+         *
+         *     Subclasses set `queryset`, `serializer_class`, `required_permissions` and `audit_module`.
+         */
+        post: operations["classes_create"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/classes/{id}/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * @description CRUD for school-owned records: scoped to the current school, audited on every write.
+         *
+         *     Subclasses set `queryset`, `serializer_class`, `required_permissions` and `audit_module`.
+         */
+        get: operations["classes_retrieve"];
+        put?: never;
+        post?: never;
+        /**
+         * @description CRUD for school-owned records: scoped to the current school, audited on every write.
+         *
+         *     Subclasses set `queryset`, `serializer_class`, `required_permissions` and `audit_module`.
+         */
+        delete: operations["classes_destroy"];
+        options?: never;
+        head?: never;
+        /**
+         * @description CRUD for school-owned records: scoped to the current school, audited on every write.
+         *
+         *     Subclasses set `queryset`, `serializer_class`, `required_permissions` and `audit_module`.
+         */
+        patch: operations["classes_partial_update"];
+        trace?: never;
+    };
+    "/api/v1/classes/{id}/cards/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description Printable ID cards for every student in the class (A4 sheets of 10). */
+        get: operations["classes_cards_retrieve"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/dashboard/summary/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description Headline numbers for the dashboard (school-wide, for one academic year). */
+        get: operations["dashboard_summary_retrieve"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/documents/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description Documents are listed per owner: ?owner_type=student&owner_id=42. */
+        get: operations["documents_list"];
+        put?: never;
+        /** @description Documents are listed per owner: ?owner_type=student&owner_id=42. */
+        post: operations["documents_create"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/documents/{id}/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description Documents are listed per owner: ?owner_type=student&owner_id=42. */
+        get: operations["documents_retrieve"];
+        put?: never;
+        post?: never;
+        /** @description Documents are listed per owner: ?owner_type=student&owner_id=42. */
+        delete: operations["documents_destroy"];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/documents/{id}/download/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description Documents are listed per owner: ?owner_type=student&owner_id=42. */
+        get: operations["documents_download_retrieve"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/enrollments/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * @description CRUD for school-owned records: scoped to the current school, audited on every write.
+         *
+         *     Subclasses set `queryset`, `serializer_class`, `required_permissions` and `audit_module`.
+         */
+        get: operations["enrollments_list"];
+        put?: never;
+        /**
+         * @description CRUD for school-owned records: scoped to the current school, audited on every write.
+         *
+         *     Subclasses set `queryset`, `serializer_class`, `required_permissions` and `audit_module`.
+         */
+        post: operations["enrollments_create"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/enrollments/{id}/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * @description CRUD for school-owned records: scoped to the current school, audited on every write.
+         *
+         *     Subclasses set `queryset`, `serializer_class`, `required_permissions` and `audit_module`.
+         */
+        get: operations["enrollments_retrieve"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        /**
+         * @description CRUD for school-owned records: scoped to the current school, audited on every write.
+         *
+         *     Subclasses set `queryset`, `serializer_class`, `required_permissions` and `audit_module`.
+         */
+        patch: operations["enrollments_partial_update"];
+        trace?: never;
+    };
+    "/api/v1/enrollments/{id}/cancel/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * @description CRUD for school-owned records: scoped to the current school, audited on every write.
+         *
+         *     Subclasses set `queryset`, `serializer_class`, `required_permissions` and `audit_module`.
+         */
+        post: operations["enrollments_cancel_create"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/enrollments/{id}/change-class/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * @description CRUD for school-owned records: scoped to the current school, audited on every write.
+         *
+         *     Subclasses set `queryset`, `serializer_class`, `required_permissions` and `audit_module`.
+         */
+        post: operations["enrollments_change_class_create"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/enrollments/{id}/form/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * @description CRUD for school-owned records: scoped to the current school, audited on every write.
+         *
+         *     Subclasses set `queryset`, `serializer_class`, `required_permissions` and `audit_module`.
+         */
+        get: operations["enrollments_form_retrieve"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/enrollments/{id}/withdraw/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * @description CRUD for school-owned records: scoped to the current school, audited on every write.
+         *
+         *     Subclasses set `queryset`, `serializer_class`, `required_permissions` and `audit_module`.
+         */
+        post: operations["enrollments_withdraw_create"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/enrollments/promote/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * @description CRUD for school-owned records: scoped to the current school, audited on every write.
+         *
+         *     Subclasses set `queryset`, `serializer_class`, `required_permissions` and `audit_module`.
+         */
+        post: operations["enrollments_promote_create"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/enrollments/register/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * @description CRUD for school-owned records: scoped to the current school, audited on every write.
+         *
+         *     Subclasses set `queryset`, `serializer_class`, `required_permissions` and `audit_module`.
+         */
+        post: operations["enrollments_register_create"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/guardians/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * @description CRUD for school-owned records: scoped to the current school, audited on every write.
+         *
+         *     Subclasses set `queryset`, `serializer_class`, `required_permissions` and `audit_module`.
+         */
+        get: operations["guardians_list"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/guardians/{id}/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * @description CRUD for school-owned records: scoped to the current school, audited on every write.
+         *
+         *     Subclasses set `queryset`, `serializer_class`, `required_permissions` and `audit_module`.
+         */
+        get: operations["guardians_retrieve"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        /**
+         * @description CRUD for school-owned records: scoped to the current school, audited on every write.
+         *
+         *     Subclasses set `queryset`, `serializer_class`, `required_permissions` and `audit_module`.
+         */
+        patch: operations["guardians_partial_update"];
+        trace?: never;
+    };
+    "/api/v1/imports/{kind}/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** @description Check (commit=false) or import (commit=true) an Excel/CSV list of students or staff. */
+        post: operations["imports_create"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/imports/{kind}/template/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description An Excel template with the expected columns, an example row and instructions. */
+        get: operations["imports_template_retrieve"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/levels/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * @description CRUD for school-owned records: scoped to the current school, audited on every write.
+         *
+         *     Subclasses set `queryset`, `serializer_class`, `required_permissions` and `audit_module`.
+         */
+        get: operations["levels_list"];
+        put?: never;
+        /**
+         * @description CRUD for school-owned records: scoped to the current school, audited on every write.
+         *
+         *     Subclasses set `queryset`, `serializer_class`, `required_permissions` and `audit_module`.
+         */
+        post: operations["levels_create"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/levels/{id}/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * @description CRUD for school-owned records: scoped to the current school, audited on every write.
+         *
+         *     Subclasses set `queryset`, `serializer_class`, `required_permissions` and `audit_module`.
+         */
+        get: operations["levels_retrieve"];
+        put?: never;
+        post?: never;
+        /**
+         * @description CRUD for school-owned records: scoped to the current school, audited on every write.
+         *
+         *     Subclasses set `queryset`, `serializer_class`, `required_permissions` and `audit_module`.
+         */
+        delete: operations["levels_destroy"];
+        options?: never;
+        head?: never;
+        /**
+         * @description CRUD for school-owned records: scoped to the current school, audited on every write.
+         *
+         *     Subclasses set `queryset`, `serializer_class`, `required_permissions` and `audit_module`.
+         */
+        patch: operations["levels_partial_update"];
+        trace?: never;
+    };
     "/api/v1/me/": {
         parameters: {
             query?: never;
@@ -219,6 +814,487 @@ export interface paths {
         patch: operations["school_partial_update"];
         trace?: never;
     };
+    "/api/v1/search/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description One search box for the whole school: students, guardians, staff and classes. */
+        get: operations["search_retrieve"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/staff/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * @description CRUD for school-owned records: scoped to the current school, audited on every write.
+         *
+         *     Subclasses set `queryset`, `serializer_class`, `required_permissions` and `audit_module`.
+         */
+        get: operations["staff_list"];
+        put?: never;
+        /**
+         * @description CRUD for school-owned records: scoped to the current school, audited on every write.
+         *
+         *     Subclasses set `queryset`, `serializer_class`, `required_permissions` and `audit_module`.
+         */
+        post: operations["staff_create"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/staff/{id}/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * @description CRUD for school-owned records: scoped to the current school, audited on every write.
+         *
+         *     Subclasses set `queryset`, `serializer_class`, `required_permissions` and `audit_module`.
+         */
+        get: operations["staff_retrieve"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        /**
+         * @description CRUD for school-owned records: scoped to the current school, audited on every write.
+         *
+         *     Subclasses set `queryset`, `serializer_class`, `required_permissions` and `audit_module`.
+         */
+        patch: operations["staff_partial_update"];
+        trace?: never;
+    };
+    "/api/v1/staff/{id}/archive/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * @description CRUD for school-owned records: scoped to the current school, audited on every write.
+         *
+         *     Subclasses set `queryset`, `serializer_class`, `required_permissions` and `audit_module`.
+         */
+        post: operations["staff_archive_create"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/staff/{id}/grant-access/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * @description CRUD for school-owned records: scoped to the current school, audited on every write.
+         *
+         *     Subclasses set `queryset`, `serializer_class`, `required_permissions` and `audit_module`.
+         */
+        post: operations["staff_grant_access_create"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/staff/{id}/photo/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * @description CRUD for school-owned records: scoped to the current school, audited on every write.
+         *
+         *     Subclasses set `queryset`, `serializer_class`, `required_permissions` and `audit_module`.
+         */
+        post: operations["staff_photo_create"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/staff/{id}/restore/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * @description CRUD for school-owned records: scoped to the current school, audited on every write.
+         *
+         *     Subclasses set `queryset`, `serializer_class`, `required_permissions` and `audit_module`.
+         */
+        post: operations["staff_restore_create"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/students/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * @description CRUD for school-owned records: scoped to the current school, audited on every write.
+         *
+         *     Subclasses set `queryset`, `serializer_class`, `required_permissions` and `audit_module`.
+         */
+        get: operations["students_list"];
+        put?: never;
+        /**
+         * @description CRUD for school-owned records: scoped to the current school, audited on every write.
+         *
+         *     Subclasses set `queryset`, `serializer_class`, `required_permissions` and `audit_module`.
+         */
+        post: operations["students_create"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/students/{id}/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * @description CRUD for school-owned records: scoped to the current school, audited on every write.
+         *
+         *     Subclasses set `queryset`, `serializer_class`, `required_permissions` and `audit_module`.
+         */
+        get: operations["students_retrieve"];
+        put?: never;
+        post?: never;
+        /**
+         * @description CRUD for school-owned records: scoped to the current school, audited on every write.
+         *
+         *     Subclasses set `queryset`, `serializer_class`, `required_permissions` and `audit_module`.
+         */
+        delete: operations["students_destroy"];
+        options?: never;
+        head?: never;
+        /**
+         * @description CRUD for school-owned records: scoped to the current school, audited on every write.
+         *
+         *     Subclasses set `queryset`, `serializer_class`, `required_permissions` and `audit_module`.
+         */
+        patch: operations["students_partial_update"];
+        trace?: never;
+    };
+    "/api/v1/students/{id}/archive/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * @description CRUD for school-owned records: scoped to the current school, audited on every write.
+         *
+         *     Subclasses set `queryset`, `serializer_class`, `required_permissions` and `audit_module`.
+         */
+        post: operations["students_archive_create"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/students/{id}/card/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * @description CRUD for school-owned records: scoped to the current school, audited on every write.
+         *
+         *     Subclasses set `queryset`, `serializer_class`, `required_permissions` and `audit_module`.
+         */
+        get: operations["students_card_retrieve"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/students/{id}/guardians/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * @description CRUD for school-owned records: scoped to the current school, audited on every write.
+         *
+         *     Subclasses set `queryset`, `serializer_class`, `required_permissions` and `audit_module`.
+         */
+        get: operations["students_guardians_list"];
+        put?: never;
+        /**
+         * @description CRUD for school-owned records: scoped to the current school, audited on every write.
+         *
+         *     Subclasses set `queryset`, `serializer_class`, `required_permissions` and `audit_module`.
+         */
+        post: operations["students_guardians_create"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/students/{id}/guardians/{link_id}/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        /**
+         * @description CRUD for school-owned records: scoped to the current school, audited on every write.
+         *
+         *     Subclasses set `queryset`, `serializer_class`, `required_permissions` and `audit_module`.
+         */
+        delete: operations["students_guardians_destroy"];
+        options?: never;
+        head?: never;
+        /**
+         * @description CRUD for school-owned records: scoped to the current school, audited on every write.
+         *
+         *     Subclasses set `queryset`, `serializer_class`, `required_permissions` and `audit_module`.
+         */
+        patch: operations["students_guardians_partial_update"];
+        trace?: never;
+    };
+    "/api/v1/students/{id}/photo/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * @description CRUD for school-owned records: scoped to the current school, audited on every write.
+         *
+         *     Subclasses set `queryset`, `serializer_class`, `required_permissions` and `audit_module`.
+         */
+        post: operations["students_photo_create"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/students/{id}/restore/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * @description CRUD for school-owned records: scoped to the current school, audited on every write.
+         *
+         *     Subclasses set `queryset`, `serializer_class`, `required_permissions` and `audit_module`.
+         */
+        post: operations["students_restore_create"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/students/export/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * @description CRUD for school-owned records: scoped to the current school, audited on every write.
+         *
+         *     Subclasses set `queryset`, `serializer_class`, `required_permissions` and `audit_module`.
+         */
+        get: operations["students_export_retrieve"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/subjects/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * @description CRUD for school-owned records: scoped to the current school, audited on every write.
+         *
+         *     Subclasses set `queryset`, `serializer_class`, `required_permissions` and `audit_module`.
+         */
+        get: operations["subjects_list"];
+        put?: never;
+        /**
+         * @description CRUD for school-owned records: scoped to the current school, audited on every write.
+         *
+         *     Subclasses set `queryset`, `serializer_class`, `required_permissions` and `audit_module`.
+         */
+        post: operations["subjects_create"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/subjects/{id}/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * @description CRUD for school-owned records: scoped to the current school, audited on every write.
+         *
+         *     Subclasses set `queryset`, `serializer_class`, `required_permissions` and `audit_module`.
+         */
+        get: operations["subjects_retrieve"];
+        put?: never;
+        post?: never;
+        /**
+         * @description CRUD for school-owned records: scoped to the current school, audited on every write.
+         *
+         *     Subclasses set `queryset`, `serializer_class`, `required_permissions` and `audit_module`.
+         */
+        delete: operations["subjects_destroy"];
+        options?: never;
+        head?: never;
+        /**
+         * @description CRUD for school-owned records: scoped to the current school, audited on every write.
+         *
+         *     Subclasses set `queryset`, `serializer_class`, `required_permissions` and `audit_module`.
+         */
+        patch: operations["subjects_partial_update"];
+        trace?: never;
+    };
+    "/api/v1/terms/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * @description CRUD for school-owned records: scoped to the current school, audited on every write.
+         *
+         *     Subclasses set `queryset`, `serializer_class`, `required_permissions` and `audit_module`.
+         */
+        get: operations["terms_list"];
+        put?: never;
+        /**
+         * @description CRUD for school-owned records: scoped to the current school, audited on every write.
+         *
+         *     Subclasses set `queryset`, `serializer_class`, `required_permissions` and `audit_module`.
+         */
+        post: operations["terms_create"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/terms/{id}/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * @description CRUD for school-owned records: scoped to the current school, audited on every write.
+         *
+         *     Subclasses set `queryset`, `serializer_class`, `required_permissions` and `audit_module`.
+         */
+        get: operations["terms_retrieve"];
+        put?: never;
+        post?: never;
+        /**
+         * @description CRUD for school-owned records: scoped to the current school, audited on every write.
+         *
+         *     Subclasses set `queryset`, `serializer_class`, `required_permissions` and `audit_module`.
+         */
+        delete: operations["terms_destroy"];
+        options?: never;
+        head?: never;
+        /**
+         * @description CRUD for school-owned records: scoped to the current school, audited on every write.
+         *
+         *     Subclasses set `queryset`, `serializer_class`, `required_permissions` and `audit_module`.
+         */
+        patch: operations["terms_partial_update"];
+        trace?: never;
+    };
     "/api/v1/users/": {
         parameters: {
             query?: never;
@@ -276,6 +1352,43 @@ export interface paths {
 export type webhooks = Record<string, never>;
 export interface components {
     schemas: {
+        AcademicYear: {
+            readonly id: number;
+            /** @description e.g. 2026-2027 */
+            name: string;
+            /** Format: date */
+            start_date: string;
+            /** Format: date */
+            end_date: string;
+            readonly is_current: boolean;
+            status?: components["schemas"]["YearStatusEnum"];
+            readonly terms: components["schemas"]["Term"][];
+        };
+        AcademicYearRequest: {
+            /** @description e.g. 2026-2027 */
+            name: string;
+            /** Format: date */
+            start_date: string;
+            /** Format: date */
+            end_date: string;
+            status?: components["schemas"]["YearStatusEnum"];
+            term_count?: number;
+        };
+        /**
+         * @description * `active` - Active
+         *     * `archived` - Archived
+         * @enum {string}
+         */
+        ArchiveStatusEnum: "active" | "archived";
+        AssignmentSubject: {
+            id: number;
+            class_name: string;
+            subject_name: string;
+        };
+        Assignments: {
+            subjects: components["schemas"]["AssignmentSubject"][];
+            homeroom_classes: components["schemas"]["Homeroom"][];
+        };
         AuditLog: {
             readonly id: number;
             readonly action: string;
@@ -293,16 +1406,298 @@ export interface components {
             /** Format: date-time */
             readonly created_at: string;
         };
+        /** @enum {unknown} */
+        BlankEnum: "";
+        CancelRequest: {
+            reason: string;
+        };
+        /**
+         * @description * `birth_certificate` - Birth certificate
+         *     * `id_photo` - ID photo
+         *     * `previous_report` - Previous report card
+         *     * `transfer_certificate` - Transfer certificate
+         *     * `medical` - Medical record
+         *     * `identity` - Identity document
+         *     * `diploma` - Diploma / certificate
+         *     * `contract` - Contract
+         *     * `official` - Official document
+         *     * `other` - Other
+         * @enum {string}
+         */
+        CategoryEnum: "birth_certificate" | "id_photo" | "previous_report" | "transfer_certificate" | "medical" | "identity" | "diploma" | "contract" | "official" | "other";
+        ChangeClassRequest: {
+            class_group: number;
+            /** Format: date */
+            date?: string;
+            /** @default  */
+            reason: string;
+        };
         ChangePasswordRequest: {
             current_password: string;
             new_password: string;
         };
+        ClassGroup: {
+            readonly id: number;
+            academic_year: number;
+            readonly academic_year_name: string;
+            level: number;
+            readonly level_name: string;
+            name: string;
+            room?: string;
+            class_teacher?: number | null;
+            readonly class_teacher_name: string;
+            /** Format: int64 */
+            capacity?: number | null;
+            status?: components["schemas"]["ArchiveStatusEnum"];
+            readonly enrolled_count: number;
+            readonly subject_count: number;
+        };
+        ClassGroupRequest: {
+            academic_year: number;
+            level: number;
+            name: string;
+            room?: string;
+            class_teacher?: number | null;
+            /** Format: int64 */
+            capacity?: number | null;
+            status?: components["schemas"]["ArchiveStatusEnum"];
+        };
+        ClassSubject: {
+            readonly id: number;
+            class_group: number;
+            readonly class_name: string;
+            subject: number;
+            readonly subject_name: string;
+            readonly subject_code: string;
+            teacher?: number | null;
+            readonly teacher_name: string;
+            /** Format: decimal */
+            coefficient?: string;
+            /** Format: decimal */
+            weekly_hours?: string | null;
+        };
+        ClassSubjectRequest: {
+            class_group: number;
+            subject: number;
+            teacher?: number | null;
+            /** Format: decimal */
+            coefficient?: string;
+            /** Format: decimal */
+            weekly_hours?: string | null;
+        };
+        /**
+         * @description * `preschool` - Preschool
+         *     * `primary` - Primary
+         *     * `lower_secondary` - Lower secondary
+         *     * `upper_secondary` - Upper secondary
+         *     * `other` - Other
+         * @enum {string}
+         */
+        CycleEnum: "preschool" | "primary" | "lower_secondary" | "upper_secondary" | "other";
+        Document: {
+            readonly id: number;
+            owner_type: components["schemas"]["OwnerTypeEnum"];
+            /** Format: int64 */
+            owner_id: number;
+            category?: components["schemas"]["CategoryEnum"];
+            title: string;
+            content_type?: string;
+            /** Format: int64 */
+            size?: number;
+            readonly uploaded_by_name: string;
+            /** Format: date-time */
+            readonly created_at: string;
+        };
+        DocumentUploadRequest: {
+            owner_type: components["schemas"]["OwnerTypeEnum"];
+            owner_id: number;
+            /** @default other */
+            category: components["schemas"]["CategoryEnum"];
+            title?: string;
+            /** Format: binary */
+            file: string;
+        };
+        EnrollExistingRequest: {
+            student: number;
+            class_group: number;
+            /** Format: date */
+            enrollment_date?: string;
+            /** @default re_enrolment */
+            kind: components["schemas"]["KindEnum"];
+            /** @default  */
+            previous_school: string;
+            /** @default  */
+            notes: string;
+        };
+        Enrollment: {
+            readonly id: number;
+            readonly student: components["schemas"]["EnrollmentStudent"];
+            readonly academic_year: number;
+            readonly academic_year_name: string;
+            readonly class_group: number;
+            readonly class_name: string;
+            readonly level_name: string;
+            /** Format: date */
+            enrollment_date: string;
+            kind?: components["schemas"]["KindEnum"];
+            readonly status: components["schemas"]["EnrollmentStatusEnum"];
+            previous_school?: string;
+            /** Format: date */
+            readonly ended_on: string | null;
+            readonly end_reason: string;
+            /** @description School the student left for. */
+            readonly transfer_to: string;
+            notes?: string;
+            /** Format: date-time */
+            readonly created_at: string;
+        };
+        EnrollmentBrief: {
+            id: number;
+            status: string;
+            kind: string;
+            /** Format: date */
+            enrollment_date: string;
+            /** Format: date */
+            ended_on: string | null;
+            academic_year: number;
+            academic_year_name: string;
+            class_group: number;
+            class_name: string;
+            level_name: string;
+        };
+        /**
+         * @description * `active` - Active
+         *     * `class_changed` - Moved to another class
+         *     * `withdrawn` - Left the school
+         *     * `completed` - Year completed
+         *     * `cancelled` - Cancelled
+         * @enum {string}
+         */
+        EnrollmentStatusEnum: "active" | "class_changed" | "withdrawn" | "completed" | "cancelled";
+        EnrollmentStudent: {
+            id: number;
+            student_number: string;
+            full_name: string;
+            gender: string;
+            /** Format: date */
+            date_of_birth: string | null;
+            photo_url: string | null;
+        };
+        /**
+         * @description * `M` - Male
+         *     * `F` - Female
+         * @enum {string}
+         */
+        GenderEnum: "M" | "F";
+        GrantAccessRequest: {
+            role_ids: number[];
+        };
+        Guardian: {
+            readonly id: number;
+            first_name: string;
+            last_name: string;
+            readonly full_name: string;
+            phone?: string;
+            alt_phone?: string;
+            email?: string;
+            address?: string;
+            occupation?: string;
+            readonly students: components["schemas"]["GuardianStudent"][];
+        };
+        /** @description Link an existing guardian (guardian_id) or create a new one from the other fields. */
+        GuardianInputRequest: {
+            guardian_id?: number | null;
+            first_name?: string;
+            last_name?: string;
+            phone?: string;
+            alt_phone?: string;
+            email?: string;
+            address?: string;
+            occupation?: string;
+            relationship: components["schemas"]["RelationshipEnum"];
+            /** @default false */
+            is_primary: boolean;
+            /** @default false */
+            is_financial_contact: boolean;
+        };
+        GuardianLink: {
+            readonly id: number;
+            readonly guardian: components["schemas"]["Guardian"];
+            relationship?: components["schemas"]["RelationshipEnum"];
+            /** @description Main contact for the school. */
+            is_primary?: boolean;
+            /** @description Receives invoices and payment reminders. */
+            is_financial_contact?: boolean;
+        };
+        GuardianLinkRequest: {
+            relationship?: components["schemas"]["RelationshipEnum"];
+            /** @description Main contact for the school. */
+            is_primary?: boolean;
+            /** @description Receives invoices and payment reminders. */
+            is_financial_contact?: boolean;
+        };
+        GuardianRequest: {
+            first_name: string;
+            last_name: string;
+            phone?: string;
+            alt_phone?: string;
+            email?: string;
+            address?: string;
+            occupation?: string;
+        };
+        GuardianStudent: {
+            id: number;
+            full_name: string;
+            relationship: string;
+        };
+        Homeroom: {
+            id: number;
+            name: string;
+        };
+        ImportUploadRequest: {
+            /** Format: binary */
+            file: string;
+            /**
+             * @description false = check only; true = save if all valid
+             * @default false
+             */
+            commit: boolean;
+        };
+        /**
+         * @description * `new` - New student
+         *     * `re_enrolment` - Re-enrolment
+         *     * `transfer_in` - Transfer from another school
+         * @enum {string}
+         */
+        KindEnum: "new" | "re_enrolment" | "transfer_in";
         /**
          * @description * `fr` - Français
          *     * `en` - Anglais
          * @enum {string}
          */
         LanguageEnum: "fr" | "en";
+        Level: {
+            readonly id: number;
+            name: string;
+            /**
+             * Format: int64
+             * @description Position in the school, lowest first.
+             */
+            order?: number;
+            cycle?: components["schemas"]["CycleEnum"];
+            is_active?: boolean;
+            readonly class_count: number;
+        };
+        LevelRequest: {
+            name: string;
+            /**
+             * Format: int64
+             * @description Position in the school, lowest first.
+             */
+            order?: number;
+            cycle?: components["schemas"]["CycleEnum"];
+            is_active?: boolean;
+        };
         LoginRequest: {
             login: string;
             password: string;
@@ -351,6 +1746,27 @@ export interface components {
             last_login?: string | null;
             readonly has_password: boolean;
         };
+        NewStudentRequest: {
+            student_number?: string;
+            first_name: string;
+            last_name: string;
+            gender: components["schemas"]["GenderEnum"];
+            /** Format: date */
+            date_of_birth?: string | null;
+            place_of_birth?: string;
+            nationality?: string;
+            phone?: string;
+            email?: string;
+            address?: string;
+            notes?: string;
+        };
+        /**
+         * @description * `student` - Student
+         *     * `staff` - Staff member
+         *     * `school` - School
+         * @enum {string}
+         */
+        OwnerTypeEnum: "student" | "staff" | "school";
         PaginatedAuditLogList: {
             /** @example 123 */
             count: number;
@@ -365,6 +1781,66 @@ export interface components {
              */
             previous?: string | null;
             results: components["schemas"]["AuditLog"][];
+        };
+        PaginatedClassGroupList: {
+            /** @example 123 */
+            count: number;
+            /**
+             * Format: uri
+             * @example http://api.example.org/accounts/?page=4
+             */
+            next?: string | null;
+            /**
+             * Format: uri
+             * @example http://api.example.org/accounts/?page=2
+             */
+            previous?: string | null;
+            results: components["schemas"]["ClassGroup"][];
+        };
+        PaginatedEnrollmentList: {
+            /** @example 123 */
+            count: number;
+            /**
+             * Format: uri
+             * @example http://api.example.org/accounts/?page=4
+             */
+            next?: string | null;
+            /**
+             * Format: uri
+             * @example http://api.example.org/accounts/?page=2
+             */
+            previous?: string | null;
+            results: components["schemas"]["Enrollment"][];
+        };
+        PaginatedGuardianLinkList: {
+            /** @example 123 */
+            count: number;
+            /**
+             * Format: uri
+             * @example http://api.example.org/accounts/?page=4
+             */
+            next?: string | null;
+            /**
+             * Format: uri
+             * @example http://api.example.org/accounts/?page=2
+             */
+            previous?: string | null;
+            results: components["schemas"]["GuardianLink"][];
+        };
+        PaginatedGuardianList: {
+            /** @example 123 */
+            count: number;
+            /**
+             * Format: uri
+             * @example http://api.example.org/accounts/?page=4
+             */
+            next?: string | null;
+            /**
+             * Format: uri
+             * @example http://api.example.org/accounts/?page=2
+             */
+            previous?: string | null;
+            results: components["schemas"]["Guardian"][];
         };
         PaginatedMemberList: {
             /** @example 123 */
@@ -381,6 +1857,51 @@ export interface components {
             previous?: string | null;
             results: components["schemas"]["Member"][];
         };
+        PaginatedStaffList: {
+            /** @example 123 */
+            count: number;
+            /**
+             * Format: uri
+             * @example http://api.example.org/accounts/?page=4
+             */
+            next?: string | null;
+            /**
+             * Format: uri
+             * @example http://api.example.org/accounts/?page=2
+             */
+            previous?: string | null;
+            results: components["schemas"]["Staff"][];
+        };
+        PaginatedStudentListList: {
+            /** @example 123 */
+            count: number;
+            /**
+             * Format: uri
+             * @example http://api.example.org/accounts/?page=4
+             */
+            next?: string | null;
+            /**
+             * Format: uri
+             * @example http://api.example.org/accounts/?page=2
+             */
+            previous?: string | null;
+            results: components["schemas"]["StudentList"][];
+        };
+        PaginatedSubjectList: {
+            /** @example 123 */
+            count: number;
+            /**
+             * Format: uri
+             * @example http://api.example.org/accounts/?page=4
+             */
+            next?: string | null;
+            /**
+             * Format: uri
+             * @example http://api.example.org/accounts/?page=2
+             */
+            previous?: string | null;
+            results: components["schemas"]["Subject"][];
+        };
         PasswordResetConfirmRequest: {
             uid: string;
             token: string;
@@ -389,6 +1910,73 @@ export interface components {
         PasswordResetRequestRequest: {
             /** Format: email */
             email: string;
+        };
+        PatchedAcademicYearRequest: {
+            /** @description e.g. 2026-2027 */
+            name?: string;
+            /** Format: date */
+            start_date?: string;
+            /** Format: date */
+            end_date?: string;
+            status?: components["schemas"]["YearStatusEnum"];
+            term_count?: number;
+        };
+        PatchedClassGroupRequest: {
+            academic_year?: number;
+            level?: number;
+            name?: string;
+            room?: string;
+            class_teacher?: number | null;
+            /** Format: int64 */
+            capacity?: number | null;
+            status?: components["schemas"]["ArchiveStatusEnum"];
+        };
+        PatchedClassSubjectRequest: {
+            class_group?: number;
+            subject?: number;
+            teacher?: number | null;
+            /** Format: decimal */
+            coefficient?: string;
+            /** Format: decimal */
+            weekly_hours?: string | null;
+        };
+        PatchedEnrollmentRequest: {
+            /** Format: date */
+            enrollment_date?: string;
+            kind?: components["schemas"]["KindEnum"];
+            previous_school?: string;
+            notes?: string;
+        };
+        PatchedGuardianLinkUpdateRequest: {
+            relationship?: components["schemas"]["RelationshipEnum"];
+            is_primary?: boolean;
+            is_financial_contact?: boolean;
+            first_name?: string;
+            last_name?: string;
+            phone?: string;
+            alt_phone?: string;
+            email?: string;
+            address?: string;
+            occupation?: string;
+        };
+        PatchedGuardianRequest: {
+            first_name?: string;
+            last_name?: string;
+            phone?: string;
+            alt_phone?: string;
+            email?: string;
+            address?: string;
+            occupation?: string;
+        };
+        PatchedLevelRequest: {
+            name?: string;
+            /**
+             * Format: int64
+             * @description Position in the school, lowest first.
+             */
+            order?: number;
+            cycle?: components["schemas"]["CycleEnum"];
+            is_active?: boolean;
         };
         PatchedMeUpdateRequest: {
             /** Prénom */
@@ -426,6 +2014,102 @@ export interface components {
             logo?: string;
             settings?: components["schemas"]["SchoolSettingsRequest"];
         };
+        PatchedStaffRequest: {
+            employee_number?: string;
+            first_name?: string;
+            last_name?: string;
+            gender?: components["schemas"]["GenderEnum"] | components["schemas"]["BlankEnum"];
+            /** Format: date */
+            date_of_birth?: string | null;
+            phone?: string;
+            email?: string;
+            address?: string;
+            staff_type?: components["schemas"]["StaffTypeEnum"];
+            /** @description Job title, e.g. Mathematics teacher. */
+            position?: string;
+            qualification?: string;
+            specialization?: string;
+            /** Format: date */
+            employment_date?: string | null;
+        };
+        PatchedStudentRequest: {
+            student_number?: string;
+            first_name?: string;
+            last_name?: string;
+            gender?: components["schemas"]["GenderEnum"] | components["schemas"]["BlankEnum"];
+            /** Format: date */
+            date_of_birth?: string | null;
+            phone?: string;
+            place_of_birth?: string;
+            nationality?: string;
+            email?: string;
+            address?: string;
+            notes?: string;
+        };
+        PatchedSubjectRequest: {
+            name?: string;
+            code?: string;
+            level?: number | null;
+            /** Format: decimal */
+            default_coefficient?: string;
+            is_active?: boolean;
+        };
+        PatchedTermRequest: {
+            academic_year?: number;
+            name?: string;
+            /** Format: int64 */
+            order?: number;
+            /** Format: date */
+            start_date?: string;
+            /** Format: date */
+            end_date?: string;
+        };
+        PhotoRequest: {
+            /** Format: binary */
+            file: string;
+        };
+        PrimaryGuardian: {
+            id: number;
+            full_name: string;
+            phone: string;
+            relationship: string;
+        };
+        PromoteRequest: {
+            from_class: number;
+            to_class: number;
+            enrollment_ids?: number[];
+            /** Format: date */
+            date?: string;
+        };
+        PromoteResult: {
+            promoted: number;
+            skipped: {
+                [key: string]: unknown;
+            }[];
+        };
+        /** @description New enrolment in one request: a new student (or an existing one), guardians and the class. */
+        RegistrationRequest: {
+            student_id?: number | null;
+            student?: components["schemas"]["NewStudentRequest"];
+            guardians?: components["schemas"]["GuardianInputRequest"][];
+            class_group: number;
+            /** Format: date */
+            enrollment_date?: string;
+            /** @default new */
+            kind: components["schemas"]["KindEnum"];
+            /** @default  */
+            previous_school: string;
+            /** @default  */
+            notes: string;
+        };
+        /**
+         * @description * `father` - Father
+         *     * `mother` - Mother
+         *     * `guardian` - Guardian
+         *     * `other` - Other
+         * @enum {string}
+         */
+        RelationshipEnum: "father" | "mother" | "guardian" | "other";
         Role: {
             readonly id: number;
             /** @description Set for built-in roles. */
@@ -461,7 +2145,7 @@ export interface components {
             currency?: string;
             default_language?: components["schemas"]["LanguageEnum"];
             readonly logo_url: string | null;
-            readonly status: components["schemas"]["StatusEnum"];
+            readonly status: components["schemas"]["SchoolStatusEnum"];
             settings?: components["schemas"]["SchoolSettings"];
         };
         SchoolSettings: {
@@ -487,7 +2171,167 @@ export interface components {
          *     * `suspended` - Suspended
          * @enum {string}
          */
-        StatusEnum: "active" | "suspended";
+        SchoolStatusEnum: "active" | "suspended";
+        Staff: {
+            readonly id: number;
+            employee_number?: string;
+            first_name: string;
+            last_name: string;
+            readonly full_name: string;
+            gender?: components["schemas"]["GenderEnum"] | components["schemas"]["BlankEnum"];
+            /** Format: date */
+            date_of_birth?: string | null;
+            phone?: string;
+            email?: string;
+            address?: string;
+            staff_type?: components["schemas"]["StaffTypeEnum"];
+            /** @description Job title, e.g. Mathematics teacher. */
+            position?: string;
+            qualification?: string;
+            specialization?: string;
+            /** Format: date */
+            employment_date?: string | null;
+            readonly status: components["schemas"]["ArchiveStatusEnum"];
+            readonly photo_url: string | null;
+            readonly has_access: boolean;
+            readonly assignments: components["schemas"]["Assignments"];
+            /** Format: date-time */
+            readonly archived_at: string | null;
+            /** Format: date-time */
+            readonly created_at: string;
+        };
+        StaffRequest: {
+            employee_number?: string;
+            first_name: string;
+            last_name: string;
+            gender?: components["schemas"]["GenderEnum"] | components["schemas"]["BlankEnum"];
+            /** Format: date */
+            date_of_birth?: string | null;
+            phone?: string;
+            email?: string;
+            address?: string;
+            staff_type?: components["schemas"]["StaffTypeEnum"];
+            /** @description Job title, e.g. Mathematics teacher. */
+            position?: string;
+            qualification?: string;
+            specialization?: string;
+            /** Format: date */
+            employment_date?: string | null;
+        };
+        /**
+         * @description * `teacher` - Teacher
+         *     * `administrative` - Administrative
+         *     * `support` - Support
+         * @enum {string}
+         */
+        StaffTypeEnum: "teacher" | "administrative" | "support";
+        Student: {
+            readonly id: number;
+            student_number?: string;
+            first_name: string;
+            last_name: string;
+            readonly full_name: string;
+            gender?: components["schemas"]["GenderEnum"] | components["schemas"]["BlankEnum"];
+            /** Format: date */
+            date_of_birth?: string | null;
+            phone?: string;
+            readonly status: components["schemas"]["ArchiveStatusEnum"];
+            readonly photo_url: string | null;
+            readonly current_enrollment: components["schemas"]["EnrollmentBrief"] | null;
+            readonly primary_guardian: components["schemas"]["PrimaryGuardian"] | null;
+            place_of_birth?: string;
+            nationality?: string;
+            email?: string;
+            address?: string;
+            notes?: string;
+            /** Format: date-time */
+            readonly archived_at: string | null;
+            /** Format: date-time */
+            readonly created_at: string;
+            readonly guardians: components["schemas"]["GuardianLink"][];
+            readonly enrollments: components["schemas"]["EnrollmentBrief"][];
+        };
+        StudentList: {
+            readonly id: number;
+            student_number: string;
+            first_name: string;
+            last_name: string;
+            readonly full_name: string;
+            gender?: components["schemas"]["GenderEnum"] | components["schemas"]["BlankEnum"];
+            /** Format: date */
+            date_of_birth?: string | null;
+            phone?: string;
+            status?: components["schemas"]["ArchiveStatusEnum"];
+            readonly photo_url: string | null;
+            readonly current_enrollment: components["schemas"]["EnrollmentBrief"] | null;
+            readonly primary_guardian: components["schemas"]["PrimaryGuardian"] | null;
+        };
+        StudentRequest: {
+            student_number?: string;
+            first_name: string;
+            last_name: string;
+            gender?: components["schemas"]["GenderEnum"] | components["schemas"]["BlankEnum"];
+            /** Format: date */
+            date_of_birth?: string | null;
+            phone?: string;
+            place_of_birth?: string;
+            nationality?: string;
+            email?: string;
+            address?: string;
+            notes?: string;
+        };
+        Subject: {
+            readonly id: number;
+            name: string;
+            code: string;
+            level?: number | null;
+            readonly level_name: string;
+            /** Format: decimal */
+            default_coefficient?: string;
+            is_active?: boolean;
+        };
+        SubjectRequest: {
+            name: string;
+            code: string;
+            level?: number | null;
+            /** Format: decimal */
+            default_coefficient?: string;
+            is_active?: boolean;
+        };
+        Term: {
+            readonly id: number;
+            academic_year: number;
+            name: string;
+            /** Format: int64 */
+            order: number;
+            /** Format: date */
+            start_date: string;
+            /** Format: date */
+            end_date: string;
+        };
+        TermRequest: {
+            academic_year: number;
+            name: string;
+            /** Format: int64 */
+            order: number;
+            /** Format: date */
+            start_date: string;
+            /** Format: date */
+            end_date: string;
+        };
+        WithdrawRequest: {
+            /** Format: date */
+            date?: string;
+            reason: string;
+            /** @default  */
+            transfer_to: string;
+        };
+        /**
+         * @description * `open` - Open
+         *     * `closed` - Closed
+         * @enum {string}
+         */
+        YearStatusEnum: "open" | "closed";
     };
     responses: never;
     parameters: never;
@@ -497,6 +2341,148 @@ export interface components {
 }
 export type $defs = Record<string, never>;
 export interface operations {
+    academic_years_list: {
+        parameters: {
+            query?: {
+                /** @description Which field to use when ordering the results. */
+                ordering?: string;
+                /** @description A search term. */
+                search?: string;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AcademicYear"][];
+                };
+            };
+        };
+    };
+    academic_years_create: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["AcademicYearRequest"];
+                "application/x-www-form-urlencoded": components["schemas"]["AcademicYearRequest"];
+                "multipart/form-data": components["schemas"]["AcademicYearRequest"];
+            };
+        };
+        responses: {
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AcademicYear"];
+                };
+            };
+        };
+    };
+    academic_years_retrieve: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description A unique integer value identifying this academic year. */
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AcademicYear"];
+                };
+            };
+        };
+    };
+    academic_years_destroy: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description A unique integer value identifying this academic year. */
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description No response body */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    academic_years_partial_update: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description A unique integer value identifying this academic year. */
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: {
+            content: {
+                "application/json": components["schemas"]["PatchedAcademicYearRequest"];
+                "application/x-www-form-urlencoded": components["schemas"]["PatchedAcademicYearRequest"];
+                "multipart/form-data": components["schemas"]["PatchedAcademicYearRequest"];
+            };
+        };
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AcademicYear"];
+                };
+            };
+        };
+    };
+    academic_years_set_current_create: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description A unique integer value identifying this academic year. */
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AcademicYear"];
+                };
+            };
+        };
+    };
     audit_logs_list: {
         parameters: {
             query?: {
@@ -691,6 +2677,967 @@ export interface operations {
                     "application/json": {
                         [key: string]: unknown;
                     };
+                };
+            };
+        };
+    };
+    class_subjects_list: {
+        parameters: {
+            query?: {
+                class_group?: number;
+                class_group__academic_year?: number;
+                /** @description Which field to use when ordering the results. */
+                ordering?: string;
+                /** @description A search term. */
+                search?: string;
+                subject?: number;
+                teacher?: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ClassSubject"][];
+                };
+            };
+        };
+    };
+    class_subjects_create: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["ClassSubjectRequest"];
+                "application/x-www-form-urlencoded": components["schemas"]["ClassSubjectRequest"];
+                "multipart/form-data": components["schemas"]["ClassSubjectRequest"];
+            };
+        };
+        responses: {
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ClassSubject"];
+                };
+            };
+        };
+    };
+    class_subjects_retrieve: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description A unique integer value identifying this class subject. */
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ClassSubject"];
+                };
+            };
+        };
+    };
+    class_subjects_destroy: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description A unique integer value identifying this class subject. */
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description No response body */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    class_subjects_partial_update: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description A unique integer value identifying this class subject. */
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: {
+            content: {
+                "application/json": components["schemas"]["PatchedClassSubjectRequest"];
+                "application/x-www-form-urlencoded": components["schemas"]["PatchedClassSubjectRequest"];
+                "multipart/form-data": components["schemas"]["PatchedClassSubjectRequest"];
+            };
+        };
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ClassSubject"];
+                };
+            };
+        };
+    };
+    classes_list: {
+        parameters: {
+            query?: {
+                academic_year?: number;
+                class_teacher?: number;
+                level?: number;
+                /** @description Which field to use when ordering the results. */
+                ordering?: string;
+                /** @description A page number within the paginated result set. */
+                page?: number;
+                /** @description Number of results to return per page. */
+                page_size?: number;
+                /** @description A search term. */
+                search?: string;
+                /**
+                 * @description * `active` - Active
+                 *     * `archived` - Archived
+                 */
+                status?: "active" | "archived";
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PaginatedClassGroupList"];
+                };
+            };
+        };
+    };
+    classes_create: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["ClassGroupRequest"];
+                "application/x-www-form-urlencoded": components["schemas"]["ClassGroupRequest"];
+                "multipart/form-data": components["schemas"]["ClassGroupRequest"];
+            };
+        };
+        responses: {
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ClassGroup"];
+                };
+            };
+        };
+    };
+    classes_retrieve: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description A unique integer value identifying this class. */
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ClassGroup"];
+                };
+            };
+        };
+    };
+    classes_destroy: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description A unique integer value identifying this class. */
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description No response body */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    classes_partial_update: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description A unique integer value identifying this class. */
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: {
+            content: {
+                "application/json": components["schemas"]["PatchedClassGroupRequest"];
+                "application/x-www-form-urlencoded": components["schemas"]["PatchedClassGroupRequest"];
+                "multipart/form-data": components["schemas"]["PatchedClassGroupRequest"];
+            };
+        };
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ClassGroup"];
+                };
+            };
+        };
+    };
+    classes_cards_retrieve: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description A unique integer value identifying this class. */
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/pdf": string;
+                };
+            };
+        };
+    };
+    dashboard_summary_retrieve: {
+        parameters: {
+            query?: {
+                academic_year?: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        [key: string]: unknown;
+                    };
+                };
+            };
+        };
+    };
+    documents_list: {
+        parameters: {
+            query: {
+                /** @description Which field to use when ordering the results. */
+                ordering?: string;
+                owner_id: number;
+                owner_type: "school" | "staff" | "student";
+                /** @description A search term. */
+                search?: string;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Document"][];
+                };
+            };
+        };
+    };
+    documents_create: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "multipart/form-data": components["schemas"]["DocumentUploadRequest"];
+            };
+        };
+        responses: {
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Document"];
+                };
+            };
+        };
+    };
+    documents_retrieve: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description A unique integer value identifying this document. */
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Document"];
+                };
+            };
+        };
+    };
+    documents_destroy: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description A unique integer value identifying this document. */
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description No response body */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    documents_download_retrieve: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description A unique integer value identifying this document. */
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/octet-stream": string;
+                };
+            };
+        };
+    };
+    enrollments_list: {
+        parameters: {
+            query?: {
+                academic_year?: number;
+                class_group?: number;
+                class_group__level?: number;
+                enrollment_date__gte?: string;
+                enrollment_date__lte?: string;
+                /**
+                 * @description * `new` - New student
+                 *     * `re_enrolment` - Re-enrolment
+                 *     * `transfer_in` - Transfer from another school
+                 */
+                kind?: "new" | "re_enrolment" | "transfer_in";
+                /** @description Which field to use when ordering the results. */
+                ordering?: string;
+                /** @description A page number within the paginated result set. */
+                page?: number;
+                /** @description Number of results to return per page. */
+                page_size?: number;
+                /** @description A search term. */
+                search?: string;
+                /**
+                 * @description * `active` - Active
+                 *     * `class_changed` - Moved to another class
+                 *     * `withdrawn` - Left the school
+                 *     * `completed` - Year completed
+                 *     * `cancelled` - Cancelled
+                 */
+                status?: "active" | "cancelled" | "class_changed" | "completed" | "withdrawn";
+                /** @description Les valeurs multiples doivent être séparées par des virgules. */
+                status__in?: string[];
+                student?: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PaginatedEnrollmentList"];
+                };
+            };
+        };
+    };
+    enrollments_create: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["EnrollExistingRequest"];
+                "application/x-www-form-urlencoded": components["schemas"]["EnrollExistingRequest"];
+                "multipart/form-data": components["schemas"]["EnrollExistingRequest"];
+            };
+        };
+        responses: {
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Enrollment"];
+                };
+            };
+        };
+    };
+    enrollments_retrieve: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description A unique integer value identifying this enrolment. */
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Enrollment"];
+                };
+            };
+        };
+    };
+    enrollments_partial_update: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description A unique integer value identifying this enrolment. */
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: {
+            content: {
+                "application/json": components["schemas"]["PatchedEnrollmentRequest"];
+                "application/x-www-form-urlencoded": components["schemas"]["PatchedEnrollmentRequest"];
+                "multipart/form-data": components["schemas"]["PatchedEnrollmentRequest"];
+            };
+        };
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Enrollment"];
+                };
+            };
+        };
+    };
+    enrollments_cancel_create: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description A unique integer value identifying this enrolment. */
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["CancelRequest"];
+                "application/x-www-form-urlencoded": components["schemas"]["CancelRequest"];
+                "multipart/form-data": components["schemas"]["CancelRequest"];
+            };
+        };
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Enrollment"];
+                };
+            };
+        };
+    };
+    enrollments_change_class_create: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description A unique integer value identifying this enrolment. */
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["ChangeClassRequest"];
+                "application/x-www-form-urlencoded": components["schemas"]["ChangeClassRequest"];
+                "multipart/form-data": components["schemas"]["ChangeClassRequest"];
+            };
+        };
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Enrollment"];
+                };
+            };
+        };
+    };
+    enrollments_form_retrieve: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description A unique integer value identifying this enrolment. */
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/pdf": string;
+                };
+            };
+        };
+    };
+    enrollments_withdraw_create: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description A unique integer value identifying this enrolment. */
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["WithdrawRequest"];
+                "application/x-www-form-urlencoded": components["schemas"]["WithdrawRequest"];
+                "multipart/form-data": components["schemas"]["WithdrawRequest"];
+            };
+        };
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Enrollment"];
+                };
+            };
+        };
+    };
+    enrollments_promote_create: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["PromoteRequest"];
+                "application/x-www-form-urlencoded": components["schemas"]["PromoteRequest"];
+                "multipart/form-data": components["schemas"]["PromoteRequest"];
+            };
+        };
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PromoteResult"];
+                };
+            };
+        };
+    };
+    enrollments_register_create: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["RegistrationRequest"];
+                "application/x-www-form-urlencoded": components["schemas"]["RegistrationRequest"];
+                "multipart/form-data": components["schemas"]["RegistrationRequest"];
+            };
+        };
+        responses: {
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Enrollment"];
+                };
+            };
+        };
+    };
+    guardians_list: {
+        parameters: {
+            query?: {
+                /** @description Which field to use when ordering the results. */
+                ordering?: string;
+                /** @description A page number within the paginated result set. */
+                page?: number;
+                /** @description Number of results to return per page. */
+                page_size?: number;
+                /** @description A search term. */
+                search?: string;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PaginatedGuardianList"];
+                };
+            };
+        };
+    };
+    guardians_retrieve: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description A unique integer value identifying this guardian. */
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Guardian"];
+                };
+            };
+        };
+    };
+    guardians_partial_update: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description A unique integer value identifying this guardian. */
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: {
+            content: {
+                "application/json": components["schemas"]["PatchedGuardianRequest"];
+                "application/x-www-form-urlencoded": components["schemas"]["PatchedGuardianRequest"];
+                "multipart/form-data": components["schemas"]["PatchedGuardianRequest"];
+            };
+        };
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Guardian"];
+                };
+            };
+        };
+    };
+    imports_create: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                kind: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "multipart/form-data": components["schemas"]["ImportUploadRequest"];
+            };
+        };
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        [key: string]: unknown;
+                    };
+                };
+            };
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        [key: string]: unknown;
+                    };
+                };
+            };
+        };
+    };
+    imports_template_retrieve: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                kind: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/octet-stream": string;
+                };
+            };
+        };
+    };
+    levels_list: {
+        parameters: {
+            query?: {
+                /**
+                 * @description * `preschool` - Preschool
+                 *     * `primary` - Primary
+                 *     * `lower_secondary` - Lower secondary
+                 *     * `upper_secondary` - Upper secondary
+                 *     * `other` - Other
+                 */
+                cycle?: "lower_secondary" | "other" | "preschool" | "primary" | "upper_secondary";
+                is_active?: boolean;
+                /** @description Which field to use when ordering the results. */
+                ordering?: string;
+                /** @description A search term. */
+                search?: string;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Level"][];
+                };
+            };
+        };
+    };
+    levels_create: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["LevelRequest"];
+                "application/x-www-form-urlencoded": components["schemas"]["LevelRequest"];
+                "multipart/form-data": components["schemas"]["LevelRequest"];
+            };
+        };
+        responses: {
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Level"];
+                };
+            };
+        };
+    };
+    levels_retrieve: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description A unique integer value identifying this level. */
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Level"];
+                };
+            };
+        };
+    };
+    levels_destroy: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description A unique integer value identifying this level. */
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description No response body */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    levels_partial_update: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description A unique integer value identifying this level. */
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: {
+            content: {
+                "application/json": components["schemas"]["PatchedLevelRequest"];
+                "application/x-www-form-urlencoded": components["schemas"]["PatchedLevelRequest"];
+                "multipart/form-data": components["schemas"]["PatchedLevelRequest"];
+            };
+        };
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Level"];
                 };
             };
         };
@@ -924,6 +3871,866 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["School"];
+                };
+            };
+        };
+    };
+    search_retrieve: {
+        parameters: {
+            query: {
+                q: string;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        [key: string]: unknown;
+                    };
+                };
+            };
+        };
+    };
+    staff_list: {
+        parameters: {
+            query?: {
+                has_access?: boolean;
+                /** @description Which field to use when ordering the results. */
+                ordering?: string;
+                /** @description A page number within the paginated result set. */
+                page?: number;
+                /** @description Number of results to return per page. */
+                page_size?: number;
+                /** @description A search term. */
+                search?: string;
+                /**
+                 * @description * `teacher` - Teacher
+                 *     * `administrative` - Administrative
+                 *     * `support` - Support
+                 */
+                staff_type?: "administrative" | "support" | "teacher";
+                /**
+                 * @description * `active` - Active
+                 *     * `archived` - Archived
+                 */
+                status?: "active" | "archived";
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PaginatedStaffList"];
+                };
+            };
+        };
+    };
+    staff_create: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["StaffRequest"];
+                "multipart/form-data": components["schemas"]["StaffRequest"];
+                "application/x-www-form-urlencoded": components["schemas"]["StaffRequest"];
+            };
+        };
+        responses: {
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Staff"];
+                };
+            };
+        };
+    };
+    staff_retrieve: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description A unique integer value identifying this staff member. */
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Staff"];
+                };
+            };
+        };
+    };
+    staff_partial_update: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description A unique integer value identifying this staff member. */
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: {
+            content: {
+                "application/json": components["schemas"]["PatchedStaffRequest"];
+                "multipart/form-data": components["schemas"]["PatchedStaffRequest"];
+                "application/x-www-form-urlencoded": components["schemas"]["PatchedStaffRequest"];
+            };
+        };
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Staff"];
+                };
+            };
+        };
+    };
+    staff_archive_create: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description A unique integer value identifying this staff member. */
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Staff"];
+                };
+            };
+        };
+    };
+    staff_grant_access_create: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description A unique integer value identifying this staff member. */
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["GrantAccessRequest"];
+                "multipart/form-data": components["schemas"]["GrantAccessRequest"];
+                "application/x-www-form-urlencoded": components["schemas"]["GrantAccessRequest"];
+            };
+        };
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Staff"];
+                };
+            };
+        };
+    };
+    staff_photo_create: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description A unique integer value identifying this staff member. */
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "multipart/form-data": components["schemas"]["PhotoRequest"];
+            };
+        };
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Staff"];
+                };
+            };
+        };
+    };
+    staff_restore_create: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description A unique integer value identifying this staff member. */
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Staff"];
+                };
+            };
+        };
+    };
+    students_list: {
+        parameters: {
+            query?: {
+                academic_year?: number;
+                class_group?: number;
+                /** @description Has an active enrolment */
+                enrolled?: boolean;
+                /**
+                 * @description * `M` - Male
+                 *     * `F` - Female
+                 */
+                gender?: "F" | "M";
+                level?: number;
+                /** @description Which field to use when ordering the results. */
+                ordering?: string;
+                /** @description A page number within the paginated result set. */
+                page?: number;
+                /** @description Number of results to return per page. */
+                page_size?: number;
+                /** @description A search term. */
+                search?: string;
+                /**
+                 * @description * `active` - Active
+                 *     * `archived` - Archived
+                 */
+                status?: "active" | "archived";
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PaginatedStudentListList"];
+                };
+            };
+        };
+    };
+    students_create: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["StudentRequest"];
+                "multipart/form-data": components["schemas"]["StudentRequest"];
+                "application/x-www-form-urlencoded": components["schemas"]["StudentRequest"];
+            };
+        };
+        responses: {
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Student"];
+                };
+            };
+        };
+    };
+    students_retrieve: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description A unique integer value identifying this student. */
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Student"];
+                };
+            };
+        };
+    };
+    students_destroy: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description A unique integer value identifying this student. */
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description No response body */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    students_partial_update: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description A unique integer value identifying this student. */
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: {
+            content: {
+                "application/json": components["schemas"]["PatchedStudentRequest"];
+                "multipart/form-data": components["schemas"]["PatchedStudentRequest"];
+                "application/x-www-form-urlencoded": components["schemas"]["PatchedStudentRequest"];
+            };
+        };
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Student"];
+                };
+            };
+        };
+    };
+    students_archive_create: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description A unique integer value identifying this student. */
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Student"];
+                };
+            };
+        };
+    };
+    students_card_retrieve: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description A unique integer value identifying this student. */
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/pdf": string;
+                };
+            };
+        };
+    };
+    students_guardians_list: {
+        parameters: {
+            query?: {
+                academic_year?: number;
+                class_group?: number;
+                /** @description Has an active enrolment */
+                enrolled?: boolean;
+                /**
+                 * @description * `M` - Male
+                 *     * `F` - Female
+                 */
+                gender?: "F" | "M";
+                level?: number;
+                /** @description Which field to use when ordering the results. */
+                ordering?: string;
+                /** @description A page number within the paginated result set. */
+                page?: number;
+                /** @description Number of results to return per page. */
+                page_size?: number;
+                /** @description A search term. */
+                search?: string;
+                /**
+                 * @description * `active` - Active
+                 *     * `archived` - Archived
+                 */
+                status?: "active" | "archived";
+            };
+            header?: never;
+            path: {
+                /** @description A unique integer value identifying this student. */
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PaginatedGuardianLinkList"];
+                };
+            };
+        };
+    };
+    students_guardians_create: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description A unique integer value identifying this student. */
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["GuardianInputRequest"];
+                "multipart/form-data": components["schemas"]["GuardianInputRequest"];
+                "application/x-www-form-urlencoded": components["schemas"]["GuardianInputRequest"];
+            };
+        };
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["GuardianLink"];
+                };
+            };
+        };
+    };
+    students_guardians_destroy: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description A unique integer value identifying this student. */
+                id: number;
+                link_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description No response body */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    students_guardians_partial_update: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description A unique integer value identifying this student. */
+                id: number;
+                link_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: {
+            content: {
+                "application/json": components["schemas"]["PatchedGuardianLinkUpdateRequest"];
+                "multipart/form-data": components["schemas"]["PatchedGuardianLinkUpdateRequest"];
+                "application/x-www-form-urlencoded": components["schemas"]["PatchedGuardianLinkUpdateRequest"];
+            };
+        };
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["GuardianLink"];
+                };
+            };
+        };
+    };
+    students_photo_create: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description A unique integer value identifying this student. */
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "multipart/form-data": components["schemas"]["PhotoRequest"];
+            };
+        };
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Student"];
+                };
+            };
+        };
+    };
+    students_restore_create: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description A unique integer value identifying this student. */
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Student"];
+                };
+            };
+        };
+    };
+    students_export_retrieve: {
+        parameters: {
+            query?: {
+                file_format?: "csv" | "xlsx";
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/octet-stream": string;
+                };
+            };
+        };
+    };
+    subjects_list: {
+        parameters: {
+            query?: {
+                is_active?: boolean;
+                level?: number;
+                /** @description Which field to use when ordering the results. */
+                ordering?: string;
+                /** @description A page number within the paginated result set. */
+                page?: number;
+                /** @description Number of results to return per page. */
+                page_size?: number;
+                /** @description A search term. */
+                search?: string;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PaginatedSubjectList"];
+                };
+            };
+        };
+    };
+    subjects_create: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["SubjectRequest"];
+                "application/x-www-form-urlencoded": components["schemas"]["SubjectRequest"];
+                "multipart/form-data": components["schemas"]["SubjectRequest"];
+            };
+        };
+        responses: {
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Subject"];
+                };
+            };
+        };
+    };
+    subjects_retrieve: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description A unique integer value identifying this subject. */
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Subject"];
+                };
+            };
+        };
+    };
+    subjects_destroy: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description A unique integer value identifying this subject. */
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description No response body */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    subjects_partial_update: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description A unique integer value identifying this subject. */
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: {
+            content: {
+                "application/json": components["schemas"]["PatchedSubjectRequest"];
+                "application/x-www-form-urlencoded": components["schemas"]["PatchedSubjectRequest"];
+                "multipart/form-data": components["schemas"]["PatchedSubjectRequest"];
+            };
+        };
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Subject"];
+                };
+            };
+        };
+    };
+    terms_list: {
+        parameters: {
+            query?: {
+                academic_year?: number;
+                /** @description Which field to use when ordering the results. */
+                ordering?: string;
+                /** @description A search term. */
+                search?: string;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Term"][];
+                };
+            };
+        };
+    };
+    terms_create: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["TermRequest"];
+                "application/x-www-form-urlencoded": components["schemas"]["TermRequest"];
+                "multipart/form-data": components["schemas"]["TermRequest"];
+            };
+        };
+        responses: {
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Term"];
+                };
+            };
+        };
+    };
+    terms_retrieve: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description A unique integer value identifying this term. */
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Term"];
+                };
+            };
+        };
+    };
+    terms_destroy: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description A unique integer value identifying this term. */
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description No response body */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    terms_partial_update: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description A unique integer value identifying this term. */
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: {
+            content: {
+                "application/json": components["schemas"]["PatchedTermRequest"];
+                "application/x-www-form-urlencoded": components["schemas"]["PatchedTermRequest"];
+                "multipart/form-data": components["schemas"]["PatchedTermRequest"];
+            };
+        };
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Term"];
                 };
             };
         };

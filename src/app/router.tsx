@@ -11,16 +11,77 @@ import { PublicOnly, RequireAuth, RequirePermission } from "./guards";
 import { AppLayout } from "./layout/AppLayout";
 import { NAV_ITEMS, SETTINGS_TABS } from "./nav";
 
-const settingsAccess = NAV_ITEMS.find((item) => item.key === "settings")!.anyOf;
+const access = (key: (typeof NAV_ITEMS)[number]["key"]) => NAV_ITEMS.find((item) => item.key === key)!.anyOf;
 const tabAccess = (key: (typeof SETTINGS_TABS)[number]["key"]) => [
   ...SETTINGS_TABS.find((tab) => tab.key === key)!.anyOf,
 ];
 
+/** A permission-gated group of lazily loaded pages. */
+function gated(anyOf: string[], children: RouteObject[]): RouteObject {
+  return { element: <RequirePermission anyOf={anyOf} />, children };
+}
+
 // Modules planned for later phases render a placeholder so the whole menu can be reviewed now.
-const moduleRoutes: RouteObject[] = NAV_ITEMS.filter((item) => item.phase).map((item) => ({
-  element: <RequirePermission anyOf={item.anyOf} />,
-  children: [{ path: item.to.slice(1), element: <ComingSoonPage item={item} /> }],
-}));
+const comingSoonRoutes: RouteObject[] = NAV_ITEMS.filter((item) => item.phase).map((item) =>
+  gated(item.anyOf, [{ path: item.to.slice(1), element: <ComingSoonPage item={item} /> }]),
+);
+
+const phase2Routes: RouteObject[] = [
+  gated(access("students"), [
+    { path: "students", lazy: () => import("@/features/students/StudentsPage").then((m) => ({ Component: m.StudentsPage })) },
+    {
+      path: "students/:id",
+      lazy: () => import("@/features/students/StudentDetailPage").then((m) => ({ Component: m.StudentDetailPage })),
+    },
+  ]),
+  gated(["students.create"], [
+    {
+      path: "students/import",
+      lazy: () =>
+        import("@/features/imports/ImportPage").then((m) => ({ Component: () => <m.ImportPage kind="students" /> })),
+    },
+  ]),
+  gated(access("enrollments"), [
+    {
+      path: "enrollments",
+      lazy: () => import("@/features/enrollments/EnrollmentsPage").then((m) => ({ Component: m.EnrollmentsPage })),
+    },
+  ]),
+  gated(["enrollments.create"], [
+    {
+      path: "enrollments/new",
+      lazy: () =>
+        import("@/features/enrollments/EnrollmentWizardPage").then((m) => ({ Component: m.EnrollmentWizardPage })),
+    },
+    {
+      path: "enrollments/promote",
+      lazy: () => import("@/features/enrollments/PromotePage").then((m) => ({ Component: m.PromotePage })),
+    },
+  ]),
+  gated(access("classes"), [
+    { path: "classes", lazy: () => import("@/features/classes/ClassesPage").then((m) => ({ Component: m.ClassesPage })) },
+    {
+      path: "classes/:id",
+      lazy: () => import("@/features/classes/ClassDetailPage").then((m) => ({ Component: m.ClassDetailPage })),
+    },
+  ]),
+  gated(access("subjects"), [
+    { path: "subjects", lazy: () => import("@/features/subjects/SubjectsPage").then((m) => ({ Component: m.SubjectsPage })) },
+  ]),
+  gated(access("teachers"), [
+    { path: "teachers", lazy: () => import("@/features/staff/StaffListPage").then((m) => ({ Component: m.StaffListPage })) },
+    {
+      path: "teachers/:id",
+      lazy: () => import("@/features/staff/StaffDetailPage").then((m) => ({ Component: m.StaffDetailPage })),
+    },
+  ]),
+  gated(["staff.create"], [
+    {
+      path: "teachers/import",
+      lazy: () => import("@/features/imports/ImportPage").then((m) => ({ Component: () => <m.ImportPage kind="staff" /> })),
+    },
+  ]),
+];
 
 export const routes: RouteObject[] = [
   {
@@ -45,62 +106,53 @@ export const routes: RouteObject[] = [
         element: <AppLayout />,
         children: [
           { index: true, element: <DashboardPage /> },
-          ...moduleRoutes,
+          ...phase2Routes,
+          ...comingSoonRoutes,
           {
             path: "account",
             lazy: () => import("@/features/account/AccountPage").then((m) => ({ Component: m.AccountPage })),
           },
-          {
-            element: <RequirePermission anyOf={settingsAccess} />,
-            children: [
-              {
-                path: "settings",
-                lazy: () =>
-                  import("@/features/settings/SettingsLayout").then((m) => ({ Component: m.SettingsLayout })),
-                children: [
+          gated(access("settings"), [
+            {
+              path: "settings",
+              lazy: () => import("@/features/settings/SettingsLayout").then((m) => ({ Component: m.SettingsLayout })),
+              children: [
+                {
+                  index: true,
+                  lazy: () =>
+                    import("@/features/settings/SettingsLayout").then((m) => ({ Component: m.SettingsIndexRedirect })),
+                },
+                {
+                  path: "school",
+                  lazy: () =>
+                    import("@/features/settings/SchoolProfilePage").then((m) => ({ Component: m.SchoolProfilePage })),
+                },
+                {
+                  path: "academic",
+                  lazy: () =>
+                    import("@/features/settings/AcademicSettingsPage").then((m) => ({
+                      Component: m.AcademicSettingsPage,
+                    })),
+                },
+                gated(tabAccess("users"), [
                   {
-                    index: true,
-                    lazy: () =>
-                      import("@/features/settings/SettingsLayout").then((m) => ({
-                        Component: m.SettingsIndexRedirect,
-                      })),
+                    path: "users",
+                    lazy: () => import("@/features/settings/UsersPage").then((m) => ({ Component: m.UsersPage })),
                   },
                   {
-                    path: "school",
-                    lazy: () =>
-                      import("@/features/settings/SchoolProfilePage").then((m) => ({
-                        Component: m.SchoolProfilePage,
-                      })),
+                    path: "roles",
+                    lazy: () => import("@/features/settings/RolesPage").then((m) => ({ Component: m.RolesPage })),
                   },
+                ]),
+                gated(tabAccess("audit"), [
                   {
-                    element: <RequirePermission anyOf={tabAccess("users")} />,
-                    children: [
-                      {
-                        path: "users",
-                        lazy: () =>
-                          import("@/features/settings/UsersPage").then((m) => ({ Component: m.UsersPage })),
-                      },
-                      {
-                        path: "roles",
-                        lazy: () =>
-                          import("@/features/settings/RolesPage").then((m) => ({ Component: m.RolesPage })),
-                      },
-                    ],
+                    path: "audit",
+                    lazy: () => import("@/features/settings/AuditLogPage").then((m) => ({ Component: m.AuditLogPage })),
                   },
-                  {
-                    element: <RequirePermission anyOf={tabAccess("audit")} />,
-                    children: [
-                      {
-                        path: "audit",
-                        lazy: () =>
-                          import("@/features/settings/AuditLogPage").then((m) => ({ Component: m.AuditLogPage })),
-                      },
-                    ],
-                  },
-                ],
-              },
-            ],
-          },
+                ]),
+              ],
+            },
+          ]),
           { path: "*", element: <NotFoundPage /> },
         ],
       },
