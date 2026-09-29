@@ -2,7 +2,7 @@
 # so the browser talks to a single origin (the refresh-token cookie stays first-party).
 # The main production host is Cloudflare Pages (see README); this image is for Docker-based hosting and demos.
 
-FROM node:22-alpine AS build
+FROM node:26-alpine AS build
 WORKDIR /app
 COPY package.json package-lock.json ./
 RUN npm ci
