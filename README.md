@@ -8,7 +8,7 @@ This repository is the **React single-page app**. It talks to the API in **[Mon-
 
 ## Stack
 
-React 19 + TypeScript, Vite, Tailwind CSS 4, shadcn/ui (Radix), TanStack Query, React Hook Form + Zod, react-i18next (French/English). Hosted on **Cloudflare Pages**; a Docker image (nginx) is also published for Docker-based hosting and demos.
+React 19 + TypeScript, Vite, Tailwind CSS 4, shadcn/ui (Radix), TanStack Query, React Hook Form + Zod, react-i18next (French/English). Hosted on **Cloudflare Workers** (static assets); a Docker image (nginx) is also published for Docker-based hosting and demos.
 
 ## Repository layout
 
@@ -18,11 +18,12 @@ src/features/       one folder per module (auth, dashboard, students, enrollment
 src/components/     shared components; components/ui = shadcn/ui
 src/lib/            API client, auth, i18n, formatting, theme; lib/api/schema.d.ts is generated from the API schema
 src/locales/        fr.json, en.json
-public/             static files; _headers and _redirects for Cloudflare Pages
+public/             static files; _headers (security headers) for Cloudflare
 scripts/gen-api.mjs regenerates the API types from Mon-Ecole-Backend/openapi.yaml
 Dockerfile, nginx/  production image: the built app served by nginx, /api forwarded to the backend
 docker-compose.yml  dev server (hot reload) or the production image, against the API on port 8000
-.github/            CI, CD and Cloudflare Pages workflows, Dependabot
+.github/            CI and CD workflows, Dependabot
+wrangler.jsonc      Cloudflare Worker config (serves dist/, SPA fallback to index.html)
 ```
 
 ## Run it locally
@@ -107,17 +108,17 @@ This reads `../Mon-Ecole-Backend/openapi.yaml` (or `../backend/openapi.yaml`) wh
 
 | Workflow | When | What |
 |---|---|---|
-| `ci.yml` | every pull request | the quality and security gates above — all required before merging to `main` (API types and E2E need `BACKEND_REPO_TOKEN`); optional Cloudflare Pages preview of the PR |
-| `cd.yml` | push to `main`, tags `v*` | runs CI, publishes the nginx image (`linux/amd64` + `linux/arm64`) to `ghcr.io/fofana459-2023/mon-ecole-frontend` with an SBOM and provenance, signed with Sigstore/cosign, then deploys `main` to the Pages **staging** branch and `v*` tags to **production** |
-| `pages.yml` | called by CI and CD | builds with the environment's `VITE_API_URL` and uploads `dist/` with Wrangler |
+| `ci.yml` | every pull request | the quality and security gates above — all required before merging to `main` (API types and E2E need `BACKEND_REPO_TOKEN`) |
+| `cd.yml` | push to `main`, tags `v*` | runs CI, publishes the nginx image (`linux/amd64` + `linux/arm64`) to `ghcr.io/fofana459-2023/mon-ecole-frontend` with an SBOM and provenance, signed with Sigstore/cosign |
 
-### Turning on deployment
+### Deployment (Cloudflare Workers Builds)
 
-1. In Cloudflare, create a Pages project of type **Direct Upload** (production branch `main`) and an API token with **Cloudflare Pages: Edit**.
-2. In this repository, **Settings → Secrets and variables → Actions**:
-   - secrets: `CLOUDFLARE_API_TOKEN`; `BACKEND_REPO_TOKEN` (a fine-grained token with read-only *Contents* access to Mon-Ecole-Backend, for the API types check);
-   - variables: `CLOUDFLARE_ACCOUNT_ID`, `CLOUDFLARE_PAGES_PROJECT`, and `DEPLOY_STAGING=true` / `DEPLOY_PRODUCTION=true` / `DEPLOY_PREVIEWS=true` to switch each stage on.
-3. **Settings → Environments**: create `preview`, `staging` and `production`, each with a `VITE_API_URL` variable (the matching API, e.g. `https://api.example.org/api/v1`). Add required reviewers to `production`.
-4. Release to production by pushing a tag: `git tag v1.0.0 && git push origin v1.0.0`.
+The Worker `mon-ecole` is connected to this repository in the Cloudflare dashboard (**Workers & Pages → mon-ecole → Settings → Build**):
 
-Each deployed origin must be listed in the backend's `CORS_ALLOWED_ORIGINS`. The refresh cookie is `SameSite=Lax`, so the app and the API must share a site (e.g. `app.example.org` and `api.example.org`): give staging and production custom domains in Cloudflare. On `*.pages.dev` preview URLs the API sees a foreign origin, so previews only work against an API that lists that origin, and sessions are not restored on reload.
+- build command `npm run build`, deploy command `npx wrangler deploy`, preview command `npx wrangler versions upload`;
+- every push to `main` deploys production; other branches and pull requests get a preview URL;
+- build variable `VITE_API_URL` = the API address, e.g. `https://api.example.org/api/v1` (read at build time — redeploy after changing it).
+
+For the GitHub checks, add the secret `BACKEND_REPO_TOKEN` (a fine-grained token with read-only *Contents* access to Mon-Ecole-Backend, for the API types check and E2E).
+
+Each deployed origin must be listed in the backend's `CORS_ALLOWED_ORIGINS`. The refresh cookie is `SameSite=Lax`, so the app and the API must share a site (e.g. `app.example.org` and `api.example.org`): give staging and production custom domains in Cloudflare. On `*.workers.dev` preview URLs the API sees a foreign origin, so previews only work against an API that lists that origin, and sessions are not restored on reload.

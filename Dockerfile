@@ -1,6 +1,6 @@
 # Production image: the built SPA served by nginx, which also forwards /api to the Mon-Ecole-Backend API
 # so the browser talks to a single origin (the refresh-token cookie stays first-party).
-# The main production host is Cloudflare Pages (see README); this image is for Docker-based hosting and demos.
+# The main production host is Cloudflare Workers (see README); this image is for Docker-based hosting and demos.
 
 FROM node:22-alpine AS build
 WORKDIR /app

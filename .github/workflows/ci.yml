@@ -1,4 +1,4 @@
-# Quality and security gate for every pull request (plus a Cloudflare Pages preview when switched on).
+# Quality and security gate for every pull request (Cloudflare Workers Builds posts the preview).
 # CD runs this same file before publishing main.
 #
 #   quality   eslint, TypeScript, unit + component tests (Vitest, Testing Library, MSW) with a coverage floor,
@@ -226,16 +226,3 @@ jobs:
           name: playwright-report
           path: playwright-report/
           retention-days: 14
-
-  preview:
-    name: Preview deployment
-    needs: [quality, image]
-    if: >-
-      github.event_name == 'pull_request'
-      && github.event.pull_request.head.repo.full_name == github.repository
-      && vars.DEPLOY_PREVIEWS == 'true'
-    uses: ./.github/workflows/pages.yml
-    with:
-      environment: preview
-      branch: ${{ github.head_ref }}
-    secrets: inherit
