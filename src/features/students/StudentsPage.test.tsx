@@ -78,6 +78,15 @@ describe("StudentsPage", () => {
     expect(requests.at(-1)?.searchParams.get("status")).toBe("active");
   });
 
+  it("shows stored text as text, never as HTML", async () => {
+    // Names come from imports and forms; the API returns whatever was typed.
+    studentsApi([{ ...awa, last_name: "<img src=x onerror=alert(1)>", full_name: "Awa <script>" }]);
+    const { container } = renderStudents(["students.view"]);
+    expect(await screen.findByText(/<IMG SRC=X ONERROR=ALERT\(1\)> Awa/)).toBeInTheDocument();
+    expect(container.querySelector("img[src='x']")).toBeNull();
+    expect(container.querySelector("script")).toBeNull();
+  });
+
   it("shows an empty state", async () => {
     studentsApi([]);
     renderStudents(["students.view"]);
