@@ -18,5 +18,7 @@ ENV API_UPSTREAM=http://host.docker.internal:8000
 COPY nginx/security-headers.conf /etc/nginx/security-headers.conf
 COPY nginx/default.conf.template /etc/nginx/templates/default.conf.template
 COPY --from=build /app/dist /usr/share/nginx/html
+# The unprivileged nginx image already runs as uid 101; declare it so scanners and platforms can verify.
+USER 101
 EXPOSE 8080
-HEALTHCHECK --interval=30s --timeout=3s CMD wget -q --spider http://127.0.0.1:8080/healthz || exit 1
+HEALTHCHECK --interval=30s --timeout=3s CMD ["wget", "-q", "--spider", "http://127.0.0.1:8080/healthz"]

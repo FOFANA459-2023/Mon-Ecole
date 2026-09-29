@@ -1,18 +1,31 @@
-# Weekly dependency updates, grouped so they arrive as a few pull requests rather than dozens.
+# Weekly updates, grouped so they arrive as a few pull requests. Minor and patch versions only:
+# major upgrades (React, TypeScript, Vite, Node…) are planned by hand because they need code changes.
 version: 2
 updates:
   - package-ecosystem: npm
     directory: /
     schedule: { interval: weekly }
+    target-branch: develop
     groups:
       npm:
-        patterns: ["*"]
+        update-types: [minor, patch]
+    ignore:
+      - dependency-name: "*"
+        update-types: [version-update:semver-major]
   - package-ecosystem: docker
     directory: /
     schedule: { interval: weekly }
+    target-branch: develop
+    ignore:
+      # Node LTS releases only, upgraded by hand.
+      - dependency-name: node
+        update-types: [version-update:semver-major]
+      - dependency-name: nginxinc/nginx-unprivileged
+        update-types: [version-update:semver-major]
   - package-ecosystem: github-actions
     directory: /
     schedule: { interval: weekly }
+    target-branch: develop
     groups:
       actions:
         patterns: ["*"]

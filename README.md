@@ -43,15 +43,47 @@ docker compose up                              # Vite dev server with hot reload
 docker compose --profile prod up --build web   # production build served by nginx on http://localhost:8080
 ```
 
-Open http://localhost:5173 (or :8080 for the nginx image). Requests to `/api` are forwarded to the API, so the browser sees one origin and the refresh-token cookie works. To use an API elsewhere, set `API_URL` (Docker) or `VITE_PROXY_TARGET` (`npm run dev`) in your shell.
+Open http://localhost:5173 (or :8080 for the nginx image). The nginx image sends the API its own upstream host name, so that name (e.g. `host.docker.internal`) must be in the API's `DJANGO_ALLOWED_HOSTS`. Requests to `/api` are forwarded to the API, so the browser sees one origin and the refresh-token cookie works. To use an API elsewhere, set `API_URL` (Docker) or `VITE_PROXY_TARGET` (`npm run dev`) in your shell.
 
 Demo accounts come from the backend's `seed_demo` command (all `@monecole.test`: `admin`, `directeur`, `secretariat`, `comptable`, `enseignant`, `teacher`).
 
-## Tests and checks
+## Branches and pull requests
+
+`main` is protected: nothing reaches it without a pull request whose checks all pass. Work on `develop` (or a
+feature branch from it), push, and open a pull request into `main`. Merging to `main` publishes staging; a `v*`
+tag publishes production.
 
 ```bash
-npm test && npm run lint && npm run typecheck && npm run build
+git switch develop && git pull
+# …commit…
+git push
+gh pr create --base main --fill
 ```
+
+Optional but recommended: `pip install pre-commit && pre-commit install` runs lint, types and a secret scan
+before each commit.
+
+## Tests and quality gates
+
+| Suite | What it covers | Run locally |
+|---|---|---|
+| Unit + component | hooks, helpers, guards, menus and pages rendered with a fake API (Vitest, Testing Library, MSW); coverage floor | `npm test` / `npm run test:coverage` |
+| End to end | the real app against the real API: sign-in and session restore, deep links, role permissions, student search, the full enrolment wizard, global search, a phone-sized run (Playwright) | `E2E_PASSWORD=… npm run test:e2e` |
+| Accessibility | axe (WCAG 2.1 AA) on the login page, dashboard, students, classes and the enrolment wizard; serious issues fail | part of `npm run test:e2e` |
+| Lint and types | ESLint (no warnings allowed), TypeScript (app, config and E2E code) | `npx eslint . && npm run typecheck` |
+| API contract | `schema.d.ts` must match the backend's `openapi.yaml` | `npm run gen:api` then `git diff` |
+| SAST | semgrep (JavaScript, TypeScript, React, secrets, Dockerfile, nginx rules) | CI |
+| Dependencies | npm audit (high/critical in shipped code blocks the merge); Dependabot weekly | `npm run audit:prod` |
+| Secrets | gitleaks over the whole git history | pre-commit |
+| Docker | hadolint, smoke test, non-root user, trivy image + configuration scans | CI |
+| DAST | OWASP ZAP baseline scan of the served app: security headers, CSP, server leaks | CI |
+
+**Running the E2E tests locally:** start the API with demo data (in Mon-Ecole-Backend:
+`docker compose up -d`, `docker compose exec backend python manage.py migrate`, then
+`docker compose exec backend python manage.py seed_demo --password <choose one>`; set `THROTTLE_LOGIN=1000/min`
+before `docker compose up` because the tests sign in many times a minute), install the browser once with
+`npx playwright install chromium`, then run `E2E_PASSWORD=<same password> npm run test:e2e`. The Vite dev server
+starts automatically.
 
 ### API types
 
@@ -75,8 +107,8 @@ This reads `../Mon-Ecole-Backend/openapi.yaml` (or `../backend/openapi.yaml`) wh
 
 | Workflow | When | What |
 |---|---|---|
-| `ci.yml` | every pull request | lint, typecheck, tests, production build; API types compared with the backend schema (needs `BACKEND_REPO_TOKEN`); Docker image built and smoke-tested; optional Cloudflare Pages preview of the PR |
-| `cd.yml` | push to `main`, tags `v*` | runs CI, publishes the nginx image (`linux/amd64` + `linux/arm64`) to `ghcr.io/fofana459-2023/mon-ecole-frontend`, then deploys `main` to the Pages **staging** branch and `v*` tags to **production** |
+| `ci.yml` | every pull request | the quality and security gates above — all required before merging to `main` (API types and E2E need `BACKEND_REPO_TOKEN`); optional Cloudflare Pages preview of the PR |
+| `cd.yml` | push to `main`, tags `v*` | runs CI, publishes the nginx image (`linux/amd64` + `linux/arm64`) to `ghcr.io/fofana459-2023/mon-ecole-frontend` with an SBOM and provenance, signed with Sigstore/cosign, then deploys `main` to the Pages **staging** branch and `v*` tags to **production** |
 | `pages.yml` | called by CI and CD | builds with the environment's `VITE_API_URL` and uploads `dist/` with Wrangler |
 
 ### Turning on deployment

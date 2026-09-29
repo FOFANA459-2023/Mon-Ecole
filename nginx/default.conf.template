@@ -11,9 +11,9 @@ server {
     }
 
     # API and uploaded files (local storage only) go to the backend.
+    # The upstream receives its own host name (not the visitor's Host header), so list it in the API's ALLOWED_HOSTS.
     location ~ ^/(api|media)/ {
         proxy_pass ${API_UPSTREAM};
-        proxy_set_header Host $host;
         proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
         proxy_set_header X-Forwarded-Proto $scheme;
         proxy_set_header X-Request-ID $request_id;

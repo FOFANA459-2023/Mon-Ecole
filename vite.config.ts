@@ -23,6 +23,15 @@ export default defineConfig({
   test: {
     environment: "jsdom",
     setupFiles: ["./src/test/setup.ts"],
+    include: ["src/**/*.test.{ts,tsx}"],
     css: false,
+    coverage: {
+      provider: "v8",
+      include: ["src/**"],
+      exclude: ["src/lib/api/schema.d.ts", "src/components/ui/**", "src/test/**", "**/*.test.*", "src/main.tsx"],
+      reporter: ["text-summary", "html", "lcov"],
+      // A floor, not a target: raise it as pages get component tests (the E2E suite covers the rest).
+      thresholds: { statements: 15, branches: 11, functions: 11, lines: 15 },
+    },
   },
 });

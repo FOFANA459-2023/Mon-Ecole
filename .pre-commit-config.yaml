@@ -1,0 +1,34 @@
+# Same checks as CI, before each commit:  pip install pre-commit && pre-commit install
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v6.0.0
+    hooks:
+      - id: trailing-whitespace
+        exclude: ^src/lib/api/schema\.d\.ts$
+      - id: end-of-file-fixer
+      - id: check-yaml
+      - id: check-json
+        exclude: ^tsconfig.*\.json$
+      - id: check-merge-conflict
+      - id: check-added-large-files
+        args: [--maxkb=1024]
+      - id: detect-private-key
+      - id: no-commit-to-branch
+        args: [--branch, main]
+  - repo: https://github.com/gitleaks/gitleaks
+    rev: v8.28.0
+    hooks:
+      - id: gitleaks
+  - repo: local
+    hooks:
+      - id: eslint
+        name: eslint
+        entry: npx eslint --max-warnings=0 --no-warn-ignored
+        language: system
+        files: \.(ts|tsx)$
+      - id: typecheck
+        name: typescript
+        entry: npm run -s typecheck
+        language: system
+        pass_filenames: false
+        files: \.(ts|tsx)$

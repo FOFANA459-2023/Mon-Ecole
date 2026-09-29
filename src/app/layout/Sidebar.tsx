@@ -125,7 +125,7 @@ export function SidebarContent({ onNavigate }: { onNavigate?: () => void }) {
                     {item.phase && (
                       <span
                         aria-hidden="true"
-                        className="text-sidebar-foreground/50 rounded bg-white/5 px-1.5 py-0.5 text-[10px] font-medium"
+                        className="text-sidebar-foreground/80 rounded bg-white/5 px-1.5 py-0.5 text-[10px] font-medium"
                       >
                         P{item.phase}
                       </span>

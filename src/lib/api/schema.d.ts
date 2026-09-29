@@ -1671,8 +1671,8 @@ export interface components {
          */
         KindEnum: "new" | "re_enrolment" | "transfer_in";
         /**
-         * @description * `fr` - Français
-         *     * `en` - Anglais
+         * @description * `fr` - French
+         *     * `en` - English
          * @enum {string}
          */
         LanguageEnum: "fr" | "en";
@@ -1722,27 +1722,19 @@ export interface components {
         };
         MemberUser: {
             readonly id: number;
-            /**
-             * Nom d’utilisateur
-             * @description Requis. 150 caractères maximum. Uniquement des lettres, nombres et les caractères « @ », « . », « + », « - » et « _ ».
-             */
+            /** @description Required. 150 characters or fewer. Letters, digits and @/./+/-/_ only. */
             username: string;
             /**
-             * Adresse électronique
+             * Email address
              * Format: email
              */
             email: string;
-            /** Prénom */
             first_name?: string;
-            /** Nom */
             last_name?: string;
             readonly full_name: string;
             phone?: string;
             language?: components["schemas"]["LanguageEnum"];
-            /**
-             * Dernière connexion
-             * Format: date-time
-             */
+            /** Format: date-time */
             last_login?: string | null;
             readonly has_password: boolean;
         };
@@ -1979,9 +1971,7 @@ export interface components {
             is_active?: boolean;
         };
         PatchedMeUpdateRequest: {
-            /** Prénom */
             first_name?: string;
-            /** Nom */
             last_name?: string;
             phone?: string;
             language?: components["schemas"]["LanguageEnum"];
@@ -3126,7 +3116,7 @@ export interface operations {
                  *     * `cancelled` - Cancelled
                  */
                 status?: "active" | "cancelled" | "class_changed" | "completed" | "withdrawn";
-                /** @description Les valeurs multiples doivent être séparées par des virgules. */
+                /** @description Multiple values may be separated by commas. */
                 status__in?: string[];
                 student?: number;
             };
