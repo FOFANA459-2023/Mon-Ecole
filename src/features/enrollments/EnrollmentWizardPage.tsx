@@ -6,7 +6,7 @@ import { Link, useNavigate } from "react-router";
 import { toast } from "sonner";
 
 import { Field, PageHeader } from "@/components/common";
-import { DetailGrid, PersonAvatar, SearchInput } from "@/components/display";
+import { DetailGrid } from "@/components/display";
 import { useFormatDate } from "@/lib/dates";
 import { ClassSelect, OptionSelect, YearSelect } from "@/components/pickers";
 import { Alert, AlertDescription } from "@/components/ui/alert";
@@ -15,16 +15,16 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { useCurrentYear, useYearClasses } from "@/features/academics/api";
-import { useGuardianLinks, useStudents } from "@/features/people/api";
+import { useGuardianLinks } from "@/features/people/api";
 import { GuardianFields } from "@/features/students/GuardianFields";
 import { emptyGuardian, guardianErrors, guardianPayload, type GuardianDraft } from "@/features/students/guardianDraft";
 import { StudentFields } from "@/features/students/StudentFields";
+import { StudentPicker as ExistingStudentPicker } from "@/features/students/StudentPicker";
 import { emptyStudent, studentPayload, validateStudent, type StudentDraft } from "@/features/students/studentDraft";
 import { api } from "@/lib/api/client";
 import type { Enrollment, StudentListItem } from "@/lib/api/types";
 import { openPdf } from "@/lib/files";
 import { errorMessage } from "@/lib/forms";
-import { useDebouncedValue } from "@/lib/useDebouncedValue";
 import { cn } from "@/lib/utils";
 
 import { invalidateSchooling } from "./api";
@@ -55,62 +55,6 @@ function Stepper({ step }: { step: Step }) {
         </li>
       ))}
     </ol>
-  );
-}
-
-function ExistingStudentPicker({
-  selected,
-  onSelect,
-}: {
-  selected: StudentListItem | null;
-  onSelect: (student: StudentListItem | null) => void;
-}) {
-  const { t } = useTranslation();
-  const [query, setQuery] = useState("");
-  const search = useDebouncedValue(query);
-  const results = useStudents({ search, status: "active", page_size: 8 }, search.trim().length >= 2);
-
-  if (selected) {
-    return (
-      <div className="bg-accent/50 flex items-center gap-3 rounded-lg border p-3">
-        <PersonAvatar name={selected.full_name} photoUrl={selected.photo_url} />
-        <div className="min-w-0 flex-1">
-          <p className="font-medium">{selected.full_name}</p>
-          <p className="text-muted-foreground text-sm">
-            {selected.student_number}
-            {selected.current_enrollment && ` · ${selected.current_enrollment.class_name} (${selected.current_enrollment.academic_year_name})`}
-          </p>
-        </div>
-        <Button variant="ghost" size="sm" onClick={() => onSelect(null)}>
-          {t("guardians.changeChoice")}
-        </Button>
-      </div>
-    );
-  }
-  return (
-    <div className="grid gap-2">
-      <SearchInput value={query} onChange={setQuery} placeholder={t("enrollments.searchStudent")} />
-      <ul className="grid gap-1">
-        {results.data?.results.map((s) => (
-          <li key={s.id}>
-            <button
-              type="button"
-              onClick={() => onSelect(s)}
-              className="hover:bg-muted flex w-full items-center gap-3 rounded-md border px-3 py-2 text-left text-sm"
-            >
-              <PersonAvatar name={s.full_name} photoUrl={s.photo_url} className="size-8" />
-              <span className="min-w-0 flex-1">
-                <span className="block font-medium">{s.full_name}</span>
-                <span className="text-muted-foreground block text-xs">
-                  {s.student_number}
-                  {s.current_enrollment && ` · ${s.current_enrollment.class_name}`}
-                </span>
-              </span>
-            </button>
-          </li>
-        ))}
-      </ul>
-    </div>
   );
 }
 

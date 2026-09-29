@@ -45,6 +45,7 @@ import {
   type EnrollmentRef,
 } from "@/features/enrollments/EnrollmentActionDialogs";
 import { invalidateSchooling } from "@/features/enrollments/api";
+import { StudentFinanceTab } from "@/features/finance/StudentFinanceTab";
 import { useGuardianLinks, useStudent } from "@/features/people/api";
 import { DocumentsPanel } from "@/features/people/DocumentsPanel";
 import { PhotoUploader } from "@/features/people/PhotoUploader";
@@ -532,7 +533,11 @@ export function StudentDetailPage() {
           <DocumentsPanel ownerType="student" ownerId={s.id} canEdit={can("students.update")} />
         </TabsContent>
         <TabsContent value="payments">
-          <ComingLater phase={3} icon={<Wallet className="size-8" />} />
+          {can("finance.view") ? (
+            <StudentFinanceTab student={s} />
+          ) : (
+            <EmptyState icon={<Wallet className="size-8" />} title={t("finance.noAccess")} />
+          )}
         </TabsContent>
         <TabsContent value="results">
           <ComingLater phase={4} icon={<FileText className="size-8" />} />

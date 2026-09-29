@@ -65,6 +65,17 @@ export type Staff = Schemas["Staff"];
 export type Enrollment = Schemas["Enrollment"];
 export type SchoolDocument = Schemas["Document"];
 export type PromoteResult = Schemas["PromoteResult"];
+export type FeeCategory = Schemas["FeeCategory"];
+export type FeeCategoryKind = Schemas["FeeCategoryKindEnum"];
+export type FeeSchedule = Schemas["FeeSchedule"];
+export type FeeAppliesTo = Schemas["FeeAppliesToEnum"];
+export type StudentDiscount = Schemas["StudentDiscount"];
+export type DiscountKind = Schemas["DiscountKindEnum"];
+export type DiscountReason = Schemas["DiscountReasonEnum"];
+export type Invoice = Schemas["Invoice"];
+export type InvoiceListItem = Schemas["InvoiceList"];
+export type PaymentStatus = Schemas["PaymentStatusEnum"];
+export type GenerateInvoicesResult = Schemas["GenerateInvoicesResult"];
 
 export type Gender = "M" | "F";
 export type Relationship = "father" | "mother" | "guardian" | "other";

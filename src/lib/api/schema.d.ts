@@ -594,6 +594,120 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/v1/fee-categories/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * @description CRUD for school-owned records: scoped to the current school, audited on every write.
+         *
+         *     Subclasses set `queryset`, `serializer_class`, `required_permissions` and `audit_module`.
+         */
+        get: operations["fee_categories_list"];
+        put?: never;
+        /**
+         * @description CRUD for school-owned records: scoped to the current school, audited on every write.
+         *
+         *     Subclasses set `queryset`, `serializer_class`, `required_permissions` and `audit_module`.
+         */
+        post: operations["fee_categories_create"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/fee-categories/{id}/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * @description CRUD for school-owned records: scoped to the current school, audited on every write.
+         *
+         *     Subclasses set `queryset`, `serializer_class`, `required_permissions` and `audit_module`.
+         */
+        get: operations["fee_categories_retrieve"];
+        put?: never;
+        post?: never;
+        /**
+         * @description CRUD for school-owned records: scoped to the current school, audited on every write.
+         *
+         *     Subclasses set `queryset`, `serializer_class`, `required_permissions` and `audit_module`.
+         */
+        delete: operations["fee_categories_destroy"];
+        options?: never;
+        head?: never;
+        /**
+         * @description CRUD for school-owned records: scoped to the current school, audited on every write.
+         *
+         *     Subclasses set `queryset`, `serializer_class`, `required_permissions` and `audit_module`.
+         */
+        patch: operations["fee_categories_partial_update"];
+        trace?: never;
+    };
+    "/api/v1/fee-schedules/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * @description CRUD for school-owned records: scoped to the current school, audited on every write.
+         *
+         *     Subclasses set `queryset`, `serializer_class`, `required_permissions` and `audit_module`.
+         */
+        get: operations["fee_schedules_list"];
+        put?: never;
+        /**
+         * @description CRUD for school-owned records: scoped to the current school, audited on every write.
+         *
+         *     Subclasses set `queryset`, `serializer_class`, `required_permissions` and `audit_module`.
+         */
+        post: operations["fee_schedules_create"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/fee-schedules/{id}/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * @description CRUD for school-owned records: scoped to the current school, audited on every write.
+         *
+         *     Subclasses set `queryset`, `serializer_class`, `required_permissions` and `audit_module`.
+         */
+        get: operations["fee_schedules_retrieve"];
+        put?: never;
+        post?: never;
+        /**
+         * @description CRUD for school-owned records: scoped to the current school, audited on every write.
+         *
+         *     Subclasses set `queryset`, `serializer_class`, `required_permissions` and `audit_module`.
+         */
+        delete: operations["fee_schedules_destroy"];
+        options?: never;
+        head?: never;
+        /**
+         * @description CRUD for school-owned records: scoped to the current school, audited on every write.
+         *
+         *     Subclasses set `queryset`, `serializer_class`, `required_permissions` and `audit_module`.
+         */
+        patch: operations["fee_schedules_partial_update"];
+        trace?: never;
+    };
     "/api/v1/guardians/": {
         parameters: {
             query?: never;
@@ -669,6 +783,92 @@ export interface paths {
         get: operations["imports_template_retrieve"];
         put?: never;
         post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/invoices/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description Invoices are issued (from fee schedules or by hand) and cancelled, never edited or deleted. */
+        get: operations["invoices_list"];
+        put?: never;
+        /** @description Invoices are issued (from fee schedules or by hand) and cancelled, never edited or deleted. */
+        post: operations["invoices_create"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/invoices/{id}/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description Invoices are issued (from fee schedules or by hand) and cancelled, never edited or deleted. */
+        get: operations["invoices_retrieve"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/invoices/{id}/cancel/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** @description Invoices are issued (from fee schedules or by hand) and cancelled, never edited or deleted. */
+        post: operations["invoices_cancel_create"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/invoices/{id}/pdf/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description Invoices are issued (from fee schedules or by hand) and cancelled, never edited or deleted. */
+        get: operations["invoices_pdf_retrieve"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/invoices/generate/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** @description Issue the enrolment fees to every active student (of a class, or of the year) who has none yet. */
+        post: operations["invoices_generate_create"];
         delete?: never;
         options?: never;
         head?: never;
@@ -965,6 +1165,63 @@ export interface paths {
         options?: never;
         head?: never;
         patch?: never;
+        trace?: never;
+    };
+    "/api/v1/student-discounts/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * @description CRUD for school-owned records: scoped to the current school, audited on every write.
+         *
+         *     Subclasses set `queryset`, `serializer_class`, `required_permissions` and `audit_module`.
+         */
+        get: operations["student_discounts_list"];
+        put?: never;
+        /**
+         * @description CRUD for school-owned records: scoped to the current school, audited on every write.
+         *
+         *     Subclasses set `queryset`, `serializer_class`, `required_permissions` and `audit_module`.
+         */
+        post: operations["student_discounts_create"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/student-discounts/{id}/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * @description CRUD for school-owned records: scoped to the current school, audited on every write.
+         *
+         *     Subclasses set `queryset`, `serializer_class`, `required_permissions` and `audit_module`.
+         */
+        get: operations["student_discounts_retrieve"];
+        put?: never;
+        post?: never;
+        /**
+         * @description CRUD for school-owned records: scoped to the current school, audited on every write.
+         *
+         *     Subclasses set `queryset`, `serializer_class`, `required_permissions` and `audit_module`.
+         */
+        delete: operations["student_discounts_destroy"];
+        options?: never;
+        head?: never;
+        /**
+         * @description CRUD for school-owned records: scoped to the current school, audited on every write.
+         *
+         *     Subclasses set `queryset`, `serializer_class`, `required_permissions` and `audit_module`.
+         */
+        patch: operations["student_discounts_partial_update"];
         trace?: never;
     };
     "/api/v1/students/": {
@@ -1408,6 +1665,9 @@ export interface components {
         };
         /** @enum {unknown} */
         BlankEnum: "";
+        CancelInvoiceRequest: {
+            reason: string;
+        };
         CancelRequest: {
             reason: string;
         };
@@ -1494,6 +1754,21 @@ export interface components {
          * @enum {string}
          */
         CycleEnum: "preschool" | "primary" | "lower_secondary" | "upper_secondary" | "other";
+        /**
+         * @description * `percent` - Percentage
+         *     * `fixed` - Fixed amount
+         * @enum {string}
+         */
+        DiscountKindEnum: "percent" | "fixed";
+        /**
+         * @description * `scholarship` - Scholarship
+         *     * `sibling` - Sibling
+         *     * `staff_child` - Staff child
+         *     * `hardship` - Financial hardship
+         *     * `other` - Other
+         * @enum {string}
+         */
+        DiscountReasonEnum: "scholarship" | "sibling" | "staff_child" | "hardship" | "other";
         Document: {
             readonly id: number;
             owner_type: components["schemas"]["OwnerTypeEnum"];
@@ -1584,11 +1859,82 @@ export interface components {
             photo_url: string | null;
         };
         /**
+         * @description * `all` - All students
+         *     * `new` - New students only
+         *     * `returning` - Returning students only
+         * @enum {string}
+         */
+        FeeAppliesToEnum: "all" | "new" | "returning";
+        FeeCategory: {
+            readonly id: number;
+            name: string;
+            kind?: components["schemas"]["FeeCategoryKindEnum"];
+            description?: string;
+            /** Format: int64 */
+            order?: number;
+            is_active?: boolean;
+        };
+        /**
+         * @description * `registration` - Registration
+         *     * `tuition` - Tuition
+         *     * `exam` - Exams
+         *     * `transport` - Transport
+         *     * `canteen` - Canteen
+         *     * `uniform` - Uniform
+         *     * `supplies` - Books and supplies
+         *     * `other` - Other
+         * @enum {string}
+         */
+        FeeCategoryKindEnum: "registration" | "tuition" | "exam" | "transport" | "canteen" | "uniform" | "supplies" | "other";
+        FeeCategoryRequest: {
+            name: string;
+            kind?: components["schemas"]["FeeCategoryKindEnum"];
+            description?: string;
+            /** Format: int64 */
+            order?: number;
+            is_active?: boolean;
+        };
+        FeeSchedule: {
+            readonly id: number;
+            academic_year: number;
+            readonly academic_year_name: string;
+            level: number;
+            readonly level_name: string;
+            category: number;
+            readonly category_name: string;
+            /** @default all */
+            applies_to: components["schemas"]["FeeAppliesToEnum"];
+            /** Format: decimal */
+            amount: string;
+            installments?: components["schemas"]["Installment"][];
+        };
+        FeeScheduleRequest: {
+            academic_year: number;
+            level: number;
+            category: number;
+            /** @default all */
+            applies_to: components["schemas"]["FeeAppliesToEnum"];
+            /** Format: decimal */
+            amount: string;
+            installments?: components["schemas"]["InstallmentRequest"][];
+        };
+        /**
          * @description * `M` - Male
          *     * `F` - Female
          * @enum {string}
          */
         GenderEnum: "M" | "F";
+        GenerateInvoicesRequest: {
+            academic_year: number;
+            class_group?: number | null;
+        };
+        GenerateInvoicesResult: {
+            created: number;
+            /** @description Students who already had this year's enrolment invoice. */
+            skipped: number;
+            /** @description Students whose level has no fees set up for the year. */
+            without_fees: number;
+        };
         GrantAccessRequest: {
             role_ids: number[];
         };
@@ -1663,6 +2009,113 @@ export interface components {
              */
             commit: boolean;
         };
+        Installment: {
+            /** @default  */
+            label: string;
+            /** Format: date */
+            due_date: string;
+            /** Format: decimal */
+            amount: string;
+        };
+        InstallmentRequest: {
+            /** @default  */
+            label: string;
+            /** Format: date */
+            due_date: string;
+            /** Format: decimal */
+            amount: string;
+        };
+        /** @description An invoice with its computed figures (the queryset is annotated by selectors.with_balances). */
+        Invoice: {
+            readonly id: number;
+            readonly number: string;
+            readonly student: number;
+            readonly student_name: string;
+            readonly student_number: string;
+            readonly enrollment: number | null;
+            readonly class_name: string;
+            readonly academic_year: number;
+            readonly academic_year_name: string;
+            /** Format: date */
+            readonly issue_date: string;
+            readonly source: components["schemas"]["SourceEnum"];
+            readonly status: components["schemas"]["InvoiceStatusEnum"];
+            /** Format: decimal */
+            readonly subtotal: string;
+            /** Format: decimal */
+            readonly discount_total: string;
+            /** Format: decimal */
+            readonly total: string;
+            /** Format: decimal */
+            readonly amount_paid: string;
+            /** Format: decimal */
+            readonly balance: string;
+            /** Format: decimal */
+            readonly overdue_amount: string;
+            /** Format: date */
+            readonly next_due_date: string | null;
+            readonly payment_status: components["schemas"]["PaymentStatusEnum"];
+            readonly notes: string;
+            /** Format: date-time */
+            readonly cancelled_at: string | null;
+            readonly cancel_reason: string;
+            readonly lines: components["schemas"]["InvoiceLine"][];
+        };
+        InvoiceLine: {
+            readonly id: number;
+            category: number;
+            readonly category_name: string;
+            description: string;
+            /** Format: date */
+            due_date: string;
+            /** Format: decimal */
+            amount: string;
+            /** Format: decimal */
+            discount?: string;
+            /** Format: decimal */
+            readonly net: string;
+        };
+        /** @description An invoice with its computed figures (the queryset is annotated by selectors.with_balances). */
+        InvoiceList: {
+            readonly id: number;
+            readonly number: string;
+            readonly student: number;
+            readonly student_name: string;
+            readonly student_number: string;
+            readonly enrollment: number | null;
+            readonly class_name: string;
+            readonly academic_year: number;
+            readonly academic_year_name: string;
+            /** Format: date */
+            readonly issue_date: string;
+            readonly source: components["schemas"]["SourceEnum"];
+            readonly status: components["schemas"]["InvoiceStatusEnum"];
+            /** Format: decimal */
+            readonly subtotal: string;
+            /** Format: decimal */
+            readonly discount_total: string;
+            /** Format: decimal */
+            readonly total: string;
+            /** Format: decimal */
+            readonly amount_paid: string;
+            /** Format: decimal */
+            readonly balance: string;
+            /** Format: decimal */
+            readonly overdue_amount: string;
+            /** Format: date */
+            readonly next_due_date: string | null;
+            readonly payment_status: components["schemas"]["PaymentStatusEnum"];
+            readonly notes: string;
+            /** Format: date-time */
+            readonly cancelled_at: string | null;
+            readonly cancel_reason: string;
+        };
+        /**
+         * @description * `issued` - Issued
+         *     * `cancelled` - Cancelled
+         * @enum {string}
+         */
+        InvoiceStatusEnum: "issued" | "cancelled";
         /**
          * @description * `new` - New student
          *     * `re_enrolment` - Re-enrolment
@@ -1701,6 +2154,28 @@ export interface components {
         LoginRequest: {
             login: string;
             password: string;
+        };
+        ManualInvoiceLineRequest: {
+            category: number;
+            description: string;
+            /** Format: date */
+            due_date: string;
+            /** Format: decimal */
+            amount: string;
+            /**
+             * Format: decimal
+             * @default 0.00
+             */
+            discount: string;
+        };
+        ManualInvoiceRequest: {
+            student: number;
+            academic_year: number;
+            /** Format: date */
+            issue_date?: string;
+            /** @default  */
+            notes: string;
+            lines: components["schemas"]["ManualInvoiceLineRequest"][];
         };
         Member: {
             readonly id: number;
@@ -1834,6 +2309,21 @@ export interface components {
             previous?: string | null;
             results: components["schemas"]["Guardian"][];
         };
+        PaginatedInvoiceListList: {
+            /** @example 123 */
+            count: number;
+            /**
+             * Format: uri
+             * @example http://api.example.org/accounts/?page=4
+             */
+            next?: string | null;
+            /**
+             * Format: uri
+             * @example http://api.example.org/accounts/?page=2
+             */
+            previous?: string | null;
+            results: components["schemas"]["InvoiceList"][];
+        };
         PaginatedMemberList: {
             /** @example 123 */
             count: number;
@@ -1863,6 +2353,21 @@ export interface components {
              */
             previous?: string | null;
             results: components["schemas"]["Staff"][];
+        };
+        PaginatedStudentDiscountList: {
+            /** @example 123 */
+            count: number;
+            /**
+             * Format: uri
+             * @example http://api.example.org/accounts/?page=4
+             */
+            next?: string | null;
+            /**
+             * Format: uri
+             * @example http://api.example.org/accounts/?page=2
+             */
+            previous?: string | null;
+            results: components["schemas"]["StudentDiscount"][];
         };
         PaginatedStudentListList: {
             /** @example 123 */
@@ -1938,6 +2443,24 @@ export interface components {
             kind?: components["schemas"]["KindEnum"];
             previous_school?: string;
             notes?: string;
+        };
+        PatchedFeeCategoryRequest: {
+            name?: string;
+            kind?: components["schemas"]["FeeCategoryKindEnum"];
+            description?: string;
+            /** Format: int64 */
+            order?: number;
+            is_active?: boolean;
+        };
+        PatchedFeeScheduleRequest: {
+            academic_year?: number;
+            level?: number;
+            category?: number;
+            /** @default all */
+            applies_to: components["schemas"]["FeeAppliesToEnum"];
+            /** Format: decimal */
+            amount?: string;
+            installments?: components["schemas"]["InstallmentRequest"][];
         };
         PatchedGuardianLinkUpdateRequest: {
             relationship?: components["schemas"]["RelationshipEnum"];
@@ -2022,6 +2545,18 @@ export interface components {
             /** Format: date */
             employment_date?: string | null;
         };
+        PatchedStudentDiscountRequest: {
+            student?: number;
+            academic_year?: number;
+            category?: number | null;
+            kind?: components["schemas"]["DiscountKindEnum"];
+            /** Format: decimal */
+            value?: string;
+            reason?: components["schemas"]["DiscountReasonEnum"];
+            note?: string;
+            /** @default true */
+            is_active: boolean;
+        };
         PatchedStudentRequest: {
             student_number?: string;
             first_name?: string;
@@ -2054,6 +2589,15 @@ export interface components {
             /** Format: date */
             end_date?: string;
         };
+        /**
+         * @description * `paid` - paid
+         *     * `partial` - partial
+         *     * `unpaid` - unpaid
+         *     * `overdue` - overdue
+         *     * `cancelled` - cancelled
+         * @enum {string}
+         */
+        PaymentStatusEnum: "paid" | "partial" | "unpaid" | "overdue" | "cancelled";
         PhotoRequest: {
             /** Format: binary */
             file: string;
@@ -2162,6 +2706,12 @@ export interface components {
          * @enum {string}
          */
         SchoolStatusEnum: "active" | "suspended";
+        /**
+         * @description * `enrolment` - Enrolment fees
+         *     * `manual` - Manual
+         * @enum {string}
+         */
+        SourceEnum: "enrolment" | "manual";
         Staff: {
             readonly id: number;
             employee_number?: string;
@@ -2240,6 +2790,35 @@ export interface components {
             readonly created_at: string;
             readonly guardians: components["schemas"]["GuardianLink"][];
             readonly enrollments: components["schemas"]["EnrollmentBrief"][];
+        };
+        StudentDiscount: {
+            readonly id: number;
+            student: number;
+            readonly student_name: string;
+            readonly student_number: string;
+            academic_year: number;
+            readonly academic_year_name: string;
+            category?: number | null;
+            readonly category_name: string;
+            kind?: components["schemas"]["DiscountKindEnum"];
+            /** Format: decimal */
+            value: string;
+            reason?: components["schemas"]["DiscountReasonEnum"];
+            note?: string;
+            /** @default true */
+            is_active: boolean;
+        };
+        StudentDiscountRequest: {
+            student: number;
+            academic_year: number;
+            category?: number | null;
+            kind?: components["schemas"]["DiscountKindEnum"];
+            /** Format: decimal */
+            value: string;
+            reason?: components["schemas"]["DiscountReasonEnum"];
+            note?: string;
+            /** @default true */
+            is_active: boolean;
         };
         StudentList: {
             readonly id: number;
@@ -3367,6 +3946,267 @@ export interface operations {
             };
         };
     };
+    fee_categories_list: {
+        parameters: {
+            query?: {
+                is_active?: boolean;
+                /**
+                 * @description * `registration` - Registration
+                 *     * `tuition` - Tuition
+                 *     * `exam` - Exams
+                 *     * `transport` - Transport
+                 *     * `canteen` - Canteen
+                 *     * `uniform` - Uniform
+                 *     * `supplies` - Books and supplies
+                 *     * `other` - Other
+                 */
+                kind?: "canteen" | "exam" | "other" | "registration" | "supplies" | "transport" | "tuition" | "uniform";
+                /** @description Which field to use when ordering the results. */
+                ordering?: string;
+                /** @description A search term. */
+                search?: string;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["FeeCategory"][];
+                };
+            };
+        };
+    };
+    fee_categories_create: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["FeeCategoryRequest"];
+                "application/x-www-form-urlencoded": components["schemas"]["FeeCategoryRequest"];
+                "multipart/form-data": components["schemas"]["FeeCategoryRequest"];
+            };
+        };
+        responses: {
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["FeeCategory"];
+                };
+            };
+        };
+    };
+    fee_categories_retrieve: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description A unique integer value identifying this fee category. */
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["FeeCategory"];
+                };
+            };
+        };
+    };
+    fee_categories_destroy: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description A unique integer value identifying this fee category. */
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description No response body */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    fee_categories_partial_update: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description A unique integer value identifying this fee category. */
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: {
+            content: {
+                "application/json": components["schemas"]["PatchedFeeCategoryRequest"];
+                "application/x-www-form-urlencoded": components["schemas"]["PatchedFeeCategoryRequest"];
+                "multipart/form-data": components["schemas"]["PatchedFeeCategoryRequest"];
+            };
+        };
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["FeeCategory"];
+                };
+            };
+        };
+    };
+    fee_schedules_list: {
+        parameters: {
+            query?: {
+                academic_year?: number;
+                /**
+                 * @description * `all` - All students
+                 *     * `new` - New students only
+                 *     * `returning` - Returning students only
+                 */
+                applies_to?: "all" | "new" | "returning";
+                category?: number;
+                level?: number;
+                /** @description Which field to use when ordering the results. */
+                ordering?: string;
+                /** @description A search term. */
+                search?: string;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["FeeSchedule"][];
+                };
+            };
+        };
+    };
+    fee_schedules_create: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["FeeScheduleRequest"];
+                "application/x-www-form-urlencoded": components["schemas"]["FeeScheduleRequest"];
+                "multipart/form-data": components["schemas"]["FeeScheduleRequest"];
+            };
+        };
+        responses: {
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["FeeSchedule"];
+                };
+            };
+        };
+    };
+    fee_schedules_retrieve: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description A unique integer value identifying this fee schedule. */
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["FeeSchedule"];
+                };
+            };
+        };
+    };
+    fee_schedules_destroy: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description A unique integer value identifying this fee schedule. */
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description No response body */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    fee_schedules_partial_update: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description A unique integer value identifying this fee schedule. */
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: {
+            content: {
+                "application/json": components["schemas"]["PatchedFeeScheduleRequest"];
+                "application/x-www-form-urlencoded": components["schemas"]["PatchedFeeScheduleRequest"];
+                "multipart/form-data": components["schemas"]["PatchedFeeScheduleRequest"];
+            };
+        };
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["FeeSchedule"];
+                };
+            };
+        };
+    };
     guardians_list: {
         parameters: {
             query?: {
@@ -3499,6 +4339,172 @@ export interface operations {
                 };
                 content: {
                     "application/octet-stream": string;
+                };
+            };
+        };
+    };
+    invoices_list: {
+        parameters: {
+            query?: {
+                academic_year?: number;
+                class_group?: number;
+                issue_date__gte?: string;
+                issue_date__lte?: string;
+                /** @description Which field to use when ordering the results. */
+                ordering?: string;
+                /** @description A page number within the paginated result set. */
+                page?: number;
+                /** @description Number of results to return per page. */
+                page_size?: number;
+                payment_status?: "cancelled" | "overdue" | "paid" | "partial" | "unpaid";
+                /** @description A search term. */
+                search?: string;
+                /**
+                 * @description * `enrolment` - Enrolment fees
+                 *     * `manual` - Manual
+                 */
+                source?: "enrolment" | "manual";
+                /**
+                 * @description * `issued` - Issued
+                 *     * `cancelled` - Cancelled
+                 */
+                status?: "cancelled" | "issued";
+                student?: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PaginatedInvoiceListList"];
+                };
+            };
+        };
+    };
+    invoices_create: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["ManualInvoiceRequest"];
+                "application/x-www-form-urlencoded": components["schemas"]["ManualInvoiceRequest"];
+                "multipart/form-data": components["schemas"]["ManualInvoiceRequest"];
+            };
+        };
+        responses: {
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Invoice"];
+                };
+            };
+        };
+    };
+    invoices_retrieve: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description A unique integer value identifying this invoice. */
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Invoice"];
+                };
+            };
+        };
+    };
+    invoices_cancel_create: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description A unique integer value identifying this invoice. */
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["CancelInvoiceRequest"];
+                "application/x-www-form-urlencoded": components["schemas"]["CancelInvoiceRequest"];
+                "multipart/form-data": components["schemas"]["CancelInvoiceRequest"];
+            };
+        };
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Invoice"];
+                };
+            };
+        };
+    };
+    invoices_pdf_retrieve: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description A unique integer value identifying this invoice. */
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/pdf": string;
+                };
+            };
+        };
+    };
+    invoices_generate_create: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["GenerateInvoicesRequest"];
+                "application/x-www-form-urlencoded": components["schemas"]["GenerateInvoicesRequest"];
+                "multipart/form-data": components["schemas"]["GenerateInvoicesRequest"];
+            };
+        };
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["GenerateInvoicesResult"];
                 };
             };
         };
@@ -4097,6 +5103,142 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["Staff"];
+                };
+            };
+        };
+    };
+    student_discounts_list: {
+        parameters: {
+            query?: {
+                academic_year?: number;
+                category?: number;
+                is_active?: boolean;
+                /** @description Which field to use when ordering the results. */
+                ordering?: string;
+                /** @description A page number within the paginated result set. */
+                page?: number;
+                /** @description Number of results to return per page. */
+                page_size?: number;
+                /**
+                 * @description * `scholarship` - Scholarship
+                 *     * `sibling` - Sibling
+                 *     * `staff_child` - Staff child
+                 *     * `hardship` - Financial hardship
+                 *     * `other` - Other
+                 */
+                reason?: "hardship" | "other" | "scholarship" | "sibling" | "staff_child";
+                /** @description A search term. */
+                search?: string;
+                student?: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PaginatedStudentDiscountList"];
+                };
+            };
+        };
+    };
+    student_discounts_create: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["StudentDiscountRequest"];
+                "application/x-www-form-urlencoded": components["schemas"]["StudentDiscountRequest"];
+                "multipart/form-data": components["schemas"]["StudentDiscountRequest"];
+            };
+        };
+        responses: {
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["StudentDiscount"];
+                };
+            };
+        };
+    };
+    student_discounts_retrieve: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description A unique integer value identifying this student discount. */
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["StudentDiscount"];
+                };
+            };
+        };
+    };
+    student_discounts_destroy: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description A unique integer value identifying this student discount. */
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description No response body */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    student_discounts_partial_update: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description A unique integer value identifying this student discount. */
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: {
+            content: {
+                "application/json": components["schemas"]["PatchedStudentDiscountRequest"];
+                "application/x-www-form-urlencoded": components["schemas"]["PatchedStudentDiscountRequest"];
+                "multipart/form-data": components["schemas"]["PatchedStudentDiscountRequest"];
+            };
+        };
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["StudentDiscount"];
                 };
             };
         };

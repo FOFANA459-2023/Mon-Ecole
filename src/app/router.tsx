@@ -1,4 +1,4 @@
-import { createBrowserRouter, type RouteObject } from "react-router";
+import { createBrowserRouter, Navigate, type RouteObject } from "react-router";
 
 import { ForgotPasswordPage } from "@/features/auth/ForgotPasswordPage";
 import { LoginPage } from "@/features/auth/LoginPage";
@@ -83,6 +83,31 @@ const phase2Routes: RouteObject[] = [
   ]),
 ];
 
+const phase3Routes: RouteObject[] = [
+  gated(access("finance"), [
+    {
+      path: "finance",
+      lazy: () => import("@/features/finance/FinanceLayout").then((m) => ({ Component: m.FinanceLayout })),
+      children: [
+        { index: true, element: <Navigate to="/finance/invoices" replace /> },
+        {
+          path: "invoices",
+          lazy: () => import("@/features/finance/InvoicesPage").then((m) => ({ Component: m.InvoicesPage })),
+        },
+        {
+          path: "invoices/:id",
+          lazy: () => import("@/features/finance/InvoiceDetailPage").then((m) => ({ Component: m.InvoiceDetailPage })),
+        },
+        { path: "fees", lazy: () => import("@/features/finance/FeesPage").then((m) => ({ Component: m.FeesPage })) },
+        {
+          path: "discounts",
+          lazy: () => import("@/features/finance/DiscountsPage").then((m) => ({ Component: m.DiscountsPage })),
+        },
+      ],
+    },
+  ]),
+];
+
 export const routes: RouteObject[] = [
   {
     path: "/login",
@@ -107,6 +132,7 @@ export const routes: RouteObject[] = [
         children: [
           { index: true, element: <DashboardPage /> },
           ...phase2Routes,
+          ...phase3Routes,
           ...comingSoonRoutes,
           {
             path: "account",
