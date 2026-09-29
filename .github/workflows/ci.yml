@@ -1,0 +1,86 @@
+# Checks every pull request (and deploys a Cloudflare Pages preview of it when previews are switched on).
+# The CD workflow runs this same file before publishing main.
+name: CI
+
+on:
+  pull_request:
+  workflow_call:
+  workflow_dispatch:
+
+concurrency:
+  group: ci-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    name: Lint, types, tests and build
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    env:
+      # Read access to Mon-Ecole-Backend (private) to compare the API types with its schema.
+      BACKEND_REPO_TOKEN: ${{ secrets.BACKEND_REPO_TOKEN }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - name: Fetch the backend API schema
+        if: env.BACKEND_REPO_TOKEN != ''
+        uses: actions/checkout@v4
+        with:
+          repository: FOFANA459-2023/Mon-Ecole-Backend
+          token: ${{ secrets.BACKEND_REPO_TOKEN }}
+          path: .backend-schema
+          sparse-checkout: openapi.yaml
+          sparse-checkout-cone-mode: false
+      - name: API types match the backend schema
+        if: env.BACKEND_REPO_TOKEN != ''
+        run: OPENAPI_SCHEMA=.backend-schema/openapi.yaml npm run gen:api && git diff --exit-code src/lib/api/schema.d.ts
+      - name: API types check skipped
+        if: env.BACKEND_REPO_TOKEN == ''
+        run: echo "::notice::Add a BACKEND_REPO_TOKEN secret (read access to Mon-Ecole-Backend) to check the API types against the backend schema."
+      - run: npm run lint
+      - run: npm run typecheck
+      - run: npm test
+      - run: npm run build
+
+  image:
+    name: Docker image builds and serves the app
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: docker/setup-buildx-action@v3
+      - name: Build (amd64)
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          load: true
+          tags: mon-ecole-frontend:ci
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+      - name: Smoke test
+        run: |
+          docker run -d --name web -p 8080:8080 -e API_UPSTREAM=http://127.0.0.1:9 mon-ecole-frontend:ci
+          for _ in $(seq 1 20); do curl -fs http://localhost:8080/healthz && break; sleep 1; done
+          curl -fs http://localhost:8080/students/42 | grep -q '<div id="root">'
+          curl -fsI http://localhost:8080/ | grep -qi '^content-security-policy:'
+          docker rm -f web
+
+  preview:
+    name: Preview deployment
+    needs: build
+    if: >-
+      github.event_name == 'pull_request'
+      && github.event.pull_request.head.repo.full_name == github.repository
+      && vars.DEPLOY_PREVIEWS == 'true'
+    uses: ./.github/workflows/pages.yml
+    with:
+      environment: preview
+      branch: ${{ github.head_ref }}
+    secrets: inherit

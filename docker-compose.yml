@@ -1,0 +1,30 @@
+# The web app on its own. Start the API first (Mon-Ecole-Backend: `docker compose up`), then:
+#   docker compose up                    → Vite dev server with hot reload   http://localhost:5173
+#   docker compose --profile prod up --build web
+#                                        → production build served by nginx  http://localhost:8080
+# Both forward /api to the API on the host's port 8000; set API_URL to use another address.
+
+name: mon-ecole-frontend
+
+x-api-host: &api-host
+  extra_hosts: ["host.docker.internal:host-gateway"]
+
+services:
+  dev:
+    <<: *api-host
+    image: node:22-alpine
+    working_dir: /app
+    command: sh -c "npm ci && npx vite --host 0.0.0.0"
+    environment:
+      VITE_PROXY_TARGET: ${API_URL:-http://host.docker.internal:8000}
+    volumes: [".:/app", "/app/node_modules"]
+    ports: ["5173:5173"]
+
+  web:
+    <<: *api-host
+    profiles: [prod]
+    build: .
+    image: mon-ecole-frontend:local
+    environment:
+      API_UPSTREAM: ${API_URL:-http://host.docker.internal:8000}
+    ports: ["8080:8080"]
