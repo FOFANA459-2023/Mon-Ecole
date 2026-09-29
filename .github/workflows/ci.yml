@@ -23,15 +23,15 @@ jobs:
       # Read access to Mon-Ecole-Backend (private) to compare the API types with its schema.
       BACKEND_REPO_TOKEN: ${{ secrets.BACKEND_REPO_TOKEN }}
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
         with:
           node-version: 22
           cache: npm
       - run: npm ci
       - name: Fetch the backend API schema
         if: env.BACKEND_REPO_TOKEN != ''
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
         with:
           repository: FOFANA459-2023/Mon-Ecole-Backend
           token: ${{ secrets.BACKEND_REPO_TOKEN }}
@@ -54,10 +54,10 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 15
     steps:
-      - uses: actions/checkout@v4
-      - uses: docker/setup-buildx-action@v3
+      - uses: actions/checkout@v7
+      - uses: docker/setup-buildx-action@v4
       - name: Build (amd64)
-        uses: docker/build-push-action@v6
+        uses: docker/build-push-action@v7
         with:
           context: .
           load: true
