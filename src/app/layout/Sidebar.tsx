@@ -1,4 +1,4 @@
-import { Check, ChevronsUpDown } from "lucide-react";
+import { Building2, Check, ChevronsUpDown } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { NavLink, useNavigate } from "react-router";
 
@@ -86,10 +86,20 @@ function SchoolSwitcher({ onNavigate }: { onNavigate?: () => void }) {
   );
 }
 
+const linkClass = ({ isActive }: { isActive: boolean }) =>
+  cn(
+    "flex items-center gap-3 rounded-lg px-3 py-2 text-sm transition-colors",
+    "focus-visible:ring-sidebar-ring outline-none focus-visible:ring-2",
+    isActive
+      ? "bg-sidebar-accent text-sidebar-accent-foreground font-medium"
+      : "text-sidebar-foreground/80 hover:bg-sidebar-accent/60 hover:text-sidebar-accent-foreground",
+  );
+
 export function SidebarContent({ onNavigate }: { onNavigate?: () => void }) {
   const { t } = useTranslation();
-  const { canAny } = useAuth();
-  const items = NAV_ITEMS.filter((item) => item.anyOf.length === 0 || canAny(item.anyOf));
+  const { canAny, user, membership } = useAuth();
+  // Without a school selected (the owner before the first school), only the platform link applies.
+  const items = membership ? NAV_ITEMS.filter((item) => item.anyOf.length === 0 || canAny(item.anyOf)) : [];
 
   return (
     <div className="flex h-full flex-col">
@@ -97,6 +107,14 @@ export function SidebarContent({ onNavigate }: { onNavigate?: () => void }) {
         <BrandMark className="size-8" />
         <span className="text-lg font-semibold tracking-tight text-white">{t("app.name")}</span>
       </div>
+      {user?.is_platform_admin && (
+        <div className="px-3 pb-2">
+          <NavLink to="/platform" onClick={onNavigate} className={linkClass}>
+            <Building2 className="size-4 shrink-0" />
+            <span className="flex-1 truncate">{t("nav.platform")}</span>
+          </NavLink>
+        </div>
+      )}
       <div className="px-3 pb-3">
         <SchoolSwitcher onNavigate={onNavigate} />
       </div>
@@ -108,15 +126,7 @@ export function SidebarContent({ onNavigate }: { onNavigate?: () => void }) {
                 to={item.to}
                 end={item.to === "/"}
                 onClick={onNavigate}
-                className={({ isActive }) =>
-                  cn(
-                    "flex items-center gap-3 rounded-lg px-3 py-2 text-sm transition-colors",
-                    "focus-visible:ring-sidebar-ring outline-none focus-visible:ring-2",
-                    isActive
-                      ? "bg-sidebar-accent text-sidebar-accent-foreground font-medium"
-                      : "text-sidebar-foreground/80 hover:bg-sidebar-accent/60 hover:text-sidebar-accent-foreground",
-                  )
-                }
+                className={linkClass}
               >
                 {({ isActive }) => (
                   <>

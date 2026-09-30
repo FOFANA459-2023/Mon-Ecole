@@ -215,6 +215,149 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/v1/auth/verify-email/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * @description The link in an invitation email: confirms the address, then the person signs in with the temporary
+         *     password and chooses their own.
+         */
+        post: operations["auth_verify_email_create"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/cash-registers/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description The school's cash boxes. A first one ("Caisse principale") exists as soon as the list is read. */
+        get: operations["cash_registers_list"];
+        put?: never;
+        /** @description The school's cash boxes. A first one ("Caisse principale") exists as soon as the list is read. */
+        post: operations["cash_registers_create"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/cash-registers/{id}/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description The school's cash boxes. A first one ("Caisse principale") exists as soon as the list is read. */
+        get: operations["cash_registers_retrieve"];
+        put?: never;
+        post?: never;
+        /** @description The school's cash boxes. A first one ("Caisse principale") exists as soon as the list is read. */
+        delete: operations["cash_registers_destroy"];
+        options?: never;
+        head?: never;
+        /** @description The school's cash boxes. A first one ("Caisse principale") exists as soon as the list is read. */
+        patch: operations["cash_registers_partial_update"];
+        trace?: never;
+    };
+    "/api/v1/cash-sessions/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description Opening, cash movements and closing of a register. Sessions are never edited or deleted. */
+        get: operations["cash_sessions_list"];
+        put?: never;
+        /** @description Opening, cash movements and closing of a register. Sessions are never edited or deleted. */
+        post: operations["cash_sessions_create"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/cash-sessions/{id}/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description Opening, cash movements and closing of a register. Sessions are never edited or deleted. */
+        get: operations["cash_sessions_retrieve"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/cash-sessions/{id}/close/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** @description Opening, cash movements and closing of a register. Sessions are never edited or deleted. */
+        post: operations["cash_sessions_close_create"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/cash-sessions/{id}/journal/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description Opening, cash movements and closing of a register. Sessions are never edited or deleted. */
+        get: operations["cash_sessions_journal_retrieve"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/cash-sessions/{id}/movements/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** @description Cash in or out that is not a payment, an expense or a refund: a bank deposit, a float top-up... */
+        post: operations["cash_sessions_movements_create"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/v1/class-subjects/": {
         parameters: {
             query?: never;
@@ -597,6 +740,58 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/v1/expenses/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description Money the school spends: recorded and cancelled, never edited or deleted. */
+        get: operations["expenses_list"];
+        put?: never;
+        /** @description Money the school spends: recorded and cancelled, never edited or deleted. */
+        post: operations["expenses_create"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/expenses/{id}/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description Money the school spends: recorded and cancelled, never edited or deleted. */
+        get: operations["expenses_retrieve"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/expenses/{id}/cancel/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** @description Money the school spends: recorded and cancelled, never edited or deleted. */
+        post: operations["expenses_cancel_create"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/v1/fee-categories/": {
         parameters: {
             query?: never;
@@ -951,6 +1146,75 @@ export interface paths {
         patch: operations["me_partial_update"];
         trace?: never;
     };
+    "/api/v1/payments/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description Payments are recorded and reversed, never edited or deleted. Their number is the receipt number. */
+        get: operations["payments_list"];
+        put?: never;
+        /** @description Payments are recorded and reversed, never edited or deleted. Their number is the receipt number. */
+        post: operations["payments_create"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/payments/{id}/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description Payments are recorded and reversed, never edited or deleted. Their number is the receipt number. */
+        get: operations["payments_retrieve"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/payments/{id}/receipt/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description Payments are recorded and reversed, never edited or deleted. Their number is the receipt number. */
+        get: operations["payments_receipt_retrieve"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/payments/{id}/reverse/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** @description Payments are recorded and reversed, never edited or deleted. Their number is the receipt number. */
+        post: operations["payments_reverse_create"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/v1/permissions/": {
         parameters: {
             query?: never;
@@ -961,6 +1225,136 @@ export interface paths {
         get: operations["permissions_retrieve"];
         put?: never;
         post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/platform/schools/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * @description Every school on the platform. Register one (with its Director), suspend or reactivate it, and resend
+         *     the Director's invitation.
+         */
+        get: operations["platform_schools_list"];
+        put?: never;
+        /**
+         * @description Every school on the platform. Register one (with its Director), suspend or reactivate it, and resend
+         *     the Director's invitation.
+         */
+        post: operations["platform_schools_create"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/platform/schools/{id}/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * @description Every school on the platform. Register one (with its Director), suspend or reactivate it, and resend
+         *     the Director's invitation.
+         */
+        get: operations["platform_schools_retrieve"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/platform/schools/{id}/resend-invitation/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** @description Send a new verification link and temporary password to Directors who have not activated yet. */
+        post: operations["platform_schools_resend_invitation_create"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/platform/schools/{id}/status/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** @description Suspend a school (nobody can sign in to it) or reactivate it. */
+        post: operations["platform_schools_status_create"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/refunds/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description Student credit given back to families: recorded and cancelled, never edited or deleted. */
+        get: operations["refunds_list"];
+        put?: never;
+        /** @description Student credit given back to families: recorded and cancelled, never edited or deleted. */
+        post: operations["refunds_create"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/refunds/{id}/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description Student credit given back to families: recorded and cancelled, never edited or deleted. */
+        get: operations["refunds_retrieve"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/refunds/{id}/cancel/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** @description Student credit given back to families: recorded and cancelled, never edited or deleted. */
+        post: operations["refunds_cancel_create"];
         delete?: never;
         options?: never;
         head?: never;
@@ -1024,7 +1418,7 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        /** @description One search box for the whole school: students, guardians, staff and classes. */
+        /** @description One search box for the whole school: students, guardians, staff, classes, receipts and invoices. */
         get: operations["search_retrieve"];
         put?: never;
         post?: never;
@@ -1164,6 +1558,40 @@ export interface paths {
          *     Subclasses set `queryset`, `serializer_class`, `required_permissions` and `audit_module`.
          */
         post: operations["staff_restore_create"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/staff/{id}/teaching/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** @description Replace the classes this teacher leads and the subjects they teach this school year. */
+        post: operations["staff_teaching_create"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/student-accounts/{id}/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description A student's finances at a glance: what they owe, what is overdue, their credit and unpaid lines. */
+        get: operations["student_accounts_retrieve"];
+        put?: never;
+        post?: never;
         delete?: never;
         options?: never;
         head?: never;
@@ -1621,7 +2049,7 @@ export interface components {
             /** Format: date */
             end_date: string;
             readonly is_current: boolean;
-            status?: components["schemas"]["YearStatusEnum"];
+            status?: components["schemas"]["OpenClosedStatusEnum"];
             readonly terms: components["schemas"]["Term"][];
         };
         AcademicYearRequest: {
@@ -1631,9 +2059,16 @@ export interface components {
             start_date: string;
             /** Format: date */
             end_date: string;
-            status?: components["schemas"]["YearStatusEnum"];
+            status?: components["schemas"]["OpenClosedStatusEnum"];
             term_count?: number;
         };
+        /**
+         * @description * `active` - active
+         *     * `pending` - pending
+         *     * `expired` - expired
+         * @enum {string}
+         */
+        AccountStatusEnum: "active" | "pending" | "expired";
         /**
          * @description * `active` - Active
          *     * `archived` - Archived
@@ -1642,7 +2077,9 @@ export interface components {
         ArchiveStatusEnum: "active" | "archived";
         AssignmentSubject: {
             id: number;
+            class_id: number;
             class_name: string;
+            subject_id: number;
             subject_name: string;
         };
         Assignments: {
@@ -1675,19 +2112,131 @@ export interface components {
             reason: string;
         };
         /**
-         * @description * `birth_certificate` - Birth certificate
-         *     * `id_photo` - ID photo
-         *     * `previous_report` - Previous report card
-         *     * `transfer_certificate` - Transfer certificate
-         *     * `medical` - Medical record
-         *     * `identity` - Identity document
-         *     * `diploma` - Diploma / certificate
-         *     * `contract` - Contract
-         *     * `official` - Official document
-         *     * `other` - Other
+         * @description * `in` - Money in
+         *     * `out` - Money out
          * @enum {string}
          */
-        CategoryEnum: "birth_certificate" | "id_photo" | "previous_report" | "transfer_certificate" | "medical" | "identity" | "diploma" | "contract" | "official" | "other";
+        CashDirectionEnum: "in" | "out";
+        CashMovement: {
+            readonly id: number;
+            /** Format: date-time */
+            readonly created_at: string;
+            readonly direction: components["schemas"]["CashDirectionEnum"];
+            readonly source: components["schemas"]["CashSourceEnum"];
+            /** Format: decimal */
+            readonly amount: string;
+            readonly description: string;
+            readonly created_by_name: string;
+            readonly payment: number | null;
+            readonly payment_number: string;
+            readonly expense: number | null;
+            readonly expense_number: string;
+            readonly refund: number | null;
+            /** @description The student a payment or a refund was for. */
+            readonly student: number | null;
+        };
+        CashRegister: {
+            readonly id: number;
+            name: string;
+            is_active?: boolean;
+            readonly open_session: components["schemas"]["OpenSessionBrief"] | null;
+            /**
+             * Format: decimal
+             * @description Cash counted at the last closing: the next float.
+             */
+            readonly last_counted: string;
+        };
+        CashRegisterRequest: {
+            name: string;
+            is_active?: boolean;
+        };
+        /** @description A session with its running totals (the queryset is annotated with money_in and money_out). */
+        CashSession: {
+            readonly id: number;
+            readonly register: number;
+            readonly register_name: string;
+            readonly status: components["schemas"]["OpenClosedStatusEnum"];
+            /** Format: date-time */
+            readonly opened_at: string;
+            readonly opened_by_name: string;
+            /** Format: decimal */
+            readonly opening_balance: string;
+            readonly opening_note: string;
+            /** Format: decimal */
+            readonly money_in: string;
+            /** Format: decimal */
+            readonly money_out: string;
+            /**
+             * Format: decimal
+             * @description Opening + money in − money out.
+             */
+            readonly expected: string;
+            /** Format: date-time */
+            readonly closed_at: string | null;
+            readonly closed_by_name: string;
+            /** Format: decimal */
+            readonly expected_closing: string | null;
+            /** Format: decimal */
+            readonly counted_closing: string | null;
+            /**
+             * Format: decimal
+             * @description Counted − expected: positive is a surplus, negative a shortage.
+             */
+            readonly difference: string | null;
+            readonly closing_note: string;
+        };
+        /** @description A session with its running totals (the queryset is annotated with money_in and money_out). */
+        CashSessionDetail: {
+            readonly id: number;
+            readonly register: number;
+            readonly register_name: string;
+            readonly status: components["schemas"]["OpenClosedStatusEnum"];
+            /** Format: date-time */
+            readonly opened_at: string;
+            readonly opened_by_name: string;
+            /** Format: decimal */
+            readonly opening_balance: string;
+            readonly opening_note: string;
+            /** Format: decimal */
+            readonly money_in: string;
+            /** Format: decimal */
+            readonly money_out: string;
+            /**
+             * Format: decimal
+             * @description Opening + money in − money out.
+             */
+            readonly expected: string;
+            /** Format: date-time */
+            readonly closed_at: string | null;
+            readonly closed_by_name: string;
+            /** Format: decimal */
+            readonly expected_closing: string | null;
+            /** Format: decimal */
+            readonly counted_closing: string | null;
+            /**
+             * Format: decimal
+             * @description Counted − expected: positive is a surplus, negative a shortage.
+             */
+            readonly difference: string | null;
+            readonly closing_note: string;
+            readonly by_source: components["schemas"]["SourceTotal"][];
+            readonly movements: components["schemas"]["CashMovement"][];
+        };
+        CashSessionRef: {
+            id: number;
+            register_name: string;
+        };
+        /**
+         * @description * `payment` - Payment
+         *     * `payment_reversal` - Payment reversed
+         *     * `expense` - Expense
+         *     * `expense_cancellation` - Expense cancelled
+         *     * `refund` - Refund
+         *     * `refund_cancellation` - Refund cancelled
+         *     * `manual` - Other movement
+         * @enum {string}
+         */
+        CashSourceEnum: "payment" | "payment_reversal" | "expense" | "expense_cancellation" | "refund" | "refund_cancellation" | "manual";
         ChangeClassRequest: {
             class_group: number;
             /** Format: date */
@@ -1696,7 +2245,7 @@ export interface components {
             reason: string;
         };
         ChangePasswordRequest: {
-            current_password: string;
+            current_password?: string;
             new_password: string;
         };
         ClassGroup: {
@@ -1748,6 +2297,12 @@ export interface components {
             /** Format: decimal */
             weekly_hours?: string | null;
         };
+        CloseSessionRequest: {
+            /** Format: decimal */
+            counted_closing: string;
+            /** @default  */
+            closing_note: string;
+        };
         /**
          * @description * `preschool` - Preschool
          *     * `primary` - Primary
@@ -1757,6 +2312,14 @@ export interface components {
          * @enum {string}
          */
         CycleEnum: "preschool" | "primary" | "lower_secondary" | "upper_secondary" | "other";
+        Director: {
+            id: number;
+            full_name: string;
+            /** Format: email */
+            email: string;
+            phone: string;
+            account_status: components["schemas"]["AccountStatusEnum"];
+        };
         /**
          * @description * `percent` - Percentage
          *     * `fixed` - Fixed amount
@@ -1777,7 +2340,7 @@ export interface components {
             owner_type: components["schemas"]["OwnerTypeEnum"];
             /** Format: int64 */
             owner_id: number;
-            category?: components["schemas"]["CategoryEnum"];
+            category?: components["schemas"]["DocumentCategoryEnum"];
             title: string;
             content_type?: string;
             /** Format: int64 */
@@ -1786,11 +2349,25 @@ export interface components {
             /** Format: date-time */
             readonly created_at: string;
         };
+        /**
+         * @description * `birth_certificate` - Birth certificate
+         *     * `id_photo` - ID photo
+         *     * `previous_report` - Previous report card
+         *     * `transfer_certificate` - Transfer certificate
+         *     * `medical` - Medical record
+         *     * `identity` - Identity document
+         *     * `diploma` - Diploma / certificate
+         *     * `contract` - Contract
+         *     * `official` - Official document
+         *     * `other` - Other
+         * @enum {string}
+         */
+        DocumentCategoryEnum: "birth_certificate" | "id_photo" | "previous_report" | "transfer_certificate" | "medical" | "identity" | "diploma" | "contract" | "official" | "other";
         DocumentUploadRequest: {
             owner_type: components["schemas"]["OwnerTypeEnum"];
             owner_id: number;
             /** @default other */
-            category: components["schemas"]["CategoryEnum"];
+            category: components["schemas"]["DocumentCategoryEnum"];
             title?: string;
             /** Format: binary */
             file: string;
@@ -1861,6 +2438,50 @@ export interface components {
             date_of_birth: string | null;
             photo_url: string | null;
         };
+        Expense: {
+            readonly id: number;
+            readonly number: string;
+            /** Format: date */
+            readonly date: string;
+            readonly category: components["schemas"]["ExpenseCategoryEnum"];
+            /** Format: decimal */
+            readonly amount: string;
+            readonly method: components["schemas"]["PaymentMethodEnum"];
+            /** @description Who was paid. */
+            readonly payee: string;
+            /** @description Invoice, slip or cheque number. */
+            readonly reference: string;
+            readonly description: string;
+            readonly status: components["schemas"]["ExpenseStatusEnum"];
+            readonly recorded_by_name: string;
+            /** Format: date-time */
+            readonly created_at: string;
+            /** Format: date-time */
+            readonly cancelled_at: string | null;
+            readonly cancelled_by_name: string;
+            readonly cancel_reason: string;
+            readonly cash_session: components["schemas"]["CashSessionRef"] | null;
+        };
+        /**
+         * @description * `salaries` - Salaries and allowances
+         *     * `rent` - Rent
+         *     * `utilities` - Water, electricity, internet
+         *     * `supplies` - Office and teaching supplies
+         *     * `maintenance` - Repairs and maintenance
+         *     * `transport` - Transport and fuel
+         *     * `food` - Food and canteen
+         *     * `events` - Exams and events
+         *     * `taxes` - Taxes and fees
+         *     * `other` - Other
+         * @enum {string}
+         */
+        ExpenseCategoryEnum: "salaries" | "rent" | "utilities" | "supplies" | "maintenance" | "transport" | "food" | "events" | "taxes" | "other";
+        /**
+         * @description * `recorded` - Recorded
+         *     * `cancelled` - Cancelled
+         * @enum {string}
+         */
+        ExpenseStatusEnum: "recorded" | "cancelled";
         /**
          * @description * `all` - All students
          *     * `new` - New students only
@@ -2041,7 +2662,7 @@ export interface components {
             readonly academic_year_name: string;
             /** Format: date */
             readonly issue_date: string;
-            readonly source: components["schemas"]["SourceEnum"];
+            readonly source: components["schemas"]["InvoiceSourceEnum"];
             readonly status: components["schemas"]["InvoiceStatusEnum"];
             /** Format: decimal */
             readonly subtotal: string;
@@ -2063,7 +2684,9 @@ export interface components {
             readonly cancelled_at: string | null;
             readonly cancel_reason: string;
             readonly lines: components["schemas"]["InvoiceLine"][];
+            readonly payments: components["schemas"]["InvoicePayment"][];
         };
+        /** @description A line with what is paid on it (the queryset is annotated by selectors.with_line_balances). */
         InvoiceLine: {
             readonly id: number;
             category: number;
@@ -2077,6 +2700,10 @@ export interface components {
             discount?: string;
             /** Format: decimal */
             readonly net: string;
+            /** Format: decimal */
+            readonly paid: string;
+            /** Format: decimal */
+            readonly balance: string;
         };
         /** @description An invoice with its computed figures (the queryset is annotated by selectors.with_balances). */
         InvoiceList: {
@@ -2091,7 +2718,7 @@ export interface components {
             readonly academic_year_name: string;
             /** Format: date */
             readonly issue_date: string;
-            readonly source: components["schemas"]["SourceEnum"];
+            readonly source: components["schemas"]["InvoiceSourceEnum"];
             readonly status: components["schemas"]["InvoiceStatusEnum"];
             /** Format: decimal */
             readonly subtotal: string;
@@ -2113,6 +2740,26 @@ export interface components {
             readonly cancelled_at: string | null;
             readonly cancel_reason: string;
         };
+        /** @description A payment as seen from one invoice: how much of it went to this invoice. */
+        InvoicePayment: {
+            id: number;
+            number: string;
+            /** Format: date */
+            date: string;
+            method: components["schemas"]["PaymentMethodEnum"];
+            status: components["schemas"]["PaymentStateEnum"];
+            /**
+             * Format: decimal
+             * @description The part of the payment allocated to this invoice.
+             */
+            amount: string;
+        };
+        /**
+         * @description * `enrolment` - Enrolment fees
+         *     * `manual` - Manual
+         * @enum {string}
+         */
+        InvoiceSourceEnum: "enrolment" | "manual";
         /**
          * @description * `issued` - Issued
          *     * `cancelled` - Cancelled
@@ -2180,6 +2827,12 @@ export interface components {
             notes: string;
             lines: components["schemas"]["ManualInvoiceLineRequest"][];
         };
+        ManualMovementRequest: {
+            direction: components["schemas"]["CashDirectionEnum"];
+            /** Format: decimal */
+            amount: string;
+            description: string;
+        };
         Member: {
             readonly id: number;
             readonly user: components["schemas"]["MemberUser"];
@@ -2196,7 +2849,6 @@ export interface components {
             phone?: string;
             language?: components["schemas"]["LanguageEnum"];
             role_ids: number[];
-            password?: string;
         };
         MemberUser: {
             readonly id: number;
@@ -2215,6 +2867,17 @@ export interface components {
             /** Format: date-time */
             last_login?: string | null;
             readonly has_password: boolean;
+            readonly account_status: components["schemas"]["AccountStatusEnum"];
+            /** Format: date-time */
+            readonly invitation_expires_at: string;
+        };
+        NewDirectorRequest: {
+            first_name: string;
+            last_name: string;
+            /** Format: email */
+            email: string;
+            /** @default  */
+            phone: string;
         };
         NewStudentRequest: {
             student_number?: string;
@@ -2229,6 +2892,52 @@ export interface components {
             email?: string;
             address?: string;
             notes?: string;
+        };
+        /**
+         * @description * `open` - Open
+         *     * `closed` - Closed
+         * @enum {string}
+         */
+        OpenClosedStatusEnum: "open" | "closed";
+        /** @description An unpaid invoice line of a student (annotated by selectors.with_line_balances). */
+        OpenLine: {
+            readonly id: number;
+            readonly invoice: number;
+            readonly invoice_number: string;
+            readonly category_name: string;
+            readonly description: string;
+            /** Format: date */
+            readonly due_date: string;
+            /** Format: decimal */
+            readonly net: string;
+            /** Format: decimal */
+            readonly paid: string;
+            /** Format: decimal */
+            readonly balance: string;
+            readonly is_overdue: boolean;
+        };
+        OpenSessionBrief: {
+            id: number;
+            /** Format: date-time */
+            opened_at: string;
+            opened_by_name: string | null;
+            /** Format: decimal */
+            opening_balance: string;
+            /**
+             * Format: decimal
+             * @description Cash that should be in the register now.
+             */
+            expected: string;
+        };
+        OpenSessionRequest: {
+            register: number;
+            /**
+             * Format: decimal
+             * @description Defaults to the cash counted at the last closing.
+             */
+            opening_balance?: string | null;
+            /** @default  */
+            note: string;
         };
         /**
          * @description * `student` - Student
@@ -2251,6 +2960,21 @@ export interface components {
              */
             previous?: string | null;
             results: components["schemas"]["AuditLog"][];
+        };
+        PaginatedCashSessionList: {
+            /** @example 123 */
+            count: number;
+            /**
+             * Format: uri
+             * @example http://api.example.org/accounts/?page=4
+             */
+            next?: string | null;
+            /**
+             * Format: uri
+             * @example http://api.example.org/accounts/?page=2
+             */
+            previous?: string | null;
+            results: components["schemas"]["CashSession"][];
         };
         PaginatedClassGroupList: {
             /** @example 123 */
@@ -2281,6 +3005,21 @@ export interface components {
              */
             previous?: string | null;
             results: components["schemas"]["Enrollment"][];
+        };
+        PaginatedExpenseList: {
+            /** @example 123 */
+            count: number;
+            /**
+             * Format: uri
+             * @example http://api.example.org/accounts/?page=4
+             */
+            next?: string | null;
+            /**
+             * Format: uri
+             * @example http://api.example.org/accounts/?page=2
+             */
+            previous?: string | null;
+            results: components["schemas"]["Expense"][];
         };
         PaginatedGuardianLinkList: {
             /** @example 123 */
@@ -2341,6 +3080,51 @@ export interface components {
              */
             previous?: string | null;
             results: components["schemas"]["Member"][];
+        };
+        PaginatedPaymentListList: {
+            /** @example 123 */
+            count: number;
+            /**
+             * Format: uri
+             * @example http://api.example.org/accounts/?page=4
+             */
+            next?: string | null;
+            /**
+             * Format: uri
+             * @example http://api.example.org/accounts/?page=2
+             */
+            previous?: string | null;
+            results: components["schemas"]["PaymentList"][];
+        };
+        PaginatedPlatformSchoolList: {
+            /** @example 123 */
+            count: number;
+            /**
+             * Format: uri
+             * @example http://api.example.org/accounts/?page=4
+             */
+            next?: string | null;
+            /**
+             * Format: uri
+             * @example http://api.example.org/accounts/?page=2
+             */
+            previous?: string | null;
+            results: components["schemas"]["PlatformSchool"][];
+        };
+        PaginatedRefundList: {
+            /** @example 123 */
+            count: number;
+            /**
+             * Format: uri
+             * @example http://api.example.org/accounts/?page=4
+             */
+            next?: string | null;
+            /**
+             * Format: uri
+             * @example http://api.example.org/accounts/?page=2
+             */
+            previous?: string | null;
+            results: components["schemas"]["Refund"][];
         };
         PaginatedStaffList: {
             /** @example 123 */
@@ -2418,8 +3202,12 @@ export interface components {
             start_date?: string;
             /** Format: date */
             end_date?: string;
-            status?: components["schemas"]["YearStatusEnum"];
+            status?: components["schemas"]["OpenClosedStatusEnum"];
             term_count?: number;
+        };
+        PatchedCashRegisterRequest: {
+            name?: string;
+            is_active?: boolean;
         };
         PatchedClassGroupRequest: {
             academic_year?: number;
@@ -2592,6 +3380,107 @@ export interface components {
             /** Format: date */
             end_date?: string;
         };
+        /** @description A payment with how much of it paid invoices (the queryset is annotated by selectors.with_allocated). */
+        Payment: {
+            readonly id: number;
+            readonly number: string;
+            readonly student: number;
+            readonly student_name: string;
+            readonly student_number: string;
+            /** Format: date */
+            readonly date: string;
+            /** Format: decimal */
+            readonly amount: string;
+            readonly method: components["schemas"]["PaymentMethodEnum"];
+            /** @description Mobile money transaction ID, bank slip or cheque number. */
+            readonly reference: string;
+            /** @description Who brought the money. */
+            readonly payer_name: string;
+            readonly note: string;
+            readonly status: components["schemas"]["PaymentStateEnum"];
+            /**
+             * Format: decimal
+             * @description Paid to invoice lines.
+             */
+            readonly allocated: string;
+            /**
+             * Format: decimal
+             * @description Kept as the student's credit; 0 once reversed.
+             */
+            readonly unallocated: string;
+            readonly received_by_name: string;
+            /** Format: date-time */
+            readonly created_at: string;
+            /** Format: date-time */
+            readonly reversed_at: string | null;
+            readonly reversed_by_name: string;
+            readonly reversal_reason: string;
+            readonly cash_session: components["schemas"]["CashSessionRef"] | null;
+            readonly allocations: components["schemas"]["PaymentAllocation"][];
+        };
+        PaymentAllocation: {
+            readonly id: number;
+            readonly invoice_line: number;
+            readonly invoice: number;
+            readonly invoice_number: string;
+            readonly description: string;
+            /** Format: date */
+            readonly due_date: string;
+            /** Format: decimal */
+            readonly amount: string;
+        };
+        /** @description A payment with how much of it paid invoices (the queryset is annotated by selectors.with_allocated). */
+        PaymentList: {
+            readonly id: number;
+            readonly number: string;
+            readonly student: number;
+            readonly student_name: string;
+            readonly student_number: string;
+            /** Format: date */
+            readonly date: string;
+            /** Format: decimal */
+            readonly amount: string;
+            readonly method: components["schemas"]["PaymentMethodEnum"];
+            /** @description Mobile money transaction ID, bank slip or cheque number. */
+            readonly reference: string;
+            /** @description Who brought the money. */
+            readonly payer_name: string;
+            readonly note: string;
+            readonly status: components["schemas"]["PaymentStateEnum"];
+            /**
+             * Format: decimal
+             * @description Paid to invoice lines.
+             */
+            readonly allocated: string;
+            /**
+             * Format: decimal
+             * @description Kept as the student's credit; 0 once reversed.
+             */
+            readonly unallocated: string;
+            readonly received_by_name: string;
+            /** Format: date-time */
+            readonly created_at: string;
+            /** Format: date-time */
+            readonly reversed_at: string | null;
+            readonly reversed_by_name: string;
+            readonly reversal_reason: string;
+        };
+        /**
+         * @description * `cash` - Cash
+         *     * `mobile_money` - Mobile money
+         *     * `bank_transfer` - Bank transfer or deposit
+         *     * `cheque` - Cheque
+         *     * `card` - Card
+         *     * `other` - Other
+         * @enum {string}
+         */
+        PaymentMethodEnum: "cash" | "mobile_money" | "bank_transfer" | "cheque" | "card" | "other";
+        /**
+         * @description * `posted` - Posted
+         *     * `reversed` - Reversed
+         * @enum {string}
+         */
+        PaymentStateEnum: "posted" | "reversed";
         /**
          * @description * `paid` - paid
          *     * `partial` - partial
@@ -2604,6 +3493,21 @@ export interface components {
         PhotoRequest: {
             /** Format: binary */
             file: string;
+        };
+        PlatformSchool: {
+            readonly id: number;
+            readonly name: string;
+            readonly code: string;
+            readonly country: string;
+            readonly currency: string;
+            readonly timezone: string;
+            readonly default_language: components["schemas"]["LanguageEnum"];
+            readonly status: components["schemas"]["SchoolStatusEnum"];
+            /** Format: date-time */
+            readonly created_at: string;
+            readonly student_count: number;
+            readonly member_count: number;
+            readonly directors: components["schemas"]["Director"][];
         };
         PrimaryGuardian: {
             id: number;
@@ -2623,6 +3527,110 @@ export interface components {
             skipped: {
                 [key: string]: unknown;
             }[];
+        };
+        ReasonRequest: {
+            reason: string;
+        };
+        RecordExpenseRequest: {
+            /**
+             * Format: date
+             * @description Defaults to today; never in the future.
+             */
+            date?: string;
+            category: components["schemas"]["ExpenseCategoryEnum"];
+            /** Format: decimal */
+            amount: string;
+            method: components["schemas"]["PaymentMethodEnum"];
+            /** @default  */
+            payee: string;
+            /** @default  */
+            reference: string;
+            description: string;
+            /** @description Cash only: the open session the money goes through. Leave it out when one register is open. */
+            cash_session?: number | null;
+        };
+        RecordPaymentAllocationRequest: {
+            invoice_line: number;
+            /** Format: decimal */
+            amount: string;
+        };
+        RecordPaymentRequest: {
+            student: number;
+            /** Format: decimal */
+            amount: string;
+            /**
+             * Format: date
+             * @description Defaults to today; never in the future.
+             */
+            date?: string;
+            method: components["schemas"]["PaymentMethodEnum"];
+            /** @default  */
+            reference: string;
+            /** @default  */
+            payer_name: string;
+            /** @default  */
+            note: string;
+            /** @description The lines this payment pays. Leave it out to pay the oldest due lines first; an empty list keeps the whole amount as credit. */
+            allocations?: components["schemas"]["RecordPaymentAllocationRequest"][];
+            /** @description Cash only: the open session the money goes through. Leave it out when one register is open. */
+            cash_session?: number | null;
+        };
+        RecordRefundRequest: {
+            student: number;
+            /**
+             * Format: date
+             * @description Defaults to today; never in the future.
+             */
+            date?: string;
+            /**
+             * Format: decimal
+             * @description At most the student's credit.
+             */
+            amount: string;
+            method: components["schemas"]["PaymentMethodEnum"];
+            /** @default  */
+            reference: string;
+            reason: string;
+            /** @description Cash only: the open session the money goes through. Leave it out when one register is open. */
+            cash_session?: number | null;
+        };
+        Refund: {
+            readonly id: number;
+            readonly student: number;
+            readonly student_name: string;
+            readonly student_number: string;
+            /** Format: date */
+            readonly date: string;
+            /** Format: decimal */
+            readonly amount: string;
+            readonly method: components["schemas"]["PaymentMethodEnum"];
+            readonly reference: string;
+            readonly reason: string;
+            readonly status: components["schemas"]["RefundStatusEnum"];
+            readonly refunded_by_name: string;
+            /** Format: date-time */
+            readonly created_at: string;
+            /** Format: date-time */
+            readonly cancelled_at: string | null;
+            readonly cancelled_by_name: string;
+            readonly cancel_reason: string;
+            readonly cash_session: components["schemas"]["CashSessionRef"] | null;
+        };
+        /**
+         * @description * `posted` - Posted
+         *     * `cancelled` - Cancelled
+         * @enum {string}
+         */
+        RefundStatusEnum: "posted" | "cancelled";
+        RegisterSchoolRequest: {
+            name: string;
+            /** @description Short unique identifier, e.g. 'horizon'. */
+            code: string;
+            country: string;
+            currency: string;
+            timezone: string;
+            default_language: components["schemas"]["LanguageEnum"];
+            director: components["schemas"]["NewDirectorRequest"];
         };
         /** @description New enrolment in one request: a new student (or an existing one), guardians and the class. */
         RegistrationRequest: {
@@ -2647,6 +3655,9 @@ export interface components {
          * @enum {string}
          */
         RelationshipEnum: "father" | "mother" | "guardian" | "other";
+        ReversePaymentRequest: {
+            reason: string;
+        };
         Role: {
             readonly id: number;
             /** @description Set for built-in roles. */
@@ -2709,12 +3720,16 @@ export interface components {
          * @enum {string}
          */
         SchoolStatusEnum: "active" | "suspended";
-        /**
-         * @description * `enrolment` - Enrolment fees
-         *     * `manual` - Manual
-         * @enum {string}
-         */
-        SourceEnum: "enrolment" | "manual";
+        SchoolStatusRequest: {
+            status: components["schemas"]["SchoolStatusEnum"];
+        };
+        SourceTotal: {
+            source: components["schemas"]["CashSourceEnum"];
+            direction: components["schemas"]["CashDirectionEnum"];
+            count: number;
+            /** Format: decimal */
+            total: string;
+        };
         Staff: {
             readonly id: number;
             employee_number?: string;
@@ -2743,7 +3758,8 @@ export interface components {
             /** Format: date-time */
             readonly created_at: string;
         };
-        StaffRequest: {
+        /** @description Adding a staff member always gives them a login: an email and a role are required. */
+        StaffCreateRequest: {
             employee_number?: string;
             first_name: string;
             last_name: string;
@@ -2751,7 +3767,8 @@ export interface components {
             /** Format: date */
             date_of_birth?: string | null;
             phone?: string;
-            email?: string;
+            /** Format: email */
+            email: string;
             address?: string;
             staff_type?: components["schemas"]["StaffTypeEnum"];
             /** @description Job title, e.g. Mathematics teacher. */
@@ -2760,6 +3777,8 @@ export interface components {
             specialization?: string;
             /** Format: date */
             employment_date?: string | null;
+            role_id: number;
+            teaching?: components["schemas"]["TeachingRequest"];
         };
         /**
          * @description * `teacher` - Teacher
@@ -2793,6 +3812,31 @@ export interface components {
             readonly created_at: string;
             readonly guardians: components["schemas"]["GuardianLink"][];
             readonly enrollments: components["schemas"]["EnrollmentBrief"][];
+        };
+        StudentAccount: {
+            student: number;
+            student_name: string;
+            student_number: string;
+            /**
+             * Format: decimal
+             * @description Total of the student's issued invoices.
+             */
+            invoiced: string;
+            /** Format: decimal */
+            paid: string;
+            /**
+             * Format: decimal
+             * @description Still due on issued invoices.
+             */
+            balance: string;
+            /** Format: decimal */
+            overdue: string;
+            /**
+             * Format: decimal
+             * @description Paid but not used by any invoice yet.
+             */
+            credit: string;
+            open_lines: components["schemas"]["OpenLine"][];
         };
         StudentDiscount: {
             readonly id: number;
@@ -2870,6 +3914,15 @@ export interface components {
             default_coefficient?: string;
             is_active?: boolean;
         };
+        TeachingItemRequest: {
+            class_group: number;
+            subject: number;
+        };
+        /** @description What a teacher does this year: the classes they lead and the subjects they teach, per class. */
+        TeachingRequest: {
+            homeroom_class_ids?: number[];
+            subjects?: components["schemas"]["TeachingItemRequest"][];
+        };
         Term: {
             readonly id: number;
             academic_year: number;
@@ -2891,6 +3944,9 @@ export interface components {
             /** Format: date */
             end_date: string;
         };
+        VerifyEmailRequest: {
+            token: string;
+        };
         WithdrawRequest: {
             /** Format: date */
             date?: string;
@@ -2898,12 +3954,6 @@ export interface components {
             /** @default  */
             transfer_to: string;
         };
-        /**
-         * @description * `open` - Open
-         *     * `closed` - Closed
-         * @enum {string}
-         */
-        YearStatusEnum: "open" | "closed";
     };
     responses: never;
     parameters: never;
@@ -3249,6 +4299,314 @@ export interface operations {
                     "application/json": {
                         [key: string]: unknown;
                     };
+                };
+            };
+        };
+    };
+    auth_verify_email_create: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["VerifyEmailRequest"];
+                "application/x-www-form-urlencoded": components["schemas"]["VerifyEmailRequest"];
+                "multipart/form-data": components["schemas"]["VerifyEmailRequest"];
+            };
+        };
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        [key: string]: unknown;
+                    };
+                };
+            };
+        };
+    };
+    cash_registers_list: {
+        parameters: {
+            query?: {
+                /** @description Which field to use when ordering the results. */
+                ordering?: string;
+                /** @description A search term. */
+                search?: string;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["CashRegister"][];
+                };
+            };
+        };
+    };
+    cash_registers_create: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["CashRegisterRequest"];
+                "application/x-www-form-urlencoded": components["schemas"]["CashRegisterRequest"];
+                "multipart/form-data": components["schemas"]["CashRegisterRequest"];
+            };
+        };
+        responses: {
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["CashRegister"];
+                };
+            };
+        };
+    };
+    cash_registers_retrieve: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description A unique integer value identifying this cash register. */
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["CashRegister"];
+                };
+            };
+        };
+    };
+    cash_registers_destroy: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description A unique integer value identifying this cash register. */
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description No response body */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    cash_registers_partial_update: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description A unique integer value identifying this cash register. */
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: {
+            content: {
+                "application/json": components["schemas"]["PatchedCashRegisterRequest"];
+                "application/x-www-form-urlencoded": components["schemas"]["PatchedCashRegisterRequest"];
+                "multipart/form-data": components["schemas"]["PatchedCashRegisterRequest"];
+            };
+        };
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["CashRegister"];
+                };
+            };
+        };
+    };
+    cash_sessions_list: {
+        parameters: {
+            query?: {
+                opened_at__date__gte?: string;
+                opened_at__date__lte?: string;
+                /** @description Which field to use when ordering the results. */
+                ordering?: string;
+                /** @description A page number within the paginated result set. */
+                page?: number;
+                /** @description Number of results to return per page. */
+                page_size?: number;
+                register?: number;
+                /** @description A search term. */
+                search?: string;
+                /**
+                 * @description * `open` - Open
+                 *     * `closed` - Closed
+                 */
+                status?: "closed" | "open";
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PaginatedCashSessionList"];
+                };
+            };
+        };
+    };
+    cash_sessions_create: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["OpenSessionRequest"];
+                "application/x-www-form-urlencoded": components["schemas"]["OpenSessionRequest"];
+                "multipart/form-data": components["schemas"]["OpenSessionRequest"];
+            };
+        };
+        responses: {
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["CashSessionDetail"];
+                };
+            };
+        };
+    };
+    cash_sessions_retrieve: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description A unique integer value identifying this cash session. */
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["CashSessionDetail"];
+                };
+            };
+        };
+    };
+    cash_sessions_close_create: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description A unique integer value identifying this cash session. */
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["CloseSessionRequest"];
+                "application/x-www-form-urlencoded": components["schemas"]["CloseSessionRequest"];
+                "multipart/form-data": components["schemas"]["CloseSessionRequest"];
+            };
+        };
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["CashSessionDetail"];
+                };
+            };
+        };
+    };
+    cash_sessions_journal_retrieve: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description A unique integer value identifying this cash session. */
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/pdf": string;
+                };
+            };
+        };
+    };
+    cash_sessions_movements_create: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description A unique integer value identifying this cash session. */
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["ManualMovementRequest"];
+                "application/x-www-form-urlencoded": components["schemas"]["ManualMovementRequest"];
+                "multipart/form-data": components["schemas"]["ManualMovementRequest"];
+            };
+        };
+        responses: {
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["CashMovement"];
                 };
             };
         };
@@ -3945,6 +5303,139 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["Enrollment"];
+                };
+            };
+        };
+    };
+    expenses_list: {
+        parameters: {
+            query?: {
+                /**
+                 * @description * `salaries` - Salaries and allowances
+                 *     * `rent` - Rent
+                 *     * `utilities` - Water, electricity, internet
+                 *     * `supplies` - Office and teaching supplies
+                 *     * `maintenance` - Repairs and maintenance
+                 *     * `transport` - Transport and fuel
+                 *     * `food` - Food and canteen
+                 *     * `events` - Exams and events
+                 *     * `taxes` - Taxes and fees
+                 *     * `other` - Other
+                 */
+                category?: "events" | "food" | "maintenance" | "other" | "rent" | "salaries" | "supplies" | "taxes" | "transport" | "utilities";
+                created_by?: number;
+                date__gte?: string;
+                date__lte?: string;
+                /**
+                 * @description * `cash` - Cash
+                 *     * `mobile_money` - Mobile money
+                 *     * `bank_transfer` - Bank transfer or deposit
+                 *     * `cheque` - Cheque
+                 *     * `card` - Card
+                 *     * `other` - Other
+                 */
+                method?: "bank_transfer" | "card" | "cash" | "cheque" | "mobile_money" | "other";
+                /** @description Which field to use when ordering the results. */
+                ordering?: string;
+                /** @description A page number within the paginated result set. */
+                page?: number;
+                /** @description Number of results to return per page. */
+                page_size?: number;
+                /** @description A search term. */
+                search?: string;
+                /**
+                 * @description * `recorded` - Recorded
+                 *     * `cancelled` - Cancelled
+                 */
+                status?: "cancelled" | "recorded";
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PaginatedExpenseList"];
+                };
+            };
+        };
+    };
+    expenses_create: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["RecordExpenseRequest"];
+                "application/x-www-form-urlencoded": components["schemas"]["RecordExpenseRequest"];
+                "multipart/form-data": components["schemas"]["RecordExpenseRequest"];
+            };
+        };
+        responses: {
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Expense"];
+                };
+            };
+        };
+    };
+    expenses_retrieve: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description A unique integer value identifying this expense. */
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Expense"];
+                };
+            };
+        };
+    };
+    expenses_cancel_create: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description A unique integer value identifying this expense. */
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["ReasonRequest"];
+                "application/x-www-form-urlencoded": components["schemas"]["ReasonRequest"];
+                "multipart/form-data": components["schemas"]["ReasonRequest"];
+            };
+        };
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Expense"];
                 };
             };
         };
@@ -4689,6 +6180,150 @@ export interface operations {
             };
         };
     };
+    payments_list: {
+        parameters: {
+            query?: {
+                created_by?: number;
+                date__gte?: string;
+                date__lte?: string;
+                invoice?: number;
+                /**
+                 * @description * `cash` - Cash
+                 *     * `mobile_money` - Mobile money
+                 *     * `bank_transfer` - Bank transfer or deposit
+                 *     * `cheque` - Cheque
+                 *     * `card` - Card
+                 *     * `other` - Other
+                 */
+                method?: "bank_transfer" | "card" | "cash" | "cheque" | "mobile_money" | "other";
+                /** @description Which field to use when ordering the results. */
+                ordering?: string;
+                /** @description A page number within the paginated result set. */
+                page?: number;
+                /** @description Number of results to return per page. */
+                page_size?: number;
+                /** @description A search term. */
+                search?: string;
+                /**
+                 * @description * `posted` - Posted
+                 *     * `reversed` - Reversed
+                 */
+                status?: "posted" | "reversed";
+                student?: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PaginatedPaymentListList"];
+                };
+            };
+        };
+    };
+    payments_create: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["RecordPaymentRequest"];
+                "application/x-www-form-urlencoded": components["schemas"]["RecordPaymentRequest"];
+                "multipart/form-data": components["schemas"]["RecordPaymentRequest"];
+            };
+        };
+        responses: {
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Payment"];
+                };
+            };
+        };
+    };
+    payments_retrieve: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description A unique integer value identifying this payment. */
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Payment"];
+                };
+            };
+        };
+    };
+    payments_receipt_retrieve: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description A unique integer value identifying this payment. */
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/pdf": string;
+                };
+            };
+        };
+    };
+    payments_reverse_create: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description A unique integer value identifying this payment. */
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["ReversePaymentRequest"];
+                "application/x-www-form-urlencoded": components["schemas"]["ReversePaymentRequest"];
+                "multipart/form-data": components["schemas"]["ReversePaymentRequest"];
+            };
+        };
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Payment"];
+                };
+            };
+        };
+    };
     permissions_retrieve: {
         parameters: {
             query?: never;
@@ -4706,6 +6341,256 @@ export interface operations {
                     "application/json": {
                         [key: string]: unknown;
                     };
+                };
+            };
+        };
+    };
+    platform_schools_list: {
+        parameters: {
+            query?: {
+                country?: string;
+                /** @description Which field to use when ordering the results. */
+                ordering?: string;
+                /** @description A page number within the paginated result set. */
+                page?: number;
+                /** @description Number of results to return per page. */
+                page_size?: number;
+                /** @description A search term. */
+                search?: string;
+                /**
+                 * @description * `active` - Active
+                 *     * `suspended` - Suspended
+                 */
+                status?: "active" | "suspended";
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PaginatedPlatformSchoolList"];
+                };
+            };
+        };
+    };
+    platform_schools_create: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["RegisterSchoolRequest"];
+                "application/x-www-form-urlencoded": components["schemas"]["RegisterSchoolRequest"];
+                "multipart/form-data": components["schemas"]["RegisterSchoolRequest"];
+            };
+        };
+        responses: {
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PlatformSchool"];
+                };
+            };
+        };
+    };
+    platform_schools_retrieve: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description A unique integer value identifying this school. */
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PlatformSchool"];
+                };
+            };
+        };
+    };
+    platform_schools_resend_invitation_create: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description A unique integer value identifying this school. */
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description No response body */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    platform_schools_status_create: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description A unique integer value identifying this school. */
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["SchoolStatusRequest"];
+                "application/x-www-form-urlencoded": components["schemas"]["SchoolStatusRequest"];
+                "multipart/form-data": components["schemas"]["SchoolStatusRequest"];
+            };
+        };
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PlatformSchool"];
+                };
+            };
+        };
+    };
+    refunds_list: {
+        parameters: {
+            query?: {
+                date__gte?: string;
+                date__lte?: string;
+                /**
+                 * @description * `cash` - Cash
+                 *     * `mobile_money` - Mobile money
+                 *     * `bank_transfer` - Bank transfer or deposit
+                 *     * `cheque` - Cheque
+                 *     * `card` - Card
+                 *     * `other` - Other
+                 */
+                method?: "bank_transfer" | "card" | "cash" | "cheque" | "mobile_money" | "other";
+                /** @description Which field to use when ordering the results. */
+                ordering?: string;
+                /** @description A page number within the paginated result set. */
+                page?: number;
+                /** @description Number of results to return per page. */
+                page_size?: number;
+                /** @description A search term. */
+                search?: string;
+                /**
+                 * @description * `posted` - Posted
+                 *     * `cancelled` - Cancelled
+                 */
+                status?: "cancelled" | "posted";
+                student?: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PaginatedRefundList"];
+                };
+            };
+        };
+    };
+    refunds_create: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["RecordRefundRequest"];
+                "application/x-www-form-urlencoded": components["schemas"]["RecordRefundRequest"];
+                "multipart/form-data": components["schemas"]["RecordRefundRequest"];
+            };
+        };
+        responses: {
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Refund"];
+                };
+            };
+        };
+    };
+    refunds_retrieve: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description A unique integer value identifying this refund. */
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Refund"];
+                };
+            };
+        };
+    };
+    refunds_cancel_create: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description A unique integer value identifying this refund. */
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["ReasonRequest"];
+                "application/x-www-form-urlencoded": components["schemas"]["ReasonRequest"];
+                "multipart/form-data": components["schemas"]["ReasonRequest"];
+            };
+        };
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Refund"];
                 };
             };
         };
@@ -4946,9 +6831,9 @@ export interface operations {
         };
         requestBody: {
             content: {
-                "application/json": components["schemas"]["StaffRequest"];
-                "multipart/form-data": components["schemas"]["StaffRequest"];
-                "application/x-www-form-urlencoded": components["schemas"]["StaffRequest"];
+                "application/json": components["schemas"]["StaffCreateRequest"];
+                "multipart/form-data": components["schemas"]["StaffCreateRequest"];
+                "application/x-www-form-urlencoded": components["schemas"]["StaffCreateRequest"];
             };
         };
         responses: {
@@ -5106,6 +6991,56 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["Staff"];
+                };
+            };
+        };
+    };
+    staff_teaching_create: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description A unique integer value identifying this staff member. */
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: {
+            content: {
+                "application/json": components["schemas"]["TeachingRequest"];
+                "multipart/form-data": components["schemas"]["TeachingRequest"];
+                "application/x-www-form-urlencoded": components["schemas"]["TeachingRequest"];
+            };
+        };
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Staff"];
+                };
+            };
+        };
+    };
+    student_accounts_retrieve: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description A unique integer value identifying this student. */
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["StudentAccount"];
                 };
             };
         };

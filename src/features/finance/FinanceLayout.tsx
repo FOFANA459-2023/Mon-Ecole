@@ -6,8 +6,11 @@ import { cn } from "@/lib/utils";
 
 const FINANCE_TABS = [
   { key: "invoices", to: "/finance/invoices" },
+  { key: "payments", to: "/finance/payments" },
+  { key: "expenses", to: "/finance/expenses" },
   { key: "fees", to: "/finance/fees" },
   { key: "discounts", to: "/finance/discounts" },
+  { key: "reports", to: "/finance/reports" },
 ] as const;
 
 export function FinanceLayout() {

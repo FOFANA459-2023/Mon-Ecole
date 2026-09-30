@@ -34,11 +34,18 @@ const STATUS_STYLES: Record<string, string> = {
   class_changed: "bg-primary/10 text-primary border-transparent",
   withdrawn: "bg-amber-100 text-amber-800 border-transparent dark:bg-amber-950 dark:text-amber-300",
   cancelled: "bg-destructive/10 text-destructive border-transparent",
+  suspended: "bg-destructive/10 text-destructive border-transparent",
+  // Account invitations
+  invite_pending: "bg-amber-100 text-amber-800 border-transparent dark:bg-amber-950 dark:text-amber-300",
+  invite_expired: "bg-destructive/10 text-destructive border-transparent",
   // Invoice payment status
   paid: "bg-success/15 text-success border-transparent",
   partial: "bg-primary/10 text-primary border-transparent",
   unpaid: "bg-muted text-muted-foreground border-transparent",
   overdue: "bg-destructive/10 text-destructive border-transparent",
+  // Payments
+  posted: "bg-success/15 text-success border-transparent",
+  reversed: "bg-destructive/10 text-destructive border-transparent",
 };
 
 /** A coloured badge for any record status; labels come from the `status.*` translations. */

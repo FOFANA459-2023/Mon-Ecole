@@ -76,6 +76,40 @@ export type Invoice = Schemas["Invoice"];
 export type InvoiceListItem = Schemas["InvoiceList"];
 export type PaymentStatus = Schemas["PaymentStatusEnum"];
 export type GenerateInvoicesResult = Schemas["GenerateInvoicesResult"];
+export type Payment = Schemas["Payment"];
+export type PaymentListItem = Schemas["PaymentList"];
+export type PaymentMethod = Schemas["PaymentMethodEnum"];
+export type PaymentState = Schemas["PaymentStateEnum"];
+export type StudentAccount = Schemas["StudentAccount"];
+export type OpenLine = Schemas["OpenLine"];
+export type Expense = Schemas["Expense"];
+export type ExpenseCategory = Schemas["ExpenseCategoryEnum"];
+export type ExpenseStatus = Schemas["ExpenseStatusEnum"];
+export type Refund = Schemas["Refund"];
+export type CashRegister = Schemas["CashRegister"];
+export type CashSession = Schemas["CashSession"];
+export type CashSessionDetail = Schemas["CashSessionDetail"];
+export type CashMovement = Schemas["CashMovement"];
+export type CashDirection = Schemas["CashDirectionEnum"];
+export type CashSource = Schemas["CashSourceEnum"];
+
+/** GET /reports/finance/{key}/: a report as titled sections of columns and rows. */
+export type ReportKind = "text" | "money" | "number" | "percent" | "date" | "datetime" | "auto";
+export type ReportCell = string | number | null;
+export type ReportRow = Record<string, ReportCell> & { kind?: ReportKind };
+export type ReportSection = {
+  title: string;
+  note: string;
+  columns: { key: string; label: string; kind: ReportKind }[];
+  rows: ReportRow[];
+  row_count: number;
+  truncated: boolean;
+  totals: ReportRow | null;
+};
+export type FinanceReport = { key: string; title: string; subtitle: string; currency: string; sections: ReportSection[] };
+export type PlatformSchool = Schemas["PlatformSchool"];
+export type RegisterSchoolRequest = Schemas["RegisterSchoolRequest"];
+export type AccountStatus = Schemas["AccountStatusEnum"];
 
 export type Gender = "M" | "F";
 export type Relationship = "father" | "mother" | "guardian" | "other";
@@ -96,7 +130,14 @@ export type DashboardSummary = {
 };
 
 export type SearchHit = { id: number; title: string; subtitle: string; status?: string; student_id?: number | null };
-export type SearchResults = { students: SearchHit[]; guardians: SearchHit[]; staff: SearchHit[]; classes: SearchHit[] };
+export type SearchResults = {
+  students: SearchHit[];
+  guardians: SearchHit[];
+  staff: SearchHit[];
+  classes: SearchHit[];
+  receipts?: SearchHit[];
+  invoices?: SearchHit[];
+};
 
 export type ImportResult = {
   total: number;

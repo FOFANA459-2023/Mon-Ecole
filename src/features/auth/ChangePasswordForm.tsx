@@ -15,11 +15,15 @@ import { applyApiErrors } from "@/lib/forms";
 
 import { changePasswordSchema } from "./passwordSchema";
 
-export function ChangePasswordForm({ onDone }: { onDone?: () => void }) {
+/**
+ * Change the password. `firstPassword`: replacing the temporary password just used to sign in, so only the
+ * new password and its confirmation are asked.
+ */
+export function ChangePasswordForm({ onDone, firstPassword = false }: { onDone?: () => void; firstPassword?: boolean }) {
   const { t } = useTranslation();
   const { applySession } = useAuth();
 
-  const schema = useMemo(() => changePasswordSchema(t), [t]);
+  const schema = useMemo(() => changePasswordSchema(t, { requireCurrent: !firstPassword }), [t, firstPassword]);
   type Values = z.infer<typeof schema>;
   const form = useForm<Values>({
     resolver: zodResolver(schema),
@@ -28,10 +32,12 @@ export function ChangePasswordForm({ onDone }: { onDone?: () => void }) {
 
   const onSubmit = form.handleSubmit(async (values) => {
     try {
-      const data = await api.post<SessionResponse>("/auth/password/change/", {
-        current_password: values.current_password,
-        new_password: values.new_password,
-      });
+      const data = await api.post<SessionResponse>(
+        "/auth/password/change/",
+        firstPassword
+          ? { new_password: values.new_password }
+          : { current_password: values.current_password, new_password: values.new_password },
+      );
       applySession(data);
       form.reset();
       toast.success(t("auth.changeDone"));
@@ -45,9 +51,11 @@ export function ChangePasswordForm({ onDone }: { onDone?: () => void }) {
   const { errors, isSubmitting } = form.formState;
   return (
     <form onSubmit={onSubmit} className="grid gap-5" noValidate>
-      <Field label={t("auth.currentPassword")} htmlFor="current_password" error={errors.current_password?.message}>
-        <PasswordInput id="current_password" autoComplete="current-password" {...form.register("current_password")} />
-      </Field>
+      {!firstPassword && (
+        <Field label={t("auth.currentPassword")} htmlFor="current_password" error={errors.current_password?.message}>
+          <PasswordInput id="current_password" autoComplete="current-password" {...form.register("current_password")} />
+        </Field>
+      )}
       <Field label={t("auth.newPassword")} htmlFor="new_password" error={errors.new_password?.message}>
         <PasswordInput id="new_password" autoComplete="new-password" {...form.register("new_password")} />
       </Field>

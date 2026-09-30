@@ -20,7 +20,20 @@ export function RequireAuth() {
   if (user.must_change_password && location.pathname !== "/change-password") {
     return <Navigate to="/change-password" replace />;
   }
-  if (user.memberships.length === 0) return <NoSchoolAccess />;
+  if (user.memberships.length === 0) {
+    // The platform owner before any school exists: only the platform area makes sense.
+    if (user.is_platform_admin) {
+      return location.pathname.startsWith("/platform") ? <Outlet /> : <Navigate to="/platform" replace />;
+    }
+    return <NoSchoolAccess />;
+  }
+  return <Outlet />;
+}
+
+/** The platform owner's pages (every school); the API refuses everyone else too. */
+export function RequirePlatformOwner() {
+  const { user } = useAuth();
+  if (!user?.is_platform_admin) return <Navigate to="/" replace />;
   return <Outlet />;
 }
 

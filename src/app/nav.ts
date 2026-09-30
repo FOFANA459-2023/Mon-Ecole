@@ -48,7 +48,7 @@ export const NAV_ITEMS: NavItem[] = [
   { key: "subjects", to: "/subjects", icon: BookOpen, anyOf: ["subjects.view"] },
   { key: "teachers", to: "/teachers", icon: Users, anyOf: ["staff.view"] },
   { key: "finance", to: "/finance", icon: Wallet, anyOf: ["finance.view"] },
-  { key: "cashRegister", to: "/cash-register", icon: Landmark, anyOf: ["cash.view"], phase: 3 },
+  { key: "cashRegister", to: "/cash-register", icon: Landmark, anyOf: ["cash.view"] },
   { key: "attendance", to: "/attendance", icon: CalendarCheck, anyOf: ["attendance.view"], phase: 4 },
   { key: "assessments", to: "/assessments", icon: ClipboardPen, anyOf: ["grades.view"], phase: 4 },
   { key: "results", to: "/results", icon: Award, anyOf: ["grades.view", "reportcards.generate"], phase: 4 },

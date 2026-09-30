@@ -15,8 +15,12 @@ export function newPasswordSchema(t: TFunction) {
     .refine((v) => v.new_password === v.confirm, { path: ["confirm"], message: t("validation.passwordsDiffer") });
 }
 
-export function changePasswordSchema(t: TFunction) {
+/** `requireCurrent: false` when replacing the temporary password the person has just signed in with. */
+export function changePasswordSchema(t: TFunction, { requireCurrent = true } = {}) {
   return z
-    .object({ current_password: z.string().min(1, t("validation.required")), ...newPasswordFields(t) })
+    .object({
+      current_password: requireCurrent ? z.string().min(1, t("validation.required")) : z.string(),
+      ...newPasswordFields(t),
+    })
     .refine((v) => v.new_password === v.confirm, { path: ["confirm"], message: t("validation.passwordsDiffer") });
 }

@@ -7,7 +7,7 @@ import { DashboardPage } from "@/features/dashboard/DashboardPage";
 import { ComingSoonPage } from "@/features/modules/ComingSoonPage";
 import { NotFoundPage } from "@/features/modules/NotFoundPage";
 
-import { PublicOnly, RequireAuth, RequirePermission } from "./guards";
+import { PublicOnly, RequireAuth, RequirePermission, RequirePlatformOwner } from "./guards";
 import { AppLayout } from "./layout/AppLayout";
 import { NAV_ITEMS, SETTINGS_TABS } from "./nav";
 
@@ -98,12 +98,38 @@ const phase3Routes: RouteObject[] = [
           path: "invoices/:id",
           lazy: () => import("@/features/finance/InvoiceDetailPage").then((m) => ({ Component: m.InvoiceDetailPage })),
         },
+        {
+          path: "payments",
+          lazy: () => import("@/features/finance/PaymentsPage").then((m) => ({ Component: m.PaymentsPage })),
+        },
+        {
+          path: "payments/:id",
+          lazy: () => import("@/features/finance/PaymentDetailPage").then((m) => ({ Component: m.PaymentDetailPage })),
+        },
         { path: "fees", lazy: () => import("@/features/finance/FeesPage").then((m) => ({ Component: m.FeesPage })) },
+        {
+          path: "expenses",
+          lazy: () => import("@/features/finance/ExpensesPage").then((m) => ({ Component: m.ExpensesPage })),
+        },
         {
           path: "discounts",
           lazy: () => import("@/features/finance/DiscountsPage").then((m) => ({ Component: m.DiscountsPage })),
         },
+        {
+          path: "reports",
+          lazy: () => import("@/features/finance/ReportsPage").then((m) => ({ Component: m.ReportsPage })),
+        },
       ],
+    },
+  ]),
+  gated(access("cashRegister"), [
+    {
+      path: "cash-register",
+      lazy: () => import("@/features/cash/CashRegisterPage").then((m) => ({ Component: m.CashRegisterPage })),
+    },
+    {
+      path: "cash-register/sessions/:id",
+      lazy: () => import("@/features/cash/CashSessionPage").then((m) => ({ Component: m.CashSessionPage })),
     },
   ]),
 ];
@@ -120,6 +146,10 @@ export const routes: RouteObject[] = [
   { path: "/forgot-password", element: <ForgotPasswordPage /> },
   { path: "/reset-password", element: <ResetPasswordPage /> },
   {
+    path: "/verify-email",
+    lazy: () => import("@/features/auth/VerifyEmailPage").then((m) => ({ Component: m.VerifyEmailPage })),
+  },
+  {
     element: <RequireAuth />,
     children: [
       {
@@ -133,6 +163,16 @@ export const routes: RouteObject[] = [
           { index: true, element: <DashboardPage /> },
           ...phase2Routes,
           ...phase3Routes,
+          {
+            element: <RequirePlatformOwner />,
+            children: [
+              {
+                path: "platform",
+                lazy: () =>
+                  import("@/features/platform/PlatformSchoolsPage").then((m) => ({ Component: m.PlatformSchoolsPage })),
+              },
+            ],
+          },
           ...comingSoonRoutes,
           {
             path: "account",

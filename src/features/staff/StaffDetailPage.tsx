@@ -1,5 +1,5 @@
 import { useQueryClient } from "@tanstack/react-query";
-import { Archive, ArchiveRestore, ArrowLeft, KeyRound, Pencil } from "lucide-react";
+import { Archive, ArchiveRestore, ArrowLeft, BookOpen, KeyRound, Pencil } from "lucide-react";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Link, useParams } from "react-router";
@@ -24,6 +24,7 @@ import { useAuth } from "@/lib/auth/context";
 import { errorMessage } from "@/lib/forms";
 
 import { StaffFormDialog } from "./StaffFormDialog";
+import { TeachingDialog } from "./TeachingEditor";
 
 function GrantAccessDialog({ staff, onClose }: { staff: Staff; onClose: () => void }) {
   const { t } = useTranslation();
@@ -94,6 +95,7 @@ export function StaffDetailPage() {
   const formatDate = useFormatDate();
   const staffQuery = useStaffMember(staffId);
   const [editing, setEditing] = useState(false);
+  const [editingTeaching, setEditingTeaching] = useState(false);
   const [granting, setGranting] = useState(false);
   const [archiving, setArchiving] = useState(false);
 
@@ -187,8 +189,13 @@ export function StaffDetailPage() {
           </CardContent>
         </Card>
         <Card>
-          <CardHeader>
+          <CardHeader className="flex flex-row items-center justify-between gap-3">
             <CardTitle className="text-base">{t("staff.assignments")}</CardTitle>
+            {can("staff.update") && can("classes.manage") && s.status === "active" && (
+              <Button variant="outline" size="sm" onClick={() => setEditingTeaching(true)}>
+                <BookOpen /> {t("staff.editTeaching")}
+              </Button>
+            )}
           </CardHeader>
           <CardContent className="grid gap-4 text-sm">
             {s.assignments.homeroom_classes.length === 0 && s.assignments.subjects.length === 0 ? (
@@ -231,6 +238,7 @@ export function StaffDetailPage() {
       </div>
 
       {editing && <StaffFormDialog staff={s} onClose={() => setEditing(false)} />}
+      {editingTeaching && <TeachingDialog staff={s} onClose={() => setEditingTeaching(false)} />}
       {granting && <GrantAccessDialog staff={s} onClose={() => setGranting(false)} />}
       <ConfirmDialog
         open={archiving}

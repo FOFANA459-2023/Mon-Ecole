@@ -1,4 +1,4 @@
-import { ArrowLeft, Ban, Printer } from "lucide-react";
+import { ArrowLeft, Ban, HandCoins, Printer } from "lucide-react";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Link, useParams } from "react-router";
@@ -17,6 +17,7 @@ import { errorMessage } from "@/lib/forms";
 
 import { useInvoice, useMoney } from "./api";
 import { CancelInvoiceDialog } from "./InvoiceDialogs";
+import { RecordPaymentDialog } from "./RecordPaymentDialog";
 
 export function InvoiceDetailPage() {
   const { t } = useTranslation();
@@ -26,11 +27,14 @@ export function InvoiceDetailPage() {
   const id = Number(useParams().id);
   const query = useInvoice(Number.isFinite(id) ? id : undefined);
   const [cancelling, setCancelling] = useState(false);
+  const [paying, setPaying] = useState(false);
 
   if (query.isError) return <QueryError error={query.error} onRetry={() => void query.refetch()} />;
   if (query.isPending) return <Spinner className="mx-auto my-16 size-6" />;
   const invoice = query.data;
   const cancelled = invoice.status === "cancelled";
+  // An API from before payments sends neither `payments` nor the lines' `balance`.
+  const payments = invoice.payments ?? [];
 
   return (
     <>
@@ -40,7 +44,12 @@ export function InvoiceDetailPage() {
             <ArrowLeft /> {t("finance.tabs.invoices")}
           </Link>
         </Button>
-        <div className="flex gap-2">
+        <div className="flex flex-wrap gap-2">
+          {!cancelled && Number(invoice.balance) > 0 && can("finance.payment.record") && (
+            <Button onClick={() => setPaying(true)}>
+              <HandCoins /> {t("finance.recordPayment")}
+            </Button>
+          )}
           <Button
             variant="outline"
             onClick={() => openPdf(`/invoices/${invoice.id}/pdf/`).catch((e) => toast.error(errorMessage(e, t)))}
@@ -95,6 +104,7 @@ export function InvoiceDetailPage() {
                   <TableHead className="hidden text-right md:table-cell">{t("finance.amount")}</TableHead>
                   <TableHead className="hidden text-right md:table-cell">{t("finance.discount")}</TableHead>
                   <TableHead className="text-right">{t("finance.net")}</TableHead>
+                  <TableHead className="hidden text-right sm:table-cell">{t("finance.stillDue")}</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
@@ -110,11 +120,40 @@ export function InvoiceDetailPage() {
                       {Number(line.discount) ? money.format(line.discount) : "—"}
                     </TableCell>
                     <TableCell className="text-right font-medium tabular-nums">{money.format(line.net)}</TableCell>
+                    <TableCell className="hidden text-right tabular-nums sm:table-cell">
+                      {cancelled ? "—" : Number(line.balance ?? line.net) > 0 ? money.format(line.balance ?? line.net) : <StatusBadge status="paid" />}
+                    </TableCell>
                   </TableRow>
                 ))}
               </TableBody>
             </Table>
             {invoice.notes && <p className="text-muted-foreground text-sm whitespace-pre-line">{invoice.notes}</p>}
+            {payments.length > 0 && (
+              <div className="grid gap-2">
+                <p className="text-sm font-medium">{t("finance.tabs.payments")}</p>
+                <ul className="divide-y rounded-lg border">
+                  {payments.map((payment) => (
+                    <li key={payment.id} className="flex flex-wrap items-center justify-between gap-2 px-3 py-2 text-sm">
+                      <span>
+                        <Link to={`/finance/payments/${payment.id}`} className="text-primary font-mono text-xs hover:underline">
+                          {payment.number}
+                        </Link>
+                        <span className="text-muted-foreground">
+                          {" "}
+                          · {formatDate(payment.date)} · {t(`finance.methods.${payment.method}`)}
+                        </span>
+                      </span>
+                      <span className="flex items-center gap-2">
+                        {payment.status === "reversed" && <StatusBadge status="reversed" />}
+                        <span className={payment.status === "reversed" ? "tabular-nums line-through" : "font-medium tabular-nums"}>
+                          {money.format(payment.amount)}
+                        </span>
+                      </span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
           </CardContent>
         </Card>
 
@@ -156,6 +195,13 @@ export function InvoiceDetailPage() {
         </Card>
       </div>
       {cancelling && <CancelInvoiceDialog invoice={invoice} onClose={() => setCancelling(false)} />}
+      {paying && (
+        <RecordPaymentDialog
+          student={{ id: invoice.student, full_name: invoice.student_name }}
+          invoice={{ id: invoice.id, number: invoice.number }}
+          onClose={() => setPaying(false)}
+        />
+      )}
     </>
   );
 }
