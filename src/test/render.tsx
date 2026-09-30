@@ -13,17 +13,22 @@ type Options = {
   permissions?: string[];
   auth?: AuthContextValue;
   path?: string;
+  /** Route pattern of the page when it reads URL parameters, e.g. "/invoices/:id" (default: `path`). */
+  pattern?: string;
   /** Extra routes next to the page under test, e.g. the pages it links to. */
   routes?: RouteObject[];
 };
 
 /** Render a page with the providers the app uses: React Query, auth and the router. */
-export function renderPage(element: ReactNode, { permissions = [], auth, path = "/", routes = [] }: Options = {}) {
+export function renderPage(
+  element: ReactNode,
+  { permissions = [], auth, path = "/", pattern, routes = [] }: Options = {},
+) {
   const value = auth ?? authValue(makeUser(permissions));
   session.setSchoolId(value.membership?.school.id ?? null);
   const queryClient = new QueryClient({ defaultOptions: { queries: { retry: false }, mutations: { retry: false } } });
   const router = createMemoryRouter(
-    [{ path: path.split("?")[0], element }, ...routes, { path: "*", element: <p>Other page</p> }],
+    [{ path: pattern ?? path.split("?")[0], element }, ...routes, { path: "*", element: <p>Other page</p> }],
     { initialEntries: [path] },
   );
   const result = render(
