@@ -43,6 +43,9 @@ const STATUS_STYLES: Record<string, string> = {
   partial: "bg-primary/10 text-primary border-transparent",
   unpaid: "bg-muted text-muted-foreground border-transparent",
   overdue: "bg-destructive/10 text-destructive border-transparent",
+  // Payments
+  posted: "bg-success/15 text-success border-transparent",
+  reversed: "bg-destructive/10 text-destructive border-transparent",
 };
 
 /** A coloured badge for any record status; labels come from the `status.*` translations. */

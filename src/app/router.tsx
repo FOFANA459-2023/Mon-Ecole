@@ -98,6 +98,14 @@ const phase3Routes: RouteObject[] = [
           path: "invoices/:id",
           lazy: () => import("@/features/finance/InvoiceDetailPage").then((m) => ({ Component: m.InvoiceDetailPage })),
         },
+        {
+          path: "payments",
+          lazy: () => import("@/features/finance/PaymentsPage").then((m) => ({ Component: m.PaymentsPage })),
+        },
+        {
+          path: "payments/:id",
+          lazy: () => import("@/features/finance/PaymentDetailPage").then((m) => ({ Component: m.PaymentDetailPage })),
+        },
         { path: "fees", lazy: () => import("@/features/finance/FeesPage").then((m) => ({ Component: m.FeesPage })) },
         {
           path: "discounts",

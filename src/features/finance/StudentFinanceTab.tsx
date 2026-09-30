@@ -1,4 +1,4 @@
-import { FilePlus2, Plus, ReceiptText } from "lucide-react";
+import { FilePlus2, HandCoins, Plus, ReceiptText } from "lucide-react";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router";
@@ -13,11 +13,12 @@ import type { StudentDiscount } from "@/lib/api/types";
 import { useAuth } from "@/lib/auth/context";
 import { useFormatDate } from "@/lib/dates";
 
-import { useDiscountLabel, useInvoices, useMoney, useStudentDiscounts } from "./api";
+import { useDiscountLabel, useInvoices, useMoney, usePayments, useStudentDiscounts } from "./api";
 import { DiscountDialog } from "./DiscountDialog";
 import { ManualInvoiceDialog } from "./InvoiceDialogs";
+import { RecordPaymentDialog } from "./RecordPaymentDialog";
 
-/** The "Payments" tab of a student's profile: invoices, balance and discounts. */
+/** The "Payments" tab of a student's profile: balance, payments, invoices and discounts. */
 export function StudentFinanceTab({ student }: { student: { id: number; full_name: string } }) {
   const { t } = useTranslation();
   const { can } = useAuth();
@@ -27,7 +28,9 @@ export function StudentFinanceTab({ student }: { student: { id: number; full_nam
   const currentYear = useCurrentYear();
   const invoices = useInvoices({ student: student.id, page_size: 100 });
   const discounts = useStudentDiscounts({ student: student.id, page_size: 50 });
+  const payments = usePayments({ student: student.id, page_size: 100 });
   const [invoicing, setInvoicing] = useState(false);
+  const [paying, setPaying] = useState(false);
   const [discountDialog, setDiscountDialog] = useState<{ discount?: StudentDiscount } | null>(null);
 
   if (invoices.isError) return <QueryError onRetry={() => void invoices.refetch()} />;
@@ -35,10 +38,12 @@ export function StudentFinanceTab({ student }: { student: { id: number; full_nam
   const open = invoices.data.results.filter((i) => i.status === "issued");
   const balance = open.reduce((sum, i) => sum + Number(i.balance), 0);
   const overdue = open.reduce((sum, i) => sum + Number(i.overdue_amount), 0);
+  // Money paid that no invoice has used yet (reversed payments leave nothing).
+  const credit = (payments.data?.results ?? []).reduce((sum, p) => sum + Number(p.unallocated), 0);
 
   return (
     <div className="grid gap-4">
-      <div className="grid gap-4 sm:grid-cols-2">
+      <div className="grid gap-4 sm:grid-cols-3">
         <Card className="py-4">
           <CardContent>
             <p className="text-muted-foreground text-sm">{t("finance.balance")}</p>
@@ -53,7 +58,59 @@ export function StudentFinanceTab({ student }: { student: { id: number; full_nam
             </p>
           </CardContent>
         </Card>
+        <Card className="py-4">
+          <CardContent>
+            <p className="text-muted-foreground text-sm">{t("finance.credit")}</p>
+            <p className="text-2xl font-semibold tabular-nums">{money.format(credit)}</p>
+          </CardContent>
+        </Card>
       </div>
+
+      <Card className="gap-0 overflow-hidden py-0">
+        <CardHeader className="flex flex-row items-center justify-between gap-3 border-b py-3">
+          <CardTitle className="text-base">{t("finance.tabs.payments")}</CardTitle>
+          {can("finance.payment.record") && (
+            <Button size="sm" onClick={() => setPaying(true)}>
+              <HandCoins /> {t("finance.recordPayment")}
+            </Button>
+          )}
+        </CardHeader>
+        {(payments.data?.results ?? []).length === 0 ? (
+          <p className="text-muted-foreground px-4 py-3 text-sm">{t("finance.noStudentPayments")}</p>
+        ) : (
+          <Table>
+            <TableHeader>
+              <TableRow>
+                <TableHead>{t("finance.receiptNumber")}</TableHead>
+                <TableHead className="hidden sm:table-cell">{t("finance.paymentDate")}</TableHead>
+                <TableHead className="hidden md:table-cell">{t("finance.method")}</TableHead>
+                <TableHead className="text-right">{t("finance.amount")}</TableHead>
+                <TableHead>{t("common.status")}</TableHead>
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              {payments.data?.results.map((payment) => (
+                <TableRow key={payment.id}>
+                  <TableCell>
+                    <Link to={`/finance/payments/${payment.id}`} className="text-primary font-mono text-xs hover:underline">
+                      {payment.number}
+                    </Link>
+                    <span className="text-muted-foreground block text-xs sm:hidden">{formatDate(payment.date)}</span>
+                  </TableCell>
+                  <TableCell className="hidden sm:table-cell">{formatDate(payment.date)}</TableCell>
+                  <TableCell className="text-muted-foreground hidden md:table-cell">
+                    {t(`finance.methods.${payment.method}`)}
+                  </TableCell>
+                  <TableCell className="text-right font-medium tabular-nums">{money.format(payment.amount)}</TableCell>
+                  <TableCell>
+                    <StatusBadge status={payment.status} />
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        )}
+      </Card>
 
       <Card className="gap-0 overflow-hidden py-0">
         <CardHeader className="flex flex-row items-center justify-between gap-3 border-b py-3">
@@ -138,6 +195,7 @@ export function StudentFinanceTab({ student }: { student: { id: number; full_nam
         )}
       </Card>
 
+      {paying && <RecordPaymentDialog student={student} onClose={() => setPaying(false)} />}
       {invoicing && (
         <ManualInvoiceDialog student={student} defaultYearId={currentYear?.id ?? null} onClose={() => setInvoicing(false)} />
       )}

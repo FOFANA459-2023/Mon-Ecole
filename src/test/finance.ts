@@ -37,7 +37,10 @@ export const invoice = {
     amount: "300000.00",
     discount: "30000.00",
     net: "270000.00",
+    paid: "0.00",
+    balance: "270000.00",
   })),
+  payments: [] as object[],
 };
 
 export const tuition = { id: 1, name: "Tuition", kind: "tuition", description: "", order: 0, is_active: true };
@@ -75,4 +78,56 @@ export const discount = {
   reason: "sibling",
   note: "",
   is_active: true,
+};
+
+export const payment = {
+  id: 9,
+  number: "REC-2026-000009",
+  student: 7,
+  student_name: "Awa Diallo",
+  student_number: "STU-2026-00007",
+  date: "2026-09-15",
+  amount: "300000.00",
+  method: "mobile_money",
+  reference: "OM-4411",
+  payer_name: "Mariama Diallo",
+  note: "",
+  status: "posted",
+  allocated: "270000.00",
+  unallocated: "30000.00",
+  received_by_name: "Fatoumata Sylla",
+  created_at: "2026-09-15T10:02:00Z",
+  reversed_at: null,
+  reversed_by_name: null,
+  reversal_reason: "",
+  allocations: [
+    {
+      id: 1,
+      invoice_line: 1,
+      invoice: 5,
+      invoice_number: "INV-2026-000005",
+      description: "Tuition — installment 1 of 3",
+      due_date: "2026-10-01",
+      amount: "270000.00",
+    },
+  ],
+};
+
+export const account = {
+  student: 7,
+  student_name: "Awa Diallo",
+  student_number: "STU-2026-00007",
+  invoiced: "1325000.00",
+  paid: "0.00",
+  balance: "1325000.00",
+  overdue: "250000.00",
+  credit: "0.00",
+  open_lines: [
+    { id: 11, invoice: 5, invoice_number: "INV-2026-000005", description: "Registration", due_date: "2026-09-01" },
+    { id: 12, invoice: 5, invoice_number: "INV-2026-000005", description: "Tuition — installment 1 of 3", due_date: "2026-10-01" },
+    { id: 21, invoice: 6, invoice_number: "INV-2026-000006", description: "Uniform", due_date: "2026-11-01" },
+  ].map((line, index) => {
+    const balance = ["250000.00", "1000000.00", "75000.00"][index];
+    return { ...line, category_name: "Fees", net: balance, paid: "0.00", balance, is_overdue: index === 0 };
+  }),
 };

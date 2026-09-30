@@ -76,6 +76,12 @@ export type Invoice = Schemas["Invoice"];
 export type InvoiceListItem = Schemas["InvoiceList"];
 export type PaymentStatus = Schemas["PaymentStatusEnum"];
 export type GenerateInvoicesResult = Schemas["GenerateInvoicesResult"];
+export type Payment = Schemas["Payment"];
+export type PaymentListItem = Schemas["PaymentList"];
+export type PaymentMethod = Schemas["PaymentMethodEnum"];
+export type PaymentState = Schemas["PaymentStateEnum"];
+export type StudentAccount = Schemas["StudentAccount"];
+export type OpenLine = Schemas["OpenLine"];
 export type PlatformSchool = Schemas["PlatformSchool"];
 export type RegisterSchoolRequest = Schemas["RegisterSchoolRequest"];
 export type AccountStatus = Schemas["AccountStatusEnum"];
@@ -99,7 +105,14 @@ export type DashboardSummary = {
 };
 
 export type SearchHit = { id: number; title: string; subtitle: string; status?: string; student_id?: number | null };
-export type SearchResults = { students: SearchHit[]; guardians: SearchHit[]; staff: SearchHit[]; classes: SearchHit[] };
+export type SearchResults = {
+  students: SearchHit[];
+  guardians: SearchHit[];
+  staff: SearchHit[];
+  classes: SearchHit[];
+  receipts?: SearchHit[];
+  invoices?: SearchHit[];
+};
 
 export type ImportResult = {
   total: number;

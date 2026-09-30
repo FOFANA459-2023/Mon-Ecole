@@ -3,7 +3,17 @@ import { useTranslation } from "react-i18next";
 
 import { useSchoolId } from "@/features/academics/api";
 import { api, type Paginated, type Query } from "@/lib/api/client";
-import type { FeeCategory, FeeSchedule, Invoice, InvoiceListItem, StudentDiscount } from "@/lib/api/types";
+import type {
+  FeeCategory,
+  FeeSchedule,
+  Invoice,
+  InvoiceListItem,
+  Payment,
+  PaymentListItem,
+  PaymentMethod,
+  StudentAccount,
+  StudentDiscount,
+} from "@/lib/api/types";
 import { useAuth } from "@/lib/auth/context";
 import { formatMoney } from "@/lib/format";
 
@@ -57,6 +67,37 @@ export function useInvoice(id: number | undefined) {
     enabled: schoolId !== null && id !== undefined,
   });
 }
+
+export function usePayments(params: Query, enabled = true) {
+  const schoolId = useSchoolId();
+  return useQuery({
+    queryKey: [FINANCE_KEY, schoolId, "payments", params],
+    queryFn: ({ signal }) => api.get<Paginated<PaymentListItem>>("/payments/", params, signal),
+    enabled: schoolId !== null && enabled,
+    placeholderData: keepPreviousData,
+  });
+}
+
+export function usePayment(id: number | undefined) {
+  const schoolId = useSchoolId();
+  return useQuery({
+    queryKey: [FINANCE_KEY, schoolId, "payment", id],
+    queryFn: ({ signal }) => api.get<Payment>(`/payments/${id}/`, undefined, signal),
+    enabled: schoolId !== null && id !== undefined,
+  });
+}
+
+/** What a student owes, their credit and their unpaid invoice lines (for the payment form). */
+export function useStudentAccount(studentId: number | null) {
+  const schoolId = useSchoolId();
+  return useQuery({
+    queryKey: [FINANCE_KEY, schoolId, "account", studentId],
+    queryFn: ({ signal }) => api.get<StudentAccount>(`/student-accounts/${studentId}/`, undefined, signal),
+    enabled: schoolId !== null && studentId !== null,
+  });
+}
+
+export const PAYMENT_METHODS: PaymentMethod[] = ["cash", "mobile_money", "bank_transfer", "cheque", "card", "other"];
 
 /** Formats amounts in the current school's currency and the interface language. */
 export function useMoney() {

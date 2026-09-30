@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { GraduationCap, School, Search, UserRound, Users } from "lucide-react";
+import { FileText, GraduationCap, ReceiptText, School, Search, UserRound, Users } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router";
@@ -23,6 +23,8 @@ const GROUPS = [
   { key: "guardians", icon: UserRound, to: (hit: SearchHit) => (hit.student_id ? `/students/${hit.student_id}?tab=guardians` : null) },
   { key: "staff", icon: Users, to: (hit: SearchHit) => `/teachers/${hit.id}` },
   { key: "classes", icon: School, to: (hit: SearchHit) => `/classes/${hit.id}` },
+  { key: "receipts", icon: ReceiptText, to: (hit: SearchHit) => `/finance/payments/${hit.id}` },
+  { key: "invoices", icon: FileText, to: (hit: SearchHit) => `/finance/invoices/${hit.id}` },
 ] as const;
 
 /** One search box for the whole school (Ctrl/⌘ + K). */
@@ -60,7 +62,9 @@ export function SearchCommand() {
   };
 
   const data = results.data;
-  const total = data ? GROUPS.reduce((n, g) => n + data[g.key].length, 0) : 0;
+  // An older API may not return every group yet (receipts and invoices came later).
+  const hits = (key: (typeof GROUPS)[number]["key"]) => data?.[key] ?? [];
+  const total = GROUPS.reduce((n, g) => n + hits(g.key).length, 0);
 
   return (
     <>
@@ -93,9 +97,9 @@ export function SearchCommand() {
               {data &&
                 GROUPS.map(
                   (group) =>
-                    data[group.key].length > 0 && (
+                    hits(group.key).length > 0 && (
                       <CommandGroup key={group.key} heading={t(`search.${group.key}`)}>
-                        {data[group.key].map((hit) => (
+                        {hits(group.key).map((hit) => (
                           <CommandItem
                             key={`${group.key}-${hit.id}`}
                             value={`${group.key}-${hit.id}-${hit.title}`}

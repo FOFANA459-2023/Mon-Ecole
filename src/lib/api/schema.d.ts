@@ -971,6 +971,75 @@ export interface paths {
         patch: operations["me_partial_update"];
         trace?: never;
     };
+    "/api/v1/payments/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description Payments are recorded and reversed, never edited or deleted. Their number is the receipt number. */
+        get: operations["payments_list"];
+        put?: never;
+        /** @description Payments are recorded and reversed, never edited or deleted. Their number is the receipt number. */
+        post: operations["payments_create"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/payments/{id}/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description Payments are recorded and reversed, never edited or deleted. Their number is the receipt number. */
+        get: operations["payments_retrieve"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/payments/{id}/receipt/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description Payments are recorded and reversed, never edited or deleted. Their number is the receipt number. */
+        get: operations["payments_receipt_retrieve"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/payments/{id}/reverse/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** @description Payments are recorded and reversed, never edited or deleted. Their number is the receipt number. */
+        post: operations["payments_reverse_create"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/v1/permissions/": {
         parameters: {
             query?: never;
@@ -1122,7 +1191,7 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        /** @description One search box for the whole school: students, guardians, staff and classes. */
+        /** @description One search box for the whole school: students, guardians, staff, classes, receipts and invoices. */
         get: operations["search_retrieve"];
         put?: never;
         post?: never;
@@ -1279,6 +1348,23 @@ export interface paths {
         put?: never;
         /** @description Replace the classes this teacher leads and the subjects they teach this school year. */
         post: operations["staff_teaching_create"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/student-accounts/{id}/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description A student's finances at a glance: what they owe, what is overdue, their credit and unpaid lines. */
+        get: operations["student_accounts_retrieve"];
+        put?: never;
+        post?: never;
         delete?: never;
         options?: never;
         head?: never;
@@ -2195,7 +2281,9 @@ export interface components {
             readonly cancelled_at: string | null;
             readonly cancel_reason: string;
             readonly lines: components["schemas"]["InvoiceLine"][];
+            readonly payments: components["schemas"]["InvoicePayment"][];
         };
+        /** @description A line with what is paid on it (the queryset is annotated by selectors.with_line_balances). */
         InvoiceLine: {
             readonly id: number;
             category: number;
@@ -2209,6 +2297,10 @@ export interface components {
             discount?: string;
             /** Format: decimal */
             readonly net: string;
+            /** Format: decimal */
+            readonly paid: string;
+            /** Format: decimal */
+            readonly balance: string;
         };
         /** @description An invoice with its computed figures (the queryset is annotated by selectors.with_balances). */
         InvoiceList: {
@@ -2244,6 +2336,20 @@ export interface components {
             /** Format: date-time */
             readonly cancelled_at: string | null;
             readonly cancel_reason: string;
+        };
+        /** @description A payment as seen from one invoice: how much of it went to this invoice. */
+        InvoicePayment: {
+            id: number;
+            number: string;
+            /** Format: date */
+            date: string;
+            method: components["schemas"]["PaymentMethodEnum"];
+            status: components["schemas"]["PaymentStateEnum"];
+            /**
+             * Format: decimal
+             * @description The part of the payment allocated to this invoice.
+             */
+            amount: string;
         };
         /**
          * @description * `issued` - Issued
@@ -2372,6 +2478,23 @@ export interface components {
             address?: string;
             notes?: string;
         };
+        /** @description An unpaid invoice line of a student (annotated by selectors.with_line_balances). */
+        OpenLine: {
+            readonly id: number;
+            readonly invoice: number;
+            readonly invoice_number: string;
+            readonly category_name: string;
+            readonly description: string;
+            /** Format: date */
+            readonly due_date: string;
+            /** Format: decimal */
+            readonly net: string;
+            /** Format: decimal */
+            readonly paid: string;
+            /** Format: decimal */
+            readonly balance: string;
+            readonly is_overdue: boolean;
+        };
         /**
          * @description * `student` - Student
          *     * `staff` - Staff member
@@ -2483,6 +2606,21 @@ export interface components {
              */
             previous?: string | null;
             results: components["schemas"]["Member"][];
+        };
+        PaginatedPaymentListList: {
+            /** @example 123 */
+            count: number;
+            /**
+             * Format: uri
+             * @example http://api.example.org/accounts/?page=4
+             */
+            next?: string | null;
+            /**
+             * Format: uri
+             * @example http://api.example.org/accounts/?page=2
+             */
+            previous?: string | null;
+            results: components["schemas"]["PaymentList"][];
         };
         PaginatedPlatformSchoolList: {
             /** @example 123 */
@@ -2749,6 +2887,106 @@ export interface components {
             /** Format: date */
             end_date?: string;
         };
+        /** @description A payment with how much of it paid invoices (the queryset is annotated by selectors.with_allocated). */
+        Payment: {
+            readonly id: number;
+            readonly number: string;
+            readonly student: number;
+            readonly student_name: string;
+            readonly student_number: string;
+            /** Format: date */
+            readonly date: string;
+            /** Format: decimal */
+            readonly amount: string;
+            readonly method: components["schemas"]["PaymentMethodEnum"];
+            /** @description Mobile money transaction ID, bank slip or cheque number. */
+            readonly reference: string;
+            /** @description Who brought the money. */
+            readonly payer_name: string;
+            readonly note: string;
+            readonly status: components["schemas"]["PaymentStateEnum"];
+            /**
+             * Format: decimal
+             * @description Paid to invoice lines.
+             */
+            readonly allocated: string;
+            /**
+             * Format: decimal
+             * @description Kept as the student's credit; 0 once reversed.
+             */
+            readonly unallocated: string;
+            readonly received_by_name: string;
+            /** Format: date-time */
+            readonly created_at: string;
+            /** Format: date-time */
+            readonly reversed_at: string | null;
+            readonly reversed_by_name: string;
+            readonly reversal_reason: string;
+            readonly allocations: components["schemas"]["PaymentAllocation"][];
+        };
+        PaymentAllocation: {
+            readonly id: number;
+            readonly invoice_line: number;
+            readonly invoice: number;
+            readonly invoice_number: string;
+            readonly description: string;
+            /** Format: date */
+            readonly due_date: string;
+            /** Format: decimal */
+            readonly amount: string;
+        };
+        /** @description A payment with how much of it paid invoices (the queryset is annotated by selectors.with_allocated). */
+        PaymentList: {
+            readonly id: number;
+            readonly number: string;
+            readonly student: number;
+            readonly student_name: string;
+            readonly student_number: string;
+            /** Format: date */
+            readonly date: string;
+            /** Format: decimal */
+            readonly amount: string;
+            readonly method: components["schemas"]["PaymentMethodEnum"];
+            /** @description Mobile money transaction ID, bank slip or cheque number. */
+            readonly reference: string;
+            /** @description Who brought the money. */
+            readonly payer_name: string;
+            readonly note: string;
+            readonly status: components["schemas"]["PaymentStateEnum"];
+            /**
+             * Format: decimal
+             * @description Paid to invoice lines.
+             */
+            readonly allocated: string;
+            /**
+             * Format: decimal
+             * @description Kept as the student's credit; 0 once reversed.
+             */
+            readonly unallocated: string;
+            readonly received_by_name: string;
+            /** Format: date-time */
+            readonly created_at: string;
+            /** Format: date-time */
+            readonly reversed_at: string | null;
+            readonly reversed_by_name: string;
+            readonly reversal_reason: string;
+        };
+        /**
+         * @description * `cash` - Cash
+         *     * `mobile_money` - Mobile money
+         *     * `bank_transfer` - Bank transfer or deposit
+         *     * `cheque` - Cheque
+         *     * `card` - Card
+         *     * `other` - Other
+         * @enum {string}
+         */
+        PaymentMethodEnum: "cash" | "mobile_money" | "bank_transfer" | "cheque" | "card" | "other";
+        /**
+         * @description * `posted` - Posted
+         *     * `reversed` - Reversed
+         * @enum {string}
+         */
+        PaymentStateEnum: "posted" | "reversed";
         /**
          * @description * `paid` - paid
          *     * `partial` - partial
@@ -2796,6 +3034,30 @@ export interface components {
                 [key: string]: unknown;
             }[];
         };
+        RecordPaymentAllocationRequest: {
+            invoice_line: number;
+            /** Format: decimal */
+            amount: string;
+        };
+        RecordPaymentRequest: {
+            student: number;
+            /** Format: decimal */
+            amount: string;
+            /**
+             * Format: date
+             * @description Defaults to today; never in the future.
+             */
+            date?: string;
+            method: components["schemas"]["PaymentMethodEnum"];
+            /** @default  */
+            reference: string;
+            /** @default  */
+            payer_name: string;
+            /** @default  */
+            note: string;
+            /** @description The lines this payment pays. Leave it out to pay the oldest due lines first; an empty list keeps the whole amount as credit. */
+            allocations?: components["schemas"]["RecordPaymentAllocationRequest"][];
+        };
         RegisterSchoolRequest: {
             name: string;
             /** @description Short unique identifier, e.g. 'horizon'. */
@@ -2829,6 +3091,9 @@ export interface components {
          * @enum {string}
          */
         RelationshipEnum: "father" | "mother" | "guardian" | "other";
+        ReversePaymentRequest: {
+            reason: string;
+        };
         Role: {
             readonly id: number;
             /** @description Set for built-in roles. */
@@ -2982,6 +3247,31 @@ export interface components {
             readonly created_at: string;
             readonly guardians: components["schemas"]["GuardianLink"][];
             readonly enrollments: components["schemas"]["EnrollmentBrief"][];
+        };
+        StudentAccount: {
+            student: number;
+            student_name: string;
+            student_number: string;
+            /**
+             * Format: decimal
+             * @description Total of the student's issued invoices.
+             */
+            invoiced: string;
+            /** Format: decimal */
+            paid: string;
+            /**
+             * Format: decimal
+             * @description Still due on issued invoices.
+             */
+            balance: string;
+            /** Format: decimal */
+            overdue: string;
+            /**
+             * Format: decimal
+             * @description Paid but not used by any invoice yet.
+             */
+            credit: string;
+            open_lines: components["schemas"]["OpenLine"][];
         };
         StudentDiscount: {
             readonly id: number;
@@ -4917,6 +5207,150 @@ export interface operations {
             };
         };
     };
+    payments_list: {
+        parameters: {
+            query?: {
+                created_by?: number;
+                date__gte?: string;
+                date__lte?: string;
+                invoice?: number;
+                /**
+                 * @description * `cash` - Cash
+                 *     * `mobile_money` - Mobile money
+                 *     * `bank_transfer` - Bank transfer or deposit
+                 *     * `cheque` - Cheque
+                 *     * `card` - Card
+                 *     * `other` - Other
+                 */
+                method?: "bank_transfer" | "card" | "cash" | "cheque" | "mobile_money" | "other";
+                /** @description Which field to use when ordering the results. */
+                ordering?: string;
+                /** @description A page number within the paginated result set. */
+                page?: number;
+                /** @description Number of results to return per page. */
+                page_size?: number;
+                /** @description A search term. */
+                search?: string;
+                /**
+                 * @description * `posted` - Posted
+                 *     * `reversed` - Reversed
+                 */
+                status?: "posted" | "reversed";
+                student?: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PaginatedPaymentListList"];
+                };
+            };
+        };
+    };
+    payments_create: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["RecordPaymentRequest"];
+                "application/x-www-form-urlencoded": components["schemas"]["RecordPaymentRequest"];
+                "multipart/form-data": components["schemas"]["RecordPaymentRequest"];
+            };
+        };
+        responses: {
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Payment"];
+                };
+            };
+        };
+    };
+    payments_retrieve: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description A unique integer value identifying this payment. */
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Payment"];
+                };
+            };
+        };
+    };
+    payments_receipt_retrieve: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description A unique integer value identifying this payment. */
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/pdf": string;
+                };
+            };
+        };
+    };
+    payments_reverse_create: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description A unique integer value identifying this payment. */
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["ReversePaymentRequest"];
+                "application/x-www-form-urlencoded": components["schemas"]["ReversePaymentRequest"];
+                "multipart/form-data": components["schemas"]["ReversePaymentRequest"];
+            };
+        };
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Payment"];
+                };
+            };
+        };
+    };
     permissions_retrieve: {
         parameters: {
             query?: never;
@@ -5492,6 +5926,28 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["Staff"];
+                };
+            };
+        };
+    };
+    student_accounts_retrieve: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description A unique integer value identifying this student. */
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["StudentAccount"];
                 };
             };
         };
