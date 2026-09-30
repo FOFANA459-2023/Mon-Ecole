@@ -27,7 +27,7 @@ export function InvoiceDetailPage() {
   const query = useInvoice(Number.isFinite(id) ? id : undefined);
   const [cancelling, setCancelling] = useState(false);
 
-  if (query.isError) return <QueryError onRetry={() => void query.refetch()} />;
+  if (query.isError) return <QueryError error={query.error} onRetry={() => void query.refetch()} />;
   if (query.isPending) return <Spinner className="mx-auto my-16 size-6" />;
   const invoice = query.data;
   const cancelled = invoice.status === "cancelled";

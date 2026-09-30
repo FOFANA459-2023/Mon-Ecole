@@ -130,7 +130,9 @@
     "notFound": "Page introuvable",
     "notFoundBody": "La page demandée n'existe pas ou a été déplacée.",
     "goHome": "Retour au tableau de bord",
-    "loadFailed": "Impossible de charger les données."
+    "loadFailed": "Impossible de charger les données.",
+    "notFoundTitle": "Introuvable",
+    "notFoundBody": "Cette fiche n'existe pas, ou elle ne fait pas partie de ce que votre compte peut consulter."
   },
   "dashboard": {
     "greeting": "Bonjour, {{name}}",
@@ -138,6 +140,8 @@
     "kpi": {
       "students": "Élèves",
       "classes": "Classes actives",
+      "myStudents": "Élèves de mes classes",
+      "myClasses": "Mes classes",
       "teachers": "Enseignants",
       "collected": "Recettes encaissées",
       "outstanding": "Reste à recouvrer",
@@ -843,7 +847,6 @@
     },
     "discountAppliesLater": "La remise s'applique aux factures émises à partir de maintenant. Pour modifier une facture déjà émise, annulez-la puis émettez-la de nouveau.",
     "noStudentInvoices": "Aucune facture pour cet élève.",
-    "noStudentDiscounts": "Aucune remise.",
-    "noAccess": "Vous n'avez pas accès aux finances de cet élève."
+    "noStudentDiscounts": "Aucune remise."
   }
 }

@@ -130,7 +130,9 @@
     "notFound": "Page not found",
     "notFoundBody": "The page you asked for does not exist or has moved.",
     "goHome": "Back to the dashboard",
-    "loadFailed": "Could not load the data."
+    "loadFailed": "Could not load the data.",
+    "notFoundTitle": "Not found",
+    "notFoundBody": "This record does not exist, or it is outside what your account can see."
   },
   "dashboard": {
     "greeting": "Hello, {{name}}",
@@ -138,6 +140,8 @@
     "kpi": {
       "students": "Students",
       "classes": "Active classes",
+      "myStudents": "Students in my classes",
+      "myClasses": "My classes",
       "teachers": "Teachers",
       "collected": "Revenue collected",
       "outstanding": "Outstanding balance",
@@ -843,7 +847,6 @@
     },
     "discountAppliesLater": "The discount applies to invoices issued from now on. To change an invoice already issued, cancel it and issue it again.",
     "noStudentInvoices": "No invoices for this student yet.",
-    "noStudentDiscounts": "No discounts.",
-    "noAccess": "You do not have access to this student's finances."
+    "noStudentDiscounts": "No discounts."
   }
 }

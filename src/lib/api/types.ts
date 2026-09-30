@@ -82,6 +82,8 @@ export type Relationship = "father" | "mother" | "guardian" | "other";
 
 export type DashboardSummary = {
   academic_year: { id: number; name: string } | null;
+  /** "my_classes": the figures cover only the classes the user teaches or leads. */
+  scope?: "school" | "my_classes";
   students?: number;
   students_male?: number;
   students_female?: number;

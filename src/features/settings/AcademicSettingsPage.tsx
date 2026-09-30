@@ -1,6 +1,6 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useQueryClient } from "@tanstack/react-query";
-import { CalendarRange, CheckCircle2, Layers, MoreHorizontal, Pencil, Plus, Trash2 } from "lucide-react";
+import { CalendarRange, CheckCircle2, Layers, Lock, MoreHorizontal, Pencil, Plus, Trash2 } from "lucide-react";
 import { useMemo, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
@@ -12,6 +12,7 @@ import { ConfirmDialog } from "@/components/ConfirmDialog";
 import { StatusBadge } from "@/components/display";
 import { useFormatDate } from "@/lib/dates";
 import { OptionSelect } from "@/components/pickers";
+import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -380,6 +381,12 @@ export function AcademicSettingsPage() {
 
   return (
     <div className="grid gap-6">
+      {!canEdit && (
+        <Alert>
+          <Lock />
+          <AlertDescription>{t("settings.school.readOnlyNotice")}</AlertDescription>
+        </Alert>
+      )}
       <Card>
         <CardHeader className="flex flex-row items-start justify-between gap-4">
           <div>

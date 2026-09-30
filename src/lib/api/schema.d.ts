@@ -353,7 +353,10 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        /** @description Headline numbers for the dashboard (school-wide, for one academic year). */
+        /**
+         * @description Headline numbers for the dashboard, for one academic year: school-wide, or limited to the user's
+         *     own classes when they may not see every class (see academics.scoping).
+         */
         get: operations["dashboard_summary_retrieve"];
         put?: never;
         post?: never;

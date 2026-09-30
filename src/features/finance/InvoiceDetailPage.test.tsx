@@ -58,6 +58,17 @@ describe("InvoiceDetailPage", () => {
     expect(screen.queryByRole("button", { name: /Cancel invoice/ })).not.toBeInTheDocument();
   });
 
+  it("says the invoice was not found instead of offering a useless retry", async () => {
+    server.use(
+      http.get(api("/invoices/5/"), () =>
+        HttpResponse.json({ code: "not_found", message: "Not found.", fields: {} }, { status: 404 }),
+      ),
+    );
+    renderInvoice(["finance.view"]);
+    expect(await screen.findByText("Not found")).toBeInTheDocument();
+    expect(screen.queryByRole("button", { name: "Try again" })).not.toBeInTheDocument();
+  });
+
   it("marks a cancelled invoice and its reason", async () => {
     invoiceApi({
       ...invoice,

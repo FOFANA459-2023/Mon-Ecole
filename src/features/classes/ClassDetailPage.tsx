@@ -179,7 +179,7 @@ export function ClassDetailPage() {
   const manage = can("classes.manage");
 
   if (classQuery.isPending) return <Spinner className="mx-auto my-10 size-6" />;
-  if (classQuery.isError) return <QueryError onRetry={() => void classQuery.refetch()} />;
+  if (classQuery.isError) return <QueryError error={classQuery.error} onRetry={() => void classQuery.refetch()} />;
   const c = classQuery.data;
   const totalCoefficients = (subjects.data ?? []).reduce((sum, s) => sum + Number(s.coefficient), 0);
 

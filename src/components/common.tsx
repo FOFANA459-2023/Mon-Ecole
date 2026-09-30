@@ -1,10 +1,11 @@
-import { AlertCircle, Loader2 } from "lucide-react";
+import { AlertCircle, Loader2, SearchX } from "lucide-react";
 import type { ReactNode } from "react";
 import { useTranslation } from "react-i18next";
 
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
+import { ApiError } from "@/lib/api/client";
 import { cn } from "@/lib/utils";
 
 export function BrandMark({ className }: { className?: string }) {
@@ -80,8 +81,19 @@ export function FullPageSpinner() {
   );
 }
 
-export function QueryError({ onRetry }: { onRetry?: () => void }) {
+/** A failed load. Pass the query's `error` so a record that does not exist (or is out of the user's reach)
+ * says so instead of offering a retry that cannot help. */
+export function QueryError({ onRetry, error }: { onRetry?: () => void; error?: unknown }) {
   const { t } = useTranslation();
+  if (error instanceof ApiError && error.status === 404) {
+    return (
+      <Alert>
+        <SearchX />
+        <AlertTitle>{t("errors.notFoundTitle")}</AlertTitle>
+        <AlertDescription>{t("errors.notFoundBody")}</AlertDescription>
+      </Alert>
+    );
+  }
   return (
     <Alert variant="destructive">
       <AlertCircle />
