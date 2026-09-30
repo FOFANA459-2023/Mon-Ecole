@@ -85,7 +85,9 @@ function IdSelect({
   );
 }
 
-export function YearSelect(props: BaseProps & { value: number | null; onChange: (id: number | null) => void }) {
+export function YearSelect(
+  props: BaseProps & { value: number | null; onChange: (id: number | null) => void; allLabel?: string },
+) {
   const { t } = useTranslation();
   const years = useAcademicYears().data ?? [];
   return (

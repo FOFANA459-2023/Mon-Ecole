@@ -92,6 +92,21 @@ export type CashSessionDetail = Schemas["CashSessionDetail"];
 export type CashMovement = Schemas["CashMovement"];
 export type CashDirection = Schemas["CashDirectionEnum"];
 export type CashSource = Schemas["CashSourceEnum"];
+
+/** GET /reports/finance/{key}/: a report as titled sections of columns and rows. */
+export type ReportKind = "text" | "money" | "number" | "percent" | "date" | "datetime" | "auto";
+export type ReportCell = string | number | null;
+export type ReportRow = Record<string, ReportCell> & { kind?: ReportKind };
+export type ReportSection = {
+  title: string;
+  note: string;
+  columns: { key: string; label: string; kind: ReportKind }[];
+  rows: ReportRow[];
+  row_count: number;
+  truncated: boolean;
+  totals: ReportRow | null;
+};
+export type FinanceReport = { key: string; title: string; subtitle: string; currency: string; sections: ReportSection[] };
 export type PlatformSchool = Schemas["PlatformSchool"];
 export type RegisterSchoolRequest = Schemas["RegisterSchoolRequest"];
 export type AccountStatus = Schemas["AccountStatusEnum"];

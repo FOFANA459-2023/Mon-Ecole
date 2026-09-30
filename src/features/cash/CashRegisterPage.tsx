@@ -1,4 +1,4 @@
-import { Landmark, LockOpen, Pencil, Plus } from "lucide-react";
+import { ChartColumn, Landmark, LockOpen, Pencil, Plus } from "lucide-react";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Link, useNavigate } from "react-router";
@@ -41,11 +41,20 @@ export function CashRegisterPage() {
         title={t("nav.cashRegister")}
         description={t("cash.subtitle")}
         actions={
-          can("cash.open") && (
-            <Button variant="outline" onClick={() => setDialog({ kind: "register" })}>
-              <Plus /> {t("cash.newRegister")}
-            </Button>
-          )
+          <>
+            {can("finance.view") && (
+              <Button variant="outline" asChild>
+                <Link to="/finance/reports?report=cash">
+                  <ChartColumn /> {t("cash.reports")}
+                </Link>
+              </Button>
+            )}
+            {can("cash.open") && (
+              <Button variant="outline" onClick={() => setDialog({ kind: "register" })}>
+                <Plus /> {t("cash.newRegister")}
+              </Button>
+            )}
+          </>
         }
       />
       {registers.isError ? (

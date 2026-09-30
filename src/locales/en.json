@@ -764,7 +764,8 @@
       "fees": "Fee set-up",
       "discounts": "Discounts",
       "payments": "Payments",
-      "expenses": "Expenses"
+      "expenses": "Expenses",
+      "reports": "Reports"
     },
     "invoicesIntro": "Invoices are issued automatically when a student is enrolled, from the fees set up for their level.",
     "generate": "Issue missing invoices",
@@ -1082,6 +1083,38 @@
     "by": "By",
     "noMovements": "No cash has come in or gone out yet.",
     "totalIn": "Money in",
-    "totalOut": "Money out"
+    "totalOut": "Money out",
+    "reports": "Cash reports"
+  },
+  "reports": {
+    "intro": "Choose a report and a period. Everything shown can be printed or exported to Excel or CSV.",
+    "choose": "Report",
+    "period": "Period",
+    "periods": {
+      "today": "Today",
+      "week": "This week",
+      "month": "This month",
+      "lastMonth": "Last month",
+      "schoolYear": "School year"
+    },
+    "names": {
+      "payments": "Payments",
+      "outstanding": "Outstanding balances",
+      "cash": "Cash register",
+      "expenses": "Expenses",
+      "summary": "Financial report"
+    },
+    "descriptions": {
+      "payments": "Every payment received, by method.",
+      "outstanding": "Who still owes, and who to call.",
+      "cash": "Day by day, session by session.",
+      "expenses": "What was spent, by category.",
+      "summary": "Received, spent, and the year so far."
+    },
+    "allYears": "All years",
+    "allRegisters": "All registers",
+    "overdueOnly": "Overdue only",
+    "nothing": "Nothing for this period.",
+    "truncated": "Showing the first {{shown}} of {{count}} rows. Export the report to get them all."
   }
 }

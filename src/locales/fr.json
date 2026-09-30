@@ -764,7 +764,8 @@
       "fees": "Paramétrage des frais",
       "discounts": "Remises",
       "payments": "Paiements",
-      "expenses": "Dépenses"
+      "expenses": "Dépenses",
+      "reports": "Rapports"
     },
     "invoicesIntro": "Les factures sont émises automatiquement à l'inscription, d'après les frais du niveau de l'élève.",
     "generate": "Émettre les factures manquantes",
@@ -1082,6 +1083,38 @@
     "by": "Par",
     "noMovements": "Aucune entrée ni sortie d'espèces pour l'instant.",
     "totalIn": "Entrées",
-    "totalOut": "Sorties"
+    "totalOut": "Sorties",
+    "reports": "Rapports de caisse"
+  },
+  "reports": {
+    "intro": "Choisissez un rapport et une période. Tout ce qui s'affiche peut être imprimé ou exporté vers Excel ou CSV.",
+    "choose": "Rapport",
+    "period": "Période",
+    "periods": {
+      "today": "Aujourd'hui",
+      "week": "Cette semaine",
+      "month": "Ce mois-ci",
+      "lastMonth": "Le mois dernier",
+      "schoolYear": "Année scolaire"
+    },
+    "names": {
+      "payments": "Paiements",
+      "outstanding": "Soldes impayés",
+      "cash": "Caisse",
+      "expenses": "Dépenses",
+      "summary": "Rapport financier"
+    },
+    "descriptions": {
+      "payments": "Tous les paiements reçus, par mode.",
+      "outstanding": "Qui doit encore, et qui appeler.",
+      "cash": "Jour par jour, session par session.",
+      "expenses": "Ce qui a été dépensé, par catégorie.",
+      "summary": "Reçu, dépensé, et l'année en cours."
+    },
+    "allYears": "Toutes les années",
+    "allRegisters": "Toutes les caisses",
+    "overdueOnly": "En retard seulement",
+    "nothing": "Rien pour cette période.",
+    "truncated": "Affichage des {{shown}} premières lignes sur {{count}}. Exportez le rapport pour les avoir toutes."
   }
 }

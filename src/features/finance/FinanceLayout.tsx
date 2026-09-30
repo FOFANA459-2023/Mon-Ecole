@@ -10,6 +10,7 @@ const FINANCE_TABS = [
   { key: "expenses", to: "/finance/expenses" },
   { key: "fees", to: "/finance/fees" },
   { key: "discounts", to: "/finance/discounts" },
+  { key: "reports", to: "/finance/reports" },
 ] as const;
 
 export function FinanceLayout() {

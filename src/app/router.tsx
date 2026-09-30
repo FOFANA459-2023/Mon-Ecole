@@ -115,6 +115,10 @@ const phase3Routes: RouteObject[] = [
           path: "discounts",
           lazy: () => import("@/features/finance/DiscountsPage").then((m) => ({ Component: m.DiscountsPage })),
         },
+        {
+          path: "reports",
+          lazy: () => import("@/features/finance/ReportsPage").then((m) => ({ Component: m.ReportsPage })),
+        },
       ],
     },
   ]),

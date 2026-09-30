@@ -15,12 +15,12 @@ import { errorMessage } from "@/lib/forms";
 
 // Cash queries live under the finance key: recording a payment, an expense or a refund refreshes them too.
 
-export function useCashRegisters() {
+export function useCashRegisters(enabled = true) {
   const schoolId = useSchoolId();
   return useQuery({
     queryKey: [FINANCE_KEY, schoolId, "cash", "registers"],
     queryFn: ({ signal }) => api.get<CashRegister[]>("/cash-registers/", undefined, signal),
-    enabled: schoolId !== null,
+    enabled: schoolId !== null && enabled,
   });
 }
 
