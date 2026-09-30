@@ -90,6 +90,21 @@ export function PaymentDetailPage() {
                 { label: t("finance.reference"), value: payment.reference },
                 { label: t("finance.payerName"), value: payment.payer_name },
                 { label: t("finance.receivedBy"), value: payment.received_by_name },
+                ...(payment.cash_session
+                  ? [
+                      {
+                        label: t("cash.session"),
+                        value: (
+                          <Link
+                            className="text-primary hover:underline"
+                            to={`/cash-register/sessions/${payment.cash_session.id}`}
+                          >
+                            {payment.cash_session.register_name}
+                          </Link>
+                        ),
+                      },
+                    ]
+                  : []),
               ]}
             />
             {payment.note && <p className="text-muted-foreground text-sm whitespace-pre-line">{payment.note}</p>}

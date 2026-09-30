@@ -108,10 +108,24 @@ const phase3Routes: RouteObject[] = [
         },
         { path: "fees", lazy: () => import("@/features/finance/FeesPage").then((m) => ({ Component: m.FeesPage })) },
         {
+          path: "expenses",
+          lazy: () => import("@/features/finance/ExpensesPage").then((m) => ({ Component: m.ExpensesPage })),
+        },
+        {
           path: "discounts",
           lazy: () => import("@/features/finance/DiscountsPage").then((m) => ({ Component: m.DiscountsPage })),
         },
       ],
+    },
+  ]),
+  gated(access("cashRegister"), [
+    {
+      path: "cash-register",
+      lazy: () => import("@/features/cash/CashRegisterPage").then((m) => ({ Component: m.CashRegisterPage })),
+    },
+    {
+      path: "cash-register/sessions/:id",
+      lazy: () => import("@/features/cash/CashSessionPage").then((m) => ({ Component: m.CashSessionPage })),
     },
   ]),
 ];

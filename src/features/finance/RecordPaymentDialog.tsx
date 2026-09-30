@@ -12,6 +12,8 @@ import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import { useCashChoice } from "@/features/cash/api";
+import { CashSessionNotice } from "@/features/cash/CashSessionNotice";
 import { StudentPicker } from "@/features/students/StudentPicker";
 import { api } from "@/lib/api/client";
 import type { OpenLine, Payment, PaymentMethod, StudentListItem } from "@/lib/api/types";
@@ -69,6 +71,7 @@ export function RecordPaymentDialog({
   const { errors, isSubmitting } = form.formState;
   const amount = Number(useWatch({ control: form.control, name: "amount" })) || 0;
   const method = useWatch({ control: form.control, name: "method" });
+  const cash = useCashChoice(method === "cash");
 
   const lines: OpenLine[] = useMemo(
     () => (account.data?.open_lines ?? []).filter((line) => !invoice || line.invoice === invoice.id),
@@ -98,13 +101,14 @@ export function RecordPaymentDialog({
       toast.error(t("finance.chooseStudent"));
       return;
     }
-    if (invalidPlan) return;
+    if (invalidPlan || cash.blocked) return;
     // The server allocates oldest first by itself; explicit lines are sent when chosen or limited to an invoice.
     const explicit = mode === "manual" || invoice !== undefined;
     try {
       const payment = await api.post<Payment>("/payments/", {
         ...values,
         student: student.id,
+        ...cash.payload,
         ...(explicit && {
           allocations: [...planned.entries()]
             .filter(([, value]) => value > 0)
@@ -210,6 +214,7 @@ export function RecordPaymentDialog({
               <Input id="p-note" {...form.register("note")} />
             </Field>
           </div>
+          <CashSessionNotice choice={cash} />
 
           {student && (
             <div className="grid gap-2">
@@ -296,7 +301,7 @@ export function RecordPaymentDialog({
           <Button variant="outline" onClick={onClose} disabled={isSubmitting}>
             {t("common.cancel")}
           </Button>
-          <Button type="submit" form="payment-form" disabled={isSubmitting || !student || invalidPlan}>
+          <Button type="submit" form="payment-form" disabled={isSubmitting || !student || invalidPlan || cash.blocked}>
             {isSubmitting ? t("common.saving") : t("finance.recordPayment")}
           </Button>
         </DialogFooter>

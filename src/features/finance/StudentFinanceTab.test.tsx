@@ -2,7 +2,7 @@ import { screen } from "@testing-library/react";
 import { http, HttpResponse } from "msw";
 import { describe, expect, it } from "vitest";
 
-import { discount, invoiceItem, payment } from "@/test/finance";
+import { account, discount, invoiceItem, payment, refund } from "@/test/finance";
 import { renderPage } from "@/test/render";
 import { api, page, server } from "@/test/server";
 
@@ -24,13 +24,12 @@ function studentFinanceApi() {
     http.get(api("/student-discounts/"), () => HttpResponse.json(page([discount]))),
     http.get(api("/payments/"), () =>
       HttpResponse.json(
-        page([
-          payment,
-          // A reversed payment leaves no credit.
-          { ...payment, id: 10, number: "REC-2026-000010", status: "reversed", unallocated: "0.00" },
-        ]),
+        page([payment, { ...payment, id: 10, number: "REC-2026-000010", status: "reversed", unallocated: "0.00" }]),
       ),
     ),
+    // The credit comes from the student's account: it already takes refunds into account.
+    http.get(api("/student-accounts/7/"), () => HttpResponse.json({ ...account, credit: "30000.00" })),
+    http.get(api("/refunds/"), () => HttpResponse.json(page([refund]))),
   );
   return requests;
 }
@@ -51,12 +50,22 @@ describe("StudentFinanceTab", () => {
     expect(screen.getByText(/Sibling/)).toBeInTheDocument();
   });
 
-  it("lists the student's payments and their credit", async () => {
+  it("lists the student's payments, refunds and credit", async () => {
     studentFinanceApi();
     renderTab(["finance.view"]);
     expect(await screen.findByRole("link", { name: "REC-2026-000010" })).toHaveAttribute("href", "/finance/payments/10");
-    expect(screen.getByText("Credit").nextSibling).toHaveTextContent(/GNF\s30,000/);
+    expect(await screen.findByText(/GNF\s30,000/)).toBeInTheDocument();
+    expect(await screen.findByText(/Paid twice/)).toBeInTheDocument();
     expect(screen.queryByRole("button", { name: /Record a payment/ })).not.toBeInTheDocument();
+    expect(screen.queryByRole("button", { name: /Refund the credit/ })).not.toBeInTheDocument();
+    expect(screen.queryByRole("button", { name: "Cancel the refund" })).not.toBeInTheDocument();
+  });
+
+  it("offers to refund the credit and cancel a refund with the right", async () => {
+    studentFinanceApi();
+    renderTab(["finance.view", "finance.refund"]);
+    expect(await screen.findByRole("button", { name: /Refund the credit/ })).toBeInTheDocument();
+    expect(await screen.findByRole("button", { name: "Cancel the refund" })).toBeInTheDocument();
   });
 
   it("offers invoicing and discounts only with the right permissions", async () => {

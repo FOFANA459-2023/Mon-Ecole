@@ -1,4 +1,4 @@
-import { FilePlus2, HandCoins, Plus, ReceiptText } from "lucide-react";
+import { Ban, FilePlus2, HandCoins, Plus, ReceiptText, Undo2 } from "lucide-react";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router";
@@ -9,16 +9,26 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { useCurrentYear } from "@/features/academics/api";
-import type { StudentDiscount } from "@/lib/api/types";
+import type { Refund, StudentDiscount } from "@/lib/api/types";
 import { useAuth } from "@/lib/auth/context";
 import { useFormatDate } from "@/lib/dates";
 
-import { useDiscountLabel, useInvoices, useMoney, usePayments, useStudentDiscounts } from "./api";
+import {
+  useDiscountLabel,
+  useInvoices,
+  useMoney,
+  usePayments,
+  useRefunds,
+  useStudentAccount,
+  useStudentDiscounts,
+} from "./api";
 import { DiscountDialog } from "./DiscountDialog";
 import { ManualInvoiceDialog } from "./InvoiceDialogs";
+import { ReasonDialog } from "./ReasonDialog";
 import { RecordPaymentDialog } from "./RecordPaymentDialog";
+import { RefundDialog } from "./RefundDialog";
 
-/** The "Payments" tab of a student's profile: balance, payments, invoices and discounts. */
+/** The "Payments" tab of a student's profile: balance, credit, payments, refunds, invoices and discounts. */
 export function StudentFinanceTab({ student }: { student: { id: number; full_name: string } }) {
   const { t } = useTranslation();
   const { can } = useAuth();
@@ -29,8 +39,12 @@ export function StudentFinanceTab({ student }: { student: { id: number; full_nam
   const invoices = useInvoices({ student: student.id, page_size: 100 });
   const discounts = useStudentDiscounts({ student: student.id, page_size: 50 });
   const payments = usePayments({ student: student.id, page_size: 100 });
+  const refunds = useRefunds({ student: student.id, page_size: 50 });
+  const account = useStudentAccount(student.id);
   const [invoicing, setInvoicing] = useState(false);
   const [paying, setPaying] = useState(false);
+  const [refunding, setRefunding] = useState(false);
+  const [cancellingRefund, setCancellingRefund] = useState<Refund | null>(null);
   const [discountDialog, setDiscountDialog] = useState<{ discount?: StudentDiscount } | null>(null);
 
   if (invoices.isError) return <QueryError onRetry={() => void invoices.refetch()} />;
@@ -38,8 +52,8 @@ export function StudentFinanceTab({ student }: { student: { id: number; full_nam
   const open = invoices.data.results.filter((i) => i.status === "issued");
   const balance = open.reduce((sum, i) => sum + Number(i.balance), 0);
   const overdue = open.reduce((sum, i) => sum + Number(i.overdue_amount), 0);
-  // Money paid that no invoice has used yet (reversed payments leave nothing).
-  const credit = (payments.data?.results ?? []).reduce((sum, p) => sum + Number(p.unallocated), 0);
+  // Money paid that no invoice has used yet and that was not refunded.
+  const credit = Number(account.data?.credit ?? 0);
 
   return (
     <div className="grid gap-4">
@@ -62,6 +76,11 @@ export function StudentFinanceTab({ student }: { student: { id: number; full_nam
           <CardContent>
             <p className="text-muted-foreground text-sm">{t("finance.credit")}</p>
             <p className="text-2xl font-semibold tabular-nums">{money.format(credit)}</p>
+            {credit > 0 && can("finance.refund") && (
+              <Button variant="link" size="sm" className="h-auto p-0" onClick={() => setRefunding(true)}>
+                <Undo2 /> {t("finance.refundCredit")}
+              </Button>
+            )}
           </CardContent>
         </Card>
       </div>
@@ -111,6 +130,42 @@ export function StudentFinanceTab({ student }: { student: { id: number; full_nam
           </Table>
         )}
       </Card>
+
+      {(refunds.data?.results ?? []).length > 0 && (
+        <Card className="gap-0 overflow-hidden py-0">
+          <CardHeader className="border-b py-3">
+            <CardTitle className="text-base">{t("finance.refunds")}</CardTitle>
+          </CardHeader>
+          <ul className="divide-y">
+            {refunds.data?.results.map((refund) => (
+              <li key={refund.id} className="flex flex-wrap items-center justify-between gap-2 px-4 py-3 text-sm">
+                <span>
+                  <span className={refund.status === "cancelled" ? "tabular-nums line-through" : "font-medium tabular-nums"}>
+                    {money.format(refund.amount)}
+                  </span>
+                  <span className="text-muted-foreground">
+                    {" "}
+                    · {formatDate(refund.date)} · {t(`finance.methods.${refund.method}`)} — {refund.reason}
+                  </span>
+                </span>
+                <span className="flex items-center gap-2">
+                  <StatusBadge status={refund.status} />
+                  {refund.status === "posted" && can("finance.refund") && (
+                    <Button
+                      variant="ghost"
+                      size="icon"
+                      aria-label={t("finance.cancelRefund")}
+                      onClick={() => setCancellingRefund(refund)}
+                    >
+                      <Ban />
+                    </Button>
+                  )}
+                </span>
+              </li>
+            ))}
+          </ul>
+        </Card>
+      )}
 
       <Card className="gap-0 overflow-hidden py-0">
         <CardHeader className="flex flex-row items-center justify-between gap-3 border-b py-3">
@@ -196,6 +251,17 @@ export function StudentFinanceTab({ student }: { student: { id: number; full_nam
       </Card>
 
       {paying && <RecordPaymentDialog student={student} onClose={() => setPaying(false)} />}
+      {refunding && <RefundDialog student={student} credit={credit} onClose={() => setRefunding(false)} />}
+      {cancellingRefund && (
+        <ReasonDialog
+          title={t("finance.cancelRefund")}
+          hint={t("finance.cancelRefundHint")}
+          confirmLabel={t("finance.confirmCancelRefund")}
+          path={`/refunds/${cancellingRefund.id}/cancel/`}
+          success={t("finance.refundCancelled")}
+          onClose={() => setCancellingRefund(null)}
+        />
+      )}
       {invoicing && (
         <ManualInvoiceDialog student={student} defaultYearId={currentYear?.id ?? null} onClose={() => setInvoicing(false)} />
       )}

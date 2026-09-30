@@ -131,3 +131,110 @@ export const account = {
     return { ...line, category_name: "Fees", net: balance, paid: "0.00", balance, is_overdue: index === 0 };
   }),
 };
+
+export const openSessionBrief = {
+  id: 31,
+  opened_at: "2026-09-30T07:45:00Z",
+  opened_by_name: "Fatoumata Sylla",
+  opening_balance: "150000.00",
+  expected: "600000.00",
+};
+
+export const registers = [
+  { id: 1, name: "Caisse principale", is_active: true, open_session: openSessionBrief, last_counted: "150000.00" },
+  { id: 2, name: "Caisse annexe", is_active: true, open_session: null, last_counted: "40000.00" },
+];
+
+export const cashSession = {
+  id: 31,
+  register: 1,
+  register_name: "Caisse principale",
+  status: "open",
+  opened_at: "2026-09-30T07:45:00Z",
+  opened_by_name: "Fatoumata Sylla",
+  opening_balance: "150000.00",
+  opening_note: "",
+  money_in: "535000.00",
+  money_out: "85000.00",
+  expected: "600000.00",
+  closed_at: null,
+  closed_by_name: null,
+  expected_closing: null,
+  counted_closing: null,
+  difference: null,
+  closing_note: "",
+  by_source: [
+    { source: "payment", direction: "in", count: 1, total: "535000.00" },
+    { source: "expense", direction: "out", count: 1, total: "85000.00" },
+  ],
+  movements: [
+    {
+      id: 1,
+      created_at: "2026-09-30T08:02:00Z",
+      direction: "in",
+      source: "payment",
+      amount: "535000.00",
+      description: "REC-2026-000009 — Awa Diallo",
+      created_by_name: "Fatoumata Sylla",
+      payment: 9,
+      payment_number: "REC-2026-000009",
+      expense: null,
+      expense_number: null,
+      refund: null,
+      student: 7,
+    },
+    {
+      id: 2,
+      created_at: "2026-09-30T09:15:00Z",
+      direction: "out",
+      source: "expense",
+      amount: "85000.00",
+      description: "EXP-2026-000001 — Chalk and markers",
+      created_by_name: "Fatoumata Sylla",
+      payment: null,
+      payment_number: null,
+      expense: 1,
+      expense_number: "EXP-2026-000001",
+      refund: null,
+      student: null,
+    },
+  ],
+};
+
+export const expense = {
+  id: 1,
+  number: "EXP-2026-000001",
+  date: "2026-09-30",
+  category: "supplies",
+  amount: "85000.00",
+  method: "cash",
+  payee: "Librairie Kaloum",
+  reference: "",
+  description: "Chalk and markers",
+  status: "recorded",
+  recorded_by_name: "Fatoumata Sylla",
+  created_at: "2026-09-30T09:15:00Z",
+  cancelled_at: null,
+  cancelled_by_name: null,
+  cancel_reason: "",
+  cash_session: { id: 31, register_name: "Caisse principale" },
+};
+
+export const refund = {
+  id: 4,
+  student: 7,
+  student_name: "Awa Diallo",
+  student_number: "STU-2026-00007",
+  date: "2026-09-30",
+  amount: "20000.00",
+  method: "cash",
+  reference: "",
+  reason: "Paid twice",
+  status: "posted",
+  refunded_by_name: "Fatoumata Sylla",
+  created_at: "2026-09-30T10:00:00Z",
+  cancelled_at: null,
+  cancelled_by_name: null,
+  cancel_reason: "",
+  cash_session: { id: 31, register_name: "Caisse principale" },
+};

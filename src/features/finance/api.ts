@@ -8,9 +8,12 @@ import type {
   FeeSchedule,
   Invoice,
   InvoiceListItem,
+  Expense,
+  ExpenseCategory,
   Payment,
   PaymentListItem,
   PaymentMethod,
+  Refund,
   StudentAccount,
   StudentDiscount,
 } from "@/lib/api/types";
@@ -98,6 +101,38 @@ export function useStudentAccount(studentId: number | null) {
 }
 
 export const PAYMENT_METHODS: PaymentMethod[] = ["cash", "mobile_money", "bank_transfer", "cheque", "card", "other"];
+
+export const EXPENSE_CATEGORIES: ExpenseCategory[] = [
+  "salaries",
+  "rent",
+  "utilities",
+  "supplies",
+  "maintenance",
+  "transport",
+  "food",
+  "events",
+  "taxes",
+  "other",
+];
+
+export function useExpenses(params: Query) {
+  const schoolId = useSchoolId();
+  return useQuery({
+    queryKey: [FINANCE_KEY, schoolId, "expenses", params],
+    queryFn: ({ signal }) => api.get<Paginated<Expense>>("/expenses/", params, signal),
+    enabled: schoolId !== null,
+    placeholderData: keepPreviousData,
+  });
+}
+
+export function useRefunds(params: Query, enabled = true) {
+  const schoolId = useSchoolId();
+  return useQuery({
+    queryKey: [FINANCE_KEY, schoolId, "refunds", params],
+    queryFn: ({ signal }) => api.get<Paginated<Refund>>("/refunds/", params, signal),
+    enabled: schoolId !== null && enabled,
+  });
+}
 
 /** Formats amounts in the current school's currency and the interface language. */
 export function useMoney() {
