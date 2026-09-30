@@ -126,7 +126,8 @@
     "rolesRequired": "Choose at least one role.",
     "range": "Value between {{min}} and {{max}}.",
     "alphanumeric": "Letters and digits only.",
-    "endAfterStart": "The end date must be after the start date."
+    "endAfterStart": "The end date must be after the start date.",
+    "emailRequiredForAccess": "An email address is needed to send the invitation."
   },
   "errors": {
     "generic": "Something went wrong. Please try again.",
@@ -527,7 +528,26 @@
     "changePhoto": "Change photo",
     "photoUpdated": "Photo updated",
     "classesCount_one": "{{count}} class",
-    "classesCount_other": "{{count}} classes"
+    "classesCount_other": "{{count}} classes",
+    "addHint": "They receive an email to confirm their address and a temporary password to sign in.",
+    "accessSection": "Access to Mon École",
+    "role": "Role",
+    "chooseRole": "Choose a role",
+    "loginEmail": "Email (used to sign in)",
+    "inviteExplained": "The verification link and the temporary password are valid 7 days; at first sign-in they choose their own password.",
+    "createdInvited": "Staff member added. Invitation sent to {{email}}.",
+    "teachingSection": "Teaching this school year",
+    "homeroomClass": "Class teacher of",
+    "subjectsTaught": "Subjects taught",
+    "subject": "Subject",
+    "addSubject": "Add a subject and class",
+    "noSubjectsYet": "No subjects yet. Add one row per class and subject.",
+    "teachingNoYear": "Set up the current school year first to assign classes.",
+    "teachingNoClasses": "Create this year's classes first to assign them.",
+    "editTeaching": "Edit teaching",
+    "teachingTitle": "Teaching — {{name}}",
+    "teachingHint": "The class they lead and the subjects they teach this year. Another teacher already on one of these is replaced.",
+    "teachingSaved": "Teaching saved"
   },
   "students": {
     "title": "Students",

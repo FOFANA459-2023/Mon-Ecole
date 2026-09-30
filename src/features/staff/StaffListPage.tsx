@@ -50,9 +50,12 @@ export function StaffListPage() {
                   <FileUp /> {t("common.import")}
                 </Link>
               </Button>
-              <Button onClick={() => setCreating(true)}>
-                <Plus /> {t("staff.add")}
-              </Button>
+              {/* Adding someone also creates their login, which needs the right to manage users. */}
+              {can("users.manage") && (
+                <Button onClick={() => setCreating(true)}>
+                  <Plus /> {t("staff.add")}
+                </Button>
+              )}
             </>
           )
         }

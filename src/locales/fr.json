@@ -126,7 +126,8 @@
     "rolesRequired": "Choisissez au moins un rôle.",
     "range": "Valeur entre {{min}} et {{max}}.",
     "alphanumeric": "Lettres et chiffres uniquement.",
-    "endAfterStart": "La date de fin doit être après la date de début."
+    "endAfterStart": "La date de fin doit être après la date de début.",
+    "emailRequiredForAccess": "Une adresse e-mail est nécessaire pour envoyer l'invitation."
   },
   "errors": {
     "generic": "Une erreur est survenue. Veuillez réessayer.",
@@ -527,7 +528,26 @@
     "changePhoto": "Changer la photo",
     "photoUpdated": "Photo mise à jour",
     "classesCount_one": "{{count}} classe",
-    "classesCount_other": "{{count}} classes"
+    "classesCount_other": "{{count}} classes",
+    "addHint": "La personne reçoit un e-mail pour confirmer son adresse et un mot de passe temporaire pour se connecter.",
+    "accessSection": "Accès à Mon École",
+    "role": "Rôle",
+    "chooseRole": "Choisissez un rôle",
+    "loginEmail": "E-mail (sert à se connecter)",
+    "inviteExplained": "Le lien de vérification et le mot de passe temporaire sont valables 7 jours ; à la première connexion, la personne choisit son propre mot de passe.",
+    "createdInvited": "Membre du personnel ajouté. Invitation envoyée à {{email}}.",
+    "teachingSection": "Enseignement cette année scolaire",
+    "homeroomClass": "Professeur principal de",
+    "subjectsTaught": "Matières enseignées",
+    "subject": "Matière",
+    "addSubject": "Ajouter une matière et une classe",
+    "noSubjectsYet": "Aucune matière. Ajoutez une ligne par classe et par matière.",
+    "teachingNoYear": "Créez d'abord l'année scolaire en cours pour attribuer des classes.",
+    "teachingNoClasses": "Créez d'abord les classes de cette année pour les attribuer.",
+    "editTeaching": "Modifier l'enseignement",
+    "teachingTitle": "Enseignement — {{name}}",
+    "teachingHint": "La classe dont la personne est professeur principal et les matières qu'elle enseigne cette année. Un autre enseignant déjà affecté à l'un de ces postes est remplacé.",
+    "teachingSaved": "Enseignement enregistré"
   },
   "students": {
     "title": "Élèves",

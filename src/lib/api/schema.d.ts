@@ -1268,6 +1268,23 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/v1/staff/{id}/teaching/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** @description Replace the classes this teacher leads and the subjects they teach this school year. */
+        post: operations["staff_teaching_create"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/v1/student-discounts/": {
         parameters: {
             query?: never;
@@ -1747,7 +1764,9 @@ export interface components {
         ArchiveStatusEnum: "active" | "archived";
         AssignmentSubject: {
             id: number;
+            class_id: number;
             class_name: string;
+            subject_id: number;
             subject_name: string;
         };
         Assignments: {
@@ -2909,7 +2928,8 @@ export interface components {
             /** Format: date-time */
             readonly created_at: string;
         };
-        StaffRequest: {
+        /** @description Adding a staff member always gives them a login: an email and a role are required. */
+        StaffCreateRequest: {
             employee_number?: string;
             first_name: string;
             last_name: string;
@@ -2917,7 +2937,8 @@ export interface components {
             /** Format: date */
             date_of_birth?: string | null;
             phone?: string;
-            email?: string;
+            /** Format: email */
+            email: string;
             address?: string;
             staff_type?: components["schemas"]["StaffTypeEnum"];
             /** @description Job title, e.g. Mathematics teacher. */
@@ -2926,6 +2947,8 @@ export interface components {
             specialization?: string;
             /** Format: date */
             employment_date?: string | null;
+            role_id: number;
+            teaching?: components["schemas"]["TeachingRequest"];
         };
         /**
          * @description * `teacher` - Teacher
@@ -3035,6 +3058,15 @@ export interface components {
             /** Format: decimal */
             default_coefficient?: string;
             is_active?: boolean;
+        };
+        TeachingItemRequest: {
+            class_group: number;
+            subject: number;
+        };
+        /** @description What a teacher does this year: the classes they lead and the subjects they teach, per class. */
+        TeachingRequest: {
+            homeroom_class_ids?: number[];
+            subjects?: components["schemas"]["TeachingItemRequest"][];
         };
         Term: {
             readonly id: number;
@@ -5272,9 +5304,9 @@ export interface operations {
         };
         requestBody: {
             content: {
-                "application/json": components["schemas"]["StaffRequest"];
-                "multipart/form-data": components["schemas"]["StaffRequest"];
-                "application/x-www-form-urlencoded": components["schemas"]["StaffRequest"];
+                "application/json": components["schemas"]["StaffCreateRequest"];
+                "multipart/form-data": components["schemas"]["StaffCreateRequest"];
+                "application/x-www-form-urlencoded": components["schemas"]["StaffCreateRequest"];
             };
         };
         responses: {
@@ -5425,6 +5457,34 @@ export interface operations {
             cookie?: never;
         };
         requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Staff"];
+                };
+            };
+        };
+    };
+    staff_teaching_create: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description A unique integer value identifying this staff member. */
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: {
+            content: {
+                "application/json": components["schemas"]["TeachingRequest"];
+                "multipart/form-data": components["schemas"]["TeachingRequest"];
+                "application/x-www-form-urlencoded": components["schemas"]["TeachingRequest"];
+            };
+        };
         responses: {
             200: {
                 headers: {
