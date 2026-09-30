@@ -7,14 +7,14 @@ import { useAuth } from "@/lib/auth/context";
 import { AuthLayout } from "./AuthLayout";
 import { ChangePasswordForm } from "./ChangePasswordForm";
 
-/** Shown when an administrator set a temporary password: it must be replaced before continuing. */
+/** First sign-in with the temporary password from the invitation: it must be replaced before continuing. */
 export function ChangePasswordPage() {
   const { t } = useTranslation();
   const { logout } = useAuth();
   const navigate = useNavigate();
   return (
     <AuthLayout title={t("auth.changeTitle")} subtitle={t("auth.changeForced")}>
-      <ChangePasswordForm onDone={() => navigate("/", { replace: true })} />
+      <ChangePasswordForm firstPassword onDone={() => navigate("/", { replace: true })} />
       <Button variant="link" className="mt-4 px-0" onClick={() => void logout()}>
         {t("nav.logout")}
       </Button>

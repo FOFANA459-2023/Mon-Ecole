@@ -30,7 +30,8 @@ import { applyApiErrors, errorMessage } from "@/lib/forms";
 
 import { usePermissionGroups, useRoles } from "./api";
 
-const SUPER_ADMIN = "super_admin";
+// The Director always holds every permission; the server ignores changes to its list.
+const DIRECTOR = "director";
 
 function PermissionMatrix({
   groups,
@@ -104,7 +105,7 @@ function RoleDialog({
   const { t } = useTranslation();
   const queryClient = useQueryClient();
   const { refreshUser } = useAuth();
-  const locked = role?.key === SUPER_ADMIN;
+  const locked = role?.key === DIRECTOR;
 
   const schema = useMemo(
     () =>
@@ -161,7 +162,7 @@ function RoleDialog({
             {locked && (
               <Alert>
                 <Lock />
-                <AlertDescription>{t("settings.roles.superAdminLocked")}</AlertDescription>
+                <AlertDescription>{t("settings.roles.directorLocked")}</AlertDescription>
               </Alert>
             )}
             <Controller

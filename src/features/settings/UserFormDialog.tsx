@@ -1,13 +1,12 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useQueryClient } from "@tanstack/react-query";
 import { useMemo } from "react";
-import { Controller, useForm, useWatch } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { toast } from "sonner";
 import { z } from "zod";
 
 import { Field } from "@/components/common";
-import { PasswordInput } from "@/components/PasswordInput";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import {
@@ -19,9 +18,7 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Switch } from "@/components/ui/switch";
 import { api } from "@/lib/api/client";
 import type { Member } from "@/lib/api/types";
 import { useAuth } from "@/lib/auth/context";
@@ -29,7 +26,9 @@ import { applyApiErrors } from "@/lib/forms";
 
 import { useRoles } from "./api";
 
-const FIELDS = ["email", "first_name", "last_name", "phone", "language", "role_ids", "password"] as const;
+const FIELDS = ["email", "first_name", "last_name", "phone", "language", "role_ids"] as const;
+// Only the platform owner grants the Director role (the API enforces it too).
+const DIRECTOR = "director";
 
 type Props = {
   open: boolean;
@@ -47,22 +46,15 @@ export function UserFormDialog({ open, onOpenChange, member }: Props) {
 
   const schema = useMemo(
     () =>
-      z
-        .object({
-          email: z.email(t("validation.email")),
-          first_name: z.string().trim().min(1, t("validation.required")),
-          last_name: z.string().trim().min(1, t("validation.required")),
-          phone: z.string().trim(),
-          language: z.enum(["fr", "en"]),
-          role_ids: z.array(z.number()).min(1, t("validation.rolesRequired")),
-          set_password: z.boolean(),
-          password: z.string(),
-        })
-        .refine((v) => editing || !v.set_password || v.password.length >= 10, {
-          path: ["password"],
-          message: t("validation.passwordLength"),
-        }),
-    [t, editing],
+      z.object({
+        email: z.email(t("validation.email")),
+        first_name: z.string().trim().min(1, t("validation.required")),
+        last_name: z.string().trim().min(1, t("validation.required")),
+        phone: z.string().trim(),
+        language: z.enum(["fr", "en"]),
+        role_ids: z.array(z.number()).min(1, t("validation.rolesRequired")),
+      }),
+    [t],
   );
   type Values = z.infer<typeof schema>;
 
@@ -75,11 +67,13 @@ export function UserFormDialog({ open, onOpenChange, member }: Props) {
       phone: member?.user.phone ?? "",
       language: member?.user.language ?? membership?.school.default_language ?? "fr",
       role_ids: member?.roles.map((r) => r.id) ?? [],
-      set_password: false,
-      password: "",
     },
   });
-  const setPassword = useWatch({ control: form.control, name: "set_password" });
+  const owner = Boolean(currentUser?.is_platform_admin);
+  const isDirector = member?.roles.some((r) => r.key === DIRECTOR) ?? false;
+  // A Director's roles are the owner's to change; others never see the Director role.
+  const lockedRoles = isDirector && !owner;
+  const roleChoices = (roles.data ?? []).filter((role) => owner || role.key !== DIRECTOR);
 
   const onSubmit = form.handleSubmit(async (values) => {
     try {
@@ -89,7 +83,7 @@ export function UserFormDialog({ open, onOpenChange, member }: Props) {
           last_name: values.last_name,
           phone: values.phone,
           language: values.language,
-          role_ids: values.role_ids,
+          ...(lockedRoles ? {} : { role_ids: values.role_ids }),
         });
         toast.success(t("settings.users.updated"));
         if (member.user.id === currentUser?.id) await refreshUser();
@@ -101,9 +95,8 @@ export function UserFormDialog({ open, onOpenChange, member }: Props) {
           phone: values.phone,
           language: values.language,
           role_ids: values.role_ids,
-          ...(values.set_password ? { password: values.password } : {}),
         });
-        toast.success(values.set_password ? t("settings.users.created") : t("settings.users.createdInvite"));
+        toast.success(t("settings.users.createdInvite", { email: values.email }));
       }
       await queryClient.invalidateQueries({ queryKey: ["members"] });
       await queryClient.invalidateQueries({ queryKey: ["roles"] });
@@ -156,14 +149,15 @@ export function UserFormDialog({ open, onOpenChange, member }: Props) {
             </Field>
           </div>
 
-          <fieldset className="grid gap-2">
+          <fieldset className="grid gap-2" disabled={lockedRoles}>
             <legend className="mb-1 text-sm font-medium">{t("settings.users.roles")}</legend>
+            {lockedRoles && <p className="text-muted-foreground text-xs">{t("settings.users.directorLocked")}</p>}
             <Controller
               control={form.control}
               name="role_ids"
               render={({ field }) => (
                 <div className="grid gap-1.5 sm:grid-cols-2">
-                  {(roles.data ?? []).map((role) => {
+                  {(lockedRoles ? (roles.data ?? []) : roleChoices).map((role) => {
                     const checked = field.value.includes(role.id);
                     return (
                       <label
@@ -172,6 +166,7 @@ export function UserFormDialog({ open, onOpenChange, member }: Props) {
                       >
                         <Checkbox
                           checked={checked}
+                          disabled={lockedRoles}
                           onCheckedChange={(value) =>
                             field.onChange(
                               value ? [...field.value, role.id] : field.value.filter((id) => id !== role.id),
@@ -188,33 +183,7 @@ export function UserFormDialog({ open, onOpenChange, member }: Props) {
             {errors.role_ids && <p className="text-destructive text-xs">{errors.role_ids.message}</p>}
           </fieldset>
 
-          {!editing && (
-            <div className="grid gap-3 rounded-lg border p-3">
-              <div className="flex items-start justify-between gap-4">
-                <div>
-                  <Label htmlFor="u-setpw">{t("settings.users.setPassword")}</Label>
-                  <p className="text-muted-foreground mt-1 text-xs">{t("settings.users.setPasswordHint")}</p>
-                </div>
-                <Controller
-                  control={form.control}
-                  name="set_password"
-                  render={({ field }) => (
-                    <Switch id="u-setpw" checked={field.value} onCheckedChange={field.onChange} />
-                  )}
-                />
-              </div>
-              {setPassword && (
-                <Field
-                  label={t("settings.users.tempPassword")}
-                  htmlFor="u-password"
-                  error={errors.password?.message}
-                  hint={t("settings.users.tempPasswordHint")}
-                >
-                  <PasswordInput id="u-password" autoComplete="new-password" {...form.register("password")} />
-                </Field>
-              )}
-            </div>
-          )}
+          {!editing && <p className="text-muted-foreground text-xs">{t("settings.users.inviteExplained")}</p>}
         </form>
         <DialogFooter>
           <Button variant="outline" onClick={() => onOpenChange(false)} disabled={isSubmitting}>

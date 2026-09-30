@@ -6,6 +6,7 @@ import { toast } from "sonner";
 
 import { EmptyState, Pagination, QueryError, Spinner } from "@/components/common";
 import { ConfirmDialog } from "@/components/ConfirmDialog";
+import { StatusBadge } from "@/components/display";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -158,10 +159,8 @@ export function UsersPage() {
                         <TableCell>
                           {!member.is_active ? (
                             <Badge variant="outline">{t("common.inactive")}</Badge>
-                          ) : !member.user.has_password ? (
-                            <Badge variant="outline" className="border-amber-300 bg-amber-50 text-amber-800 dark:border-amber-700 dark:bg-amber-950 dark:text-amber-300">
-                              {t("settings.users.invitePending")}
-                            </Badge>
+                          ) : member.user.account_status !== "active" ? (
+                            <StatusBadge status={`invite_${member.user.account_status}`} />
                           ) : (
                             <Badge className="bg-success/15 text-success border-transparent">{t("common.active")}</Badge>
                           )}
@@ -182,7 +181,7 @@ export function UsersPage() {
                               <DropdownMenuItem onSelect={() => setDialog({ open: true, member })}>
                                 <Pencil /> {t("common.edit")}
                               </DropdownMenuItem>
-                              {member.is_active && !member.user.has_password && (
+                              {member.is_active && member.user.account_status !== "active" && (
                                 <DropdownMenuItem onSelect={() => void resendInvite(member)}>
                                   <MailPlus /> {t("settings.users.resendInvite")}
                                 </DropdownMenuItem>

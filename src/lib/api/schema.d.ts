@@ -215,6 +215,26 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/v1/auth/verify-email/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * @description The link in an invitation email: confirms the address, then the person signs in with the temporary
+         *     password and chooses their own.
+         */
+        post: operations["auth_verify_email_create"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/v1/class-subjects/": {
         parameters: {
             query?: never;
@@ -967,6 +987,84 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/v1/platform/schools/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * @description Every school on the platform. Register one (with its Director), suspend or reactivate it, and resend
+         *     the Director's invitation.
+         */
+        get: operations["platform_schools_list"];
+        put?: never;
+        /**
+         * @description Every school on the platform. Register one (with its Director), suspend or reactivate it, and resend
+         *     the Director's invitation.
+         */
+        post: operations["platform_schools_create"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/platform/schools/{id}/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * @description Every school on the platform. Register one (with its Director), suspend or reactivate it, and resend
+         *     the Director's invitation.
+         */
+        get: operations["platform_schools_retrieve"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/platform/schools/{id}/resend-invitation/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** @description Send a new verification link and temporary password to Directors who have not activated yet. */
+        post: operations["platform_schools_resend_invitation_create"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/platform/schools/{id}/status/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** @description Suspend a school (nobody can sign in to it) or reactivate it. */
+        post: operations["platform_schools_status_create"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/v1/roles/": {
         parameters: {
             query?: never;
@@ -1635,6 +1733,13 @@ export interface components {
             term_count?: number;
         };
         /**
+         * @description * `active` - active
+         *     * `pending` - pending
+         *     * `expired` - expired
+         * @enum {string}
+         */
+        AccountStatusEnum: "active" | "pending" | "expired";
+        /**
          * @description * `active` - Active
          *     * `archived` - Archived
          * @enum {string}
@@ -1696,7 +1801,7 @@ export interface components {
             reason: string;
         };
         ChangePasswordRequest: {
-            current_password: string;
+            current_password?: string;
             new_password: string;
         };
         ClassGroup: {
@@ -1757,6 +1862,14 @@ export interface components {
          * @enum {string}
          */
         CycleEnum: "preschool" | "primary" | "lower_secondary" | "upper_secondary" | "other";
+        Director: {
+            id: number;
+            full_name: string;
+            /** Format: email */
+            email: string;
+            phone: string;
+            account_status: components["schemas"]["AccountStatusEnum"];
+        };
         /**
          * @description * `percent` - Percentage
          *     * `fixed` - Fixed amount
@@ -2196,7 +2309,6 @@ export interface components {
             phone?: string;
             language?: components["schemas"]["LanguageEnum"];
             role_ids: number[];
-            password?: string;
         };
         MemberUser: {
             readonly id: number;
@@ -2215,6 +2327,17 @@ export interface components {
             /** Format: date-time */
             last_login?: string | null;
             readonly has_password: boolean;
+            readonly account_status: components["schemas"]["AccountStatusEnum"];
+            /** Format: date-time */
+            readonly invitation_expires_at: string;
+        };
+        NewDirectorRequest: {
+            first_name: string;
+            last_name: string;
+            /** Format: email */
+            email: string;
+            /** @default  */
+            phone: string;
         };
         NewStudentRequest: {
             student_number?: string;
@@ -2341,6 +2464,21 @@ export interface components {
              */
             previous?: string | null;
             results: components["schemas"]["Member"][];
+        };
+        PaginatedPlatformSchoolList: {
+            /** @example 123 */
+            count: number;
+            /**
+             * Format: uri
+             * @example http://api.example.org/accounts/?page=4
+             */
+            next?: string | null;
+            /**
+             * Format: uri
+             * @example http://api.example.org/accounts/?page=2
+             */
+            previous?: string | null;
+            results: components["schemas"]["PlatformSchool"][];
         };
         PaginatedStaffList: {
             /** @example 123 */
@@ -2605,6 +2743,21 @@ export interface components {
             /** Format: binary */
             file: string;
         };
+        PlatformSchool: {
+            readonly id: number;
+            readonly name: string;
+            readonly code: string;
+            readonly country: string;
+            readonly currency: string;
+            readonly timezone: string;
+            readonly default_language: components["schemas"]["LanguageEnum"];
+            readonly status: components["schemas"]["SchoolStatusEnum"];
+            /** Format: date-time */
+            readonly created_at: string;
+            readonly student_count: number;
+            readonly member_count: number;
+            readonly directors: components["schemas"]["Director"][];
+        };
         PrimaryGuardian: {
             id: number;
             full_name: string;
@@ -2623,6 +2776,16 @@ export interface components {
             skipped: {
                 [key: string]: unknown;
             }[];
+        };
+        RegisterSchoolRequest: {
+            name: string;
+            /** @description Short unique identifier, e.g. 'horizon'. */
+            code: string;
+            country: string;
+            currency: string;
+            timezone: string;
+            default_language: components["schemas"]["LanguageEnum"];
+            director: components["schemas"]["NewDirectorRequest"];
         };
         /** @description New enrolment in one request: a new student (or an existing one), guardians and the class. */
         RegistrationRequest: {
@@ -2709,6 +2872,9 @@ export interface components {
          * @enum {string}
          */
         SchoolStatusEnum: "active" | "suspended";
+        SchoolStatusRequest: {
+            status: components["schemas"]["SchoolStatusEnum"];
+        };
         /**
          * @description * `enrolment` - Enrolment fees
          *     * `manual` - Manual
@@ -2890,6 +3056,9 @@ export interface components {
             start_date: string;
             /** Format: date */
             end_date: string;
+        };
+        VerifyEmailRequest: {
+            token: string;
         };
         WithdrawRequest: {
             /** Format: date */
@@ -3240,6 +3409,33 @@ export interface operations {
             cookie?: never;
         };
         requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        [key: string]: unknown;
+                    };
+                };
+            };
+        };
+    };
+    auth_verify_email_create: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["VerifyEmailRequest"];
+                "application/x-www-form-urlencoded": components["schemas"]["VerifyEmailRequest"];
+                "multipart/form-data": components["schemas"]["VerifyEmailRequest"];
+            };
+        };
         responses: {
             200: {
                 headers: {
@@ -4706,6 +4902,136 @@ export interface operations {
                     "application/json": {
                         [key: string]: unknown;
                     };
+                };
+            };
+        };
+    };
+    platform_schools_list: {
+        parameters: {
+            query?: {
+                country?: string;
+                /** @description Which field to use when ordering the results. */
+                ordering?: string;
+                /** @description A page number within the paginated result set. */
+                page?: number;
+                /** @description Number of results to return per page. */
+                page_size?: number;
+                /** @description A search term. */
+                search?: string;
+                /**
+                 * @description * `active` - Active
+                 *     * `suspended` - Suspended
+                 */
+                status?: "active" | "suspended";
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PaginatedPlatformSchoolList"];
+                };
+            };
+        };
+    };
+    platform_schools_create: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["RegisterSchoolRequest"];
+                "application/x-www-form-urlencoded": components["schemas"]["RegisterSchoolRequest"];
+                "multipart/form-data": components["schemas"]["RegisterSchoolRequest"];
+            };
+        };
+        responses: {
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PlatformSchool"];
+                };
+            };
+        };
+    };
+    platform_schools_retrieve: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description A unique integer value identifying this school. */
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PlatformSchool"];
+                };
+            };
+        };
+    };
+    platform_schools_resend_invitation_create: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description A unique integer value identifying this school. */
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description No response body */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    platform_schools_status_create: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description A unique integer value identifying this school. */
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["SchoolStatusRequest"];
+                "application/x-www-form-urlencoded": components["schemas"]["SchoolStatusRequest"];
+                "multipart/form-data": components["schemas"]["SchoolStatusRequest"];
+            };
+        };
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PlatformSchool"];
                 };
             };
         };

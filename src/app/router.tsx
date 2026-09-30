@@ -7,7 +7,7 @@ import { DashboardPage } from "@/features/dashboard/DashboardPage";
 import { ComingSoonPage } from "@/features/modules/ComingSoonPage";
 import { NotFoundPage } from "@/features/modules/NotFoundPage";
 
-import { PublicOnly, RequireAuth, RequirePermission } from "./guards";
+import { PublicOnly, RequireAuth, RequirePermission, RequirePlatformOwner } from "./guards";
 import { AppLayout } from "./layout/AppLayout";
 import { NAV_ITEMS, SETTINGS_TABS } from "./nav";
 
@@ -120,6 +120,10 @@ export const routes: RouteObject[] = [
   { path: "/forgot-password", element: <ForgotPasswordPage /> },
   { path: "/reset-password", element: <ResetPasswordPage /> },
   {
+    path: "/verify-email",
+    lazy: () => import("@/features/auth/VerifyEmailPage").then((m) => ({ Component: m.VerifyEmailPage })),
+  },
+  {
     element: <RequireAuth />,
     children: [
       {
@@ -133,6 +137,16 @@ export const routes: RouteObject[] = [
           { index: true, element: <DashboardPage /> },
           ...phase2Routes,
           ...phase3Routes,
+          {
+            element: <RequirePlatformOwner />,
+            children: [
+              {
+                path: "platform",
+                lazy: () =>
+                  import("@/features/platform/PlatformSchoolsPage").then((m) => ({ Component: m.PlatformSchoolsPage })),
+              },
+            ],
+          },
           ...comingSoonRoutes,
           {
             path: "account",

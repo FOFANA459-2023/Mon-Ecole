@@ -3,7 +3,7 @@ import { AlertCircle } from "lucide-react";
 import { useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
-import { Link, useNavigate, useSearchParams } from "react-router";
+import { Link, useLocation, useNavigate, useSearchParams } from "react-router";
 import { z } from "zod";
 
 import { Field } from "@/components/common";
@@ -27,6 +27,7 @@ export function LoginPage() {
   const { login } = useAuth();
   const navigate = useNavigate();
   const [params] = useSearchParams();
+  const location = useLocation();
   const [formError, setFormError] = useState<string | null>(null);
 
   const schema = useMemo(
@@ -39,7 +40,12 @@ export function LoginPage() {
   );
   type Values = z.infer<typeof schema>;
 
-  const form = useForm<Values>({ resolver: zodResolver(schema), defaultValues: { login: "", password: "" } });
+  // The email confirmation page sends people here with their address filled in.
+  const confirmedEmail = (location.state as { email?: string } | null)?.email ?? "";
+  const form = useForm<Values>({
+    resolver: zodResolver(schema),
+    defaultValues: { login: confirmedEmail, password: "" },
+  });
 
   const onSubmit = form.handleSubmit(async (values) => {
     setFormError(null);
@@ -49,6 +55,10 @@ export function LoginPage() {
     } catch (error) {
       if (error instanceof ApiError && error.code === "invalid_credentials") {
         setFormError(t("auth.invalidCredentials"));
+      } else if (error instanceof ApiError && error.code === "email_not_verified") {
+        setFormError(t("auth.emailNotVerified"));
+      } else if (error instanceof ApiError && error.code === "invitation_expired") {
+        setFormError(t("auth.invitationExpired"));
       } else if (error instanceof ApiError && error.status === 429) {
         setFormError(t("auth.tooManyAttempts"));
       } else {

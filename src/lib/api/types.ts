@@ -76,6 +76,9 @@ export type Invoice = Schemas["Invoice"];
 export type InvoiceListItem = Schemas["InvoiceList"];
 export type PaymentStatus = Schemas["PaymentStatusEnum"];
 export type GenerateInvoicesResult = Schemas["GenerateInvoicesResult"];
+export type PlatformSchool = Schemas["PlatformSchool"];
+export type RegisterSchoolRequest = Schemas["RegisterSchoolRequest"];
+export type AccountStatus = Schemas["AccountStatusEnum"];
 
 export type Gender = "M" | "F";
 export type Relationship = "father" | "mother" | "guardian" | "other";

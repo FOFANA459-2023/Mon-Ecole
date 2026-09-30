@@ -76,7 +76,8 @@
     "account": "Mon compte",
     "logout": "Se déconnecter",
     "switchSchool": "Changer d'établissement",
-    "menu": "Menu"
+    "menu": "Menu",
+    "platform": "Tous les établissements"
   },
   "auth": {
     "signInTitle": "Connexion",
@@ -106,11 +107,15 @@
     "setPassword": "Enregistrer le mot de passe",
     "resetDone": "Votre mot de passe a été enregistré. Vous pouvez maintenant vous connecter.",
     "invalidLink": "Ce lien est invalide ou a expiré. Demandez un nouveau lien.",
-    "changeTitle": "Changer de mot de passe",
-    "changeForced": "Pour votre sécurité, choisissez un nouveau mot de passe avant de continuer.",
+    "changeTitle": "Choisissez votre mot de passe",
+    "changeForced": "Bienvenue ! Remplacez le mot de passe temporaire par votre propre mot de passe.",
     "changeDone": "Mot de passe modifié. Vos autres sessions ont été fermées.",
     "noAccessTitle": "Aucun établissement",
-    "noAccessBody": "Votre compte n'est rattaché à aucun établissement actif. Contactez l'administrateur de votre école."
+    "noAccessBody": "Votre compte n'est rattaché à aucun établissement actif. Contactez l'administrateur de votre école.",
+    "emailNotVerified": "Confirmez d'abord votre adresse e-mail avec le lien reçu dans l'invitation.",
+    "invitationExpired": "Votre mot de passe temporaire a expiré. Demandez à votre établissement de renvoyer l'invitation.",
+    "verifyTitle": "Confirmez votre e-mail",
+    "verifyDone": "{{email}} est confirmé. Connectez-vous maintenant avec cet e-mail et le mot de passe temporaire de l'invitation ; vous choisirez ensuite votre propre mot de passe."
   },
   "validation": {
     "required": "Ce champ est obligatoire.",
@@ -128,11 +133,10 @@
     "network": "Impossible de joindre le serveur. Vérifiez votre connexion Internet.",
     "forbidden": "Vous n'avez pas l'autorisation d'effectuer cette action.",
     "notFound": "Page introuvable",
-    "notFoundBody": "La page demandée n'existe pas ou a été déplacée.",
+    "notFoundBody": "Cette fiche n'existe pas, ou elle ne fait pas partie de ce que votre compte peut consulter.",
     "goHome": "Retour au tableau de bord",
     "loadFailed": "Impossible de charger les données.",
-    "notFoundTitle": "Introuvable",
-    "notFoundBody": "Cette fiche n'existe pas, ou elle ne fait pas partie de ce que votre compte peut consulter."
+    "notFoundTitle": "Introuvable"
   },
   "dashboard": {
     "greeting": "Bonjour, {{name}}",
@@ -238,17 +242,11 @@
       "roles": "Rôles",
       "status": "Statut",
       "lastLogin": "Dernière connexion",
-      "invitePending": "Invitation en attente",
       "firstName": "Prénom",
       "lastName": "Nom",
       "phone": "Téléphone",
       "language": "Langue",
-      "setPassword": "Définir un mot de passe provisoire",
-      "setPasswordHint": "Sinon, une invitation par e-mail permettra à la personne de choisir son mot de passe.",
-      "tempPassword": "Mot de passe provisoire",
-      "tempPasswordHint": "La personne devra le changer à sa première connexion.",
-      "created": "Utilisateur ajouté",
-      "createdInvite": "Utilisateur ajouté — invitation envoyée par e-mail",
+      "createdInvite": "Invitation envoyée à {{email}}",
       "updated": "Utilisateur mis à jour",
       "editTitle": "Modifier l'utilisateur",
       "resendInvite": "Renvoyer l'invitation",
@@ -259,7 +257,9 @@
       "reactivated": "Accès rétabli",
       "confirmDeactivate": "Retirer l'accès de {{name}} à cet établissement ? Son historique est conservé.",
       "empty": "Aucun utilisateur ne correspond à votre recherche.",
-      "filterStatus": "Statut"
+      "filterStatus": "Statut",
+      "inviteExplained": "La personne recevra un e-mail avec un lien pour confirmer son adresse et un mot de passe temporaire (valables 7 jours). À la première connexion, elle choisit son propre mot de passe.",
+      "directorLocked": "Seul le propriétaire de la plateforme peut modifier les rôles d'un directeur."
     },
     "roles": {
       "title": "Rôles et autorisations",
@@ -272,13 +272,13 @@
       "description": "Description",
       "permissions": "Autorisations",
       "selectAll": "Tout",
-      "superAdminLocked": "Le Super Administrateur dispose toujours de toutes les autorisations.",
       "created": "Rôle créé",
       "updated": "Rôle mis à jour",
       "deleted": "Rôle supprimé",
       "confirmDelete": "Supprimer le rôle « {{name}} » ?",
       "editTitle": "Modifier le rôle",
-      "createTitle": "Nouveau rôle"
+      "createTitle": "Nouveau rôle",
+      "directorLocked": "Le directeur dispose toujours de toutes les permissions."
     },
     "audit": {
       "title": "Journal d'audit",
@@ -331,7 +331,9 @@
     "paid": "Payée",
     "partial": "Partiellement payée",
     "unpaid": "Non payée",
-    "overdue": "En retard"
+    "overdue": "En retard",
+    "invite_pending": "Invitation envoyée",
+    "invite_expired": "Invitation expirée"
   },
   "gender": {
     "M": "Masculin",
@@ -848,5 +850,49 @@
     "discountAppliesLater": "La remise s'applique aux factures émises à partir de maintenant. Pour modifier une facture déjà émise, annulez-la puis émettez-la de nouveau.",
     "noStudentInvoices": "Aucune facture pour cet élève.",
     "noStudentDiscounts": "Aucune remise."
+  },
+  "platform": {
+    "title": "Tous les établissements",
+    "subtitle": "Tous les établissements de Mon École. Inscrivez un établissement avec son directeur, ouvrez-en un ou suspendez-le.",
+    "registerTitle": "Inscrire un établissement",
+    "registerHint": "Le directeur reçoit un e-mail d'invitation avec un lien de vérification et un mot de passe temporaire.",
+    "register": "Inscrire l'établissement",
+    "theSchool": "L'établissement",
+    "theDirector": "Directeur / Principal",
+    "schoolName": "Établissement",
+    "code": "Code court",
+    "codeHint": "Minuscules, chiffres et tirets, ex. horizon.",
+    "codeFormat": "Utilisez uniquement des minuscules, des chiffres et des tirets.",
+    "country": "Pays",
+    "currency": "Devise",
+    "language": "Langue",
+    "languageHint": "Langue par défaut des écrans et des e-mails de l'établissement.",
+    "firstName": "Prénom",
+    "lastName": "Nom",
+    "email": "E-mail",
+    "phone": "Téléphone",
+    "inviteExplained": "Le directeur confirme son e-mail avec le lien, se connecte avec le mot de passe temporaire, puis choisit le sien. Les deux sont valables 7 jours.",
+    "registered": "{{name}} inscrit. Invitation envoyée à {{email}}.",
+    "settingsColumn": "Pays · devise · langue",
+    "students": "Élèves",
+    "users": "Utilisateurs",
+    "open": "Ouvrir cet établissement",
+    "resendInvite": "Renvoyer l'invitation du directeur",
+    "inviteResent": "Invitation renvoyée",
+    "suspend": "Suspendre l'établissement",
+    "confirmSuspend": "Suspendre {{name}} ? Personne de cet établissement ne pourra se connecter tant que vous ne l'aurez pas réactivé. Aucune donnée n'est supprimée.",
+    "suspended": "{{name}} suspendu",
+    "reactivate": "Réactiver l'établissement",
+    "reactivated": "{{name}} réactivé",
+    "noSchools": "Aucun établissement pour l'instant.",
+    "noSchoolsHint": "Inscrivez le premier établissement et son directeur.",
+    "countries": {
+      "GN": "Guinée",
+      "LR": "Liberia",
+      "SL": "Sierra Leone",
+      "CI": "Côte d'Ivoire",
+      "SN": "Sénégal",
+      "ML": "Mali"
+    }
   }
 }
