@@ -98,7 +98,7 @@ export function StaffDetailPage() {
   const [archiving, setArchiving] = useState(false);
 
   if (staffQuery.isPending) return <Spinner className="mx-auto my-10 size-6" />;
-  if (staffQuery.isError) return <QueryError onRetry={() => void staffQuery.refetch()} />;
+  if (staffQuery.isError) return <QueryError error={staffQuery.error} onRetry={() => void staffQuery.refetch()} />;
   const s = staffQuery.data;
   const refresh = () => queryClient.invalidateQueries({ queryKey: ["staff"] });
 

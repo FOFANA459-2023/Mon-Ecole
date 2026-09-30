@@ -85,6 +85,8 @@ export function DashboardPage() {
   const steps = SETUP_STEPS.filter((step) => can(step.permission));
   const maxLevel = Math.max(1, ...(data?.by_level ?? []).map((l) => l.count));
   const students = data?.students ?? 0;
+  // Teachers see figures for the classes they teach only.
+  const mine = data?.scope === "my_classes";
 
   return (
     <>
@@ -116,7 +118,7 @@ export function DashboardPage() {
       {can("dashboard.view") && (
         <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
           <Kpi
-            label={t("dashboard.kpi.students")}
+            label={t(mine ? "dashboard.kpi.myStudents" : "dashboard.kpi.students")}
             icon={GraduationCap}
             loading={loading}
             value={number.format(students)}
@@ -128,7 +130,7 @@ export function DashboardPage() {
             to={can("students.view") ? "/students" : undefined}
           />
           <Kpi
-            label={t("dashboard.kpi.classes")}
+            label={t(mine ? "dashboard.kpi.myClasses" : "dashboard.kpi.classes")}
             icon={School}
             loading={loading}
             value={number.format(data?.classes ?? 0)}

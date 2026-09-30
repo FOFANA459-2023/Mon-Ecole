@@ -13,12 +13,21 @@ export function formatDateTime(value: string | null | undefined, language: strin
   }).format(new Date(value));
 }
 
+// Currencies without minor units (same list as the backend's apps/finance/money.py).
+const ZERO_DECIMAL_CURRENCIES = new Set(["GNF", "XOF", "XAF", "RWF", "BIF", "DJF", "KMF", "UGX"]);
+
+export function currencyDecimals(currency: string): number {
+  return ZERO_DECIMAL_CURRENCIES.has(currency.toUpperCase()) ? 0 : 2;
+}
+
 export function formatMoney(amount: number | string, currency: string, language: string): string {
   const value = typeof amount === "string" ? Number(amount) : amount;
+  const digits = currencyDecimals(currency);
   return new Intl.NumberFormat(localeFor(language), {
     style: "currency",
     currency,
-    maximumFractionDigits: currency === "GNF" ? 0 : 2,
+    minimumFractionDigits: digits,
+    maximumFractionDigits: digits,
   }).format(value);
 }
 
