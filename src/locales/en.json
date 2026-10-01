@@ -175,7 +175,8 @@
     "capacityUsed": "{{used}} / {{capacity}} places filled",
     "staffTotal": "{{count}} staff members in total",
     "noYear": "No school year is set up yet: figures will appear once the year and classes are created.",
-    "yearLabel": "Year {{name}}"
+    "yearLabel": "Year {{name}}",
+    "attendanceCaption": "{{absent}} absent · {{taken}} of {{classes}} registers taken"
   },
   "modules": {
     "phase": "Phase {{phase}}",
@@ -1168,7 +1169,6 @@
       "submitted": "These marks have been submitted for review and can no longer be changed.",
       "published": "These marks are published and locked. Someone allowed to can reopen them."
     },
-    "student": "Student",
     "mark": "Mark",
     "rank": "Rank",
     "left": "Left",
@@ -1302,8 +1302,43 @@
       "schoolTitle": "The school's grading scale",
       "levelTitle": "A level's grading scale",
       "dialogHint": "E.g. out of 20 with a pass mark of 10, out of 10 for primary, or out of 100 with a pass mark of 70.",
-      "confirmDelete": "Delete the scale of {{level}}? It will use the school's scale again."
-    }
+      "confirmDelete": "Delete the scale of {{level}}? It will use the school's scale again.",
+      "bands": "Honours bands",
+      "bandsHint": "Printed on report cards: a mark from the value shown gets the label (the highest band reached).",
+      "useUsual": "Use the usual bands",
+      "usual": {
+        "excellent": "Excellent",
+        "veryGood": "Very good",
+        "good": "Good",
+        "fair": "Fair"
+      },
+      "bandLabel": "Label",
+      "bandFrom": "From",
+      "addBand": "Add a band"
+    },
+    "comments": {
+      "button": "Comments",
+      "title": "Report card comments — {{period}}",
+      "hint": "The general comment printed on each student's report card. Leave empty for none.",
+      "placeholder": "e.g. Good term, keep it up."
+    },
+    "cards": {
+      "print": "Print report cards",
+      "term": "{{term}} — whole class",
+      "annual": "Year (annual) — whole class",
+      "year": "Whole year",
+      "one": "Report card",
+      "publishedOnly": "Report cards only show published subjects: publish the others first for them to appear."
+    },
+    "studentTab": {
+      "notEnrolled": "Not enrolled in a class this school year",
+      "intro": "{{name}} — published marks only.",
+      "mention": "Honours / decision",
+      "nothingPublished": "nothing published yet",
+      "rankOf": "{{rank}} of {{of}}",
+      "printCard": "Print the report card — {{period}}"
+    },
+    "student": "Student"
   },
   "attendance": {
     "title": "Attendance",

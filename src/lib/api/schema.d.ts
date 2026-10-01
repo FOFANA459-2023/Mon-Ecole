@@ -1807,6 +1807,44 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/v1/report-cards/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * @description Report cards as one PDF: a whole class (one page per student) or one student; a term, or the year
+         *     when `term` is left out. Only published marks count.
+         */
+        get: operations["report_cards_retrieve"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/report-comments/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description The general comment on each student's report card, for a term or (no term) the year. */
+        get: operations["report_comments_list"];
+        put?: never;
+        /** @description The general comment on each student's report card, for a term or (no term) the year. */
+        post: operations["report_comments_create"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/v1/reports/finance/{key}/": {
         parameters: {
             query?: never;
@@ -2121,6 +2159,23 @@ export interface paths {
          *     Subclasses set `queryset`, `serializer_class`, `required_permissions` and `audit_module`.
          */
         patch: operations["student_discounts_partial_update"];
+        trace?: never;
+    };
+    "/api/v1/student-results/{id}/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description A student's results this school year: each term's average, rank and honours band, and the year's. */
+        get: operations["student_results_retrieve"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
         trace?: never;
     };
     "/api/v1/students/": {
@@ -2832,6 +2887,10 @@ export interface components {
             /** @default  */
             closing_note: string;
         };
+        CommentEntryRequest: {
+            enrollment: number;
+            comment: string;
+        };
         CopySetupRequest: {
             source: number;
             /** @default false */
@@ -3238,6 +3297,10 @@ export interface components {
             pass_mark?: string;
             decimals?: number;
             rank_method?: components["schemas"]["RankMethodEnum"];
+            /** @description [{min, label}], any order. */
+            mentions?: {
+                [key: string]: unknown;
+            }[];
         };
         GradingScaleRequest: {
             level?: number | null;
@@ -3250,6 +3313,10 @@ export interface components {
             pass_mark?: string;
             decimals?: number;
             rank_method?: components["schemas"]["RankMethodEnum"];
+            /** @description [{min, label}], any order. */
+            mentions?: {
+                [key: string]: unknown;
+            }[];
         };
         GrantAccessRequest: {
             role_ids: number[];
@@ -3562,6 +3629,11 @@ export interface components {
             readonly account_status: components["schemas"]["AccountStatusEnum"];
             /** Format: date-time */
             readonly invitation_expires_at: string;
+        };
+        Mention: {
+            /** Format: decimal */
+            min: string;
+            label: string;
         };
         /**
          * @description * `exclude` - Leave missing marks out of the average
@@ -4015,6 +4087,10 @@ export interface components {
             pass_mark?: string;
             decimals?: number;
             rank_method?: components["schemas"]["RankMethodEnum"];
+            /** @description [{min, label}], any order. */
+            mentions?: {
+                [key: string]: unknown;
+            }[];
         };
         PatchedGuardianLinkUpdateRequest: {
             relationship?: components["schemas"]["RelationshipEnum"];
@@ -4464,10 +4540,17 @@ export interface components {
          * @enum {string}
          */
         RelationshipEnum: "father" | "mother" | "guardian" | "other";
+        ReportCommentRow: {
+            enrollment: number;
+            student: number;
+            student_name: string;
+            comment: string;
+        };
         ResultMark: {
             class_subject: number;
             /** Format: decimal */
             mark: string | null;
+            rank: number | null;
         };
         ResultStudent: {
             enrollment: number;
@@ -4527,6 +4610,14 @@ export interface components {
             date: string;
             records: components["schemas"]["RecordEntryRequest"][];
         };
+        SaveReportCommentsRequest: {
+            class_group: number;
+            /** @description Leave out for the year. */
+            term?: number | null;
+            /** @description Only this student's card. */
+            enrollment?: number;
+            comments: components["schemas"]["CommentEntryRequest"][];
+        };
         SaveStaffAttendanceRequest: {
             /** Format: date */
             date: string;
@@ -4542,6 +4633,7 @@ export interface components {
             pass_mark?: string;
             decimals?: number;
             rank_method?: components["schemas"]["RankMethodEnum"];
+            readonly mentions: components["schemas"]["Mention"][];
         };
         School: {
             readonly id: number;
@@ -4858,6 +4950,26 @@ export interface components {
             email?: string;
             address?: string;
             notes?: string;
+        };
+        StudentResults: {
+            enrollment: number | null;
+            class_group: number | null;
+            class_name: string;
+            scale: components["schemas"]["ScaleBrief"] | null;
+            terms: components["schemas"]["StudentTermResult"][];
+        };
+        StudentTermResult: {
+            /** @description Null = the whole year. */
+            term: number | null;
+            term_name: string;
+            /** Format: decimal */
+            average: string | null;
+            rank: number | null;
+            ranked: number;
+            mention: string;
+            passed: boolean | null;
+            /** @description Published subjects counted. */
+            subjects: number;
         };
         Subject: {
             readonly id: number;
@@ -8406,6 +8518,81 @@ export interface operations {
             };
         };
     };
+    report_cards_retrieve: {
+        parameters: {
+            query: {
+                class_group: number;
+                /** @description Only this student's card. */
+                enrollment?: number;
+                /** @description Leave out for the year. */
+                term?: number | null;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/pdf": string;
+                };
+            };
+        };
+    };
+    report_comments_list: {
+        parameters: {
+            query: {
+                class_group: number;
+                /** @description Only this student's card. */
+                enrollment?: number;
+                /** @description Leave out for the year. */
+                term?: number | null;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ReportCommentRow"][];
+                };
+            };
+        };
+    };
+    report_comments_create: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["SaveReportCommentsRequest"];
+                "application/x-www-form-urlencoded": components["schemas"]["SaveReportCommentsRequest"];
+                "multipart/form-data": components["schemas"]["SaveReportCommentsRequest"];
+            };
+        };
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ReportCommentRow"][];
+                };
+            };
+        };
+    };
     reports_finance_retrieve: {
         parameters: {
             query?: {
@@ -9049,6 +9236,27 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["StudentDiscount"];
+                };
+            };
+        };
+    };
+    student_results_retrieve: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["StudentResults"];
                 };
             };
         };

@@ -2,7 +2,14 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useQueryClient } from "@tanstack/react-query";
 import { Gauge, MoreHorizontal, Pencil, Plus, Trash2 } from "lucide-react";
 import { useMemo, useState } from "react";
-import { Controller, useForm } from "react-hook-form";
+import {
+  type Control,
+  Controller,
+  type UseFormSetValue,
+  useFieldArray,
+  useForm,
+  useWatch,
+} from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { toast } from "sonner";
 import { z } from "zod";
@@ -30,8 +37,112 @@ import { GRADES_KEY, useGradingScales } from "./api";
 
 const RANK_METHODS: RankMethod[] = ["competition", "dense"];
 /** Out of 20, pass mark 10: what the school uses until it sets its own scale. */
-const BUILT_IN = { max_mark: "20", pass_mark: "10", decimals: 2, rank_method: "competition" as RankMethod };
+const BUILT_IN = {
+  max_mark: "20",
+  pass_mark: "10",
+  decimals: 2,
+  rank_method: "competition" as RankMethod,
+  mentions: [] as Band[],
+};
+/** The usual honours bands as fractions of the maximum (16, 14, 12 and 10 out of 20). */
+const USUAL_BANDS = [
+  { key: "excellent", share: 0.8 },
+  { key: "veryGood", share: 0.7 },
+  { key: "good", share: 0.6 },
+  { key: "fair", share: 0.5 },
+] as const;
+
+type Band = { min: number; label: string };
+
+function bandsOf(scale: { mentions?: unknown }): Band[] {
+  return Array.isArray(scale.mentions)
+    ? (scale.mentions as { min: number | string; label: string }[]).map((b) => ({ min: Number(b.min), label: b.label }))
+    : [];
+}
 const SCHOOL = "school";
+
+type BandForm = {
+  level: number | null;
+  max_mark: number;
+  pass_mark: number;
+  decimals: number;
+  rank_method: RankMethod;
+  mentions: Band[];
+};
+
+/** Honours bands ("Très bien" from 16...): the label printed on report cards for marks from `min` up. */
+function BandsEditor({
+  control,
+  setValue,
+}: {
+  control: Control<BandForm>;
+  setValue: UseFormSetValue<BandForm>;
+}) {
+  const { t } = useTranslation();
+  const bands = useFieldArray({ control, name: "mentions" });
+  const max = useWatch({ control, name: "max_mark" }) || 20;
+  const useUsual = () =>
+    setValue(
+      "mentions",
+      USUAL_BANDS.map((b) => ({ min: Math.round(b.share * max * 100) / 100, label: t(`grades.scale.usual.${b.key}`) })),
+      { shouldDirty: true },
+    );
+  return (
+    <div className="grid gap-2">
+      <div className="flex items-center justify-between gap-2">
+        <p className="text-sm font-medium">{t("grades.scale.bands")}</p>
+        <Button type="button" variant="ghost" size="sm" onClick={useUsual}>
+          {t("grades.scale.useUsual")}
+        </Button>
+      </div>
+      <p className="text-muted-foreground text-xs">{t("grades.scale.bandsHint")}</p>
+      {bands.fields.map((item, index) => (
+        <div key={item.id} className="grid grid-cols-[1fr_6rem_auto] gap-2">
+          <Controller
+            control={control}
+            name={`mentions.${index}.label`}
+            render={({ field }) => (
+              <Input {...field} aria-label={t("grades.scale.bandLabel")} placeholder={t("grades.scale.bandLabel")} />
+            )}
+          />
+          <Controller
+            control={control}
+            name={`mentions.${index}.min`}
+            render={({ field }) => (
+              <Input
+                type="number"
+                min={0}
+                step="any"
+                aria-label={t("grades.scale.bandFrom")}
+                value={Number.isNaN(field.value) ? "" : field.value}
+                onChange={(e) => field.onChange(e.target.value === "" ? Number.NaN : Number(e.target.value))}
+              />
+            )}
+          />
+          <Button
+            type="button"
+            variant="ghost"
+            size="icon"
+            aria-label={t("common.remove")}
+            onClick={() => bands.remove(index)}
+          >
+            <Trash2 />
+          </Button>
+        </div>
+      ))}
+      <Button
+        type="button"
+        variant="outline"
+        size="sm"
+        className="justify-self-start"
+        disabled={bands.fields.length >= 10}
+        onClick={() => bands.append({ min: 0, label: "" })}
+      >
+        <Plus /> {t("grades.scale.addBand")}
+      </Button>
+    </div>
+  );
+}
 
 function ScaleDialog({
   scale,
@@ -56,6 +167,14 @@ function ScaleDialog({
           pass_mark: z.number(t("validation.required")).min(0),
           decimals: z.number().int().min(0).max(3),
           rank_method: z.enum(RANK_METHODS as [RankMethod, ...RankMethod[]]),
+          mentions: z
+            .array(
+              z.object({
+                min: z.number(t("validation.required")).min(0),
+                label: z.string().trim().min(1, t("validation.required")).max(40),
+              }),
+            )
+            .max(10),
         })
         .refine((v) => v.pass_mark <= v.max_mark, { path: ["pass_mark"], message: t("grades.passWithinMax") })
         .refine((v) => isDefault || v.level !== null, { path: ["level"], message: t("validation.required") }),
@@ -71,6 +190,7 @@ function ScaleDialog({
       pass_mark: Number(source.pass_mark),
       decimals: source.decimals ?? 2,
       rank_method: source.rank_method ?? "competition",
+      mentions: bandsOf(source),
     },
   });
   const { errors, isSubmitting } = form.formState;
@@ -82,7 +202,7 @@ function ScaleDialog({
       toast.success(t("common.saved"));
       onClose();
     } catch (error) {
-      const message = applyApiErrors(error, form.setError, ["level", "max_mark", "pass_mark", "decimals"], t);
+      const message = applyApiErrors(error, form.setError, ["level", "max_mark", "pass_mark", "decimals", "mentions"], t);
       if (message) toast.error(message);
     }
   });
@@ -134,6 +254,7 @@ function ScaleDialog({
               {...form.register("decimals", { valueAsNumber: true })}
             />
           </Field>
+          <BandsEditor control={form.control} setValue={form.setValue} />
           <Field label={t("grades.scale.ties")} htmlFor="scale-ties">
             <Controller
               control={form.control}
@@ -173,11 +294,14 @@ export function GradingScalesCard({ canEdit }: { canEdit: boolean }) {
   const rows = scales.data ?? [];
   const school = rows.find((s) => s.level === null);
   const byLevel = rows.filter((s) => s.level !== null);
-  const describe = (s: Pick<GradingScale, "max_mark" | "pass_mark" | "decimals" | "rank_method">) => ({
+  const describe = (s: Pick<GradingScale, "max_mark" | "pass_mark" | "decimals" | "rank_method" | "mentions">) => ({
     max: Number(s.max_mark),
     pass: Number(s.pass_mark),
     decimals: s.decimals ?? 2,
     ties: t(`grades.scale.rankShort.${s.rank_method ?? "competition"}`),
+    bands: bandsOf(s)
+      .map((b) => `${b.label} ≥ ${b.min}`)
+      .join(" · "),
   });
 
   return (
@@ -210,6 +334,7 @@ export function GradingScalesCard({ canEdit }: { canEdit: boolean }) {
                   <TableHead>{t("grades.scale.passMark")}</TableHead>
                   <TableHead className="hidden sm:table-cell">{t("grades.scale.decimals")}</TableHead>
                   <TableHead className="hidden md:table-cell">{t("grades.scale.ties")}</TableHead>
+                  <TableHead className="hidden lg:table-cell">{t("grades.scale.bands")}</TableHead>
                   {canEdit && <TableHead className="w-12" />}
                 </TableRow>
               </TableHeader>
@@ -230,6 +355,9 @@ export function GradingScalesCard({ canEdit }: { canEdit: boolean }) {
                         <TableCell className="tabular-nums">{d.pass}</TableCell>
                         <TableCell className="hidden tabular-nums sm:table-cell">{d.decimals}</TableCell>
                         <TableCell className="text-muted-foreground hidden md:table-cell">{d.ties}</TableCell>
+                        <TableCell className="text-muted-foreground hidden text-xs lg:table-cell">
+                          {d.bands || "—"}
+                        </TableCell>
                         {canEdit && (
                           <TableCell>
                             <DropdownMenu>

@@ -175,7 +175,8 @@
     "capacityUsed": "{{used}} / {{capacity}} places occupées",
     "staffTotal": "{{count}} membres du personnel au total",
     "noYear": "Aucune année scolaire n'est configurée : les chiffres apparaîtront après la création de l'année et des classes.",
-    "yearLabel": "Année {{name}}"
+    "yearLabel": "Année {{name}}",
+    "attendanceCaption": "{{absent}} absent(s) · {{taken}} appel(s) sur {{classes}}"
   },
   "modules": {
     "phase": "Phase {{phase}}",
@@ -1168,7 +1169,6 @@
       "submitted": "Ces notes ont été soumises pour validation et ne peuvent plus être modifiées.",
       "published": "Ces notes sont publiées et verrouillées. Une personne habilitée peut les rouvrir."
     },
-    "student": "Élève",
     "mark": "Note",
     "rank": "Rang",
     "left": "Parti",
@@ -1302,8 +1302,43 @@
       "schoolTitle": "Barème de l'établissement",
       "levelTitle": "Barème d'un niveau",
       "dialogHint": "Par ex. sur 20 avec 10 de moyenne, sur 10 pour le primaire, ou sur 100 avec 70 pour réussir.",
-      "confirmDelete": "Supprimer le barème de {{level}} ? Le barème de l'établissement s'appliquera de nouveau."
-    }
+      "confirmDelete": "Supprimer le barème de {{level}} ? Le barème de l'établissement s'appliquera de nouveau.",
+      "bands": "Mentions",
+      "bandsHint": "Imprimées sur les bulletins : une note à partir de la valeur indiquée reçoit la mention (la plus haute atteinte).",
+      "useUsual": "Utiliser les mentions habituelles",
+      "usual": {
+        "excellent": "Très bien",
+        "veryGood": "Bien",
+        "good": "Assez bien",
+        "fair": "Passable"
+      },
+      "bandLabel": "Mention",
+      "bandFrom": "À partir de",
+      "addBand": "Ajouter une mention"
+    },
+    "comments": {
+      "button": "Appréciations",
+      "title": "Appréciations des bulletins — {{period}}",
+      "hint": "L'appréciation générale imprimée sur le bulletin de chaque élève. Laissez vide s'il n'y en a pas.",
+      "placeholder": "ex. Bon trimestre, continuez ainsi."
+    },
+    "cards": {
+      "print": "Imprimer les bulletins",
+      "term": "{{term}} — toute la classe",
+      "annual": "Bulletin annuel — toute la classe",
+      "year": "Année complète",
+      "one": "Bulletin",
+      "publishedOnly": "Les bulletins ne montrent que les matières publiées : publiez les autres pour qu'elles y figurent."
+    },
+    "studentTab": {
+      "notEnrolled": "Pas inscrit dans une classe cette année scolaire",
+      "intro": "{{name}} — notes publiées uniquement.",
+      "mention": "Mention / décision",
+      "nothingPublished": "rien de publié pour l'instant",
+      "rankOf": "{{rank}} sur {{of}}",
+      "printCard": "Imprimer le bulletin — {{period}}"
+    },
+    "student": "Élève"
   },
   "attendance": {
     "title": "Présences",

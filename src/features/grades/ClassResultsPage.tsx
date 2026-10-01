@@ -1,17 +1,29 @@
-import { Award } from "lucide-react";
+import { Award, FileText, MessageSquareText, Printer } from "lucide-react";
+import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router";
+import { toast } from "sonner";
 
 import { EmptyState, PageHeader, QueryError, Spinner } from "@/components/common";
 import { ClassSelect } from "@/components/pickers";
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import { Card } from "@/components/ui/card";
 import { ApiError } from "@/lib/api/client";
+import { useAuth } from "@/lib/auth/context";
+import { errorMessage } from "@/lib/forms";
 import { toNumberOrNull, useUrlState } from "@/lib/useUrlState";
 import { cn } from "@/lib/utils";
 
-import { useAllTerms, useChosenTerm, useClassResults, useFormatMark } from "./api";
+import { openReportCards, useAllTerms, useChosenTerm, useClassResults, useFormatMark } from "./api";
 import { GradebookStatusBadge } from "./GradebookStatusBadge";
+import { ReportCommentsDialog } from "./ReportCommentsDialog";
 import { TermSelect } from "./pickers";
 
 const DEFAULTS = { term: "", class: "" };
@@ -26,6 +38,14 @@ export function ClassResultsPage() {
   const yearId = terms.find((term) => term.id === termId)?.academic_year ?? null;
   const classId = toNumberOrNull(filters.class);
   const results = useClassResults(classId, termId);
+  const { can } = useAuth();
+  const canPrint = can("reportcards.generate");
+  const termName = terms.find((term) => term.id === termId)?.name ?? "";
+  const [commenting, setCommenting] = useState<"term" | "year" | null>(null);
+  const print = (term: number | null, enrollment?: number) => {
+    if (classId === null) return;
+    openReportCards({ class_group: classId, term, enrollment }).catch((error) => toast.error(errorMessage(error, t)));
+  };
 
   const body = () => {
     if (classId === null || termId === null) {
@@ -108,7 +128,18 @@ export function ClassResultsPage() {
                         <Link to={`/students/${student.student}`} className="font-medium hover:underline">
                           {student.student_name}
                         </Link>
-                        <span className="text-muted-foreground block text-xs">{student.student_number}</span>
+                        <span className="text-muted-foreground block text-xs">
+                          {student.student_number}
+                          {canPrint && (
+                            <button
+                              type="button"
+                              className="text-primary ml-2 hover:underline"
+                              onClick={() => print(termId, student.enrollment)}
+                            >
+                              {t("grades.cards.one")}
+                            </button>
+                          )}
+                        </span>
                       </th>
                       {subjects.map((subject) => {
                         const mark = marks.get(subject.class_subject);
@@ -190,7 +221,47 @@ export function ClassResultsPage() {
 
   return (
     <>
-      <PageHeader title={t("grades.resultsTitle")} description={t("grades.resultsSubtitle")} />
+      <PageHeader
+        title={t("grades.resultsTitle")}
+        description={t("grades.resultsSubtitle")}
+        actions={
+          results.isSuccess && classId !== null ? (
+            <>
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button variant="outline">
+                    <MessageSquareText /> {t("grades.comments.button")}
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end">
+                  <DropdownMenuItem onSelect={() => setCommenting("term")}>{termName}</DropdownMenuItem>
+                  <DropdownMenuItem onSelect={() => setCommenting("year")}>{t("grades.cards.year")}</DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+              {canPrint && (
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <Button>
+                      <Printer /> {t("grades.cards.print")}
+                    </Button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent align="end">
+                    <DropdownMenuItem onSelect={() => print(termId)}>
+                      <FileText /> {t("grades.cards.term", { term: termName })}
+                    </DropdownMenuItem>
+                    <DropdownMenuItem onSelect={() => print(null)}>
+                      <FileText /> {t("grades.cards.annual")}
+                    </DropdownMenuItem>
+                  </DropdownMenuContent>
+                </DropdownMenu>
+              )}
+            </>
+          ) : undefined
+        }
+      />
+      {canPrint && results.isSuccess && results.data.subjects.some((s) => s.status !== "published") && (
+        <p className="text-muted-foreground mb-3 text-sm">{t("grades.cards.publishedOnly")}</p>
+      )}
       <div className="mb-4 grid gap-3 sm:grid-cols-[16rem_16rem]">
         <TermSelect
           value={termId}
@@ -207,6 +278,14 @@ export function ClassResultsPage() {
         />
       </div>
       {body()}
+      {commenting && classId !== null && (
+        <ReportCommentsDialog
+          classId={classId}
+          termId={commenting === "term" ? termId : null}
+          periodName={commenting === "term" ? termName : t("grades.cards.year")}
+          onClose={() => setCommenting(null)}
+        />
+      )}
     </>
   );
 }
