@@ -3601,6 +3601,8 @@ export interface components {
             address?: string;
             notes?: string;
         };
+        /** @enum {unknown} */
+        NullEnum: null;
         /**
          * @description * `open` - Open
          *     * `closed` - Closed
@@ -4427,7 +4429,15 @@ export interface components {
             student: number;
             student_name: string;
             student_number: string;
-            status: components["schemas"]["AttendanceStatusEnum"];
+            /**
+             * @description Null = not marked yet.
+             *
+             *     * `present` - Present
+             *     * `absent` - Absent
+             *     * `late` - Late
+             *     * `excused` - Excused absence
+             */
+            status: (components["schemas"]["AttendanceStatusEnum"] | components["schemas"]["NullEnum"]) | null;
             minutes_late: number | null;
             note: string;
         };
@@ -4688,7 +4698,16 @@ export interface components {
             position: string;
             staff_type: string;
             recorded: boolean;
-            status: components["schemas"]["StaffAttendanceStatusEnum"];
+            /**
+             * @description Null = not recorded yet.
+             *
+             *     * `present` - Present
+             *     * `absent` - Absent
+             *     * `late` - Late
+             *     * `excused` - Excused absence
+             *     * `leave` - On leave
+             */
+            status: (components["schemas"]["StaffAttendanceStatusEnum"] | components["schemas"]["NullEnum"]) | null;
             minutes_late: number | null;
             note: string;
         };

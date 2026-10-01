@@ -1353,7 +1353,6 @@
     },
     "backToDay": "Tous les appels",
     "registerTitle": "Appel — {{name}}",
-    "everyonePresent": "Tout le monde est présent au départ : touchez les élèves absents, en retard ou excusés, puis enregistrez.",
     "readOnly": "Vous pouvez consulter cet appel mais pas le modifier.",
     "pastLocked": "Seule la direction peut corriger l'appel d'un jour passé.",
     "summary": "Résumé",
@@ -1382,11 +1381,18 @@
     "minAbsences": "Au moins (absences)",
     "noAbsences": "Aucun élève concerné",
     "saveStaff": "Enregistrer les présences du personnel",
-    "staffNotRecorded": "Pas encore enregistré pour ce jour : tout le monde est affiché présent.",
+    "staffNotRecorded": "Rien d'enregistré pour ce jour : marquez chaque personne, puis enregistrez.",
     "noStaff": "Aucun membre du personnel",
     "daysRecorded": "Jours d'appel",
     "eventsTitle": "Absences et retards cette année scolaire",
     "noEvents": "Présent chaque jour d'appel.",
-    "noRegistersForStudent": "Aucune présence à afficher pour cet élève"
+    "noRegistersForStudent": "Aucune présence à afficher pour cet élève",
+    "markEveryone": "Marquez chaque élève : présent, absent, en retard ou excusé. L'appel peut être enregistré quand plus personne ne reste.",
+    "toMark_one": "{{count}} élève reste à marquer",
+    "toMark_other": "{{count}} élèves restent à marquer",
+    "markRestPresent_one": "Marquer l'élève restant présent",
+    "markRestPresent_other": "Marquer les {{count}} élèves restants présents",
+    "staffToMark_one": "{{count}} personne non marquée ce jour.",
+    "staffToMark_other": "{{count}} personnes non marquées ce jour."
   }
 }

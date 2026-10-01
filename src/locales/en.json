@@ -1353,7 +1353,6 @@
     },
     "backToDay": "All registers",
     "registerTitle": "Register — {{name}}",
-    "everyonePresent": "Everyone starts present: tap the students who are absent, late or excused, then save.",
     "readOnly": "You can view this register but not change it.",
     "pastLocked": "Registers of earlier days can only be corrected by the school management.",
     "summary": "Summary",
@@ -1382,11 +1381,18 @@
     "minAbsences": "At least (absences)",
     "noAbsences": "No student matches",
     "saveStaff": "Save staff attendance",
-    "staffNotRecorded": "Not recorded yet for this day: everyone is shown present.",
+    "staffNotRecorded": "Nothing recorded for this day yet: mark each person, then save.",
     "noStaff": "No staff members",
     "daysRecorded": "Days recorded",
     "eventsTitle": "Absences and lateness this school year",
     "noEvents": "Present every day recorded.",
-    "noRegistersForStudent": "No attendance to show for this student"
+    "noRegistersForStudent": "No attendance to show for this student",
+    "markEveryone": "Mark every student: present, absent, late or excused. The register can be saved once nobody is left.",
+    "toMark_one": "{{count}} student still to mark",
+    "toMark_other": "{{count}} students still to mark",
+    "markRestPresent_one": "Mark the remaining student present",
+    "markRestPresent_other": "Mark the {{count}} remaining students present",
+    "staffToMark_one": "{{count}} person not marked for this day.",
+    "staffToMark_other": "{{count}} people not marked for this day."
   }
 }

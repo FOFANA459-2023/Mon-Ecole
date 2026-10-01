@@ -26,9 +26,9 @@ const sheet = {
   can_edit: true,
   can_take_today: true,
   students: [
-    { enrollment: 501, student: 7, student_name: "Awa Diallo", student_number: "STU-07", status: "present", minutes_late: null, note: "" },
-    { enrollment: 502, student: 8, student_name: "Binta Bah", student_number: "STU-08", status: "present", minutes_late: null, note: "" },
-    { enrollment: 503, student: 9, student_name: "Moussa Condé", student_number: "STU-09", status: "present", minutes_late: null, note: "" },
+    { enrollment: 501, student: 7, student_name: "Awa Diallo", student_number: "STU-07", status: null, minutes_late: null, note: "" },
+    { enrollment: 502, student: 8, student_name: "Binta Bah", student_number: "STU-08", status: null, minutes_late: null, note: "" },
+    { enrollment: 503, student: 9, student_name: "Moussa Condé", student_number: "STU-09", status: null, minutes_late: null, note: "" },
   ],
 };
 
@@ -75,16 +75,23 @@ describe("RegisterPage", () => {
     return () => posted;
   };
 
-  it("starts everyone present; the teacher taps the absent and late students and saves", async () => {
+  it("marks nobody in advance and saves only once the teacher has marked everyone", async () => {
     const posted = renderRegister();
     const binta = await screen.findByRole("radiogroup", { name: "Attendance of Binta Bah" });
-    expect(within(binta).getByRole("radio", { name: "Present" })).toHaveAttribute("aria-checked", "true");
+    expect(within(binta).getAllByRole("radio").filter((r) => r.getAttribute("aria-checked") === "true")).toEqual([]);
+    const save = screen.getByRole("button", { name: /Save the register/ });
+    expect(save).toBeDisabled();
+    expect(screen.getByRole("status", { name: "Summary" })).toHaveTextContent("3 students still to mark");
+
     await userEvent.click(within(binta).getByRole("radio", { name: "Absent" }));
     const moussa = screen.getByRole("radiogroup", { name: "Attendance of Moussa Condé" });
     await userEvent.click(within(moussa).getByRole("radio", { name: "Late" }));
     await userEvent.type(screen.getByRole("spinbutton", { name: "Minutes late — Moussa Condé" }), "15");
+    expect(save).toBeDisabled();
+    const awa = screen.getByRole("radiogroup", { name: "Attendance of Awa Diallo" });
+    await userEvent.click(within(awa).getByRole("radio", { name: "Present" }));
     expect(screen.getByRole("status", { name: "Summary" })).toHaveTextContent("1 present");
-    await userEvent.click(screen.getByRole("button", { name: /Save the register/ }));
+    await userEvent.click(save);
     await waitFor(() =>
       expect(posted()).toEqual({
         class_group: 3,
@@ -98,6 +105,16 @@ describe("RegisterPage", () => {
     );
   });
 
+  it("can mark the remaining students present in one tap, as the teacher's own choice", async () => {
+    renderRegister();
+    const binta = await screen.findByRole("radiogroup", { name: "Attendance of Binta Bah" });
+    expect(screen.queryByRole("button", { name: /remaining students present/ })).not.toBeInTheDocument();
+    await userEvent.click(within(binta).getByRole("radio", { name: "Absent" }));
+    await userEvent.click(screen.getByRole("button", { name: "Mark the 2 remaining students present" }));
+    expect(screen.getByRole("status", { name: "Summary" })).toHaveTextContent("2 present");
+    expect(screen.getByRole("button", { name: /Save the register/ })).toBeEnabled();
+  });
+
   it("is read-only when the user may not change it", async () => {
     renderRegister({ ...sheet, register: 12, taken_by_name: "Mamadou Barry", taken_at: "2026-10-14T08:00:00Z", can_edit: false });
     expect(await screen.findByText(/can view this register but not change it/)).toBeInTheDocument();
@@ -107,15 +124,15 @@ describe("RegisterPage", () => {
 });
 
 describe("StaffAttendancePage", () => {
-  it("records who came to work, with leave", async () => {
+  it("records the people marked, with leave; nobody is marked in advance", async () => {
     let posted: unknown = null;
     server.use(
       http.get(api("/attendance/staff/"), () =>
         HttpResponse.json({
           date: TODAY,
           staff: [
-            { staff: 1, full_name: "Mamadou Barry", position: "Maths teacher", staff_type: "teacher", recorded: false, status: "present", minutes_late: null, note: "" },
-            { staff: 2, full_name: "Aïssatou Sylla", position: "", staff_type: "support", recorded: false, status: "present", minutes_late: null, note: "" },
+            { staff: 1, full_name: "Mamadou Barry", position: "Maths teacher", staff_type: "teacher", recorded: false, status: null, minutes_late: null, note: "" },
+            { staff: 2, full_name: "Aïssatou Sylla", position: "", staff_type: "support", recorded: false, status: null, minutes_late: null, note: "" },
           ],
         }),
       ),
@@ -127,16 +144,11 @@ describe("StaffAttendancePage", () => {
     renderPage(<StaffAttendancePage />, { path: "/attendance/staff", permissions: ["attendance.staff"] });
     const sylla = await screen.findByRole("radiogroup", { name: "Attendance of Aïssatou Sylla" });
     expect(screen.getByText("Support staff")).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: /Save staff attendance/ })).toBeDisabled();
     await userEvent.click(within(sylla).getByRole("radio", { name: "On leave" }));
     await userEvent.click(screen.getByRole("button", { name: /Save staff attendance/ }));
     await waitFor(() =>
-      expect(posted).toEqual({
-        date: TODAY,
-        entries: [
-          { staff: 1, status: "present", minutes_late: null, note: "" },
-          { staff: 2, status: "leave", minutes_late: null, note: "" },
-        ],
-      }),
+      expect(posted).toEqual({ date: TODAY, entries: [{ staff: 2, status: "leave", minutes_late: null, note: "" }] }),
     );
   });
 });

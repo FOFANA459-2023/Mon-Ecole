@@ -20,7 +20,7 @@ import { cn } from "@/lib/utils";
 
 import { ATTENDANCE_KEY, STATUS_STYLES, STATUSES, todayIn, useRegister } from "./api";
 
-type Mark = { status: AttendanceStatus; minutes_late: number | null; note: string };
+type Mark = { status: AttendanceStatus | null; minutes_late: number | null; note: string };
 
 function marksOf(sheet: RegisterSheet): Record<number, Mark> {
   return Object.fromEntries(
@@ -28,7 +28,8 @@ function marksOf(sheet: RegisterSheet): Record<number, Mark> {
   );
 }
 
-/** One class's register for one day, made for a phone: everyone starts present, tap to mark the others. */
+/** One class's register for one day, made for a phone. Nobody is marked in advance: the teacher marks every
+ * student, and the register can only be saved once nobody is left. */
 export function RegisterPage() {
   const { t } = useTranslation();
   const { id } = useParams();
@@ -63,8 +64,15 @@ export function RegisterPage() {
   const counts = Object.fromEntries(
     STATUSES.map((status) => [status, Object.values(current).filter((m) => m.status === status).length]),
   ) as Record<AttendanceStatus, number>;
+  const unmarked = sheet.students.filter((s) => current[s.enrollment].status === null).length;
   const update = (enrollment: number, change: Partial<Mark>) =>
     setMarks({ ...current, [enrollment]: { ...current[enrollment], ...change } });
+  const markRestPresent = () =>
+    setMarks(
+      Object.fromEntries(
+        Object.entries(current).map(([key, mark]) => [key, mark.status === null ? { ...mark, status: "present" } : mark]),
+      ),
+    );
 
   const save = async () => {
     setSaving(true);
@@ -110,7 +118,7 @@ export function RegisterPage() {
           {sheet.updated_at && ` · ${t("attendance.changedBy", { name: sheet.updated_by_name, time: dateTime(sheet.updated_at) })}`}
         </p>
       ) : (
-        editable && <p className="text-muted-foreground mb-3 text-sm">{t("attendance.everyonePresent")}</p>
+        editable && <p className="text-muted-foreground mb-3 text-sm">{t("attendance.markEveryone")}</p>
       )}
       {!editable && (
         <Alert className="mb-4">
@@ -121,19 +129,35 @@ export function RegisterPage() {
         </Alert>
       )}
 
-      <div className="mb-3 flex flex-wrap gap-1.5" role="status" aria-label={t("attendance.summary")}>
+      <div className="mb-3 flex flex-wrap items-center gap-1.5" role="status" aria-label={t("attendance.summary")}>
+        {unmarked > 0 && (
+          <span className="bg-muted text-foreground rounded-md px-2 py-1 text-xs font-semibold">
+            {t("attendance.toMark", { count: unmarked })}
+          </span>
+        )}
         {STATUSES.map((status) => (
           <span key={status} className={cn("rounded-md px-2 py-1 text-xs font-medium", STATUS_STYLES[status].soft)}>
             {t(`attendance.counts.${status}`, { count: counts[status] })}
           </span>
         ))}
+        {editable && unmarked > 0 && unmarked < sheet.students.length && (
+          <Button variant="link" size="sm" className="h-auto px-1 text-xs" onClick={markRestPresent}>
+            {t("attendance.markRestPresent", { count: unmarked })}
+          </Button>
+        )}
       </div>
 
       <Card className="gap-0 divide-y py-0">
         {sheet.students.map((student) => {
           const mark = current[student.enrollment];
           return (
-            <div key={student.enrollment} className="grid gap-2 px-3 py-2.5 sm:grid-cols-[1fr_auto] sm:items-center">
+            <div
+              key={student.enrollment}
+              className={cn(
+                "grid gap-2 px-3 py-2.5 sm:grid-cols-[1fr_auto] sm:items-center",
+                editable && mark.status === null && "bg-amber-50/60 dark:bg-amber-950/20",
+              )}
+            >
               <div className="min-w-0">
                 <p className="truncate font-medium">{student.student_name}</p>
                 <p className="text-muted-foreground text-xs">{student.student_number}</p>
@@ -164,7 +188,7 @@ export function RegisterPage() {
                   );
                 })}
               </div>
-              {(mark.status !== "present" || mark.note) && (
+              {((mark.status !== null && mark.status !== "present") || mark.note) && (
                 <div className="grid grid-cols-[6.5rem_1fr] gap-2 sm:col-span-2">
                   {mark.status === "late" ? (
                     <Input
@@ -201,12 +225,19 @@ export function RegisterPage() {
       {editable && (
         <div className="bg-background/95 fixed inset-x-0 bottom-0 z-20 border-t p-3 backdrop-blur lg:left-64">
           <div className="mx-auto flex max-w-7xl items-center justify-end gap-2">
+            {unmarked > 0 && (
+              <span className="text-muted-foreground mr-auto text-sm">{t("attendance.toMark", { count: unmarked })}</span>
+            )}
             {dirty && (
               <Button variant="ghost" onClick={() => setMarks(null)} disabled={saving}>
                 <RotateCcw /> {t("attendance.undo")}
               </Button>
             )}
-            <Button onClick={() => void save()} disabled={saving || (!dirty && sheet.register !== null)} className="min-w-40">
+            <Button
+              onClick={() => void save()}
+              disabled={saving || unmarked > 0 || (!dirty && sheet.register !== null)}
+              className="min-w-40"
+            >
               <Save /> {saving ? t("common.saving") : sheet.register ? t("attendance.saveChanges") : t("attendance.saveRegister")}
             </Button>
           </div>

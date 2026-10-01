@@ -17,9 +17,9 @@ import { cn } from "@/lib/utils";
 
 import { ATTENDANCE_KEY, STAFF_STATUSES, STATUS_STYLES, todayIn, useStaffSheet } from "./api";
 
-type Entry = { status: StaffAttendanceStatus; minutes_late: number | null; note: string };
+type Entry = { status: StaffAttendanceStatus | null; minutes_late: number | null; note: string };
 
-/** Who came to work: one row per member of staff, present unless marked otherwise. */
+/** Who came to work: one row per member of staff. Nobody is marked in advance; only marked people are saved. */
 export function StaffAttendancePage() {
   const { t } = useTranslation();
   const { membership } = useAuth();
@@ -40,6 +40,7 @@ export function StaffAttendancePage() {
   );
   const current = changes?.date === date ? changes.entries : saved;
   const recorded = (sheet.data?.staff ?? []).some((s) => s.recorded);
+  const unmarked = Object.values(current).filter((e) => e.status === null).length;
   const dirty = changes?.date === date && JSON.stringify(changes.entries) !== JSON.stringify(saved);
   const update = (staff: number, change: Partial<Entry>) =>
     setChanges({ date, entries: { ...current, [staff]: { ...current[staff], ...change } } });
@@ -49,7 +50,9 @@ export function StaffAttendancePage() {
     try {
       await api.post("/attendance/staff/", {
         date,
-        entries: Object.entries(current).map(([staff, entry]) => ({
+        entries: Object.entries(current)
+          .filter(([, entry]) => entry.status !== null)
+          .map(([staff, entry]) => ({
           staff: Number(staff),
           status: entry.status,
           minutes_late: entry.status === "late" ? entry.minutes_late || null : null,
@@ -79,12 +82,14 @@ export function StaffAttendancePage() {
             onChange={(e) => setFilters({ date: e.target.value === today ? "" : e.target.value })}
           />
         </label>
-        <Button onClick={() => void save()} disabled={saving || (recorded && !dirty) || !sheet.data?.staff.length}>
+        <Button onClick={() => void save()} disabled={saving || !dirty}>
           <Save /> {saving ? t("common.saving") : t("attendance.saveStaff")}
         </Button>
       </div>
-      {!recorded && sheet.data && sheet.data.staff.length > 0 && (
-        <p className="text-muted-foreground text-sm">{t("attendance.staffNotRecorded")}</p>
+      {sheet.data && unmarked > 0 && (
+        <p className="text-muted-foreground text-sm">
+          {recorded ? t("attendance.staffToMark", { count: unmarked }) : t("attendance.staffNotRecorded")}
+        </p>
       )}
       {sheet.isError ? (
         <QueryError onRetry={() => void sheet.refetch()} />
@@ -127,7 +132,7 @@ export function StaffAttendancePage() {
                     </button>
                   ))}
                 </div>
-                {(entry.status !== "present" || entry.note) && (
+                {((entry.status !== null && entry.status !== "present") || entry.note) && (
                   <div className="grid grid-cols-[6.5rem_1fr] gap-2 md:col-span-2">
                     {entry.status === "late" ? (
                       <Input
