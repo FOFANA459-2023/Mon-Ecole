@@ -137,7 +137,11 @@
     "notFoundBody": "This record does not exist, or it is outside what your account can see.",
     "goHome": "Back to the dashboard",
     "loadFailed": "Could not load the data.",
-    "notFoundTitle": "Not found"
+    "notFoundTitle": "Not found",
+    "crashTitle": "This page stopped working",
+    "crashBody": "Something unexpected happened. Reload the page; if it happens again, tell us what you were doing.",
+    "crashTranslation": "Your browser's automatic translation changed the page and made it stop working. Turn off translation for this site (Mon École has its own French / English switch), then reload.",
+    "reload": "Reload the page"
   },
   "dashboard": {
     "greeting": "Hello, {{name}}",

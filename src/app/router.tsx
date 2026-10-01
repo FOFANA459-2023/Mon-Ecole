@@ -6,6 +6,7 @@ import { ResetPasswordPage } from "@/features/auth/ResetPasswordPage";
 import { DashboardPage } from "@/features/dashboard/DashboardPage";
 import { ComingSoonPage } from "@/features/modules/ComingSoonPage";
 import { NotFoundPage } from "@/features/modules/NotFoundPage";
+import { RouteErrorPage } from "@/features/modules/RouteErrorPage";
 
 import { PublicOnly, RequireAuth, RequirePermission, RequirePlatformOwner } from "./guards";
 import { AppLayout } from "./layout/AppLayout";
@@ -188,7 +189,7 @@ const phase4Routes: RouteObject[] = [
   ]),
 ];
 
-export const routes: RouteObject[] = [
+const pages: RouteObject[] = [
   {
     path: "/login",
     element: (
@@ -280,5 +281,8 @@ export const routes: RouteObject[] = [
     ],
   },
 ];
+
+// One pathless parent catches any page crash and shows a plain message instead of React Router's screen.
+export const routes: RouteObject[] = [{ errorElement: <RouteErrorPage />, children: pages }];
 
 export const router = createBrowserRouter(routes);

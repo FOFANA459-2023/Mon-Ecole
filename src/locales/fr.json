@@ -137,7 +137,11 @@
     "notFoundBody": "Cette fiche n'existe pas, ou elle ne fait pas partie de ce que votre compte peut consulter.",
     "goHome": "Retour au tableau de bord",
     "loadFailed": "Impossible de charger les données.",
-    "notFoundTitle": "Introuvable"
+    "notFoundTitle": "Introuvable",
+    "crashTitle": "Cette page a cessé de fonctionner",
+    "crashBody": "Un problème inattendu est survenu. Rechargez la page ; si cela se reproduit, dites-nous ce que vous faisiez.",
+    "crashTranslation": "La traduction automatique de votre navigateur a modifié la page et l'a fait planter. Désactivez la traduction pour ce site (Mon École a son propre choix français / anglais), puis rechargez.",
+    "reload": "Recharger la page"
   },
   "dashboard": {
     "greeting": "Bonjour, {{name}}",
