@@ -34,6 +34,7 @@ import { Input } from "@/components/ui/input";
 import { Switch } from "@/components/ui/switch";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { useAcademicYears, useLevels } from "@/features/academics/api";
+import { GradingScalesCard } from "@/features/grades/GradingScalesCard";
 import { api } from "@/lib/api/client";
 import type { AcademicYear, Level, Term } from "@/lib/api/types";
 import { useAuth } from "@/lib/auth/context";
@@ -551,6 +552,8 @@ export function AcademicSettingsPage() {
           )}
         </CardContent>
       </Card>
+
+      <GradingScalesCard canEdit={canEdit} />
 
       {dialog?.kind === "year" && <YearDialog year={dialog.year} onClose={() => setDialog(null)} />}
       {dialog?.kind === "term" && <TermDialog year={dialog.year} term={dialog.term} onClose={() => setDialog(null)} />}

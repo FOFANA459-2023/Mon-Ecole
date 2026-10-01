@@ -134,6 +134,25 @@ const phase3Routes: RouteObject[] = [
   ]),
 ];
 
+const phase4Routes: RouteObject[] = [
+  gated(access("assessments"), [
+    {
+      path: "assessments",
+      lazy: () => import("@/features/grades/GradebooksPage").then((m) => ({ Component: m.GradebooksPage })),
+    },
+    {
+      path: "assessments/:id",
+      lazy: () => import("@/features/grades/GradebookPage").then((m) => ({ Component: m.GradebookPage })),
+    },
+  ]),
+  gated(access("results"), [
+    {
+      path: "results",
+      lazy: () => import("@/features/grades/ClassResultsPage").then((m) => ({ Component: m.ClassResultsPage })),
+    },
+  ]),
+];
+
 export const routes: RouteObject[] = [
   {
     path: "/login",
@@ -163,6 +182,7 @@ export const routes: RouteObject[] = [
           { index: true, element: <DashboardPage /> },
           ...phase2Routes,
           ...phase3Routes,
+          ...phase4Routes,
           {
             element: <RequirePlatformOwner />,
             children: [
