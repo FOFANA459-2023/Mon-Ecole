@@ -71,6 +71,7 @@ describe("GradebookPage — marks", () => {
     renderGradebook();
     expect(await screen.findByRole("heading", { name: "Mathématiques — 7ème A" })).toBeInTheDocument();
     const grid = await screen.findByRole("table");
+    expect(within(grid).getByRole("columnheader", { name: "Student" })).toBeInTheDocument();
     expect(within(grid).getByRole("columnheader", { name: /Interro 1/ })).toHaveTextContent("/10");
     expect(within(grid).getByRole("columnheader", { name: /Compo T1/ })).toHaveTextContent("/40");
     expect(within(grid).getByText("33 %")).toBeInTheDocument();

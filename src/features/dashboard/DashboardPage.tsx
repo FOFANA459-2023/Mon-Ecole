@@ -149,12 +149,27 @@ export function DashboardPage() {
           />
           {can("finance.view") && (
             <>
-              <Kpi label={t("dashboard.kpi.collected")} icon={Wallet} value="—" caption={t("dashboard.availableIn", { phase: 3 })} />
-              <Kpi label={t("dashboard.kpi.outstanding")} icon={ReceiptText} value="—" caption={t("dashboard.availableIn", { phase: 3 })} />
+              <Kpi label={t("dashboard.kpi.collected")} icon={Wallet} value="—" caption={t("dashboard.availableIn", { phase: 5 })} />
+              <Kpi label={t("dashboard.kpi.outstanding")} icon={ReceiptText} value="—" caption={t("dashboard.availableIn", { phase: 5 })} />
             </>
           )}
           {can("attendance.view") && (
-            <Kpi label={t("dashboard.kpi.presentToday")} icon={CalendarCheck} value="—" caption={t("dashboard.availableIn", { phase: 4 })} />
+            <Kpi
+              label={t("dashboard.kpi.presentToday")}
+              icon={CalendarCheck}
+              loading={loading}
+              value={data?.attendance_today ? number.format(data.attendance_today.present + data.attendance_today.late) : "—"}
+              caption={
+                data?.attendance_today
+                  ? t("dashboard.attendanceCaption", {
+                      absent: data.attendance_today.absent + data.attendance_today.excused,
+                      taken: data.attendance_today.registers_taken,
+                      classes: data.attendance_today.classes,
+                    })
+                  : ""
+              }
+              to="/attendance"
+            />
           )}
         </div>
       )}

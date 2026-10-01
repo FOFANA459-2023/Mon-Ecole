@@ -135,6 +135,41 @@ const phase3Routes: RouteObject[] = [
 ];
 
 const phase4Routes: RouteObject[] = [
+  gated(access("attendance"), [
+    {
+      path: "attendance",
+      lazy: () => import("@/features/attendance/AttendanceLayout").then((m) => ({ Component: m.AttendanceLayout })),
+      children: [
+        gated(["attendance.view"], [
+          {
+            index: true,
+            lazy: () =>
+              import("@/features/attendance/AttendanceDayPage").then((m) => ({ Component: m.AttendanceDayPage })),
+          },
+          {
+            path: "reports",
+            lazy: () =>
+              import("@/features/attendance/AttendanceReportsPage").then((m) => ({
+                Component: m.AttendanceReportsPage,
+              })),
+          },
+        ]),
+        gated(["attendance.staff"], [
+          {
+            path: "staff",
+            lazy: () =>
+              import("@/features/attendance/StaffAttendancePage").then((m) => ({ Component: m.StaffAttendancePage })),
+          },
+        ]),
+      ],
+    },
+  ]),
+  gated(["attendance.view"], [
+    {
+      path: "attendance/classes/:id",
+      lazy: () => import("@/features/attendance/RegisterPage").then((m) => ({ Component: m.RegisterPage })),
+    },
+  ]),
   gated(access("assessments"), [
     {
       path: "assessments",

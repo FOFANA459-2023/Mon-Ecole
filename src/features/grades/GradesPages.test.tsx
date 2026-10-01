@@ -11,6 +11,7 @@ import { defaultTerm } from "./api";
 import { ClassResultsPage } from "./ClassResultsPage";
 import { GradebooksPage } from "./GradebooksPage";
 import { GradingScalesCard } from "./GradingScalesCard";
+import { StudentResultsTab } from "./StudentResultsTab";
 
 const withTerms = () => server.use(http.get(api("/academic-years/"), () => HttpResponse.json([yearWithTerms])));
 
@@ -57,6 +58,53 @@ describe("ClassResultsPage", () => {
     expect(screen.getByRole("link", { name: "MATH" })).toHaveAttribute("href", "/assessments/40");
   });
 
+  it("lets the director print the class's report cards and write the comments", async () => {
+    withTerms();
+    let comments: unknown = null;
+    server.use(
+      http.get(api("/class-results/"), () => HttpResponse.json(classResults)),
+      http.get(api("/report-comments/"), () =>
+        HttpResponse.json([
+          { enrollment: 501, student: 7, student_name: "Awa Diallo", comment: "" },
+          { enrollment: 502, student: 8, student_name: "Binta Bah", comment: "Peut mieux faire." },
+        ]),
+      ),
+      http.post(api("/report-comments/"), async ({ request }) => {
+        comments = await request.json();
+        return HttpResponse.json([]);
+      }),
+    );
+    renderPage(<ClassResultsPage />, {
+      path: "/results?term=11&class=3",
+      permissions: ["grades.view", "reportcards.generate"],
+    });
+    expect(await screen.findByRole("button", { name: /Print report cards/ })).toBeInTheDocument();
+    expect(screen.getByText(/only show published subjects/)).toBeInTheDocument();
+    expect(screen.getAllByRole("button", { name: "Report card" })).toHaveLength(2);
+
+    await userEvent.click(screen.getByRole("button", { name: /Comments/ }));
+    await userEvent.click(await screen.findByRole("menuitem", { name: "Trimestre 1" }));
+    const dialog = await screen.findByRole("dialog");
+    await userEvent.type(within(dialog).getByRole("textbox", { name: "Awa Diallo" }), "Excellent trimestre.");
+    await userEvent.click(within(dialog).getByRole("button", { name: "Save" }));
+    await waitFor(() =>
+      expect(comments).toEqual({
+        class_group: 3,
+        term: 11,
+        comments: [{ enrollment: 501, comment: "Excellent trimestre." }],
+      }),
+    );
+  });
+
+  it("offers no printing without the report-card right", async () => {
+    withTerms();
+    server.use(http.get(api("/class-results/"), () => HttpResponse.json(classResults)));
+    renderPage(<ClassResultsPage />, { path: "/results?term=11&class=3", permissions: ["grades.view"] });
+    await screen.findByRole("link", { name: "Awa Diallo" });
+    expect(screen.queryByRole("button", { name: /Print report cards/ })).not.toBeInTheDocument();
+    expect(screen.queryByRole("button", { name: "Report card" })).not.toBeInTheDocument();
+  });
+
   it("explains when only the class teacher may see a class's results", async () => {
     withTerms();
     server.use(
@@ -97,9 +145,23 @@ describe("GradingScalesCard", () => {
     const pass = within(dialog).getByRole("spinbutton", { name: "Pass mark" });
     await userEvent.clear(pass);
     await userEvent.type(pass, "5");
+    // The usual honours bands, scaled to a mark out of 10.
+    await userEvent.click(within(dialog).getByRole("button", { name: "Use the usual bands" }));
     await userEvent.click(within(dialog).getByRole("button", { name: "Save" }));
     await waitFor(() =>
-      expect(body).toEqual({ level: 2, max_mark: 10, pass_mark: 5, decimals: 2, rank_method: "competition" }),
+      expect(body).toEqual({
+        level: 2,
+        max_mark: 10,
+        pass_mark: 5,
+        decimals: 2,
+        rank_method: "competition",
+        mentions: [
+          { min: 8, label: "Excellent" },
+          { min: 7, label: "Very good" },
+          { min: 6, label: "Good" },
+          { min: 5, label: "Fair" },
+        ],
+      }),
     );
   });
 
@@ -108,5 +170,32 @@ describe("GradingScalesCard", () => {
     renderPage(<GradingScalesCard canEdit={false} />);
     await screen.findByText("Whole school");
     expect(screen.queryByRole("button", { name: /Different scale/ })).not.toBeInTheDocument();
+  });
+});
+
+describe("StudentResultsTab", () => {
+  it("shows each term's average, rank and honours band, and the year's decision", async () => {
+    server.use(
+      http.get(api("/student-results/7/"), () =>
+        HttpResponse.json({
+          enrollment: 501,
+          class_group: 3,
+          class_name: "7ème A",
+          scale: { max_mark: "20.00", pass_mark: "10.00", decimals: 2, rank_method: "competition", mentions: [] },
+          terms: [
+            { term: 11, term_name: "Trimestre 1", average: "15.170", rank: 2, ranked: 30, mention: "Bien", passed: true, subjects: 8 },
+            { term: 12, term_name: "Trimestre 2", average: null, rank: null, ranked: 0, mention: "", passed: null, subjects: 0 },
+            { term: null, term_name: "", average: "15.170", rank: 2, ranked: 30, mention: "Bien", passed: true, subjects: 8 },
+          ],
+        }),
+      ),
+    );
+    renderPage(<StudentResultsTab studentId={7} />, { permissions: ["grades.view", "reportcards.generate"] });
+    expect((await screen.findAllByText("15.17")).length).toBe(2);
+    expect(screen.getAllByText("2 of 30")).toHaveLength(2);
+    expect(screen.getByText("nothing published yet")).toBeInTheDocument();
+    expect(screen.getByText("Passed")).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "Print the report card — Trimestre 2" })).toBeDisabled();
+    expect(screen.getByRole("button", { name: "Print the report card — Whole year" })).toBeEnabled();
   });
 });

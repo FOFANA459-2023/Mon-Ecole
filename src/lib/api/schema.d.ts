@@ -134,6 +134,116 @@ export interface paths {
         patch: operations["assessments_partial_update"];
         trace?: never;
     };
+    "/api/v1/attendance/absences/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description Students with absences over a period (30 days by default), most absent first. */
+        get: operations["attendance_absences_list"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/attendance/class-month/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description A month of a class's registers: a day-by-day grid and each student's totals. */
+        get: operations["attendance_class_month_retrieve"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/attendance/day/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description The classes in session on a day (the user's own, for teachers) and whether their register is taken. */
+        get: operations["attendance_day_list"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/attendance/register/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * @description A class's register for a day. GET shows it (everyone present when not taken yet); POST takes or
+         *     corrects it. Teachers take their classes' registers on the day; earlier days need attendance.edit.
+         */
+        get: operations["attendance_register_retrieve"];
+        put?: never;
+        /**
+         * @description A class's register for a day. GET shows it (everyone present when not taken yet); POST takes or
+         *     corrects it. Teachers take their classes' registers on the day; earlier days need attendance.edit.
+         */
+        post: operations["attendance_register_create"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/attendance/staff/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description The staff register for a day: GET shows it, POST records it. */
+        get: operations["attendance_staff_retrieve"];
+        put?: never;
+        /** @description The staff register for a day: GET shows it, POST records it. */
+        post: operations["attendance_staff_create"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/attendance/students/{id}/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description One student's attendance for a school year: totals and the days they were absent, late or excused. */
+        get: operations["attendance_students_retrieve"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/v1/audit-logs/": {
         parameters: {
             query?: never;
@@ -1697,6 +1807,44 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/v1/report-cards/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * @description Report cards as one PDF: a whole class (one page per student) or one student; a term, or the year
+         *     when `term` is left out. Only published marks count.
+         */
+        get: operations["report_cards_retrieve"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/report-comments/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description The general comment on each student's report card, for a term or (no term) the year. */
+        get: operations["report_comments_list"];
+        put?: never;
+        /** @description The general comment on each student's report card, for a term or (no term) the year. */
+        post: operations["report_comments_create"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/v1/reports/finance/{key}/": {
         parameters: {
             query?: never;
@@ -2011,6 +2159,23 @@ export interface paths {
          *     Subclasses set `queryset`, `serializer_class`, `required_permissions` and `audit_module`.
          */
         patch: operations["student_discounts_partial_update"];
+        trace?: never;
+    };
+    "/api/v1/student-results/{id}/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description A student's results this school year: each term's average, rank and honours band, and the year's. */
+        get: operations["student_results_retrieve"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
         trace?: never;
     };
     "/api/v1/students/": {
@@ -2398,6 +2563,16 @@ export interface paths {
 export type webhooks = Record<string, never>;
 export interface components {
     schemas: {
+        AbsenceRow: {
+            enrollment: number;
+            student: number;
+            student_name: string;
+            student_number: string;
+            class_name: string;
+            absent: number;
+            late: number;
+            excused: number;
+        };
         AcademicYear: {
             readonly id: number;
             /** @description e.g. 2026-2027 */
@@ -2473,6 +2648,14 @@ export interface components {
             subjects: components["schemas"]["AssignmentSubject"][];
             homeroom_classes: components["schemas"]["Homeroom"][];
         };
+        /**
+         * @description * `present` - Present
+         *     * `absent` - Absent
+         *     * `late` - Late
+         *     * `excused` - Excused absence
+         * @enum {string}
+         */
+        AttendanceStatusEnum: "present" | "absent" | "late" | "excused";
         AuditLog: {
             readonly id: number;
             readonly action: string;
@@ -2661,6 +2844,14 @@ export interface components {
             capacity?: number | null;
             status?: components["schemas"]["ArchiveStatusEnum"];
         };
+        ClassMonth: {
+            class_group: number;
+            class_name: string;
+            month: string;
+            dates: string[];
+            students: components["schemas"]["MonthStudent"][];
+            totals: components["schemas"]["Totals"];
+        };
         ClassResults: {
             scale: components["schemas"]["ScaleBrief"];
             subjects: components["schemas"]["ResultSubject"][];
@@ -2696,6 +2887,10 @@ export interface components {
             /** @default  */
             closing_note: string;
         };
+        CommentEntryRequest: {
+            enrollment: number;
+            comment: string;
+        };
         CopySetupRequest: {
             source: number;
             /** @default false */
@@ -2710,6 +2905,26 @@ export interface components {
          * @enum {string}
          */
         CycleEnum: "preschool" | "primary" | "lower_secondary" | "upper_secondary" | "other";
+        DayClass: {
+            class_group: number;
+            class_name: string;
+            level_name: string;
+            student_count: number;
+            register: number | null;
+            taken_by_name: string;
+            /** Format: date-time */
+            taken_at: string | null;
+            present: number;
+            absent: number;
+            late: number;
+            excused: number;
+            can_take: boolean;
+        };
+        DayStatus: {
+            /** Format: date */
+            date: string;
+            status: components["schemas"]["AttendanceStatusEnum"];
+        };
         Director: {
             id: number;
             full_name: string;
@@ -3082,6 +3297,10 @@ export interface components {
             pass_mark?: string;
             decimals?: number;
             rank_method?: components["schemas"]["RankMethodEnum"];
+            /** @description [{min, label}], any order. */
+            mentions?: {
+                [key: string]: unknown;
+            }[];
         };
         GradingScaleRequest: {
             level?: number | null;
@@ -3094,6 +3313,10 @@ export interface components {
             pass_mark?: string;
             decimals?: number;
             rank_method?: components["schemas"]["RankMethodEnum"];
+            /** @description [{min, label}], any order. */
+            mentions?: {
+                [key: string]: unknown;
+            }[];
         };
         GrantAccessRequest: {
             role_ids: number[];
@@ -3407,12 +3630,27 @@ export interface components {
             /** Format: date-time */
             readonly invitation_expires_at: string;
         };
+        Mention: {
+            /** Format: decimal */
+            min: string;
+            label: string;
+        };
         /**
          * @description * `exclude` - Leave missing marks out of the average
          *     * `zero` - Count missing marks as zero
          * @enum {string}
          */
         MissingPolicyEnum: "exclude" | "zero";
+        MonthStudent: {
+            present: number;
+            absent: number;
+            late: number;
+            excused: number;
+            enrollment: number;
+            student: number;
+            student_name: string;
+            days: components["schemas"]["DayStatus"][];
+        };
         NewDirectorRequest: {
             first_name: string;
             last_name: string;
@@ -3435,6 +3673,8 @@ export interface components {
             address?: string;
             notes?: string;
         };
+        /** @enum {unknown} */
+        NullEnum: null;
         /**
          * @description * `open` - Open
          *     * `closed` - Closed
@@ -3847,6 +4087,10 @@ export interface components {
             pass_mark?: string;
             decimals?: number;
             rank_method?: components["schemas"]["RankMethodEnum"];
+            /** @description [{min, label}], any order. */
+            mentions?: {
+                [key: string]: unknown;
+            }[];
         };
         PatchedGuardianLinkUpdateRequest: {
             relationship?: components["schemas"]["RelationshipEnum"];
@@ -4132,6 +4376,13 @@ export interface components {
         ReasonRequest: {
             reason: string;
         };
+        RecordEntryRequest: {
+            enrollment: number;
+            status: components["schemas"]["AttendanceStatusEnum"];
+            minutes_late?: number | null;
+            /** @default  */
+            note: string;
+        };
         RecordExpenseRequest: {
             /**
              * Format: date
@@ -4233,6 +4484,39 @@ export interface components {
             default_language: components["schemas"]["LanguageEnum"];
             director: components["schemas"]["NewDirectorRequest"];
         };
+        RegisterSheet: {
+            class_group: number;
+            class_name: string;
+            /** Format: date */
+            date: string;
+            register: number | null;
+            taken_by_name: string;
+            /** Format: date-time */
+            taken_at: string | null;
+            updated_by_name: string;
+            /** Format: date-time */
+            updated_at: string | null;
+            can_edit: boolean;
+            can_take_today: boolean;
+            students: components["schemas"]["RegisterStudent"][];
+        };
+        RegisterStudent: {
+            enrollment: number;
+            student: number;
+            student_name: string;
+            student_number: string;
+            /**
+             * @description Null = not marked yet.
+             *
+             *     * `present` - Present
+             *     * `absent` - Absent
+             *     * `late` - Late
+             *     * `excused` - Excused absence
+             */
+            status: (components["schemas"]["AttendanceStatusEnum"] | components["schemas"]["NullEnum"]) | null;
+            minutes_late: number | null;
+            note: string;
+        };
         /** @description New enrolment in one request: a new student (or an existing one), guardians and the class. */
         RegistrationRequest: {
             student_id?: number | null;
@@ -4256,10 +4540,17 @@ export interface components {
          * @enum {string}
          */
         RelationshipEnum: "father" | "mother" | "guardian" | "other";
+        ReportCommentRow: {
+            enrollment: number;
+            student: number;
+            student_name: string;
+            comment: string;
+        };
         ResultMark: {
             class_subject: number;
             /** Format: decimal */
             mark: string | null;
+            rank: number | null;
         };
         ResultStudent: {
             enrollment: number;
@@ -4313,6 +4604,25 @@ export interface components {
         SaveGradesResult: {
             changed: number;
         };
+        SaveRegisterRequest: {
+            class_group: number;
+            /** Format: date */
+            date: string;
+            records: components["schemas"]["RecordEntryRequest"][];
+        };
+        SaveReportCommentsRequest: {
+            class_group: number;
+            /** @description Leave out for the year. */
+            term?: number | null;
+            /** @description Only this student's card. */
+            enrollment?: number;
+            comments: components["schemas"]["CommentEntryRequest"][];
+        };
+        SaveStaffAttendanceRequest: {
+            /** Format: date */
+            date: string;
+            entries: components["schemas"]["StaffEntryRequest"][];
+        };
         ScaleBrief: {
             /**
              * Format: decimal
@@ -4323,6 +4633,7 @@ export interface components {
             pass_mark?: string;
             decimals?: number;
             rank_method?: components["schemas"]["RankMethodEnum"];
+            readonly mentions: components["schemas"]["Mention"][];
         };
         School: {
             readonly id: number;
@@ -4435,6 +4746,15 @@ export interface components {
             /** Format: date-time */
             readonly created_at: string;
         };
+        /**
+         * @description * `present` - Present
+         *     * `absent` - Absent
+         *     * `late` - Late
+         *     * `excused` - Excused absence
+         *     * `leave` - On leave
+         * @enum {string}
+         */
+        StaffAttendanceStatusEnum: "present" | "absent" | "late" | "excused" | "leave";
         /** @description Adding a staff member always gives them a login: an email and a role are required. */
         StaffCreateRequest: {
             employee_number?: string;
@@ -4456,6 +4776,37 @@ export interface components {
             employment_date?: string | null;
             role_id: number;
             teaching?: components["schemas"]["TeachingRequest"];
+        };
+        StaffEntryRequest: {
+            staff: number;
+            status: components["schemas"]["StaffAttendanceStatusEnum"];
+            minutes_late?: number | null;
+            /** @default  */
+            note: string;
+        };
+        StaffRow: {
+            staff: number;
+            full_name: string;
+            position: string;
+            staff_type: string;
+            recorded: boolean;
+            /**
+             * @description Null = not recorded yet.
+             *
+             *     * `present` - Present
+             *     * `absent` - Absent
+             *     * `late` - Late
+             *     * `excused` - Excused absence
+             *     * `leave` - On leave
+             */
+            status: (components["schemas"]["StaffAttendanceStatusEnum"] | components["schemas"]["NullEnum"]) | null;
+            minutes_late: number | null;
+            note: string;
+        };
+        StaffSheet: {
+            /** Format: date */
+            date: string;
+            staff: components["schemas"]["StaffRow"][];
         };
         /**
          * @description * `teacher` - Teacher
@@ -4525,6 +4876,15 @@ export interface components {
             credit: string;
             open_lines: components["schemas"]["OpenLine"][];
         };
+        StudentAttendance: {
+            present: number;
+            absent: number;
+            late: number;
+            excused: number;
+            academic_year: number;
+            days: number;
+            events: components["schemas"]["StudentEvent"][];
+        };
         StudentDiscount: {
             readonly id: number;
             student: number;
@@ -4554,6 +4914,14 @@ export interface components {
             /** @default true */
             is_active: boolean;
         };
+        StudentEvent: {
+            /** Format: date */
+            date: string;
+            class_name: string;
+            status: components["schemas"]["AttendanceStatusEnum"];
+            minutes_late: number | null;
+            note: string;
+        };
         StudentList: {
             readonly id: number;
             student_number: string;
@@ -4582,6 +4950,26 @@ export interface components {
             email?: string;
             address?: string;
             notes?: string;
+        };
+        StudentResults: {
+            enrollment: number | null;
+            class_group: number | null;
+            class_name: string;
+            scale: components["schemas"]["ScaleBrief"] | null;
+            terms: components["schemas"]["StudentTermResult"][];
+        };
+        StudentTermResult: {
+            /** @description Null = the whole year. */
+            term: number | null;
+            term_name: string;
+            /** Format: decimal */
+            average: string | null;
+            rank: number | null;
+            ranked: number;
+            mention: string;
+            passed: boolean | null;
+            /** @description Published subjects counted. */
+            subjects: number;
         };
         Subject: {
             readonly id: number;
@@ -4630,6 +5018,12 @@ export interface components {
             start_date: string;
             /** Format: date */
             end_date: string;
+        };
+        Totals: {
+            present: number;
+            absent: number;
+            late: number;
+            excused: number;
         };
         VerifyEmailRequest: {
             token: string;
@@ -4909,6 +5303,196 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["Assessment"];
+                };
+            };
+        };
+    };
+    attendance_absences_list: {
+        parameters: {
+            query?: {
+                class_group?: number | null;
+                /** @description Defaults to 30 days before date_to. */
+                date_from?: string;
+                /** @description Defaults to today. */
+                date_to?: string;
+                min_absences?: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AbsenceRow"][];
+                };
+            };
+        };
+    };
+    attendance_class_month_retrieve: {
+        parameters: {
+            query: {
+                class_group: number;
+                /** @description YYYY-MM */
+                month: string;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ClassMonth"];
+                };
+            };
+        };
+    };
+    attendance_day_list: {
+        parameters: {
+            query?: {
+                /** @description Defaults to today (school time). */
+                date?: string;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["DayClass"][];
+                };
+            };
+        };
+    };
+    attendance_register_retrieve: {
+        parameters: {
+            query: {
+                class_group: number;
+                /** @description Defaults to today (school time). */
+                date?: string;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["RegisterSheet"];
+                };
+            };
+        };
+    };
+    attendance_register_create: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["SaveRegisterRequest"];
+                "application/x-www-form-urlencoded": components["schemas"]["SaveRegisterRequest"];
+                "multipart/form-data": components["schemas"]["SaveRegisterRequest"];
+            };
+        };
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["RegisterSheet"];
+                };
+            };
+        };
+    };
+    attendance_staff_retrieve: {
+        parameters: {
+            query?: {
+                /** @description Defaults to today (school time). */
+                date?: string;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["StaffSheet"];
+                };
+            };
+        };
+    };
+    attendance_staff_create: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["SaveStaffAttendanceRequest"];
+                "application/x-www-form-urlencoded": components["schemas"]["SaveStaffAttendanceRequest"];
+                "multipart/form-data": components["schemas"]["SaveStaffAttendanceRequest"];
+            };
+        };
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["StaffSheet"];
+                };
+            };
+        };
+    };
+    attendance_students_retrieve: {
+        parameters: {
+            query?: {
+                /** @description Defaults to the current year. */
+                academic_year?: number;
+            };
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["StudentAttendance"];
                 };
             };
         };
@@ -7934,6 +8518,81 @@ export interface operations {
             };
         };
     };
+    report_cards_retrieve: {
+        parameters: {
+            query: {
+                class_group: number;
+                /** @description Only this student's card. */
+                enrollment?: number;
+                /** @description Leave out for the year. */
+                term?: number | null;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/pdf": string;
+                };
+            };
+        };
+    };
+    report_comments_list: {
+        parameters: {
+            query: {
+                class_group: number;
+                /** @description Only this student's card. */
+                enrollment?: number;
+                /** @description Leave out for the year. */
+                term?: number | null;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ReportCommentRow"][];
+                };
+            };
+        };
+    };
+    report_comments_create: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["SaveReportCommentsRequest"];
+                "application/x-www-form-urlencoded": components["schemas"]["SaveReportCommentsRequest"];
+                "multipart/form-data": components["schemas"]["SaveReportCommentsRequest"];
+            };
+        };
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ReportCommentRow"][];
+                };
+            };
+        };
+    };
     reports_finance_retrieve: {
         parameters: {
             query?: {
@@ -8577,6 +9236,27 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["StudentDiscount"];
+                };
+            };
+        };
+    };
+    student_results_retrieve: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["StudentResults"];
                 };
             };
         };

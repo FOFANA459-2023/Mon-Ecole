@@ -44,7 +44,9 @@ import {
   type EnrollmentRef,
 } from "@/features/enrollments/EnrollmentActionDialogs";
 import { invalidateSchooling } from "@/features/enrollments/api";
+import { StudentAttendanceTab } from "@/features/attendance/StudentAttendanceTab";
 import { StudentFinanceTab } from "@/features/finance/StudentFinanceTab";
+import { StudentResultsTab } from "@/features/grades/StudentResultsTab";
 import { useGuardianLinks, useStudent } from "@/features/people/api";
 import { DocumentsPanel } from "@/features/people/DocumentsPanel";
 import { PhotoUploader } from "@/features/people/PhotoUploader";
@@ -299,17 +301,6 @@ function GuardiansTab({ studentId, canEdit }: { studentId: number; canEdit: bool
   );
 }
 
-function ComingLater({ phase, icon }: { phase: number; icon: React.ReactNode }) {
-  const { t } = useTranslation();
-  return (
-    <Card>
-      <EmptyState icon={icon} title={t("common.comingSoon")}>
-        {t("students.availableIn", { phase })}
-      </EmptyState>
-    </Card>
-  );
-}
-
 export function StudentDetailPage() {
   const { t } = useTranslation();
   const { id } = useParams();
@@ -326,6 +317,8 @@ export function StudentDetailPage() {
 
   if (studentQuery.isPending) return <Spinner className="mx-auto my-10 size-6" />;
   const seesFinance = can("finance.view");
+  const seesAttendance = can("attendance.view");
+  const seesResults = can("grades.view");
   if (studentQuery.isError) return <QueryError error={studentQuery.error} onRetry={() => void studentQuery.refetch()} />;
   const s = studentQuery.data;
   const current = s.current_enrollment;
@@ -443,14 +436,21 @@ export function StudentDetailPage() {
         </div>
       </div>
 
-      <Tabs defaultValue={params.get("tab") === "payments" && !seesFinance ? "profile" : (params.get("tab") ?? "profile")}>
+      <Tabs
+        defaultValue={
+          (params.get("tab") === "payments" && !seesFinance) || (params.get("tab") === "attendance" && !seesAttendance)
+            ? "profile"
+            : (params.get("tab") ?? "profile")
+        }
+      >
         <TabsList className="max-w-full justify-start overflow-x-auto">
           <TabsTrigger value="profile">{t("students.profile")}</TabsTrigger>
           <TabsTrigger value="guardians">{t("students.guardians")}</TabsTrigger>
           <TabsTrigger value="schooling">{t("students.schooling")}</TabsTrigger>
           <TabsTrigger value="documents">{t("students.documents")}</TabsTrigger>
           {seesFinance && <TabsTrigger value="payments">{t("students.payments")}</TabsTrigger>}
-          <TabsTrigger value="results">{t("students.results")}</TabsTrigger>
+          {seesAttendance && <TabsTrigger value="attendance">{t("students.attendance")}</TabsTrigger>}
+          {seesResults && <TabsTrigger value="results">{t("students.results")}</TabsTrigger>}
         </TabsList>
 
         <TabsContent value="profile">
@@ -537,9 +537,16 @@ export function StudentDetailPage() {
             <StudentFinanceTab student={s} />
           </TabsContent>
         )}
-        <TabsContent value="results">
-          <ComingLater phase={4} icon={<FileText className="size-8" />} />
-        </TabsContent>
+        {seesAttendance && (
+          <TabsContent value="attendance">
+            <StudentAttendanceTab studentId={s.id} />
+          </TabsContent>
+        )}
+        {seesResults && (
+          <TabsContent value="results">
+            <StudentResultsTab studentId={s.id} />
+          </TabsContent>
+        )}
       </Tabs>
 
       {editing && <EditStudentDialog student={s} onClose={() => setEditing(false)} />}

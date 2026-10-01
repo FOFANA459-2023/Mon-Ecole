@@ -6,12 +6,15 @@ import { api, type Paginated, type Query } from "@/lib/api/client";
 import type {
   AcademicYear,
   ClassResults,
+  ReportCommentRow,
+  StudentResults,
   Gradebook,
   GradebookDetail,
   GradebookSheet,
   GradingScale,
   Term,
 } from "@/lib/api/types";
+import { openPdf } from "@/lib/files";
 import { localeFor } from "@/lib/format";
 
 /** Every grades query key starts with "grades", so one invalidation refreshes marks, ranks and results. */
@@ -113,4 +116,30 @@ export function plainScore(value: string | null | undefined): string {
 /** "/20" style suffix for a maximum score. */
 export function outOf(max: string | number): string {
   return `/${Number(max)}`;
+}
+
+export function useStudentResults(studentId: number) {
+  const schoolId = useSchoolId();
+  return useQuery({
+    queryKey: [GRADES_KEY, schoolId, "student-results", studentId],
+    queryFn: ({ signal }) => api.get<StudentResults>(`/student-results/${studentId}/`, undefined, signal),
+    enabled: schoolId !== null,
+    retry: false,
+  });
+}
+
+/** The report-card comments of a class, for a term or (term null) the year. */
+export function useReportComments(classId: number, termId: number | null, enabled = true) {
+  const schoolId = useSchoolId();
+  return useQuery({
+    queryKey: [GRADES_KEY, schoolId, "report-comments", classId, termId],
+    queryFn: ({ signal }) =>
+      api.get<ReportCommentRow[]>("/report-comments/", { class_group: classId, term: termId ?? undefined }, signal),
+    enabled: schoolId !== null && enabled,
+  });
+}
+
+/** Open report cards as a PDF: a class or one student; a term, or the year when `term` is null. */
+export function openReportCards(params: { class_group: number; term: number | null; enrollment?: number }) {
+  return openPdf("/report-cards/", { ...params, term: params.term ?? undefined });
 }

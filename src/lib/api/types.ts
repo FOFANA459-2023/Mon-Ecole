@@ -105,6 +105,18 @@ export type Assessment = Schemas["Assessment"];
 export type GradebookSheet = Schemas["GradebookSheet"];
 export type SheetStudent = Schemas["SheetStudent"];
 export type ClassResults = Schemas["ClassResults"];
+export type Mention = Schemas["Mention"];
+export type ReportCommentRow = Schemas["ReportCommentRow"];
+export type StudentResults = Schemas["StudentResults"];
+export type AttendanceStatus = Schemas["AttendanceStatusEnum"];
+export type StaffAttendanceStatus = Schemas["StaffAttendanceStatusEnum"];
+export type DayClass = Schemas["DayClass"];
+export type RegisterSheet = Schemas["RegisterSheet"];
+export type RegisterStudent = Schemas["RegisterStudent"];
+export type ClassMonth = Schemas["ClassMonth"];
+export type AbsenceRow = Schemas["AbsenceRow"];
+export type StudentAttendance = Schemas["StudentAttendance"];
+export type StaffSheet = Schemas["StaffSheet"];
 
 /** GET /reports/finance/{key}/: a report as titled sections of columns and rows. */
 export type ReportKind = "text" | "money" | "number" | "percent" | "date" | "datetime" | "auto";
@@ -140,6 +152,16 @@ export type DashboardSummary = {
   staff?: number;
   new_enrollments_30d?: number;
   by_level?: { level_id: number; level: string; count: number }[];
+  /** Today's registers (users who see attendance); null otherwise. */
+  attendance_today?: {
+    date: string;
+    registers_taken: number;
+    classes: number;
+    present: number;
+    absent: number;
+    late: number;
+    excused: number;
+  } | null;
 };
 
 export type SearchHit = { id: number; title: string; subtitle: string; status?: string; student_id?: number | null };
