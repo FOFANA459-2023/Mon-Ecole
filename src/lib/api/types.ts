@@ -92,6 +92,19 @@ export type CashSessionDetail = Schemas["CashSessionDetail"];
 export type CashMovement = Schemas["CashMovement"];
 export type CashDirection = Schemas["CashDirectionEnum"];
 export type CashSource = Schemas["CashSourceEnum"];
+export type GradingScale = Schemas["GradingScale"];
+export type ScaleBrief = Schemas["ScaleBrief"];
+export type RankMethod = Schemas["RankMethodEnum"];
+export type Gradebook = Schemas["Gradebook"];
+export type GradebookDetail = Schemas["GradebookDetail"];
+export type GradebookStatus = Schemas["GradebookStatusEnum"];
+export type MissingPolicy = Schemas["MissingPolicyEnum"];
+export type GradeCategory = Schemas["GradeCategory"];
+export type GradeCategoryMethod = Schemas["GradeCategoryMethodEnum"];
+export type Assessment = Schemas["Assessment"];
+export type GradebookSheet = Schemas["GradebookSheet"];
+export type SheetStudent = Schemas["SheetStudent"];
+export type ClassResults = Schemas["ClassResults"];
 
 /** GET /reports/finance/{key}/: a report as titled sections of columns and rows. */
 export type ReportKind = "text" | "money" | "number" | "percent" | "date" | "datetime" | "auto";

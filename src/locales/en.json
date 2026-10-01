@@ -71,7 +71,7 @@
     "cashRegister": "Cash register",
     "attendance": "Attendance",
     "assessments": "Assessments",
-    "results": "Results & report cards",
+    "results": "Results",
     "settings": "Settings",
     "account": "My account",
     "logout": "Sign out",
@@ -1116,5 +1116,193 @@
     "overdueOnly": "Overdue only",
     "nothing": "Nothing for this period.",
     "truncated": "Showing the first {{shown}} of {{count}} rows. Export the report to get them all."
+  },
+  "grades": {
+    "title": "Assessments & marks",
+    "subtitle": "Each teacher sets their own rules: name your quizzes, tests, homework and exams, choose what each counts for, and enter marks.",
+    "searchGradebooks": "Search a class or subject…",
+    "term": "Term",
+    "chooseTerm": "Choose a term",
+    "onlyMine": "Only my subjects",
+    "noTerms": "No terms yet",
+    "noTermsHint": "Add the terms of the school year in Settings → Academic year first.",
+    "noGradebooks": "No subjects to mark",
+    "noGradebooksHint": "Subjects appear here once they are assigned to a class and a teacher in Classes.",
+    "class": "Class",
+    "subject": "Subject",
+    "teacher": "Teacher",
+    "noTeacher": "No teacher assigned",
+    "assessmentCount": "Assessments",
+    "progress": "Marks entered",
+    "coefficientShort": "coef. {{value}}",
+    "backToList": "All subjects",
+    "status": {
+      "open": "In progress",
+      "submitted": "Submitted",
+      "published": "Published"
+    },
+    "tabs": {
+      "marks": "Marks",
+      "rules": "Grading rules & assessments"
+    },
+    "steps": {
+      "submit": "Submit for review",
+      "send-back": "Send back to the teacher",
+      "publish": "Publish",
+      "reopen": "Reopen"
+    },
+    "confirm": {
+      "submit": "The marks will go to the school management for review. You will not be able to change them unless they are sent back.",
+      "send-back": "The teacher will be able to change the marks again. Say what needs fixing.",
+      "publish": "The marks become official: they count in the class results and are locked.",
+      "reopen": "The teacher will be able to change these published marks. The reason is kept in the audit log."
+    },
+    "done": {
+      "submit": "Marks submitted for review",
+      "send-back": "Marks sent back to the teacher",
+      "publish": "Marks published",
+      "reopen": "Marks reopened"
+    },
+    "returnedNote": "Sent back or reopened: {{note}}",
+    "lockedNote": {
+      "submitted": "These marks have been submitted for review and can no longer be changed.",
+      "published": "These marks are published and locked. Someone allowed to can reopen them."
+    },
+    "student": "Student",
+    "mark": "Mark",
+    "rank": "Rank",
+    "left": "Left",
+    "resultsOutOf": "Results (out of {{max}})",
+    "classAverage": "Class average",
+    "cellLabel": "{{assessment}} — {{student}}",
+    "gridHelp": "Type a mark, or {{code}} if the student is excused (left out of their average). Leave empty if not marked yet. Enter moves down.",
+    "invalid": {
+      "format": "Type a number, or E for excused",
+      "range": "Between 0 and {{max}}"
+    },
+    "unsaved_one": "{{count}} unsaved change",
+    "unsaved_other": "{{count}} unsaved changes",
+    "discard": "Discard",
+    "saveMarks": "Save marks",
+    "marksSaved_one": "{{count}} mark saved",
+    "marksSaved_other": "{{count}} marks saved",
+    "statsLine": "{{passed}} of {{counted}} students at or above the pass mark ({{pass}}/{{max}}). Lowest {{lowest}}, highest {{highest}}.",
+    "noAssessments": "No assessments yet",
+    "noAssessmentsHint": "Set up your categories and add your quizzes, tests or exams in “Grading rules & assessments”.",
+    "noAssessmentsYet": "The teacher has not added any assessment yet.",
+    "noAssessmentsMine": "No assessments yet. Add the first quiz, test or exam you give.",
+    "categories": "Categories",
+    "categoriesHint": "Group your assessments the way you work — “Interrogations”, “Quizzes”, “1st Period Test”… — and say how much each group counts.",
+    "category": "Category",
+    "newCategory": "Add a category",
+    "editCategory": "Edit the category",
+    "categoryHint": "Any name you like. The weight decides how much this category counts in the subject mark.",
+    "categoryPlaceholder": "e.g. Interrogations, Quizzes, Composition",
+    "weight": "Weight",
+    "weightHint": "Weights are compared with each other: 1 and 2 means the second counts double; 40 and 60 work like percentages.",
+    "share": "Share of the mark",
+    "method": "How marks are combined",
+    "methods": {
+      "average": "Average of the assessments",
+      "total": "Total of the points"
+    },
+    "methodHint": {
+      "average": "Each assessment counts the same (or by its own weight), whatever it is marked out of.",
+      "total": "Points are added up: a test out of 50 counts more than a quiz out of 10."
+    },
+    "noCategories": "The teacher has not set up any category yet.",
+    "startFrom": "Start from one of these, then rename or reweigh anything:",
+    "templates": {
+      "classWorkExam": {
+        "title": "Class work + exam",
+        "body": "Class work ×1 and exam ×2 — the usual (class mark + 2 × composition) / 3."
+      },
+      "quizTestExam": {
+        "title": "Quizzes, assignments, tests, exam",
+        "body": "20 % quizzes, 20 % assignments, 20 % tests, 40 % exam."
+      },
+      "points": {
+        "title": "One list of points",
+        "body": "Every mark added up, then divided by the points possible."
+      }
+    },
+    "templateNames": {
+      "classWork": "Class work",
+      "exam": "Exam",
+      "quizzes": "Quizzes",
+      "assignments": "Assignments",
+      "tests": "Tests",
+      "points": "Points"
+    },
+    "templateApplied": "Categories added — rename or reweigh them as you like",
+    "confirmDeleteCategory": "Delete the category “{{name}}”?",
+    "assessments": "Assessments",
+    "assessmentsHint": "Add as many as you give: each with its own name, date and the number it is marked out of.",
+    "newAssessment": "Add an assessment",
+    "editAssessment": "Edit the assessment",
+    "assessmentHint": "Name it the way your school does: “Interro 2”, “Quiz #3”, “Devoir surveillé”, “Mid-term exam”…",
+    "assessmentPlaceholder": "e.g. Interro 1 — fractions",
+    "maxScore": "Marked out of",
+    "assessmentWeight": "Weight in its category",
+    "assessmentWeightHint": "1 = counts like the others in its category; 2 = counts double.",
+    "categoriesFirst": "Add a category first.",
+    "confirmDeleteAssessment": "Delete “{{name}}” and every mark entered for it?",
+    "positive": "Must be more than 0",
+    "missingTitle": "Missing marks",
+    "missing": {
+      "exclude": "Leave them out of the average",
+      "zero": "Count them as zero"
+    },
+    "missingHint": {
+      "exclude": "A student without a mark on an assessment is averaged on the others.",
+      "zero": "A student without a mark gets 0 — once you have started marking that assessment. Excused students (E) are always left out."
+    },
+    "copyRules": "Copy from another class",
+    "copyTitle": "Copy grading rules",
+    "copyHint": "Reuse the categories you set up elsewhere — another class, or another term.",
+    "copyFrom": "Copy from",
+    "chooseGradebook": "Choose a subject",
+    "copyAssessments": "Also copy the assessments (without their marks)",
+    "copy": "Copy",
+    "copied": "Grading rules copied",
+    "resultsTitle": "Class results",
+    "resultsSubtitle": "Each subject's mark, the average weighted by coefficients, the rank and the decision.",
+    "chooseClassAndTerm": "Choose a term and a class",
+    "resultsRestricted": "Only the class teacher and the school management see a class's results",
+    "resultsRestrictedHint": "Your own subjects' marks are in Assessments.",
+    "noStudents": "No students in this class",
+    "unpublishedNote_one": "{{count}} subject is not published yet: its marks (in grey) may still change.",
+    "unpublishedNote_other": "{{count}} subjects are not published yet: their marks (in grey) may still change.",
+    "averageOutOf": "Average /{{max}}",
+    "decision": "Decision",
+    "passed": "Passed",
+    "failed": "Failed",
+    "passWithinMax": "The pass mark cannot be above the maximum",
+    "scale": {
+      "title": "Grading scale",
+      "hint": "How marks are reported on results and report cards. Teachers mark each assessment out of whatever they like; marks are converted to this scale.",
+      "addLevel": "Different scale for a level",
+      "appliesTo": "Applies to",
+      "wholeSchool": "Whole school",
+      "builtIn": "(default)",
+      "level": "Level",
+      "outOf": "Out of",
+      "maxMark": "Marks out of",
+      "passMark": "Pass mark",
+      "decimals": "Decimals",
+      "ties": "Equal averages",
+      "rank": {
+        "competition": "Share a rank, next rank skipped (1, 1, 3)",
+        "dense": "Share a rank, no rank skipped (1, 1, 2)"
+      },
+      "rankShort": {
+        "competition": "1, 1, 3",
+        "dense": "1, 1, 2"
+      },
+      "schoolTitle": "The school's grading scale",
+      "levelTitle": "A level's grading scale",
+      "dialogHint": "E.g. out of 20 with a pass mark of 10, out of 10 for primary, or out of 100 with a pass mark of 70.",
+      "confirmDelete": "Delete the scale of {{level}}? It will use the school's scale again."
+    }
   }
 }

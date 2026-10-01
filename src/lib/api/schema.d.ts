@@ -82,6 +82,58 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/v1/assessments/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * @description Every quiz, homework, test or exam, with any name, marked out of any number. Deleting one deletes
+         *     its marks (this is written to the audit log).
+         */
+        get: operations["assessments_list"];
+        put?: never;
+        /**
+         * @description Every quiz, homework, test or exam, with any name, marked out of any number. Deleting one deletes
+         *     its marks (this is written to the audit log).
+         */
+        post: operations["assessments_create"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/assessments/{id}/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * @description Every quiz, homework, test or exam, with any name, marked out of any number. Deleting one deletes
+         *     its marks (this is written to the audit log).
+         */
+        get: operations["assessments_retrieve"];
+        put?: never;
+        post?: never;
+        /**
+         * @description Every quiz, homework, test or exam, with any name, marked out of any number. Deleting one deletes
+         *     its marks (this is written to the audit log).
+         */
+        delete: operations["assessments_destroy"];
+        options?: never;
+        head?: never;
+        /**
+         * @description Every quiz, homework, test or exam, with any name, marked out of any number. Deleting one deletes
+         *     its marks (this is written to the audit log).
+         */
+        patch: operations["assessments_partial_update"];
+        trace?: never;
+    };
     "/api/v1/audit-logs/": {
         parameters: {
             query?: never;
@@ -352,6 +404,27 @@ export interface paths {
         put?: never;
         /** @description Cash in or out that is not a payment, an expense or a refund: a bank deposit, a float top-up... */
         post: operations["cash_sessions_movements_create"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/class-results/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * @description A class's results for a term: each subject's mark, the coefficient-weighted average and the rank.
+         *
+         *     For users who see every class, and for the class teacher.
+         */
+        get: operations["class_results_retrieve"];
+        put?: never;
+        post?: never;
         delete?: never;
         options?: never;
         head?: never;
@@ -906,6 +979,269 @@ export interface paths {
         patch: operations["fee_schedules_partial_update"];
         trace?: never;
     };
+    "/api/v1/grade-categories/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description The teacher's own kinds of assessment ("Interrogations", "Quiz", "Exam"...) and their weight. */
+        get: operations["grade_categories_list"];
+        put?: never;
+        /** @description The teacher's own kinds of assessment ("Interrogations", "Quiz", "Exam"...) and their weight. */
+        post: operations["grade_categories_create"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/grade-categories/{id}/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description The teacher's own kinds of assessment ("Interrogations", "Quiz", "Exam"...) and their weight. */
+        get: operations["grade_categories_retrieve"];
+        put?: never;
+        post?: never;
+        /** @description The teacher's own kinds of assessment ("Interrogations", "Quiz", "Exam"...) and their weight. */
+        delete: operations["grade_categories_destroy"];
+        options?: never;
+        head?: never;
+        /** @description The teacher's own kinds of assessment ("Interrogations", "Quiz", "Exam"...) and their weight. */
+        patch: operations["grade_categories_partial_update"];
+        trace?: never;
+    };
+    "/api/v1/gradebooks/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * @description One gradebook per subject, class and term, holding the teacher's own rules, assessments and marks.
+         *
+         *     Gradebooks are never created or deleted by hand: listing a term creates the missing gradebooks of every
+         *     subject taught that year.
+         */
+        get: operations["gradebooks_list"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/gradebooks/{id}/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * @description One gradebook per subject, class and term, holding the teacher's own rules, assessments and marks.
+         *
+         *     Gradebooks are never created or deleted by hand: listing a term creates the missing gradebooks of every
+         *     subject taught that year.
+         */
+        get: operations["gradebooks_retrieve"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        /**
+         * @description One gradebook per subject, class and term, holding the teacher's own rules, assessments and marks.
+         *
+         *     Gradebooks are never created or deleted by hand: listing a term creates the missing gradebooks of every
+         *     subject taught that year.
+         */
+        patch: operations["gradebooks_partial_update"];
+        trace?: never;
+    };
+    "/api/v1/gradebooks/{id}/copy-setup/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** @description Reuse the categories (and optionally the assessments, without marks) of another gradebook. */
+        post: operations["gradebooks_copy_setup_create"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/gradebooks/{id}/grades/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** @description Save a batch of marks. Leave score empty to clear a mark; `excused` leaves the student out. */
+        post: operations["gradebooks_grades_create"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/gradebooks/{id}/publish/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * @description One gradebook per subject, class and term, holding the teacher's own rules, assessments and marks.
+         *
+         *     Gradebooks are never created or deleted by hand: listing a term creates the missing gradebooks of every
+         *     subject taught that year.
+         */
+        post: operations["gradebooks_publish_create"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/gradebooks/{id}/reopen/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * @description One gradebook per subject, class and term, holding the teacher's own rules, assessments and marks.
+         *
+         *     Gradebooks are never created or deleted by hand: listing a term creates the missing gradebooks of every
+         *     subject taught that year.
+         */
+        post: operations["gradebooks_reopen_create"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/gradebooks/{id}/send-back/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * @description One gradebook per subject, class and term, holding the teacher's own rules, assessments and marks.
+         *
+         *     Gradebooks are never created or deleted by hand: listing a term creates the missing gradebooks of every
+         *     subject taught that year.
+         */
+        post: operations["gradebooks_send_back_create"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/gradebooks/{id}/sheet/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description The marks grid: every student's marks, category and subject marks, ranks and class statistics. */
+        get: operations["gradebooks_sheet_retrieve"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/gradebooks/{id}/submit/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * @description One gradebook per subject, class and term, holding the teacher's own rules, assessments and marks.
+         *
+         *     Gradebooks are never created or deleted by hand: listing a term creates the missing gradebooks of every
+         *     subject taught that year.
+         */
+        post: operations["gradebooks_submit_create"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/grading-scales/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description How the school reports marks (out of 20, 10, 100...), with optional differences for some levels. */
+        get: operations["grading_scales_list"];
+        put?: never;
+        /** @description How the school reports marks (out of 20, 10, 100...), with optional differences for some levels. */
+        post: operations["grading_scales_create"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/grading-scales/{id}/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description How the school reports marks (out of 20, 10, 100...), with optional differences for some levels. */
+        get: operations["grading_scales_retrieve"];
+        put?: never;
+        post?: never;
+        /** @description How the school reports marks (out of 20, 10, 100...), with optional differences for some levels. */
+        delete: operations["grading_scales_destroy"];
+        options?: never;
+        head?: never;
+        /** @description How the school reports marks (out of 20, 10, 100...), with optional differences for some levels. */
+        patch: operations["grading_scales_partial_update"];
+        trace?: never;
+    };
     "/api/v1/guardians/": {
         parameters: {
             query?: never;
@@ -1355,6 +1691,28 @@ export interface paths {
         put?: never;
         /** @description Student credit given back to families: recorded and cancelled, never edited or deleted. */
         post: operations["refunds_cancel_create"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/reports/finance/{key}/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * @description Finance reports: payments, outstanding, cash, expenses and summary.
+         *
+         *     JSON for the screen (long sections are cut to 1 000 rows); `export=pdf|xlsx|csv` downloads the whole
+         *     report and needs finance.export. Labels follow the user's language.
+         */
+        get: operations["reports_finance_retrieve"];
+        put?: never;
+        post?: never;
         delete?: never;
         options?: never;
         head?: never;
@@ -2075,6 +2433,35 @@ export interface components {
          * @enum {string}
          */
         ArchiveStatusEnum: "active" | "archived";
+        Assessment: {
+            readonly id: number;
+            gradebook: number;
+            category: number;
+            name: string;
+            /** Format: date */
+            date?: string | null;
+            /** Format: decimal */
+            max_score?: string;
+            /**
+             * Format: decimal
+             * @description How much it counts inside its category (average method only).
+             */
+            weight?: string;
+        };
+        AssessmentRequest: {
+            gradebook: number;
+            category: number;
+            name: string;
+            /** Format: date */
+            date?: string | null;
+            /** Format: decimal */
+            max_score?: string;
+            /**
+             * Format: decimal
+             * @description How much it counts inside its category (average method only).
+             */
+            weight?: string;
+        };
         AssignmentSubject: {
             id: number;
             class_id: number;
@@ -2274,6 +2661,12 @@ export interface components {
             capacity?: number | null;
             status?: components["schemas"]["ArchiveStatusEnum"];
         };
+        ClassResults: {
+            scale: components["schemas"]["ScaleBrief"];
+            subjects: components["schemas"]["ResultSubject"][];
+            students: components["schemas"]["ResultStudent"][];
+            stats: components["schemas"]["Stats"];
+        };
         ClassSubject: {
             readonly id: number;
             class_group: number;
@@ -2302,6 +2695,11 @@ export interface components {
             counted_closing: string;
             /** @default  */
             closing_note: string;
+        };
+        CopySetupRequest: {
+            source: number;
+            /** @default false */
+            with_assessments: boolean;
         };
         /**
          * @description * `preschool` - Preschool
@@ -2558,6 +2956,144 @@ export interface components {
             skipped: number;
             /** @description Students whose level has no fees set up for the year. */
             without_fees: number;
+        };
+        GradeCategory: {
+            readonly id: number;
+            gradebook: number;
+            name: string;
+            /** Format: decimal */
+            weight?: string;
+            method?: components["schemas"]["GradeCategoryMethodEnum"];
+            /** Format: int64 */
+            order?: number;
+        };
+        /**
+         * @description * `average` - Average of the assessments
+         *     * `total` - Total of the points
+         * @enum {string}
+         */
+        GradeCategoryMethodEnum: "average" | "total";
+        GradeCategoryRequest: {
+            gradebook: number;
+            name: string;
+            /** Format: decimal */
+            weight?: string;
+            method?: components["schemas"]["GradeCategoryMethodEnum"];
+            /** Format: int64 */
+            order?: number;
+        };
+        GradeEntryRequest: {
+            assessment: number;
+            enrollment: number;
+            /** Format: decimal */
+            score: string | null;
+            /** @default false */
+            excused: boolean;
+            /** @default  */
+            comment: string;
+        };
+        Gradebook: {
+            readonly id: number;
+            readonly class_subject: number;
+            readonly class_group: number;
+            readonly class_name: string;
+            readonly level: number;
+            readonly subject: number;
+            readonly subject_name: string;
+            readonly subject_code: string;
+            /** Format: decimal */
+            readonly coefficient: string;
+            readonly teacher_name: string;
+            readonly term: number;
+            readonly term_name: string;
+            readonly status: components["schemas"]["GradebookStatusEnum"];
+            readonly missing_policy: components["schemas"]["MissingPolicyEnum"];
+            readonly student_count: number;
+            readonly assessment_count: number;
+            readonly mark_count: number;
+            readonly is_mine: boolean;
+        };
+        GradebookDetail: {
+            readonly id: number;
+            readonly class_subject: number;
+            readonly class_group: number;
+            readonly class_name: string;
+            readonly level: number;
+            readonly subject: number;
+            readonly subject_name: string;
+            readonly subject_code: string;
+            /** Format: decimal */
+            readonly coefficient: string;
+            readonly teacher_name: string;
+            readonly term: number;
+            readonly term_name: string;
+            readonly status: components["schemas"]["GradebookStatusEnum"];
+            readonly missing_policy: components["schemas"]["MissingPolicyEnum"];
+            readonly student_count: number;
+            readonly assessment_count: number;
+            readonly mark_count: number;
+            readonly is_mine: boolean;
+            /** @description Why the marks were sent back or reopened (latest). */
+            readonly status_note: string;
+            /** Format: date-time */
+            readonly submitted_at: string | null;
+            readonly submitted_by_name: string;
+            /** Format: date-time */
+            readonly published_at: string | null;
+            readonly published_by_name: string;
+            readonly scale: components["schemas"]["ScaleBrief"];
+            readonly categories: components["schemas"]["GradeCategory"][];
+            readonly assessments: components["schemas"]["Assessment"][];
+            readonly can: components["schemas"]["GradebookPermissions"];
+        };
+        GradebookPermissions: {
+            edit: boolean;
+            submit: boolean;
+            send_back: boolean;
+            publish: boolean;
+            reopen: boolean;
+        };
+        GradebookReasonRequest: {
+            reason: string;
+        };
+        GradebookSheet: {
+            scale: components["schemas"]["ScaleBrief"];
+            students: components["schemas"]["SheetStudent"][];
+            assessments: components["schemas"]["SheetAssessment"][];
+            stats: components["schemas"]["Stats"];
+        };
+        /**
+         * @description * `open` - In progress
+         *     * `submitted` - Submitted
+         *     * `published` - Published
+         * @enum {string}
+         */
+        GradebookStatusEnum: "open" | "submitted" | "published";
+        GradingScale: {
+            readonly id: number;
+            level?: number | null;
+            readonly level_name: string;
+            /**
+             * Format: decimal
+             * @description Marks are reported out of this number, e.g. 20, 10 or 100.
+             */
+            max_mark?: string;
+            /** Format: decimal */
+            pass_mark?: string;
+            decimals?: number;
+            rank_method?: components["schemas"]["RankMethodEnum"];
+        };
+        GradingScaleRequest: {
+            level?: number | null;
+            /**
+             * Format: decimal
+             * @description Marks are reported out of this number, e.g. 20, 10 or 100.
+             */
+            max_mark?: string;
+            /** Format: decimal */
+            pass_mark?: string;
+            decimals?: number;
+            rank_method?: components["schemas"]["RankMethodEnum"];
         };
         GrantAccessRequest: {
             role_ids: number[];
@@ -2871,6 +3407,12 @@ export interface components {
             /** Format: date-time */
             readonly invitation_expires_at: string;
         };
+        /**
+         * @description * `exclude` - Leave missing marks out of the average
+         *     * `zero` - Count missing marks as zero
+         * @enum {string}
+         */
+        MissingPolicyEnum: "exclude" | "zero";
         NewDirectorRequest: {
             first_name: string;
             last_name: string;
@@ -3020,6 +3562,21 @@ export interface components {
              */
             previous?: string | null;
             results: components["schemas"]["Expense"][];
+        };
+        PaginatedGradebookList: {
+            /** @example 123 */
+            count: number;
+            /**
+             * Format: uri
+             * @example http://api.example.org/accounts/?page=4
+             */
+            next?: string | null;
+            /**
+             * Format: uri
+             * @example http://api.example.org/accounts/?page=2
+             */
+            previous?: string | null;
+            results: components["schemas"]["Gradebook"][];
         };
         PaginatedGuardianLinkList: {
             /** @example 123 */
@@ -3205,6 +3762,20 @@ export interface components {
             status?: components["schemas"]["OpenClosedStatusEnum"];
             term_count?: number;
         };
+        PatchedAssessmentRequest: {
+            gradebook?: number;
+            category?: number;
+            name?: string;
+            /** Format: date */
+            date?: string | null;
+            /** Format: decimal */
+            max_score?: string;
+            /**
+             * Format: decimal
+             * @description How much it counts inside its category (average method only).
+             */
+            weight?: string;
+        };
         PatchedCashRegisterRequest: {
             name?: string;
             is_active?: boolean;
@@ -3252,6 +3823,30 @@ export interface components {
             /** Format: decimal */
             amount?: string;
             installments?: components["schemas"]["InstallmentRequest"][];
+        };
+        PatchedGradeCategoryRequest: {
+            gradebook?: number;
+            name?: string;
+            /** Format: decimal */
+            weight?: string;
+            method?: components["schemas"]["GradeCategoryMethodEnum"];
+            /** Format: int64 */
+            order?: number;
+        };
+        PatchedGradebookUpdateRequest: {
+            missing_policy?: components["schemas"]["MissingPolicyEnum"];
+        };
+        PatchedGradingScaleRequest: {
+            level?: number | null;
+            /**
+             * Format: decimal
+             * @description Marks are reported out of this number, e.g. 20, 10 or 100.
+             */
+            max_mark?: string;
+            /** Format: decimal */
+            pass_mark?: string;
+            decimals?: number;
+            rank_method?: components["schemas"]["RankMethodEnum"];
         };
         PatchedGuardianLinkUpdateRequest: {
             relationship?: components["schemas"]["RelationshipEnum"];
@@ -3528,6 +4123,12 @@ export interface components {
                 [key: string]: unknown;
             }[];
         };
+        /**
+         * @description * `competition` - Ties share a rank and the next rank is skipped (1, 1, 3)
+         *     * `dense` - Ties share a rank and no rank is skipped (1, 1, 2)
+         * @enum {string}
+         */
+        RankMethodEnum: "competition" | "dense";
         ReasonRequest: {
             reason: string;
         };
@@ -3655,6 +4256,33 @@ export interface components {
          * @enum {string}
          */
         RelationshipEnum: "father" | "mother" | "guardian" | "other";
+        ResultMark: {
+            class_subject: number;
+            /** Format: decimal */
+            mark: string | null;
+        };
+        ResultStudent: {
+            enrollment: number;
+            student: number;
+            student_name: string;
+            student_number: string;
+            marks: components["schemas"]["ResultMark"][];
+            /** Format: decimal */
+            average: string | null;
+            rank: number | null;
+            passed: boolean | null;
+        };
+        ResultSubject: {
+            class_subject: number;
+            subject_name: string;
+            subject_code: string;
+            /** Format: decimal */
+            coefficient: string;
+            teacher_name: string;
+            gradebook: number | null;
+            status: components["schemas"]["GradebookStatusEnum"];
+            stats: components["schemas"]["Stats"];
+        };
         ReversePaymentRequest: {
             reason: string;
         };
@@ -3678,6 +4306,23 @@ export interface components {
             name: string;
             description?: string;
             permissions?: string[];
+        };
+        SaveGradesRequest: {
+            grades: components["schemas"]["GradeEntryRequest"][];
+        };
+        SaveGradesResult: {
+            changed: number;
+        };
+        ScaleBrief: {
+            /**
+             * Format: decimal
+             * @description Marks are reported out of this number, e.g. 20, 10 or 100.
+             */
+            max_mark?: string;
+            /** Format: decimal */
+            pass_mark?: string;
+            decimals?: number;
+            rank_method?: components["schemas"]["RankMethodEnum"];
         };
         School: {
             readonly id: number;
@@ -3722,6 +4367,38 @@ export interface components {
         SchoolStatusEnum: "active" | "suspended";
         SchoolStatusRequest: {
             status: components["schemas"]["SchoolStatusEnum"];
+        };
+        SheetAssessment: {
+            assessment: number;
+            marked: number;
+            /** Format: decimal */
+            average: string | null;
+        };
+        SheetCategoryMark: {
+            category: number;
+            /** Format: decimal */
+            mark: string | null;
+        };
+        SheetMark: {
+            assessment: number;
+            /** Format: decimal */
+            score: string | null;
+            excused: boolean;
+            comment: string;
+        };
+        SheetStudent: {
+            enrollment: number;
+            student: number;
+            student_name: string;
+            student_number: string;
+            is_active: boolean;
+            marks: components["schemas"]["SheetMark"][];
+            categories: components["schemas"]["SheetCategoryMark"][];
+            /** Format: decimal */
+            mark: string | null;
+            rank: number | null;
+            passed: boolean | null;
+            missing: number;
         };
         SourceTotal: {
             source: components["schemas"]["CashSourceEnum"];
@@ -3787,6 +4464,16 @@ export interface components {
          * @enum {string}
          */
         StaffTypeEnum: "teacher" | "administrative" | "support";
+        Stats: {
+            /** Format: decimal */
+            average: string | null;
+            /** Format: decimal */
+            lowest: string | null;
+            /** Format: decimal */
+            highest: string | null;
+            passed: number;
+            counted: number;
+        };
         Student: {
             readonly id: number;
             student_number?: string;
@@ -4101,6 +4788,127 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["AcademicYear"];
+                };
+            };
+        };
+    };
+    assessments_list: {
+        parameters: {
+            query?: {
+                gradebook?: number;
+                /** @description Which field to use when ordering the results. */
+                ordering?: string;
+                /** @description A search term. */
+                search?: string;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Assessment"][];
+                };
+            };
+        };
+    };
+    assessments_create: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["AssessmentRequest"];
+                "application/x-www-form-urlencoded": components["schemas"]["AssessmentRequest"];
+                "multipart/form-data": components["schemas"]["AssessmentRequest"];
+            };
+        };
+        responses: {
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Assessment"];
+                };
+            };
+        };
+    };
+    assessments_retrieve: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description A unique integer value identifying this assessment. */
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Assessment"];
+                };
+            };
+        };
+    };
+    assessments_destroy: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description A unique integer value identifying this assessment. */
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description No response body */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    assessments_partial_update: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description A unique integer value identifying this assessment. */
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: {
+            content: {
+                "application/json": components["schemas"]["PatchedAssessmentRequest"];
+                "application/x-www-form-urlencoded": components["schemas"]["PatchedAssessmentRequest"];
+                "multipart/form-data": components["schemas"]["PatchedAssessmentRequest"];
+            };
+        };
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Assessment"];
                 };
             };
         };
@@ -4607,6 +5415,28 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["CashMovement"];
+                };
+            };
+        };
+    };
+    class_results_retrieve: {
+        parameters: {
+            query: {
+                class_group: number;
+                term: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ClassResults"];
                 };
             };
         };
@@ -5701,6 +6531,515 @@ export interface operations {
             };
         };
     };
+    grade_categories_list: {
+        parameters: {
+            query?: {
+                gradebook?: number;
+                /** @description Which field to use when ordering the results. */
+                ordering?: string;
+                /** @description A search term. */
+                search?: string;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["GradeCategory"][];
+                };
+            };
+        };
+    };
+    grade_categories_create: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["GradeCategoryRequest"];
+                "application/x-www-form-urlencoded": components["schemas"]["GradeCategoryRequest"];
+                "multipart/form-data": components["schemas"]["GradeCategoryRequest"];
+            };
+        };
+        responses: {
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["GradeCategory"];
+                };
+            };
+        };
+    };
+    grade_categories_retrieve: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description A unique integer value identifying this grade category. */
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["GradeCategory"];
+                };
+            };
+        };
+    };
+    grade_categories_destroy: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description A unique integer value identifying this grade category. */
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description No response body */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    grade_categories_partial_update: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description A unique integer value identifying this grade category. */
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: {
+            content: {
+                "application/json": components["schemas"]["PatchedGradeCategoryRequest"];
+                "application/x-www-form-urlencoded": components["schemas"]["PatchedGradeCategoryRequest"];
+                "multipart/form-data": components["schemas"]["PatchedGradeCategoryRequest"];
+            };
+        };
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["GradeCategory"];
+                };
+            };
+        };
+    };
+    gradebooks_list: {
+        parameters: {
+            query: {
+                class_subject__class_group?: number;
+                class_subject__subject?: number;
+                class_subject__teacher?: number;
+                /** @description Only the subjects I teach. */
+                mine?: boolean;
+                /** @description Which field to use when ordering the results. */
+                ordering?: string;
+                /** @description A page number within the paginated result set. */
+                page?: number;
+                /** @description Number of results to return per page. */
+                page_size?: number;
+                /** @description A search term. */
+                search?: string;
+                /**
+                 * @description * `open` - In progress
+                 *     * `submitted` - Submitted
+                 *     * `published` - Published
+                 */
+                status?: "open" | "published" | "submitted";
+                term: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PaginatedGradebookList"];
+                };
+            };
+        };
+    };
+    gradebooks_retrieve: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description A unique integer value identifying this gradebook. */
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["GradebookDetail"];
+                };
+            };
+        };
+    };
+    gradebooks_partial_update: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description A unique integer value identifying this gradebook. */
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: {
+            content: {
+                "application/json": components["schemas"]["PatchedGradebookUpdateRequest"];
+                "application/x-www-form-urlencoded": components["schemas"]["PatchedGradebookUpdateRequest"];
+                "multipart/form-data": components["schemas"]["PatchedGradebookUpdateRequest"];
+            };
+        };
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["GradebookDetail"];
+                };
+            };
+        };
+    };
+    gradebooks_copy_setup_create: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description A unique integer value identifying this gradebook. */
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["CopySetupRequest"];
+                "application/x-www-form-urlencoded": components["schemas"]["CopySetupRequest"];
+                "multipart/form-data": components["schemas"]["CopySetupRequest"];
+            };
+        };
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["GradebookDetail"];
+                };
+            };
+        };
+    };
+    gradebooks_grades_create: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description A unique integer value identifying this gradebook. */
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["SaveGradesRequest"];
+                "application/x-www-form-urlencoded": components["schemas"]["SaveGradesRequest"];
+                "multipart/form-data": components["schemas"]["SaveGradesRequest"];
+            };
+        };
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["SaveGradesResult"];
+                };
+            };
+        };
+    };
+    gradebooks_publish_create: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description A unique integer value identifying this gradebook. */
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["GradebookDetail"];
+                };
+            };
+        };
+    };
+    gradebooks_reopen_create: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description A unique integer value identifying this gradebook. */
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["GradebookReasonRequest"];
+                "application/x-www-form-urlencoded": components["schemas"]["GradebookReasonRequest"];
+                "multipart/form-data": components["schemas"]["GradebookReasonRequest"];
+            };
+        };
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["GradebookDetail"];
+                };
+            };
+        };
+    };
+    gradebooks_send_back_create: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description A unique integer value identifying this gradebook. */
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["GradebookReasonRequest"];
+                "application/x-www-form-urlencoded": components["schemas"]["GradebookReasonRequest"];
+                "multipart/form-data": components["schemas"]["GradebookReasonRequest"];
+            };
+        };
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["GradebookDetail"];
+                };
+            };
+        };
+    };
+    gradebooks_sheet_retrieve: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description A unique integer value identifying this gradebook. */
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["GradebookSheet"];
+                };
+            };
+        };
+    };
+    gradebooks_submit_create: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description A unique integer value identifying this gradebook. */
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["GradebookDetail"];
+                };
+            };
+        };
+    };
+    grading_scales_list: {
+        parameters: {
+            query?: {
+                /** @description Which field to use when ordering the results. */
+                ordering?: string;
+                /** @description A search term. */
+                search?: string;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["GradingScale"][];
+                };
+            };
+        };
+    };
+    grading_scales_create: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: {
+            content: {
+                "application/json": components["schemas"]["GradingScaleRequest"];
+                "application/x-www-form-urlencoded": components["schemas"]["GradingScaleRequest"];
+                "multipart/form-data": components["schemas"]["GradingScaleRequest"];
+            };
+        };
+        responses: {
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["GradingScale"];
+                };
+            };
+        };
+    };
+    grading_scales_retrieve: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description A unique integer value identifying this grading scale. */
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["GradingScale"];
+                };
+            };
+        };
+    };
+    grading_scales_destroy: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description A unique integer value identifying this grading scale. */
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description No response body */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    grading_scales_partial_update: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description A unique integer value identifying this grading scale. */
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: {
+            content: {
+                "application/json": components["schemas"]["PatchedGradingScaleRequest"];
+                "application/x-www-form-urlencoded": components["schemas"]["PatchedGradingScaleRequest"];
+                "multipart/form-data": components["schemas"]["PatchedGradingScaleRequest"];
+            };
+        };
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["GradingScale"];
+                };
+            };
+        };
+    };
     guardians_list: {
         parameters: {
             query?: {
@@ -6591,6 +7930,67 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["Refund"];
+                };
+            };
+        };
+    };
+    reports_finance_retrieve: {
+        parameters: {
+            query?: {
+                academic_year?: number | null;
+                /**
+                 * @description * `salaries` - Salaries and allowances
+                 *     * `rent` - Rent
+                 *     * `utilities` - Water, electricity, internet
+                 *     * `supplies` - Office and teaching supplies
+                 *     * `maintenance` - Repairs and maintenance
+                 *     * `transport` - Transport and fuel
+                 *     * `food` - Food and canteen
+                 *     * `events` - Exams and events
+                 *     * `taxes` - Taxes and fees
+                 *     * `other` - Other
+                 */
+                category?: "salaries" | "rent" | "utilities" | "supplies" | "maintenance" | "transport" | "food" | "events" | "taxes" | "other" | "";
+                class_group?: number | null;
+                /** @description Defaults to the first day of date_to's month. */
+                date_from?: string;
+                /** @description Defaults to today. */
+                date_to?: string;
+                /**
+                 * @description * `pdf` - pdf
+                 *     * `xlsx` - xlsx
+                 *     * `csv` - csv
+                 */
+                export?: "pdf" | "xlsx" | "csv" | "";
+                /**
+                 * @description * `cash` - Cash
+                 *     * `mobile_money` - Mobile money
+                 *     * `bank_transfer` - Bank transfer or deposit
+                 *     * `cheque` - Cheque
+                 *     * `card` - Card
+                 *     * `other` - Other
+                 */
+                method?: "cash" | "mobile_money" | "bank_transfer" | "cheque" | "card" | "other" | "";
+                overdue_only?: boolean;
+                register?: number | null;
+            };
+            header?: never;
+            path: {
+                key: "cash" | "expenses" | "outstanding" | "payments" | "summary";
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description The report (JSON) or the exported file. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        [key: string]: unknown;
+                    };
                 };
             };
         };

@@ -71,7 +71,7 @@
     "cashRegister": "Caisse",
     "attendance": "Présences",
     "assessments": "Évaluations",
-    "results": "Résultats & bulletins",
+    "results": "Résultats",
     "settings": "Paramètres",
     "account": "Mon compte",
     "logout": "Se déconnecter",
@@ -1116,5 +1116,193 @@
     "overdueOnly": "En retard seulement",
     "nothing": "Rien pour cette période.",
     "truncated": "Affichage des {{shown}} premières lignes sur {{count}}. Exportez le rapport pour les avoir toutes."
+  },
+  "grades": {
+    "title": "Évaluations & notes",
+    "subtitle": "Chaque enseignant fixe ses propres règles : nommez vos interrogations, devoirs, quiz et compositions, choisissez combien chacun compte, puis saisissez les notes.",
+    "searchGradebooks": "Rechercher une classe ou une matière…",
+    "term": "Période",
+    "chooseTerm": "Choisir une période",
+    "onlyMine": "Mes matières seulement",
+    "noTerms": "Aucune période",
+    "noTermsHint": "Ajoutez d'abord les trimestres ou semestres de l'année dans Paramètres → Année scolaire.",
+    "noGradebooks": "Aucune matière à noter",
+    "noGradebooksHint": "Les matières apparaissent ici dès qu'elles sont attribuées à une classe et à un enseignant dans Classes.",
+    "class": "Classe",
+    "subject": "Matière",
+    "teacher": "Enseignant",
+    "noTeacher": "Aucun enseignant",
+    "assessmentCount": "Évaluations",
+    "progress": "Notes saisies",
+    "coefficientShort": "coef. {{value}}",
+    "backToList": "Toutes les matières",
+    "status": {
+      "open": "En cours",
+      "submitted": "Soumis",
+      "published": "Publié"
+    },
+    "tabs": {
+      "marks": "Notes",
+      "rules": "Règles de notation & évaluations"
+    },
+    "steps": {
+      "submit": "Soumettre pour validation",
+      "send-back": "Renvoyer à l'enseignant",
+      "publish": "Publier",
+      "reopen": "Rouvrir"
+    },
+    "confirm": {
+      "submit": "Les notes seront transmises à la direction pour validation. Vous ne pourrez plus les modifier, sauf si elles vous sont renvoyées.",
+      "send-back": "L'enseignant pourra de nouveau modifier les notes. Indiquez ce qu'il faut corriger.",
+      "publish": "Les notes deviennent officielles : elles comptent dans les résultats de la classe et sont verrouillées.",
+      "reopen": "L'enseignant pourra modifier ces notes publiées. Le motif est conservé dans le journal d'audit."
+    },
+    "done": {
+      "submit": "Notes soumises pour validation",
+      "send-back": "Notes renvoyées à l'enseignant",
+      "publish": "Notes publiées",
+      "reopen": "Notes rouvertes"
+    },
+    "returnedNote": "Renvoyé ou rouvert : {{note}}",
+    "lockedNote": {
+      "submitted": "Ces notes ont été soumises pour validation et ne peuvent plus être modifiées.",
+      "published": "Ces notes sont publiées et verrouillées. Une personne habilitée peut les rouvrir."
+    },
+    "student": "Élève",
+    "mark": "Note",
+    "rank": "Rang",
+    "left": "Parti",
+    "resultsOutOf": "Résultats (sur {{max}})",
+    "classAverage": "Moyenne de la classe",
+    "cellLabel": "{{assessment}} — {{student}}",
+    "gridHelp": "Saisissez une note, ou {{code}} si l'élève est excusé (hors de sa moyenne). Laissez vide si ce n'est pas encore noté. Entrée passe à la ligne suivante.",
+    "invalid": {
+      "format": "Saisissez un nombre, ou E pour excusé",
+      "range": "Entre 0 et {{max}}"
+    },
+    "unsaved_one": "{{count}} modification non enregistrée",
+    "unsaved_other": "{{count}} modifications non enregistrées",
+    "discard": "Annuler les modifications",
+    "saveMarks": "Enregistrer les notes",
+    "marksSaved_one": "{{count}} note enregistrée",
+    "marksSaved_other": "{{count}} notes enregistrées",
+    "statsLine": "{{passed}} élève(s) sur {{counted}} à la moyenne ou au-dessus ({{pass}}/{{max}}). Plus basse {{lowest}}, plus haute {{highest}}.",
+    "noAssessments": "Aucune évaluation",
+    "noAssessmentsHint": "Définissez vos catégories et ajoutez vos interrogations, devoirs ou compositions dans « Règles de notation & évaluations ».",
+    "noAssessmentsYet": "L'enseignant n'a encore ajouté aucune évaluation.",
+    "noAssessmentsMine": "Aucune évaluation pour l’instant. Ajoutez la première interrogation, le premier devoir ou la première composition.",
+    "categories": "Catégories",
+    "categoriesHint": "Regroupez vos évaluations à votre façon — « Interrogations », « Devoirs », « Composition »… — et indiquez combien chaque groupe compte.",
+    "category": "Catégorie",
+    "newCategory": "Ajouter une catégorie",
+    "editCategory": "Modifier la catégorie",
+    "categoryHint": "Le nom que vous voulez. Le poids indique combien cette catégorie compte dans la note de la matière.",
+    "categoryPlaceholder": "ex. Interrogations, Devoirs, Composition",
+    "weight": "Poids",
+    "weightHint": "Les poids se comparent entre eux : 1 et 2 signifie que la seconde compte double ; 40 et 60 fonctionnent comme des pourcentages.",
+    "share": "Part de la note",
+    "method": "Calcul dans la catégorie",
+    "methods": {
+      "average": "Moyenne des évaluations",
+      "total": "Total des points"
+    },
+    "methodHint": {
+      "average": "Chaque évaluation compte autant (ou selon son propre poids), quel que soit son barème.",
+      "total": "Les points s'additionnent : un devoir sur 50 compte plus qu'une interrogation sur 10."
+    },
+    "noCategories": "L'enseignant n'a encore défini aucune catégorie.",
+    "startFrom": "Partez de l'un de ces modèles, puis renommez ou repondérez ce que vous voulez :",
+    "templates": {
+      "classWorkExam": {
+        "title": "Notes de classe + composition",
+        "body": "Notes de classe ×1 et composition ×2 — la formule habituelle (moyenne de classe + 2 × composition) / 3."
+      },
+      "quizTestExam": {
+        "title": "Quiz, devoirs, tests, examen",
+        "body": "20 % quiz, 20 % devoirs, 20 % tests, 40 % examen."
+      },
+      "points": {
+        "title": "Une seule liste de points",
+        "body": "Toutes les notes additionnées, puis divisées par le total possible."
+      }
+    },
+    "templateNames": {
+      "classWork": "Notes de classe",
+      "exam": "Composition",
+      "quizzes": "Quiz",
+      "assignments": "Devoirs",
+      "tests": "Tests",
+      "points": "Points"
+    },
+    "templateApplied": "Catégories ajoutées — renommez-les ou changez leur poids à votre guise",
+    "confirmDeleteCategory": "Supprimer la catégorie « {{name}} » ?",
+    "assessments": "Évaluations",
+    "assessmentsHint": "Ajoutez-en autant que vous en donnez : chacune avec son nom, sa date et son barème.",
+    "newAssessment": "Ajouter une évaluation",
+    "editAssessment": "Modifier l'évaluation",
+    "assessmentHint": "Nommez-la comme dans votre école : « Interro 2 », « Devoir surveillé n°1 », « Quiz », « Composition du 1er trimestre »…",
+    "assessmentPlaceholder": "ex. Interro 1 — fractions",
+    "maxScore": "Noté sur",
+    "assessmentWeight": "Poids dans sa catégorie",
+    "assessmentWeightHint": "1 = compte comme les autres de sa catégorie ; 2 = compte double.",
+    "categoriesFirst": "Ajoutez d'abord une catégorie.",
+    "confirmDeleteAssessment": "Supprimer « {{name}} » et toutes les notes saisies ?",
+    "positive": "Doit être supérieur à 0",
+    "missingTitle": "Notes manquantes",
+    "missing": {
+      "exclude": "Ne pas les compter dans la moyenne",
+      "zero": "Les compter comme zéro"
+    },
+    "missingHint": {
+      "exclude": "Un élève sans note à une évaluation a sa moyenne calculée sur les autres.",
+      "zero": "Un élève sans note reçoit 0 — dès que vous avez commencé à noter cette évaluation. Les élèves excusés (E) ne sont jamais comptés."
+    },
+    "copyRules": "Copier d'une autre classe",
+    "copyTitle": "Copier des règles de notation",
+    "copyHint": "Réutilisez les catégories définies ailleurs — une autre classe ou une autre période.",
+    "copyFrom": "Copier depuis",
+    "chooseGradebook": "Choisir une matière",
+    "copyAssessments": "Copier aussi les évaluations (sans les notes)",
+    "copy": "Copier",
+    "copied": "Règles de notation copiées",
+    "resultsTitle": "Résultats de la classe",
+    "resultsSubtitle": "La note de chaque matière, la moyenne pondérée par les coefficients, le rang et la décision.",
+    "chooseClassAndTerm": "Choisissez une période et une classe",
+    "resultsRestricted": "Seuls le professeur principal et la direction voient les résultats d'une classe",
+    "resultsRestrictedHint": "Les notes de vos propres matières sont dans Évaluations.",
+    "noStudents": "Aucun élève dans cette classe",
+    "unpublishedNote_one": "{{count}} matière n'est pas encore publiée : ses notes (en gris) peuvent encore changer.",
+    "unpublishedNote_other": "{{count}} matières ne sont pas encore publiées : leurs notes (en gris) peuvent encore changer.",
+    "averageOutOf": "Moyenne /{{max}}",
+    "decision": "Décision",
+    "passed": "Admis",
+    "failed": "Non admis",
+    "passWithinMax": "La moyenne de passage ne peut pas dépasser le maximum",
+    "scale": {
+      "title": "Barème de notation",
+      "hint": "Comment les notes sont présentées sur les résultats et les bulletins. Chaque enseignant note ses évaluations sur ce qu'il veut ; les notes sont converties sur ce barème.",
+      "addLevel": "Barème différent pour un niveau",
+      "appliesTo": "S'applique à",
+      "wholeSchool": "Tout l'établissement",
+      "builtIn": "(par défaut)",
+      "level": "Niveau",
+      "outOf": "Sur",
+      "maxMark": "Notes sur",
+      "passMark": "Moyenne de passage",
+      "decimals": "Décimales",
+      "ties": "Moyennes égales",
+      "rank": {
+        "competition": "Même rang, rang suivant sauté (1, 1, 3)",
+        "dense": "Même rang, aucun rang sauté (1, 1, 2)"
+      },
+      "rankShort": {
+        "competition": "1, 1, 3",
+        "dense": "1, 1, 2"
+      },
+      "schoolTitle": "Barème de l'établissement",
+      "levelTitle": "Barème d'un niveau",
+      "dialogHint": "Par ex. sur 20 avec 10 de moyenne, sur 10 pour le primaire, ou sur 100 avec 70 pour réussir.",
+      "confirmDelete": "Supprimer le barème de {{level}} ? Le barème de l'établissement s'appliquera de nouveau."
+    }
   }
 }
