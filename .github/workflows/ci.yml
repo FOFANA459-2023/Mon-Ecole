@@ -1,4 +1,4 @@
-# Quality and security gate for every pull request (Cloudflare Workers Builds posts the preview).
+# Quality and security gate for every pull request.
 # CD runs this same file before publishing main.
 #
 #   quality   eslint, TypeScript, unit + component tests (Vitest, Testing Library, MSW) with a coverage floor,

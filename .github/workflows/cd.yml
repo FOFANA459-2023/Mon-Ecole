@@ -1,5 +1,11 @@
-# Delivery pipeline: push to main or a v* tag → CI → multi-arch nginx image on GHCR.
-# The site itself is deployed by Cloudflare Workers Builds from main (see wrangler.jsonc and README "Deployment").
+# Delivery pipeline: push to main or a v* tag → CI → multi-arch nginx image on GHCR,
+# and every push to main → CI → the site on the Cloudflare Worker `mon-ecole` (wrangler.jsonc).
+#
+# Settings → Environments → production:
+#   secret   CLOUDFLARE_API_TOKEN   token from the "Edit Cloudflare Workers" template
+#   variable CLOUDFLARE_ACCOUNT_ID  Cloudflare dashboard → Workers & Pages → Account ID
+#   variable VITE_API_URL           e.g. https://api.example.org/api/v1 (baked in at build time)
+# Settings → Secrets and variables → Actions → Variables: DEPLOY_WORKER = true switches the deploy on.
 name: CD
 
 on:
@@ -17,6 +23,7 @@ permissions:
 env:
   # GHCR image names must be lowercase.
   IMAGE: ghcr.io/fofana459-2023/mon-ecole-frontend
+  NODE_VERSION: "22"
 
 jobs:
   ci:
@@ -68,3 +75,35 @@ jobs:
         env:
           DIGEST: ${{ steps.build.outputs.digest }}
         run: cosign sign --yes "${IMAGE}@${DIGEST}"
+
+  site:
+    name: Deploy the site (Cloudflare Worker)
+    needs: ci
+    if: github.ref == 'refs/heads/main' && vars.DEPLOY_WORKER == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    environment:
+      name: production
+      url: https://mon-ecole.fvarlee.workers.dev
+    concurrency:
+      group: worker-production
+      cancel-in-progress: false
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: npm
+      - run: npm ci
+      - name: Build
+        env:
+          VITE_API_URL: ${{ vars.VITE_API_URL }}
+        run: |
+          test -n "$VITE_API_URL" || { echo "::error::Set VITE_API_URL in the production environment."; exit 1; }
+          npm run build
+      - uses: cloudflare/wrangler-action@v4
+        with:
+          wranglerVersion: "4"
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ vars.CLOUDFLARE_ACCOUNT_ID }}
+          command: deploy --message "${{ github.sha }}"

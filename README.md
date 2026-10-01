@@ -111,13 +111,14 @@ This reads `../Mon-Ecole-Backend/openapi.yaml` (or `../backend/openapi.yaml`) wh
 | `ci.yml` | every pull request | the quality and security gates above — all required before merging to `main` (API types and E2E need `BACKEND_REPO_TOKEN`) |
 | `cd.yml` | push to `main`, tags `v*` | runs CI, publishes the nginx image (`linux/amd64` + `linux/arm64`) to `ghcr.io/fofana459-2023/mon-ecole-frontend` with an SBOM and provenance, signed with Sigstore/cosign |
 
-### Deployment (Cloudflare Workers Builds)
+### Deployment (GitHub Actions → Cloudflare Worker)
 
-The Worker `mon-ecole` is connected to this repository in the Cloudflare dashboard (**Workers & Pages → mon-ecole → Settings → Build**):
+Every push to `main` runs CI, then deploys the site to the Worker `mon-ecole` (`.github/workflows/cd.yml`, job "Deploy the site"). One-time setup in GitHub (**Settings**):
 
-- build command `npm run build`, deploy command `npx wrangler deploy`, preview command `npx wrangler versions upload`;
-- every push to `main` deploys production; other branches and pull requests get a preview URL;
-- build variable `VITE_API_URL` = the API address, e.g. `https://api.example.org/api/v1` (read at build time — redeploy after changing it).
+- **Environments → production**: secret `CLOUDFLARE_API_TOKEN` (Cloudflare → My Profile → API Tokens → template *Edit Cloudflare Workers*), variables `CLOUDFLARE_ACCOUNT_ID` and `VITE_API_URL` = the API address, e.g. `https://api.example.org/api/v1` (read at build time — redeploy after changing it);
+- **Secrets and variables → Actions → Variables**: `DEPLOY_WORKER` = `true`.
+
+To deploy by hand: `VITE_API_URL=… npm run build && npx wrangler deploy` (after `npx wrangler login`). Cloudflare's own Git builds (Workers Builds) are not used; leave the Worker disconnected from Git so a push is not deployed twice.
 
 For the GitHub checks, add the secret `BACKEND_REPO_TOKEN` (a fine-grained token with read-only *Contents* access to Mon-Ecole-Backend, for the API types check and E2E).
 
