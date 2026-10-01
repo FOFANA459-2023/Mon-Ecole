@@ -1,10 +1,13 @@
 <!doctype html>
-<html lang="fr">
+<html lang="fr" translate="no">
   <head>
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="theme-color" content="#1f3a5f" />
+    <!-- The app has its own French / English switch: browser translation rewrites the page under React and
+         makes it crash ("removeChild"), so it is turned off. -->
+    <meta name="google" content="notranslate" />
     <title>Mon École</title>
   </head>
   <body>
