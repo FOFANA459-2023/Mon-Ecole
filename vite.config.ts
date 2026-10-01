@@ -25,6 +25,8 @@ export default defineConfig({
     setupFiles: ["./src/test/setup.ts"],
     include: ["src/**/*.test.{ts,tsx}"],
     css: false,
+    // Typing and clicking through dialogs takes a few seconds when every file runs in parallel (with coverage).
+    testTimeout: 20_000,
     coverage: {
       provider: "v8",
       include: ["src/**"],

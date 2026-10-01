@@ -105,6 +105,15 @@ export type Assessment = Schemas["Assessment"];
 export type GradebookSheet = Schemas["GradebookSheet"];
 export type SheetStudent = Schemas["SheetStudent"];
 export type ClassResults = Schemas["ClassResults"];
+export type AttendanceStatus = Schemas["AttendanceStatusEnum"];
+export type StaffAttendanceStatus = Schemas["StaffAttendanceStatusEnum"];
+export type DayClass = Schemas["DayClass"];
+export type RegisterSheet = Schemas["RegisterSheet"];
+export type RegisterStudent = Schemas["RegisterStudent"];
+export type ClassMonth = Schemas["ClassMonth"];
+export type AbsenceRow = Schemas["AbsenceRow"];
+export type StudentAttendance = Schemas["StudentAttendance"];
+export type StaffSheet = Schemas["StaffSheet"];
 
 /** GET /reports/finance/{key}/: a report as titled sections of columns and rows. */
 export type ReportKind = "text" | "money" | "number" | "percent" | "date" | "datetime" | "auto";

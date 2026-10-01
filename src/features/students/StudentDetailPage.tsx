@@ -44,6 +44,7 @@ import {
   type EnrollmentRef,
 } from "@/features/enrollments/EnrollmentActionDialogs";
 import { invalidateSchooling } from "@/features/enrollments/api";
+import { StudentAttendanceTab } from "@/features/attendance/StudentAttendanceTab";
 import { StudentFinanceTab } from "@/features/finance/StudentFinanceTab";
 import { useGuardianLinks, useStudent } from "@/features/people/api";
 import { DocumentsPanel } from "@/features/people/DocumentsPanel";
@@ -326,6 +327,7 @@ export function StudentDetailPage() {
 
   if (studentQuery.isPending) return <Spinner className="mx-auto my-10 size-6" />;
   const seesFinance = can("finance.view");
+  const seesAttendance = can("attendance.view");
   if (studentQuery.isError) return <QueryError error={studentQuery.error} onRetry={() => void studentQuery.refetch()} />;
   const s = studentQuery.data;
   const current = s.current_enrollment;
@@ -443,13 +445,20 @@ export function StudentDetailPage() {
         </div>
       </div>
 
-      <Tabs defaultValue={params.get("tab") === "payments" && !seesFinance ? "profile" : (params.get("tab") ?? "profile")}>
+      <Tabs
+        defaultValue={
+          (params.get("tab") === "payments" && !seesFinance) || (params.get("tab") === "attendance" && !seesAttendance)
+            ? "profile"
+            : (params.get("tab") ?? "profile")
+        }
+      >
         <TabsList className="max-w-full justify-start overflow-x-auto">
           <TabsTrigger value="profile">{t("students.profile")}</TabsTrigger>
           <TabsTrigger value="guardians">{t("students.guardians")}</TabsTrigger>
           <TabsTrigger value="schooling">{t("students.schooling")}</TabsTrigger>
           <TabsTrigger value="documents">{t("students.documents")}</TabsTrigger>
           {seesFinance && <TabsTrigger value="payments">{t("students.payments")}</TabsTrigger>}
+          {seesAttendance && <TabsTrigger value="attendance">{t("students.attendance")}</TabsTrigger>}
           <TabsTrigger value="results">{t("students.results")}</TabsTrigger>
         </TabsList>
 
@@ -535,6 +544,11 @@ export function StudentDetailPage() {
         {seesFinance && (
           <TabsContent value="payments">
             <StudentFinanceTab student={s} />
+          </TabsContent>
+        )}
+        {seesAttendance && (
+          <TabsContent value="attendance">
+            <StudentAttendanceTab studentId={s.id} />
           </TabsContent>
         )}
         <TabsContent value="results">
