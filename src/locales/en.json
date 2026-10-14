@@ -180,7 +180,10 @@
     "staffTotal": "{{count}} staff members in total",
     "noYear": "No school year is set up yet: figures will appear once the year and classes are created.",
     "yearLabel": "Year {{name}}",
-    "attendanceCaption": "{{absent}} absent · {{taken}} of {{classes}} registers taken"
+    "attendanceCaption": "{{absent}} absent · {{taken}} of {{classes}} registers taken",
+    "absenceAlerts_one": "{{count}} student is absent too often and needs following up.",
+    "absenceAlerts_other": "{{count}} students are absent too often and need following up.",
+    "followUp": "See the alerts"
   },
   "modules": {
     "phase": "Phase {{phase}}",
@@ -238,7 +241,11 @@
       "idleTimeout": "Automatic sign-out after inactivity (minutes)",
       "aiEnabled": "Enable AI features",
       "aiEnabledHint": "Assistant and suggested report-card comments (anonymised data).",
-      "readOnlyNotice": "Only administrators can change this information."
+      "readOnlyNotice": "Only administrators can change this information.",
+      "attendance": "Attendance",
+      "absenceThreshold": "Absences that raise an alert",
+      "absenceThresholdHint": "Unexcused absences within the period below. 0 = no alerts.",
+      "absenceDays": "Period (days)"
     },
     "users": {
       "title": "Users",
@@ -1398,7 +1405,8 @@
     "tabs": {
       "registers": "Registers",
       "reports": "Reports",
-      "staff": "Staff"
+      "staff": "Staff",
+      "alerts": "Alerts"
     },
     "day": "Day",
     "today": "today",
@@ -1480,6 +1488,32 @@
     "markRestPresent_one": "Mark the remaining student present",
     "markRestPresent_other": "Mark the {{count}} remaining students present",
     "staffToMark_one": "{{count}} person not marked for this day.",
-    "staffToMark_other": "{{count}} people not marked for this day."
+    "staffToMark_other": "{{count}} people not marked for this day.",
+    "alerts": {
+      "intro": "Students who reached the school's number of unexcused absences within its period. Alerts are raised every evening from the registers; close one once the family has been contacted.",
+      "show": "Show",
+      "statuses": {
+        "open": "To follow up",
+        "followed_up": "Followed up",
+        "cleared": "No longer applies"
+      },
+      "none": {
+        "open": "No student to follow up",
+        "followed_up": "No alert followed up yet",
+        "cleared": "No alert cleared"
+      },
+      "absences": "Absences",
+      "period": "Between",
+      "between": "{{from}} – {{to}}",
+      "raised": "Raised on",
+      "closed": "Closed",
+      "followUp": "Follow up",
+      "followUpTitle": "Follow up — {{name}}",
+      "followUpHint_one": "{{count}} unexcused absence. Say what was done: a call to the family, a meeting, a reason given…",
+      "followUpHint_other": "{{count}} unexcused absences. Say what was done: a call to the family, a meeting, a reason given…",
+      "note": "What was done",
+      "notePlaceholder": "Called the mother on 15/10: the child was ill.",
+      "markFollowedUp": "Mark as followed up"
+    }
   }
 }

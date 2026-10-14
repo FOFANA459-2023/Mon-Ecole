@@ -54,6 +54,8 @@ const FIELD_NAMES = [
   "settings.invoice_prefix",
   "settings.receipt_prefix",
   "settings.ai_enabled",
+  "settings.absence_alert_threshold",
+  "settings.absence_alert_days",
 ] as const;
 
 function useSchoolSchema() {
@@ -88,6 +90,16 @@ function useSchoolSchema() {
         invoice_prefix: prefix,
         receipt_prefix: prefix,
         ai_enabled: z.boolean(),
+        absence_alert_threshold: z
+          .number(t("validation.required"))
+          .int()
+          .min(0, t("validation.range", { min: 0, max: 60 }))
+          .max(60, t("validation.range", { min: 0, max: 60 })),
+        absence_alert_days: z
+          .number(t("validation.required"))
+          .int()
+          .min(7, t("validation.range", { min: 7, max: 120 }))
+          .max(120, t("validation.range", { min: 7, max: 120 })),
       }),
     });
   }, [t]);
@@ -115,6 +127,8 @@ function toValues(school: School): Values {
       invoice_prefix: s.invoice_prefix ?? "INV",
       receipt_prefix: s.receipt_prefix ?? "REC",
       ai_enabled: s.ai_enabled ?? false,
+      absence_alert_threshold: s.absence_alert_threshold ?? 3,
+      absence_alert_days: s.absence_alert_days ?? 30,
     },
   };
 }
@@ -374,6 +388,36 @@ export function SchoolProfilePage() {
             <Input id={name} className="uppercase" maxLength={10} {...form.register(`settings.${name}`)} />
           </Field>
         ))}
+      </Section>
+
+      <Section title={t("settings.school.attendance")}>
+        <Field
+          label={t("settings.school.absenceThreshold")}
+          htmlFor="absence_alert_threshold"
+          error={errors.settings?.absence_alert_threshold?.message}
+          hint={t("settings.school.absenceThresholdHint")}
+        >
+          <Input
+            id="absence_alert_threshold"
+            type="number"
+            min={0}
+            max={60}
+            {...form.register("settings.absence_alert_threshold", { valueAsNumber: true })}
+          />
+        </Field>
+        <Field
+          label={t("settings.school.absenceDays")}
+          htmlFor="absence_alert_days"
+          error={errors.settings?.absence_alert_days?.message}
+        >
+          <Input
+            id="absence_alert_days"
+            type="number"
+            min={7}
+            max={120}
+            {...form.register("settings.absence_alert_days", { valueAsNumber: true })}
+          />
+        </Field>
       </Section>
 
       <Section title={t("settings.school.security")}>

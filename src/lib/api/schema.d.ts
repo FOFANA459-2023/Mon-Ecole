@@ -151,6 +151,48 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/v1/attendance/alerts/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * @description High-absenteeism alerts of the classes the user sees: open ones by default, newest first.
+         *
+         *     Raised every evening from the registers (see attendance.alerts); `follow-up` closes one with a note.
+         */
+        get: operations["attendance_alerts_list"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/attendance/alerts/{id}/follow-up/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * @description High-absenteeism alerts of the classes the user sees: open ones by default, newest first.
+         *
+         *     Raised every evening from the registers (see attendance.alerts); `follow-up` closes one with a note.
+         */
+        post: operations["attendance_alerts_follow_up_create"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/v1/attendance/class-month/": {
         parameters: {
             query?: never;
@@ -2675,6 +2717,36 @@ export interface paths {
 export type webhooks = Record<string, never>;
 export interface components {
     schemas: {
+        AbsenceAlert: {
+            readonly id: number;
+            enrollment: number;
+            student: number;
+            student_name: string;
+            student_number: string;
+            class_group: number;
+            class_name: string;
+            status?: components["schemas"]["AbsenceAlertStatusEnum"];
+            /** Format: date */
+            raised_on: string;
+            /** Format: int64 */
+            absences: number;
+            /** Format: date */
+            since: string;
+            /** Format: date */
+            last_absence: string;
+            /** Format: date */
+            closed_on?: string | null;
+            readonly closed_by_name: string;
+            /** @description What was done to follow it up. */
+            note?: string;
+        };
+        /**
+         * @description * `open` - To follow up
+         *     * `followed_up` - Followed up
+         *     * `cleared` - No longer applies
+         * @enum {string}
+         */
+        AbsenceAlertStatusEnum: "open" | "followed_up" | "cleared";
         AbsenceRow: {
             enrollment: number;
             student: number;
@@ -3266,6 +3338,10 @@ export interface components {
             /** Format: decimal */
             amount: string;
             installments?: components["schemas"]["InstallmentRequest"][];
+        };
+        FollowUpRequest: {
+            /** @description What was done: call to the family, meeting... */
+            note: string;
         };
         /**
          * @description * `M` - Male
@@ -3890,6 +3966,21 @@ export interface components {
          * @enum {string}
          */
         OwnerTypeEnum: "student" | "staff" | "school";
+        PaginatedAbsenceAlertList: {
+            /** @example 123 */
+            count: number;
+            /**
+             * Format: uri
+             * @example http://api.example.org/accounts/?page=4
+             */
+            next?: string | null;
+            /**
+             * Format: uri
+             * @example http://api.example.org/accounts/?page=2
+             */
+            previous?: string | null;
+            results: components["schemas"]["AbsenceAlert"][];
+        };
         PaginatedAuditLogList: {
             /** @example 123 */
             count: number;
@@ -4830,6 +4921,10 @@ export interface components {
             invoice_prefix?: string;
             receipt_prefix?: string;
             ai_enabled?: boolean;
+            /** Format: int64 */
+            absence_alert_threshold?: number;
+            /** Format: int64 */
+            absence_alert_days?: number;
         };
         SchoolSettingsRequest: {
             /** Format: int64 */
@@ -4839,6 +4934,10 @@ export interface components {
             invoice_prefix?: string;
             receipt_prefix?: string;
             ai_enabled?: boolean;
+            /** Format: int64 */
+            absence_alert_threshold?: number;
+            /** Format: int64 */
+            absence_alert_days?: number;
         };
         /**
          * @description * `active` - Active
@@ -5499,6 +5598,64 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["AbsenceRow"][];
+                };
+            };
+        };
+    };
+    attendance_alerts_list: {
+        parameters: {
+            query?: {
+                class_group?: number;
+                /** @description Which field to use when ordering the results. */
+                ordering?: string;
+                /** @description A page number within the paginated result set. */
+                page?: number;
+                /** @description Number of results to return per page. */
+                page_size?: number;
+                /** @description A search term. */
+                search?: string;
+                status?: "cleared" | "followed_up" | "open";
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PaginatedAbsenceAlertList"];
+                };
+            };
+        };
+    };
+    attendance_alerts_follow_up_create: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description A unique integer value identifying this absence alert. */
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["FollowUpRequest"];
+                "application/x-www-form-urlencoded": components["schemas"]["FollowUpRequest"];
+                "multipart/form-data": components["schemas"]["FollowUpRequest"];
+            };
+        };
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AbsenceAlert"];
                 };
             };
         };

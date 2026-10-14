@@ -1,6 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import {
   ArrowRight,
+  BellRing,
   Building2,
   CalendarCheck,
   CalendarRange,
@@ -111,6 +112,20 @@ export function DashboardPage() {
                 {t("academics.setupLink")} →
               </Link>
             )}
+          </CardContent>
+        </Card>
+      )}
+
+      {(data?.absence_alerts ?? 0) > 0 && (
+        <Card className="border-destructive/40 mb-4">
+          <CardContent className="flex flex-wrap items-center justify-between gap-3 text-sm">
+            <span className="flex items-center gap-2">
+              <BellRing className="text-destructive size-4" />
+              {t("dashboard.absenceAlerts", { count: data?.absence_alerts ?? 0 })}
+            </span>
+            <Link to="/attendance/alerts" className="text-primary font-medium hover:underline">
+              {t("dashboard.followUp")} →
+            </Link>
           </CardContent>
         </Card>
       )}

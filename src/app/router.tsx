@@ -154,6 +154,11 @@ const phase4Routes: RouteObject[] = [
                 Component: m.AttendanceReportsPage,
               })),
           },
+          {
+            path: "alerts",
+            lazy: () =>
+              import("@/features/attendance/AbsenceAlertsPage").then((m) => ({ Component: m.AbsenceAlertsPage })),
+          },
         ]),
         gated(["attendance.staff"], [
           {

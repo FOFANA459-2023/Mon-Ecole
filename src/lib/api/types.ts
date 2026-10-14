@@ -120,6 +120,8 @@ export type ClassMonth = Schemas["ClassMonth"];
 export type AbsenceRow = Schemas["AbsenceRow"];
 export type StudentAttendance = Schemas["StudentAttendance"];
 export type StaffSheet = Schemas["StaffSheet"];
+export type AbsenceAlert = Schemas["AbsenceAlert"];
+export type AbsenceAlertStatus = Schemas["AbsenceAlertStatusEnum"];
 
 /** GET /reports/finance/{key}/ and /reports/academic/{key}/: a report as titled sections of columns and rows. */
 export type ReportKind = "text" | "money" | "number" | "percent" | "mark" | "date" | "datetime" | "auto";
@@ -166,6 +168,8 @@ export type DashboardSummary = {
     late: number;
     excused: number;
   } | null;
+  /** Open high-absenteeism alerts in the classes counted (null without attendance.view). */
+  absence_alerts?: number | null;
 };
 
 export type SearchHit = { id: number; title: string; subtitle: string; status?: string; student_id?: number | null };
