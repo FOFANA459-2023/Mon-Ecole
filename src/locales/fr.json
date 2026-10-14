@@ -1148,7 +1148,9 @@
     },
     "tabs": {
       "marks": "Notes",
-      "rules": "Règles de notation & évaluations"
+      "rules": "Règles de notation & évaluations",
+      "classes": "Résultats par classe",
+      "reports": "Rapports"
     },
     "steps": {
       "submit": "Soumettre pour validation",
@@ -1371,6 +1373,23 @@
       "version": "Version {{version}}",
       "replaced": "remplacée",
       "open": "Ouvrir le bulletin — {{period}}, version {{version}}"
+    },
+    "reports": {
+      "subtitle": "Relevé de notes, classement et résultats par matière, à partir des notes publiées — à l'écran, en PDF, Excel ou CSV.",
+      "names": {
+        "grades": "Relevé de notes",
+        "ranking": "Classement",
+        "subjects": "Résultats par matière"
+      },
+      "descriptions": {
+        "grades": "Une classe : les notes de chaque élève, la moyenne, le rang et la décision",
+        "ranking": "Les classes comparées, et les élèves classés par classe ou par niveau",
+        "subjects": "Chaque matière de chaque classe, et ce qui n'est pas encore publié"
+      },
+      "period": "Période",
+      "thisTerm": "Cette période",
+      "allLevels": "Tous les niveaux",
+      "chooseClass": "Choisissez une classe"
     }
   },
   "attendance": {

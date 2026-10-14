@@ -1148,7 +1148,9 @@
     },
     "tabs": {
       "marks": "Marks",
-      "rules": "Grading rules & assessments"
+      "rules": "Grading rules & assessments",
+      "classes": "Class results",
+      "reports": "Reports"
     },
     "steps": {
       "submit": "Submit for review",
@@ -1371,6 +1373,23 @@
       "version": "Version {{version}}",
       "replaced": "replaced",
       "open": "Open the report card — {{period}}, version {{version}}"
+    },
+    "reports": {
+      "subtitle": "Grade report, ranking and results by subject, from published marks — on screen, PDF, Excel or CSV.",
+      "names": {
+        "grades": "Grade report",
+        "ranking": "Ranking",
+        "subjects": "Results by subject"
+      },
+      "descriptions": {
+        "grades": "One class: every student's marks, average, rank and decision",
+        "ranking": "Classes compared, and students ranked by class or by level",
+        "subjects": "Each subject of each class, and what is not published yet"
+      },
+      "period": "Period",
+      "thisTerm": "This term",
+      "allLevels": "All levels",
+      "chooseClass": "Choose a class"
     }
   },
   "attendance": {

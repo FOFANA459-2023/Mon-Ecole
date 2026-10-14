@@ -5,15 +5,14 @@ import { toast } from "sonner";
 import { Field, QueryError, Spinner } from "@/components/common";
 import { ClassSelect, OptionSelect, YearSelect } from "@/components/pickers";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { useCurrentYear } from "@/features/academics/api";
 import { useCashRegisters } from "@/features/cash/api";
 import type { Query } from "@/lib/api/client";
-import type { ExpenseCategory, PaymentMethod, ReportSection } from "@/lib/api/types";
+import type { ExpenseCategory, PaymentMethod } from "@/lib/api/types";
 import { useAuth } from "@/lib/auth/context";
 import { downloadFile, openPdf } from "@/lib/files";
 import { errorMessage } from "@/lib/forms";
@@ -21,9 +20,9 @@ import { toNumberOrNull, useUrlState } from "@/lib/useUrlState";
 import { cn } from "@/lib/utils";
 
 import { EXPENSE_CATEGORIES, PAYMENT_METHODS } from "./api";
-import { PERIODS, periodDates, REPORTS, type ReportKey, useFinanceReport, useReportCell } from "./reports";
+import { PERIODS, periodDates, REPORTS, type ReportKey, useFinanceReport } from "./reports";
+import { ReportSectionCard } from "./ReportSectionCard";
 
-const NUMERIC = new Set(["money", "number", "percent"]);
 const DEFAULTS = {
   report: "payments",
   from: "",
@@ -222,63 +221,5 @@ export function ReportsPage() {
         </div>
       )}
     </>
-  );
-}
-
-function ReportSectionCard({ section }: { section: ReportSection }) {
-  const { t } = useTranslation();
-  const cell = useReportCell();
-  const align = (kind: string, row?: { kind?: string }) =>
-    NUMERIC.has(kind === "auto" ? (row?.kind ?? "text") : kind) ? "text-right tabular-nums" : "";
-
-  return (
-    <Card className="gap-0 overflow-hidden py-0">
-      <CardHeader className="border-b py-3">
-        <CardTitle className="text-base">{section.title}</CardTitle>
-        {section.note && <p className="text-muted-foreground text-xs">{section.note}</p>}
-      </CardHeader>
-      {section.rows.length === 0 ? (
-        <p className="text-muted-foreground px-4 py-4 text-sm">{t("reports.nothing")}</p>
-      ) : (
-        <div className="overflow-x-auto">
-          <Table>
-            <TableHeader>
-              <TableRow>
-                {section.columns.map((column) => (
-                  <TableHead key={column.key} className={cn("whitespace-nowrap", align(column.kind))}>
-                    {column.label}
-                  </TableHead>
-                ))}
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {section.rows.map((row, index) => (
-                <TableRow key={index}>
-                  {section.columns.map((column) => (
-                    <TableCell key={column.key} className={cn("whitespace-nowrap", align(column.kind, row))}>
-                      {cell(row[column.key], column.kind, row)}
-                    </TableCell>
-                  ))}
-                </TableRow>
-              ))}
-              {section.totals && (
-                <TableRow className="bg-muted/40 border-t-2 font-semibold">
-                  {section.columns.map((column) => (
-                    <TableCell key={column.key} className={cn("whitespace-nowrap", align(column.kind))}>
-                      {column.key in section.totals! ? cell(section.totals![column.key], column.kind, section.totals!) : ""}
-                    </TableCell>
-                  ))}
-                </TableRow>
-              )}
-            </TableBody>
-          </Table>
-        </div>
-      )}
-      {section.truncated && (
-        <p className="text-muted-foreground border-t px-4 py-2 text-xs">
-          {t("reports.truncated", { shown: section.rows.length, count: section.row_count })}
-        </p>
-      )}
-    </Card>
   );
 }

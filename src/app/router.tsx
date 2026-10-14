@@ -186,6 +186,10 @@ const phase4Routes: RouteObject[] = [
       path: "results",
       lazy: () => import("@/features/grades/ClassResultsPage").then((m) => ({ Component: m.ClassResultsPage })),
     },
+    {
+      path: "results/reports",
+      lazy: () => import("@/features/grades/AcademicReportsPage").then((m) => ({ Component: m.AcademicReportsPage })),
+    },
   ]),
 ];
 

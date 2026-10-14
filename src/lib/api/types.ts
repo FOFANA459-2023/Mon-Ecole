@@ -121,8 +121,8 @@ export type AbsenceRow = Schemas["AbsenceRow"];
 export type StudentAttendance = Schemas["StudentAttendance"];
 export type StaffSheet = Schemas["StaffSheet"];
 
-/** GET /reports/finance/{key}/: a report as titled sections of columns and rows. */
-export type ReportKind = "text" | "money" | "number" | "percent" | "date" | "datetime" | "auto";
+/** GET /reports/finance/{key}/ and /reports/academic/{key}/: a report as titled sections of columns and rows. */
+export type ReportKind = "text" | "money" | "number" | "percent" | "mark" | "date" | "datetime" | "auto";
 export type ReportCell = string | number | null;
 export type ReportRow = Record<string, ReportCell> & { kind?: ReportKind };
 export type ReportSection = {
@@ -135,6 +135,7 @@ export type ReportSection = {
   totals: ReportRow | null;
 };
 export type FinanceReport = { key: string; title: string; subtitle: string; currency: string; sections: ReportSection[] };
+export type AcademicReport = FinanceReport;
 export type PlatformSchool = Schemas["PlatformSchool"];
 export type RegisterSchoolRequest = Schemas["RegisterSchoolRequest"];
 export type AccountStatus = Schemas["AccountStatusEnum"];

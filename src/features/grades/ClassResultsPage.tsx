@@ -27,6 +27,7 @@ import { openReportCards, useAllTerms, useChosenTerm, useClassResults, useFormat
 import { BulkReportCardsDialog } from "./BulkReportCardsDialog";
 import { GradebookStatusBadge } from "./GradebookStatusBadge";
 import { ReportCommentsDialog } from "./ReportCommentsDialog";
+import { ResultsTabs } from "./ResultsTabs";
 import { TermSelect } from "./pickers";
 
 const DEFAULTS = { term: "", class: "" };
@@ -268,6 +269,7 @@ export function ClassResultsPage() {
           ) : undefined
         }
       />
+      <ResultsTabs />
       {canPrint && results.isSuccess && results.data.subjects.some((s) => s.status !== "published") && (
         <p className="text-muted-foreground mb-3 text-sm">{t("grades.cards.publishedOnly")}</p>
       )}

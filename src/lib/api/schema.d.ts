@@ -1935,6 +1935,28 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/v1/reports/academic/{key}/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * @description Academic reports: grades (one class), ranking and subject results (a class, a level or the school).
+         *
+         *     Published marks only; a term, or the year when `term` is left out. Teachers reach the class they lead;
+         *     a level or the whole school needs access to every class. `export=pdf|xlsx|csv` needs reports.export.
+         */
+        get: operations["reports_academic_retrieve"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/v1/reports/finance/{key}/": {
         parameters: {
             query?: never;
@@ -8853,6 +8875,43 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["ReportCommentRow"][];
+                };
+            };
+        };
+    };
+    reports_academic_retrieve: {
+        parameters: {
+            query?: {
+                /** @description Defaults to the term's year, else the class's, else the current year. */
+                academic_year?: number | null;
+                class_group?: number | null;
+                /**
+                 * @description * `pdf` - pdf
+                 *     * `xlsx` - xlsx
+                 *     * `csv` - csv
+                 */
+                export?: "pdf" | "xlsx" | "csv" | "";
+                level?: number | null;
+                /** @description Leave out for the year. */
+                term?: number | null;
+            };
+            header?: never;
+            path: {
+                key: "grades" | "ranking" | "subjects";
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description The report (JSON) or the exported file. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        [key: string]: unknown;
+                    };
                 };
             };
         };
