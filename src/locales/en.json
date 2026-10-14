@@ -1342,7 +1342,36 @@
       "rankOf": "{{rank}} of {{of}}",
       "printCard": "Print the report card — {{period}}"
     },
-    "student": "Student"
+    "student": "Student",
+    "bulk": {
+      "menu": "Several classes, in the background…",
+      "title": "Print report cards",
+      "hint": "Report cards are made in the background: one PDF per class, in a ZIP file when there are several classes. Cards already issued and unchanged are reused.",
+      "scope": "Classes",
+      "thisClass": "This class",
+      "level": "Every class of a level",
+      "school": "The whole school",
+      "period": "Period",
+      "start": "Make the report cards",
+      "queued": "Waiting for its turn…",
+      "progress": "Progress",
+      "progressCount": "{{done}} of {{total}} report cards",
+      "done_one": "{{count}} report card ready ({{fresh}} newly issued).",
+      "done_other": "{{count}} report cards ready ({{fresh}} newly issued).",
+      "failed": "The report cards could not be made. Try again; if it fails again, contact support.",
+      "download": "Download"
+    },
+    "issued": {
+      "title": "Issued report cards",
+      "hint": "Every report card handed out is kept. When something changes on a card, a new version is issued and the old one stays here.",
+      "period": "Period",
+      "average": "Average",
+      "issued": "Issued",
+      "rank": "Rank {{rank}}",
+      "version": "Version {{version}}",
+      "replaced": "replaced",
+      "open": "Open the report card — {{period}}, version {{version}}"
+    }
   },
   "attendance": {
     "title": "Attendance",

@@ -1519,6 +1519,74 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/v1/issued-report-cards/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description The report cards issued to a student, every version, newest first; and each one's PDF. */
+        get: operations["issued_report_cards_list"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/issued-report-cards/{id}/download/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description The report cards issued to a student, every version, newest first; and each one's PDF. */
+        get: operations["issued_report_cards_download_retrieve"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/jobs/{id}/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description A background job started by the signed-in user: its progress, then its result file. */
+        get: operations["jobs_retrieve"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/jobs/{id}/download/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description A background job started by the signed-in user: its progress, then its result file. */
+        get: operations["jobs_download_retrieve"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/v1/levels/": {
         parameters: {
             query?: never;
@@ -1821,6 +1889,28 @@ export interface paths {
         get: operations["report_cards_retrieve"];
         put?: never;
         post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/report-cards/jobs/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * @description Report cards of many classes at once, made in the background: a class, a level or the whole year.
+         *
+         *     Answers with the job to follow at /jobs/{id}/; its result is one PDF per class (in a ZIP when there are
+         *     several). A teacher may only print the class they lead.
+         */
+        post: operations["report_cards_jobs_create"];
         delete?: never;
         options?: never;
         head?: never;
@@ -3525,6 +3615,56 @@ export interface components {
          * @enum {string}
          */
         InvoiceStatusEnum: "issued" | "cancelled";
+        IssuedReportCard: {
+            readonly id: number;
+            enrollment: number;
+            class_name: string;
+            academic_year_name: string;
+            term?: number | null;
+            readonly term_name: string;
+            /**
+             * Format: int64
+             * @default 1
+             */
+            version: number;
+            readonly is_latest: boolean;
+            /** Format: decimal */
+            average: string | null;
+            /** Format: int64 */
+            rank?: number | null;
+            /** Format: int64 */
+            size?: number;
+            readonly issued_by_name: string;
+            /** Format: date-time */
+            readonly created_at: string;
+        };
+        Job: {
+            readonly id: number;
+            kind: string;
+            status?: components["schemas"]["JobStatusEnum"];
+            /** Format: int64 */
+            total?: number;
+            /** Format: int64 */
+            done?: number;
+            outcome?: unknown;
+            error?: string;
+            result_name?: string;
+            readonly has_result: boolean;
+            /** Format: date-time */
+            readonly created_at: string;
+            /** Format: date-time */
+            started_at?: string | null;
+            /** Format: date-time */
+            finished_at?: string | null;
+        };
+        /**
+         * @description * `queued` - Queued
+         *     * `running` - Running
+         *     * `done` - Done
+         *     * `failed` - Failed
+         * @enum {string}
+         */
+        JobStatusEnum: "queued" | "running" | "done" | "failed";
         /**
          * @description * `new` - New student
          *     * `re_enrolment` - Re-enrolment
@@ -4540,6 +4680,14 @@ export interface components {
          * @enum {string}
          */
         RelationshipEnum: "father" | "mother" | "guardian" | "other";
+        /** @description Report cards for many classes at once: one class, a level or (neither) the whole school year. */
+        ReportCardJobRequest: {
+            academic_year: number;
+            /** @description Leave out for the year. */
+            term?: number | null;
+            level?: number | null;
+            class_group?: number | null;
+        };
         ReportCommentRow: {
             enrollment: number;
             student: number;
@@ -7926,6 +8074,97 @@ export interface operations {
             };
         };
     };
+    issued_report_cards_list: {
+        parameters: {
+            query: {
+                /** @description Which field to use when ordering the results. */
+                ordering?: string;
+                /** @description A search term. */
+                search?: string;
+                student: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["IssuedReportCard"][];
+                };
+            };
+        };
+    };
+    issued_report_cards_download_retrieve: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description A unique integer value identifying this report card. */
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/pdf": string;
+                };
+            };
+        };
+    };
+    jobs_retrieve: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description A unique integer value identifying this job. */
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Job"];
+                };
+            };
+        };
+    };
+    jobs_download_retrieve: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description A unique integer value identifying this job. */
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/octet-stream": string;
+                };
+            };
+        };
+    };
     levels_list: {
         parameters: {
             query?: {
@@ -8539,6 +8778,31 @@ export interface operations {
                 };
                 content: {
                     "application/pdf": string;
+                };
+            };
+        };
+    };
+    report_cards_jobs_create: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["ReportCardJobRequest"];
+                "application/x-www-form-urlencoded": components["schemas"]["ReportCardJobRequest"];
+                "multipart/form-data": components["schemas"]["ReportCardJobRequest"];
+            };
+        };
+        responses: {
+            202: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Job"];
                 };
             };
         };

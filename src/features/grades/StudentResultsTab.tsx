@@ -12,9 +12,20 @@ import { useAuth } from "@/lib/auth/context";
 import { errorMessage } from "@/lib/forms";
 
 import { openReportCards, useFormatMark, useStudentResults } from "./api";
+import { IssuedReportCardsCard } from "./IssuedReportCardsCard";
 
-/** The "Results" tab of a student's profile: each term's average, rank and honours band, and the year's. */
+/** The "Results" tab of a student's profile: this year's results, then every report card issued to them. */
 export function StudentResultsTab({ studentId }: { studentId: number }) {
+  return (
+    <div className="grid gap-4">
+      <CurrentResults studentId={studentId} />
+      <IssuedReportCardsCard studentId={studentId} />
+    </div>
+  );
+}
+
+/** Each term's average, rank and honours band this year, and the year's. */
+function CurrentResults({ studentId }: { studentId: number }) {
   const { t } = useTranslation();
   const { can } = useAuth();
   const formatMark = useFormatMark();

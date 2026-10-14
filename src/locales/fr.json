@@ -1342,7 +1342,36 @@
       "rankOf": "{{rank}} sur {{of}}",
       "printCard": "Imprimer le bulletin — {{period}}"
     },
-    "student": "Élève"
+    "student": "Élève",
+    "bulk": {
+      "menu": "Plusieurs classes, en arrière-plan…",
+      "title": "Imprimer les bulletins",
+      "hint": "Les bulletins sont préparés en arrière-plan : un PDF par classe, dans un fichier ZIP s'il y a plusieurs classes. Les bulletins déjà émis et inchangés sont réutilisés.",
+      "scope": "Classes",
+      "thisClass": "Cette classe",
+      "level": "Toutes les classes d'un niveau",
+      "school": "Tout l'établissement",
+      "period": "Période",
+      "start": "Préparer les bulletins",
+      "queued": "En attente…",
+      "progress": "Avancement",
+      "progressCount": "{{done}} bulletins sur {{total}}",
+      "done_one": "{{count}} bulletin prêt ({{fresh}} nouvellement émis).",
+      "done_other": "{{count}} bulletins prêts ({{fresh}} nouvellement émis).",
+      "failed": "Les bulletins n'ont pas pu être préparés. Réessayez ; si cela échoue encore, contactez l'assistance.",
+      "download": "Télécharger"
+    },
+    "issued": {
+      "title": "Bulletins émis",
+      "hint": "Chaque bulletin remis est conservé. Si quelque chose change sur un bulletin, une nouvelle version est émise et l'ancienne reste ici.",
+      "period": "Période",
+      "average": "Moyenne",
+      "issued": "Émis",
+      "rank": "Rang {{rank}}",
+      "version": "Version {{version}}",
+      "replaced": "remplacée",
+      "open": "Ouvrir le bulletin — {{period}}, version {{version}}"
+    }
   },
   "attendance": {
     "title": "Présences",
