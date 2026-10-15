@@ -274,6 +274,11 @@ const pages: RouteObject[] = [
                 lazy: () =>
                   import("@/features/platform/PlatformSchoolsPage").then((m) => ({ Component: m.PlatformSchoolsPage })),
               },
+              {
+                path: "platform/backups",
+                lazy: () =>
+                  import("@/features/platform/PlatformBackupsPage").then((m) => ({ Component: m.PlatformBackupsPage })),
+              },
             ],
           },
           ...comingSoonRoutes,

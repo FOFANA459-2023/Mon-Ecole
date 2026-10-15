@@ -305,7 +305,12 @@
       "parentPayments": "Rappels de paiement",
       "parentPaymentsHint": "Trois jours avant une échéance, puis quand elle passe en retard.",
       "parentAbsences": "Absences",
-      "parentAbsencesHint": "Le soir d'un jour où leur enfant a été noté absent (non excusé)."
+      "parentAbsencesHint": "Le soir d'un jour où leur enfant a été noté absent (non excusé).",
+      "backups": "Sauvegardes",
+      "lastBackup": "Dernière sauvegarde : {{when}}.",
+      "noBackup": "Aucune sauvegarde pour l'instant.",
+      "backupFailing": "La dernière sauvegarde a échoué : l'équipe de la plateforme en est informée par ses journaux.",
+      "backupPolicy": "Toutes les données sont sauvegardées toutes les {{hours}} heures sur un stockage privé et chiffré, et conservées {{days}} jours."
     },
     "users": {
       "title": "Utilisateurs",
@@ -1089,6 +1094,29 @@
       "CI": "Côte d'Ivoire",
       "SN": "Sénégal",
       "ML": "Mali"
+    },
+    "backups": {
+      "title": "Sauvegardes",
+      "subtitle": "Toute la base de données (tous les établissements), toutes les 4 heures automatiquement ou à la demande. Fichiers conservés 30 jours.",
+      "now": "Sauvegarder maintenant",
+      "running": "Sauvegarde en cours…",
+      "started": "Sauvegarde lancée",
+      "none": "Aucune sauvegarde pour l'instant",
+      "when": "Lancée le",
+      "kind": "Type",
+      "size": "Taille",
+      "download": "Télécharger la sauvegarde",
+      "kinds": {
+        "automatic": "Automatique",
+        "manual": "Manuelle"
+      },
+      "statuses": {
+        "running": "En cours",
+        "done": "Terminée",
+        "failed": "Échouée",
+        "expired": "Expirée (fichier supprimé)"
+      },
+      "restoreHint": "La restauration se fait hors de l'application, en suivant la procédure (docs/runbooks/restore.md du dépôt backend) : elle remplace les données de tous les établissements."
     }
   },
   "cash": {

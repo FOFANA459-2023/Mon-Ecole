@@ -476,6 +476,23 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/v1/backup-status/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description When the platform was last backed up (school settings show it to those who manage settings). */
+        get: operations["backup_status_retrieve"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/v1/calendar-events/": {
         parameters: {
             query?: never;
@@ -2007,6 +2024,41 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/v1/platform/backups/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description Backups of the whole platform (every school): history, "back up now", and download. Owner only. */
+        get: operations["platform_backups_list"];
+        put?: never;
+        /** @description Backups of the whole platform (every school): history, "back up now", and download. Owner only. */
+        post: operations["platform_backups_create"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/platform/backups/{id}/download/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description Backups of the whole platform (every school): history, "back up now", and download. Owner only. */
+        get: operations["platform_backups_download_retrieve"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/v1/platform/schools/": {
         parameters: {
             query?: never;
@@ -3128,6 +3180,45 @@ export interface components {
             /** Format: date-time */
             readonly created_at: string;
         };
+        Backup: {
+            readonly id: number;
+            kind?: components["schemas"]["BackupKindEnum"];
+            status?: components["schemas"]["BackupStatusEnum"];
+            /** @description postgresql or sqlite */
+            engine?: string;
+            /** Format: int64 */
+            size?: number;
+            error?: string;
+            /** Format: date-time */
+            readonly started_at: string;
+            /** Format: date-time */
+            finished_at?: string | null;
+            readonly created_by_name: string;
+            readonly has_file: boolean;
+        };
+        /**
+         * @description * `automatic` - Automatic
+         *     * `manual` - Manual
+         * @enum {string}
+         */
+        BackupKindEnum: "automatic" | "manual";
+        BackupStatus: {
+            /** Format: date-time */
+            last_success_at: string | null;
+            last_status: string;
+            /** Format: date-time */
+            last_attempt_at: string | null;
+            keep_days: number;
+            every_hours: number;
+        };
+        /**
+         * @description * `running` - Running
+         *     * `done` - Done
+         *     * `failed` - Failed
+         *     * `expired` - Expired (file deleted)
+         * @enum {string}
+         */
+        BackupStatusEnum: "running" | "done" | "failed" | "expired";
         /** @enum {unknown} */
         BlankEnum: "";
         CalendarEvent: {
@@ -4359,6 +4450,21 @@ export interface components {
              */
             previous?: string | null;
             results: components["schemas"]["AuditLog"][];
+        };
+        PaginatedBackupList: {
+            /** @example 123 */
+            count: number;
+            /**
+             * Format: uri
+             * @example http://api.example.org/accounts/?page=4
+             */
+            next?: string | null;
+            /**
+             * Format: uri
+             * @example http://api.example.org/accounts/?page=2
+             */
+            previous?: string | null;
+            results: components["schemas"]["Backup"][];
         };
         PaginatedCashSessionList: {
             /** @example 123 */
@@ -6629,6 +6735,25 @@ export interface operations {
                     "application/json": {
                         [key: string]: unknown;
                     };
+                };
+            };
+        };
+    };
+    backup_status_retrieve: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["BackupStatus"];
                 };
             };
         };
@@ -9676,6 +9801,75 @@ export interface operations {
                     "application/json": {
                         [key: string]: unknown;
                     };
+                };
+            };
+        };
+    };
+    platform_backups_list: {
+        parameters: {
+            query?: {
+                /** @description Which field to use when ordering the results. */
+                ordering?: string;
+                /** @description A page number within the paginated result set. */
+                page?: number;
+                /** @description Number of results to return per page. */
+                page_size?: number;
+                /** @description A search term. */
+                search?: string;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PaginatedBackupList"];
+                };
+            };
+        };
+    };
+    platform_backups_create: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            202: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Backup"];
+                };
+            };
+        };
+    };
+    platform_backups_download_retrieve: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description A unique integer value identifying this backup. */
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/octet-stream": string;
                 };
             };
         };

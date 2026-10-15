@@ -22,6 +22,7 @@ import { localeFor } from "@/lib/format";
 import { applyApiErrors, errorMessage } from "@/lib/forms";
 
 import { keys, useSchool } from "./api";
+import { BackupStatusCard } from "./BackupStatusCard";
 
 const COUNTRIES = ["GN", "LR", "SL", "CI", "SN", "ML"];
 const TIMEZONES = [
@@ -482,6 +483,8 @@ export function SchoolProfilePage() {
           />
         </div>
       </Section>
+
+      {!readOnly && <BackupStatusCard />}
 
       {!readOnly && (
         <div className="bg-background/90 sticky bottom-0 -mx-1 flex justify-end gap-2 border-t px-1 py-3 backdrop-blur">

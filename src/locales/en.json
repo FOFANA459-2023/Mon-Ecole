@@ -305,7 +305,12 @@
       "parentPayments": "Payment reminders",
       "parentPaymentsHint": "Three days before an installment is due, and when it becomes overdue.",
       "parentAbsences": "Absences",
-      "parentAbsencesHint": "The evening of a day their child was marked absent (not excused)."
+      "parentAbsencesHint": "The evening of a day their child was marked absent (not excused).",
+      "backups": "Backups",
+      "lastBackup": "Last backup: {{when}}.",
+      "noBackup": "No backup made yet.",
+      "backupFailing": "The latest backup failed: the platform team has been told in its logs.",
+      "backupPolicy": "All data is backed up every {{hours}} hours to private, encrypted storage and kept {{days}} days."
     },
     "users": {
       "title": "Users",
@@ -1089,6 +1094,29 @@
       "CI": "Côte d'Ivoire",
       "SN": "Senegal",
       "ML": "Mali"
+    },
+    "backups": {
+      "title": "Backups",
+      "subtitle": "The whole database (every school), every 4 hours on its own or now. Files are kept 30 days.",
+      "now": "Back up now",
+      "running": "Backing up…",
+      "started": "Backup started",
+      "none": "No backup yet",
+      "when": "Started",
+      "kind": "Kind",
+      "size": "Size",
+      "download": "Download the backup",
+      "kinds": {
+        "automatic": "Automatic",
+        "manual": "Manual"
+      },
+      "statuses": {
+        "running": "Running",
+        "done": "Done",
+        "failed": "Failed",
+        "expired": "Expired (file deleted)"
+      },
+      "restoreHint": "Restoring is done outside the app, following the runbook (docs/runbooks/restore.md in the backend repository): it replaces every school's data."
     }
   },
   "cash": {
