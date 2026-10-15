@@ -3018,7 +3018,8 @@ export interface components {
             student_number: string;
             class_group: number;
             class_name: string;
-            status?: components["schemas"]["AbsenceAlertStatusEnum"];
+            /** @default open */
+            status: components["schemas"]["AbsenceAlertStatusEnum"];
             /** Format: date */
             raised_on: string;
             /** Format: int64 */
@@ -3312,6 +3313,7 @@ export interface components {
             readonly id: number;
             readonly register: number;
             readonly register_name: string;
+            /** @default open */
             readonly status: components["schemas"]["OpenClosedStatusEnum"];
             /** Format: date-time */
             readonly opened_at: string;
@@ -3347,6 +3349,7 @@ export interface components {
             readonly id: number;
             readonly register: number;
             readonly register_name: string;
+            /** @default open */
             readonly status: components["schemas"]["OpenClosedStatusEnum"];
             /** Format: date-time */
             readonly opened_at: string;
