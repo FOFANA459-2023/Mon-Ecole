@@ -1580,12 +1580,13 @@
   },
   "administration": {
     "title": "Administration",
-    "subtitle": "Annonces au personnel, calendrier scolaire, départements et documents officiels.",
+    "subtitle": "Annonces au personnel, calendrier scolaire, départements, documents officiels et rapports de l'établissement.",
     "tabs": {
       "announcements": "Annonces",
       "calendar": "Calendrier",
       "departments": "Départements",
-      "documents": "Documents officiels"
+      "documents": "Documents officiels",
+      "reports": "Rapports"
     },
     "announcements": {
       "new": "Nouvelle annonce",
@@ -1658,6 +1659,32 @@
     },
     "documents": {
       "intro": "Les documents officiels de l'établissement : agréments, statuts, contrats, circulaires…"
+    },
+    "reports": {
+      "names": {
+        "enrollment": "Inscriptions",
+        "classes": "Classes",
+        "teachers": "Enseignants",
+        "attendance": "Présences",
+        "statistics": "Statistiques des élèves"
+      },
+      "descriptions": {
+        "enrollment": "Nouveaux, réinscrits et transferts, par classe et un par un",
+        "classes": "Chaque classe : professeur principal, salle, remplissage, filles et garçons, matières",
+        "teachers": "Fiches du personnel, départements et charge de chaque enseignant",
+        "attendance": "Taux par classe, élèves les plus absents, présence du personnel",
+        "statistics": "Élèves par niveau, âge, nationalité et type d'inscription"
+      },
+      "elsewhere": "Les autres rapports",
+      "links": {
+        "payments": "Rapport des paiements",
+        "outstanding": "Rapport des soldes impayés",
+        "cash": "Rapport de caisse",
+        "financial": "Rapport financier",
+        "grades": "Relevé de notes",
+        "ranking": "Classement",
+        "reportCards": "Bulletins"
+      }
     }
   },
   "notifications": {

@@ -161,6 +161,12 @@ const phase5Routes: RouteObject[] = [
           lazy: () =>
             import("@/features/administration/SchoolDocumentsPage").then((m) => ({ Component: m.SchoolDocumentsPage })),
         },
+        gated(["reports.view"], [
+          {
+            path: "reports",
+            lazy: () => import("@/features/administration/ReportsPage").then((m) => ({ Component: m.ReportsPage })),
+          },
+        ]),
       ],
     },
   ]),

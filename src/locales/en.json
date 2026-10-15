@@ -1580,12 +1580,13 @@
   },
   "administration": {
     "title": "Administration",
-    "subtitle": "Announcements to staff, the school calendar, departments and official documents.",
+    "subtitle": "Announcements to staff, the school calendar, departments, official documents and the school reports.",
     "tabs": {
       "announcements": "Announcements",
       "calendar": "Calendar",
       "departments": "Departments",
-      "documents": "Official documents"
+      "documents": "Official documents",
+      "reports": "Reports"
     },
     "announcements": {
       "new": "New announcement",
@@ -1658,6 +1659,32 @@
     },
     "documents": {
       "intro": "The school's official documents: approvals, statutes, contracts, circulars…"
+    },
+    "reports": {
+      "names": {
+        "enrollment": "Enrolment",
+        "classes": "Classes",
+        "teachers": "Teachers",
+        "attendance": "Attendance",
+        "statistics": "Student statistics"
+      },
+      "descriptions": {
+        "enrollment": "New, re-enrolled and transferred students, by class and one by one",
+        "classes": "Each class: teacher, room, fill rate, girls and boys, subjects",
+        "teachers": "Staff details, departments and each teacher's load",
+        "attendance": "Rates by class, students absent most, staff presence",
+        "statistics": "Students by level, age, nationality and type of enrolment"
+      },
+      "elsewhere": "The other reports",
+      "links": {
+        "payments": "Payments report",
+        "outstanding": "Outstanding balances report",
+        "cash": "Cash register report",
+        "financial": "Financial report",
+        "grades": "Grade report",
+        "ranking": "Ranking report",
+        "reportCards": "Report cards"
+      }
     }
   },
   "notifications": {

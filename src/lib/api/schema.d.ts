@@ -796,8 +796,11 @@ export interface paths {
             cookie?: never;
         };
         /**
-         * @description Headline numbers for the dashboard, for one academic year: school-wide, or limited to the user's
-         *     own classes when they may not see every class (see academics.scoping).
+         * @description The dashboard of one school year (ToR §5): headline numbers, charts and alerts.
+         *
+         *     School-wide, or limited to the user's own classes when they may not see every class. Finance figures need
+         *     finance.view, attendance attendance.view, results grades.view. Filters: term (results, attendance),
+         *     level or class (every figure), payment status (finance).
          */
         get: operations["dashboard_summary_retrieve"];
         put?: never;
@@ -2230,6 +2233,27 @@ export interface paths {
          *     report and needs finance.export. Labels follow the user's language.
          */
         get: operations["reports_finance_retrieve"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/reports/school/{key}/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * @description School reports: enrolment, classes, teachers, attendance and student statistics (reports.view).
+         *
+         *     One school year, the whole school or a level or class. `export=pdf|xlsx|csv` needs reports.export.
+         */
+        get: operations["reports_school_retrieve"];
         put?: never;
         post?: never;
         delete?: never;
@@ -7321,6 +7345,17 @@ export interface operations {
         parameters: {
             query?: {
                 academic_year?: number;
+                class_group?: number | null;
+                level?: number | null;
+                /**
+                 * @description * `paid` - paid
+                 *     * `partial` - partial
+                 *     * `unpaid` - unpaid
+                 *     * `overdue` - overdue
+                 */
+                payment_status?: "paid" | "partial" | "unpaid" | "overdue" | "";
+                /** @description Defaults to today's term. */
+                term?: number | null;
             };
             header?: never;
             path?: never;
@@ -10075,6 +10110,44 @@ export interface operations {
             header?: never;
             path: {
                 key: "cash" | "expenses" | "outstanding" | "payments" | "summary";
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description The report (JSON) or the exported file. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        [key: string]: unknown;
+                    };
+                };
+            };
+        };
+    };
+    reports_school_retrieve: {
+        parameters: {
+            query?: {
+                /** @description Defaults to the current year. */
+                academic_year?: number | null;
+                class_group?: number | null;
+                /** @description Enrolment and attendance reports. */
+                date_from?: string | null;
+                date_to?: string | null;
+                /**
+                 * @description * `pdf` - pdf
+                 *     * `xlsx` - xlsx
+                 *     * `csv` - csv
+                 */
+                export?: "pdf" | "xlsx" | "csv" | "";
+                level?: number | null;
+            };
+            header?: never;
+            path: {
+                key: "attendance" | "classes" | "enrollment" | "statistics" | "teachers";
             };
             cookie?: never;
         };
