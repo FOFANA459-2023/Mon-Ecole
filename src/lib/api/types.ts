@@ -178,6 +178,48 @@ export type DashboardSummary = {
   } | null;
   /** Open high-absenteeism alerts in the classes counted (null without attendance.view). */
   absence_alerts?: number | null;
+  filters?: { term: number | null; term_name: string; level: number | null; class_group: number | null; payment_status: string };
+  by_class?: { class_group: number; class_name: string; count: number; capacity: number | null }[];
+  /** Money as decimal strings; null without finance.view. */
+  finance?: {
+    currency: string;
+    expected: string;
+    collected: string;
+    outstanding: string;
+    overdue: string;
+    students_with_balance: number;
+    students_overdue: number;
+    collection_rate: string | null;
+    by_month: { month: string; amount: string }[];
+    outstanding_by_class: { class_name: string; amount: string; students: number }[];
+    upcoming_deadlines: { invoices: number; amount: string; days: number };
+  } | null;
+  attendance?: {
+    date_from: string;
+    date_to: string;
+    rate: string | null;
+    present: number;
+    absent: number;
+    late: number;
+    excused: number;
+    days: { date: string; present: number; absent: number; late: number; excused: number; rate: string | null }[];
+  } | null;
+  performance?: {
+    term: { id: number; name: string };
+    counted: number;
+    passed: number;
+    pass_rate: string | null;
+    distribution: { label: string; count: number; below_pass?: boolean }[];
+    by_class: { class_name: string; average: string; pass_rate: string | null; counted: number }[];
+  } | null;
+  missing_grades?: {
+    term: { id: number; name: string; end_date: string };
+    open: number;
+    submitted: number;
+    published: number;
+  } | null;
+  upcoming_exams?: { id: number; title: string; start_date: string; end_date: string }[];
+  announcements?: { id: number; title: string; priority: string; pinned: boolean; publish_at: string }[];
 };
 
 export type SearchHit = { id: number; title: string; subtitle: string; status?: string; student_id?: number | null };
