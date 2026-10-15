@@ -24,6 +24,7 @@ import { useDocuments } from "./api";
 const CATEGORIES = {
   student: ["birth_certificate", "id_photo", "previous_report", "transfer_certificate", "medical", "identity", "other"],
   staff: ["identity", "diploma", "contract", "medical", "other"],
+  school: ["official", "contract", "other"],
 } as const;
 
 function formatSize(bytes: number, language: string) {
@@ -40,7 +41,7 @@ function UploadDialog({
   ownerId,
   onClose,
 }: {
-  ownerType: "student" | "staff";
+  ownerType: "student" | "staff" | "school";
   ownerId: number;
   onClose: () => void;
 }) {
@@ -129,7 +130,7 @@ export function DocumentsPanel({
   ownerId,
   canEdit,
 }: {
-  ownerType: "student" | "staff";
+  ownerType: "student" | "staff" | "school";
   ownerId: number;
   canEdit: boolean;
 }) {

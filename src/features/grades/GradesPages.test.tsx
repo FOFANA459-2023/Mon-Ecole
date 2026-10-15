@@ -176,6 +176,7 @@ describe("GradingScalesCard", () => {
 describe("StudentResultsTab", () => {
   it("shows each term's average, rank and honours band, and the year's decision", async () => {
     server.use(
+      http.get(api("/issued-report-cards/"), () => HttpResponse.json([])),
       http.get(api("/student-results/7/"), () =>
         HttpResponse.json({
           enrollment: 501,

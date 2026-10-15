@@ -8,6 +8,7 @@ import { cn } from "@/lib/utils";
 const TABS = [
   { key: "registers", to: "/attendance", end: true, anyOf: [] as string[] },
   { key: "reports", to: "/attendance/reports", end: false, anyOf: [] as string[] },
+  { key: "alerts", to: "/attendance/alerts", end: false, anyOf: ["attendance.view"] },
   { key: "staff", to: "/attendance/staff", end: false, anyOf: ["attendance.staff"] },
 ];
 

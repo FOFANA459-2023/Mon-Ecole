@@ -69,6 +69,14 @@ export function useReportCell() {
         return money.format(value);
       case "number":
         return numbers.format(Number(value));
+      case "mark": {
+        // Marks keep the decimals the school prints them with ("15.50").
+        const places = String(value).split(".")[1]?.length ?? 0;
+        return new Intl.NumberFormat(localeFor(i18n.language), {
+          minimumFractionDigits: places,
+          maximumFractionDigits: places,
+        }).format(Number(value));
+      }
       case "percent":
         return `${numbers.format(Number(value))} %`;
       case "date":

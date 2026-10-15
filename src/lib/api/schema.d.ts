@@ -82,6 +82,43 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/v1/announcements/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description School announcements. Members read the published ones meant for them; managers write them. */
+        get: operations["announcements_list"];
+        put?: never;
+        /** @description School announcements. Members read the published ones meant for them; managers write them. */
+        post: operations["announcements_create"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/announcements/{id}/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description School announcements. Members read the published ones meant for them; managers write them. */
+        get: operations["announcements_retrieve"];
+        put?: never;
+        post?: never;
+        /** @description School announcements. Members read the published ones meant for them; managers write them. */
+        delete: operations["announcements_destroy"];
+        options?: never;
+        head?: never;
+        /** @description School announcements. Members read the published ones meant for them; managers write them. */
+        patch: operations["announcements_partial_update"];
+        trace?: never;
+    };
     "/api/v1/assessments/": {
         parameters: {
             query?: never;
@@ -145,6 +182,48 @@ export interface paths {
         get: operations["attendance_absences_list"];
         put?: never;
         post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/attendance/alerts/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * @description High-absenteeism alerts of the classes the user sees: open ones by default, newest first.
+         *
+         *     Raised every evening from the registers (see attendance.alerts); `follow-up` closes one with a note.
+         */
+        get: operations["attendance_alerts_list"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/attendance/alerts/{id}/follow-up/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * @description High-absenteeism alerts of the classes the user sees: open ones by default, newest first.
+         *
+         *     Raised every evening from the registers (see attendance.alerts); `follow-up` closes one with a note.
+         */
+        post: operations["attendance_alerts_follow_up_create"];
         delete?: never;
         options?: never;
         head?: never;
@@ -395,6 +474,60 @@ export interface paths {
         options?: never;
         head?: never;
         patch?: never;
+        trace?: never;
+    };
+    "/api/v1/backup-status/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description When the platform was last backed up (school settings show it to those who manage settings). */
+        get: operations["backup_status_retrieve"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/calendar-events/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description The school calendar: exams, holidays, meetings, events and deadlines. */
+        get: operations["calendar_events_list"];
+        put?: never;
+        /** @description The school calendar: exams, holidays, meetings, events and deadlines. */
+        post: operations["calendar_events_create"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/calendar-events/{id}/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description The school calendar: exams, holidays, meetings, events and deadlines. */
+        get: operations["calendar_events_retrieve"];
+        put?: never;
+        post?: never;
+        /** @description The school calendar: exams, holidays, meetings, events and deadlines. */
+        delete: operations["calendar_events_destroy"];
+        options?: never;
+        head?: never;
+        /** @description The school calendar: exams, holidays, meetings, events and deadlines. */
+        patch: operations["calendar_events_partial_update"];
         trace?: never;
     };
     "/api/v1/cash-registers/": {
@@ -680,8 +813,11 @@ export interface paths {
             cookie?: never;
         };
         /**
-         * @description Headline numbers for the dashboard, for one academic year: school-wide, or limited to the user's
-         *     own classes when they may not see every class (see academics.scoping).
+         * @description The dashboard of one school year (ToR §5): headline numbers, charts and alerts.
+         *
+         *     School-wide, or limited to the user's own classes when they may not see every class. Finance figures need
+         *     finance.view, attendance attendance.view, results grades.view. Filters: term (results, attendance),
+         *     level or class (every figure), payment status (finance).
          */
         get: operations["dashboard_summary_retrieve"];
         put?: never;
@@ -690,6 +826,63 @@ export interface paths {
         options?: never;
         head?: never;
         patch?: never;
+        trace?: never;
+    };
+    "/api/v1/departments/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * @description CRUD for school-owned records: scoped to the current school, audited on every write.
+         *
+         *     Subclasses set `queryset`, `serializer_class`, `required_permissions` and `audit_module`.
+         */
+        get: operations["departments_list"];
+        put?: never;
+        /**
+         * @description CRUD for school-owned records: scoped to the current school, audited on every write.
+         *
+         *     Subclasses set `queryset`, `serializer_class`, `required_permissions` and `audit_module`.
+         */
+        post: operations["departments_create"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/departments/{id}/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * @description CRUD for school-owned records: scoped to the current school, audited on every write.
+         *
+         *     Subclasses set `queryset`, `serializer_class`, `required_permissions` and `audit_module`.
+         */
+        get: operations["departments_retrieve"];
+        put?: never;
+        post?: never;
+        /**
+         * @description CRUD for school-owned records: scoped to the current school, audited on every write.
+         *
+         *     Subclasses set `queryset`, `serializer_class`, `required_permissions` and `audit_module`.
+         */
+        delete: operations["departments_destroy"];
+        options?: never;
+        head?: never;
+        /**
+         * @description CRUD for school-owned records: scoped to the current school, audited on every write.
+         *
+         *     Subclasses set `queryset`, `serializer_class`, `required_permissions` and `audit_module`.
+         */
+        patch: operations["departments_partial_update"];
         trace?: never;
     };
     "/api/v1/documents/": {
@@ -1519,6 +1712,74 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/v1/issued-report-cards/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description The report cards issued to a student, every version, newest first; and each one's PDF. */
+        get: operations["issued_report_cards_list"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/issued-report-cards/{id}/download/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description The report cards issued to a student, every version, newest first; and each one's PDF. */
+        get: operations["issued_report_cards_download_retrieve"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/jobs/{id}/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description A background job started by the signed-in user: its progress, then its result file. */
+        get: operations["jobs_retrieve"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/jobs/{id}/download/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description A background job started by the signed-in user: its progress, then its result file. */
+        get: operations["jobs_download_retrieve"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/v1/levels/": {
         parameters: {
             query?: never;
@@ -1590,6 +1851,92 @@ export interface paths {
         options?: never;
         head?: never;
         patch: operations["me_partial_update"];
+        trace?: never;
+    };
+    "/api/v1/notifications/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description The signed-in user's notifications in the current school, newest first. */
+        get: operations["notifications_list"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/notifications/{id}/read/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** @description The signed-in user's notifications in the current school, newest first. */
+        post: operations["notifications_read_create"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/notifications/preferences/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description What the user wants for each kind of notification: in the app, by email. */
+        get: operations["notifications_preferences_list"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        /** @description What the user wants for each kind of notification: in the app, by email. */
+        patch: operations["notifications_preferences_partial_update"];
+        trace?: never;
+    };
+    "/api/v1/notifications/read-all/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** @description The signed-in user's notifications in the current school, newest first. */
+        post: operations["notifications_read_all_create"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/notifications/unread-count/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description The signed-in user's notifications in the current school, newest first. */
+        get: operations["notifications_unread_count_retrieve"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
         trace?: never;
     };
     "/api/v1/payments/": {
@@ -1669,6 +2016,41 @@ export interface paths {
             cookie?: never;
         };
         get: operations["permissions_retrieve"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/platform/backups/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description Backups of the whole platform (every school): history, "back up now", and download. Owner only. */
+        get: operations["platform_backups_list"];
+        put?: never;
+        /** @description Backups of the whole platform (every school): history, "back up now", and download. Owner only. */
+        post: operations["platform_backups_create"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/platform/backups/{id}/download/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description Backups of the whole platform (every school): history, "back up now", and download. Owner only. */
+        get: operations["platform_backups_download_retrieve"];
         put?: never;
         post?: never;
         delete?: never;
@@ -1827,6 +2209,28 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/v1/report-cards/jobs/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * @description Report cards of many classes at once, made in the background: a class, a level or the whole year.
+         *
+         *     Answers with the job to follow at /jobs/{id}/; its result is one PDF per class (in a ZIP when there are
+         *     several). A teacher may only print the class they lead.
+         */
+        post: operations["report_cards_jobs_create"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/v1/report-comments/": {
         parameters: {
             query?: never;
@@ -1839,6 +2243,28 @@ export interface paths {
         put?: never;
         /** @description The general comment on each student's report card, for a term or (no term) the year. */
         post: operations["report_comments_create"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/reports/academic/{key}/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * @description Academic reports: grades (one class), ranking and subject results (a class, a level or the school).
+         *
+         *     Published marks only; a term, or the year when `term` is left out. Teachers reach the class they lead;
+         *     a level or the whole school needs access to every class. `export=pdf|xlsx|csv` needs reports.export.
+         */
+        get: operations["reports_academic_retrieve"];
+        put?: never;
+        post?: never;
         delete?: never;
         options?: never;
         head?: never;
@@ -1859,6 +2285,27 @@ export interface paths {
          *     report and needs finance.export. Labels follow the user's language.
          */
         get: operations["reports_finance_retrieve"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/reports/school/{key}/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * @description School reports: enrolment, classes, teachers, attendance and student statistics (reports.view).
+         *
+         *     One school year, the whole school or a level or class. `export=pdf|xlsx|csv` needs reports.export.
+         */
+        get: operations["reports_school_retrieve"];
         put?: never;
         post?: never;
         delete?: never;
@@ -2563,6 +3010,37 @@ export interface paths {
 export type webhooks = Record<string, never>;
 export interface components {
     schemas: {
+        AbsenceAlert: {
+            readonly id: number;
+            enrollment: number;
+            student: number;
+            student_name: string;
+            student_number: string;
+            class_group: number;
+            class_name: string;
+            /** @default open */
+            status: components["schemas"]["AbsenceAlertStatusEnum"];
+            /** Format: date */
+            raised_on: string;
+            /** Format: int64 */
+            absences: number;
+            /** Format: date */
+            since: string;
+            /** Format: date */
+            last_absence: string;
+            /** Format: date */
+            closed_on?: string | null;
+            readonly closed_by_name: string;
+            /** @description What was done to follow it up. */
+            note?: string;
+        };
+        /**
+         * @description * `open` - To follow up
+         *     * `followed_up` - Followed up
+         *     * `cleared` - No longer applies
+         * @enum {string}
+         */
+        AbsenceAlertStatusEnum: "open" | "followed_up" | "cleared";
         AbsenceRow: {
             enrollment: number;
             student: number;
@@ -2602,6 +3080,36 @@ export interface components {
          * @enum {string}
          */
         AccountStatusEnum: "active" | "pending" | "expired";
+        Announcement: {
+            readonly id: number;
+            title: string;
+            body: string;
+            priority?: components["schemas"]["PriorityEnum"];
+            roles?: number[];
+            readonly role_names: string[];
+            /** Format: date-time */
+            publish_at?: string;
+            /** Format: date */
+            expires_on?: string | null;
+            pinned?: boolean;
+            readonly is_published: boolean;
+            readonly author_name: string;
+            /** Format: date-time */
+            readonly created_at: string;
+            /** Format: date-time */
+            readonly updated_at: string;
+        };
+        AnnouncementRequest: {
+            title: string;
+            body: string;
+            priority?: components["schemas"]["PriorityEnum"];
+            roles?: number[];
+            /** Format: date-time */
+            publish_at?: string;
+            /** Format: date */
+            expires_on?: string | null;
+            pinned?: boolean;
+        };
         /**
          * @description * `active` - Active
          *     * `archived` - Archived
@@ -2673,8 +3181,88 @@ export interface components {
             /** Format: date-time */
             readonly created_at: string;
         };
+        Backup: {
+            readonly id: number;
+            kind?: components["schemas"]["BackupKindEnum"];
+            status?: components["schemas"]["BackupStatusEnum"];
+            /** @description postgresql or sqlite */
+            engine?: string;
+            /** Format: int64 */
+            size?: number;
+            error?: string;
+            /** Format: date-time */
+            readonly started_at: string;
+            /** Format: date-time */
+            finished_at?: string | null;
+            readonly created_by_name: string;
+            readonly has_file: boolean;
+        };
+        /**
+         * @description * `automatic` - Automatic
+         *     * `manual` - Manual
+         * @enum {string}
+         */
+        BackupKindEnum: "automatic" | "manual";
+        BackupStatus: {
+            /** Format: date-time */
+            last_success_at: string | null;
+            last_status: string;
+            /** Format: date-time */
+            last_attempt_at: string | null;
+            keep_days: number;
+            every_hours: number;
+        };
+        /**
+         * @description * `running` - Running
+         *     * `done` - Done
+         *     * `failed` - Failed
+         *     * `expired` - Expired (file deleted)
+         * @enum {string}
+         */
+        BackupStatusEnum: "running" | "done" | "failed" | "expired";
         /** @enum {unknown} */
         BlankEnum: "";
+        CalendarEvent: {
+            readonly id: number;
+            title: string;
+            kind?: components["schemas"]["CalendarEventKindEnum"];
+            /** Format: date */
+            start_date: string;
+            /** Format: date */
+            end_date?: string;
+            /** Format: time */
+            start_time?: string | null;
+            /** Format: time */
+            end_time?: string | null;
+            location?: string;
+            description?: string;
+            levels?: number[];
+            readonly level_names: string[];
+        };
+        /**
+         * @description * `exam` - Exam
+         *     * `holiday` - Holiday
+         *     * `meeting` - Meeting
+         *     * `event` - School event
+         *     * `deadline` - Deadline
+         * @enum {string}
+         */
+        CalendarEventKindEnum: "exam" | "holiday" | "meeting" | "event" | "deadline";
+        CalendarEventRequest: {
+            title: string;
+            kind?: components["schemas"]["CalendarEventKindEnum"];
+            /** Format: date */
+            start_date: string;
+            /** Format: date */
+            end_date?: string;
+            /** Format: time */
+            start_time?: string | null;
+            /** Format: time */
+            end_time?: string | null;
+            location?: string;
+            description?: string;
+            levels?: number[];
+        };
         CancelInvoiceRequest: {
             reason: string;
         };
@@ -2725,6 +3313,7 @@ export interface components {
             readonly id: number;
             readonly register: number;
             readonly register_name: string;
+            /** @default open */
             readonly status: components["schemas"]["OpenClosedStatusEnum"];
             /** Format: date-time */
             readonly opened_at: string;
@@ -2760,6 +3349,7 @@ export interface components {
             readonly id: number;
             readonly register: number;
             readonly register_name: string;
+            /** @default open */
             readonly status: components["schemas"]["OpenClosedStatusEnum"];
             /** Format: date-time */
             readonly opened_at: string;
@@ -2924,6 +3514,19 @@ export interface components {
             /** Format: date */
             date: string;
             status: components["schemas"]["AttendanceStatusEnum"];
+        };
+        Department: {
+            readonly id: number;
+            name: string;
+            description?: string;
+            head?: number | null;
+            readonly head_name: string;
+            readonly staff_count: number;
+        };
+        DepartmentRequest: {
+            name: string;
+            description?: string;
+            head?: number | null;
         };
         Director: {
             id: number;
@@ -3154,6 +3757,10 @@ export interface components {
             /** Format: decimal */
             amount: string;
             installments?: components["schemas"]["InstallmentRequest"][];
+        };
+        FollowUpRequest: {
+            /** @description What was done: call to the family, meeting... */
+            note: string;
         };
         /**
          * @description * `M` - Male
@@ -3525,6 +4132,56 @@ export interface components {
          * @enum {string}
          */
         InvoiceStatusEnum: "issued" | "cancelled";
+        IssuedReportCard: {
+            readonly id: number;
+            enrollment: number;
+            class_name: string;
+            academic_year_name: string;
+            term?: number | null;
+            readonly term_name: string;
+            /**
+             * Format: int64
+             * @default 1
+             */
+            version: number;
+            readonly is_latest: boolean;
+            /** Format: decimal */
+            average: string | null;
+            /** Format: int64 */
+            rank?: number | null;
+            /** Format: int64 */
+            size?: number;
+            readonly issued_by_name: string;
+            /** Format: date-time */
+            readonly created_at: string;
+        };
+        Job: {
+            readonly id: number;
+            kind: string;
+            status?: components["schemas"]["JobStatusEnum"];
+            /** Format: int64 */
+            total?: number;
+            /** Format: int64 */
+            done?: number;
+            outcome?: unknown;
+            error?: string;
+            result_name?: string;
+            readonly has_result: boolean;
+            /** Format: date-time */
+            readonly created_at: string;
+            /** Format: date-time */
+            started_at?: string | null;
+            /** Format: date-time */
+            finished_at?: string | null;
+        };
+        /**
+         * @description * `queued` - Queued
+         *     * `running` - Running
+         *     * `done` - Done
+         *     * `failed` - Failed
+         * @enum {string}
+         */
+        JobStatusEnum: "queued" | "running" | "done" | "failed";
         /**
          * @description * `new` - New student
          *     * `re_enrolment` - Re-enrolment
@@ -3673,6 +4330,30 @@ export interface components {
             address?: string;
             notes?: string;
         };
+        Notification: {
+            readonly id: number;
+            kind: components["schemas"]["NotificationKindEnum"];
+            title: string;
+            body?: string;
+            /** @description A page of the web app, e.g. /assessments/12. */
+            link?: string;
+            /** Format: date-time */
+            read_at?: string | null;
+            /** Format: date-time */
+            readonly created_at: string;
+        };
+        /**
+         * @description * `announcement` - Announcements
+         *     * `announcement_important` - Important announcements
+         *     * `grades_submitted` - Marks submitted for review
+         *     * `grades_sent_back` - Marks sent back or reopened
+         *     * `grades_published` - Marks published
+         *     * `absence_alert` - Students absent too often
+         *     * `payments_overdue` - Payments overdue
+         *     * `exam_soon` - Upcoming exams
+         * @enum {string}
+         */
+        NotificationKindEnum: "announcement" | "announcement_important" | "grades_submitted" | "grades_sent_back" | "grades_published" | "absence_alert" | "payments_overdue" | "exam_soon";
         /** @enum {unknown} */
         NullEnum: null;
         /**
@@ -3728,6 +4409,36 @@ export interface components {
          * @enum {string}
          */
         OwnerTypeEnum: "student" | "staff" | "school";
+        PaginatedAbsenceAlertList: {
+            /** @example 123 */
+            count: number;
+            /**
+             * Format: uri
+             * @example http://api.example.org/accounts/?page=4
+             */
+            next?: string | null;
+            /**
+             * Format: uri
+             * @example http://api.example.org/accounts/?page=2
+             */
+            previous?: string | null;
+            results: components["schemas"]["AbsenceAlert"][];
+        };
+        PaginatedAnnouncementList: {
+            /** @example 123 */
+            count: number;
+            /**
+             * Format: uri
+             * @example http://api.example.org/accounts/?page=4
+             */
+            next?: string | null;
+            /**
+             * Format: uri
+             * @example http://api.example.org/accounts/?page=2
+             */
+            previous?: string | null;
+            results: components["schemas"]["Announcement"][];
+        };
         PaginatedAuditLogList: {
             /** @example 123 */
             count: number;
@@ -3742,6 +4453,21 @@ export interface components {
              */
             previous?: string | null;
             results: components["schemas"]["AuditLog"][];
+        };
+        PaginatedBackupList: {
+            /** @example 123 */
+            count: number;
+            /**
+             * Format: uri
+             * @example http://api.example.org/accounts/?page=4
+             */
+            next?: string | null;
+            /**
+             * Format: uri
+             * @example http://api.example.org/accounts/?page=2
+             */
+            previous?: string | null;
+            results: components["schemas"]["Backup"][];
         };
         PaginatedCashSessionList: {
             /** @example 123 */
@@ -3878,6 +4604,21 @@ export interface components {
             previous?: string | null;
             results: components["schemas"]["Member"][];
         };
+        PaginatedNotificationList: {
+            /** @example 123 */
+            count: number;
+            /**
+             * Format: uri
+             * @example http://api.example.org/accounts/?page=4
+             */
+            next?: string | null;
+            /**
+             * Format: uri
+             * @example http://api.example.org/accounts/?page=2
+             */
+            previous?: string | null;
+            results: components["schemas"]["Notification"][];
+        };
         PaginatedPaymentListList: {
             /** @example 123 */
             count: number;
@@ -3907,6 +4648,21 @@ export interface components {
              */
             previous?: string | null;
             results: components["schemas"]["PlatformSchool"][];
+        };
+        PaginatedPreferenceList: {
+            /** @example 123 */
+            count: number;
+            /**
+             * Format: uri
+             * @example http://api.example.org/accounts/?page=4
+             */
+            next?: string | null;
+            /**
+             * Format: uri
+             * @example http://api.example.org/accounts/?page=2
+             */
+            previous?: string | null;
+            results: components["schemas"]["Preference"][];
         };
         PaginatedRefundList: {
             /** @example 123 */
@@ -4002,6 +4758,17 @@ export interface components {
             status?: components["schemas"]["OpenClosedStatusEnum"];
             term_count?: number;
         };
+        PatchedAnnouncementRequest: {
+            title?: string;
+            body?: string;
+            priority?: components["schemas"]["PriorityEnum"];
+            roles?: number[];
+            /** Format: date-time */
+            publish_at?: string;
+            /** Format: date */
+            expires_on?: string | null;
+            pinned?: boolean;
+        };
         PatchedAssessmentRequest: {
             gradebook?: number;
             category?: number;
@@ -4015,6 +4782,21 @@ export interface components {
              * @description How much it counts inside its category (average method only).
              */
             weight?: string;
+        };
+        PatchedCalendarEventRequest: {
+            title?: string;
+            kind?: components["schemas"]["CalendarEventKindEnum"];
+            /** Format: date */
+            start_date?: string;
+            /** Format: date */
+            end_date?: string;
+            /** Format: time */
+            start_time?: string | null;
+            /** Format: time */
+            end_time?: string | null;
+            location?: string;
+            description?: string;
+            levels?: number[];
         };
         PatchedCashRegisterRequest: {
             name?: string;
@@ -4038,6 +4820,11 @@ export interface components {
             coefficient?: string;
             /** Format: decimal */
             weekly_hours?: string | null;
+        };
+        PatchedDepartmentRequest: {
+            name?: string;
+            description?: string;
+            head?: number | null;
         };
         PatchedEnrollmentRequest: {
             /** Format: date */
@@ -4174,6 +4961,7 @@ export interface components {
             specialization?: string;
             /** Format: date */
             employment_date?: string | null;
+            department?: number | null;
         };
         PatchedStudentDiscountRequest: {
             student?: number;
@@ -4348,12 +5136,29 @@ export interface components {
             readonly member_count: number;
             readonly directors: components["schemas"]["Director"][];
         };
+        Preference: {
+            kind: components["schemas"]["NotificationKindEnum"];
+            readonly label: string;
+            in_app: boolean;
+            email: boolean;
+        };
+        PreferenceRequest: {
+            kind: components["schemas"]["NotificationKindEnum"];
+            in_app: boolean;
+            email: boolean;
+        };
         PrimaryGuardian: {
             id: number;
             full_name: string;
             phone: string;
             relationship: string;
         };
+        /**
+         * @description * `normal` - Normal
+         *     * `important` - Important
+         * @enum {string}
+         */
+        PriorityEnum: "normal" | "important";
         PromoteRequest: {
             from_class: number;
             to_class: number;
@@ -4540,6 +5345,14 @@ export interface components {
          * @enum {string}
          */
         RelationshipEnum: "father" | "mother" | "guardian" | "other";
+        /** @description Report cards for many classes at once: one class, a level or (neither) the whole school year. */
+        ReportCardJobRequest: {
+            academic_year: number;
+            /** @description Leave out for the year. */
+            term?: number | null;
+            level?: number | null;
+            class_group?: number | null;
+        };
         ReportCommentRow: {
             enrollment: number;
             student: number;
@@ -4660,6 +5473,14 @@ export interface components {
             invoice_prefix?: string;
             receipt_prefix?: string;
             ai_enabled?: boolean;
+            /** Format: int64 */
+            absence_alert_threshold?: number;
+            /** Format: int64 */
+            absence_alert_days?: number;
+            /** @description Payment reminders and overdue notices. */
+            parent_email_payments?: boolean;
+            /** @description An email the evening of an absence. */
+            parent_email_absences?: boolean;
         };
         SchoolSettingsRequest: {
             /** Format: int64 */
@@ -4669,6 +5490,14 @@ export interface components {
             invoice_prefix?: string;
             receipt_prefix?: string;
             ai_enabled?: boolean;
+            /** Format: int64 */
+            absence_alert_threshold?: number;
+            /** Format: int64 */
+            absence_alert_days?: number;
+            /** @description Payment reminders and overdue notices. */
+            parent_email_payments?: boolean;
+            /** @description An email the evening of an absence. */
+            parent_email_absences?: boolean;
         };
         /**
          * @description * `active` - Active
@@ -4737,6 +5566,9 @@ export interface components {
             specialization?: string;
             /** Format: date */
             employment_date?: string | null;
+            department?: number | null;
+            /** @default  */
+            readonly department_name: string;
             readonly status: components["schemas"]["ArchiveStatusEnum"];
             readonly photo_url: string | null;
             readonly has_access: boolean;
@@ -4774,6 +5606,7 @@ export interface components {
             specialization?: string;
             /** Format: date */
             employment_date?: string | null;
+            department?: number | null;
             role_id: number;
             teaching?: components["schemas"]["TeachingRequest"];
         };
@@ -5025,6 +5858,9 @@ export interface components {
             late: number;
             excused: number;
         };
+        UnreadCount: {
+            unread: number;
+        };
         VerifyEmailRequest: {
             token: string;
         };
@@ -5186,6 +6022,132 @@ export interface operations {
             };
         };
     };
+    announcements_list: {
+        parameters: {
+            query?: {
+                /** @description Every announcement, scheduled and expired too (administration.manage). */
+                manage?: boolean;
+                /** @description Which field to use when ordering the results. */
+                ordering?: string;
+                /** @description A page number within the paginated result set. */
+                page?: number;
+                /** @description Number of results to return per page. */
+                page_size?: number;
+                /** @description A search term. */
+                search?: string;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PaginatedAnnouncementList"];
+                };
+            };
+        };
+    };
+    announcements_create: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["AnnouncementRequest"];
+                "application/x-www-form-urlencoded": components["schemas"]["AnnouncementRequest"];
+                "multipart/form-data": components["schemas"]["AnnouncementRequest"];
+            };
+        };
+        responses: {
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Announcement"];
+                };
+            };
+        };
+    };
+    announcements_retrieve: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description A unique integer value identifying this announcement. */
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Announcement"];
+                };
+            };
+        };
+    };
+    announcements_destroy: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description A unique integer value identifying this announcement. */
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description No response body */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    announcements_partial_update: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description A unique integer value identifying this announcement. */
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: {
+            content: {
+                "application/json": components["schemas"]["PatchedAnnouncementRequest"];
+                "application/x-www-form-urlencoded": components["schemas"]["PatchedAnnouncementRequest"];
+                "multipart/form-data": components["schemas"]["PatchedAnnouncementRequest"];
+            };
+        };
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Announcement"];
+                };
+            };
+        };
+    };
     assessments_list: {
         parameters: {
             query?: {
@@ -5329,6 +6291,64 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["AbsenceRow"][];
+                };
+            };
+        };
+    };
+    attendance_alerts_list: {
+        parameters: {
+            query?: {
+                class_group?: number;
+                /** @description Which field to use when ordering the results. */
+                ordering?: string;
+                /** @description A page number within the paginated result set. */
+                page?: number;
+                /** @description Number of results to return per page. */
+                page_size?: number;
+                /** @description A search term. */
+                search?: string;
+                status?: "cleared" | "followed_up" | "open";
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PaginatedAbsenceAlertList"];
+                };
+            };
+        };
+    };
+    attendance_alerts_follow_up_create: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description A unique integer value identifying this absence alert. */
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["FollowUpRequest"];
+                "application/x-www-form-urlencoded": components["schemas"]["FollowUpRequest"];
+                "multipart/form-data": components["schemas"]["FollowUpRequest"];
+            };
+        };
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AbsenceAlert"];
                 };
             };
         };
@@ -5718,6 +6738,152 @@ export interface operations {
                     "application/json": {
                         [key: string]: unknown;
                     };
+                };
+            };
+        };
+    };
+    backup_status_retrieve: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["BackupStatus"];
+                };
+            };
+        };
+    };
+    calendar_events_list: {
+        parameters: {
+            query?: {
+                /** @description Events ending on or after. */
+                date_from?: string;
+                /** @description Events starting on or before. */
+                date_to?: string;
+                kind?: "deadline" | "event" | "exam" | "holiday" | "meeting";
+                /** @description Whole-school events and this level's. */
+                level?: number;
+                /** @description Which field to use when ordering the results. */
+                ordering?: string;
+                /** @description A search term. */
+                search?: string;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["CalendarEvent"][];
+                };
+            };
+        };
+    };
+    calendar_events_create: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["CalendarEventRequest"];
+                "application/x-www-form-urlencoded": components["schemas"]["CalendarEventRequest"];
+                "multipart/form-data": components["schemas"]["CalendarEventRequest"];
+            };
+        };
+        responses: {
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["CalendarEvent"];
+                };
+            };
+        };
+    };
+    calendar_events_retrieve: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description A unique integer value identifying this calendar event. */
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["CalendarEvent"];
+                };
+            };
+        };
+    };
+    calendar_events_destroy: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description A unique integer value identifying this calendar event. */
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description No response body */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    calendar_events_partial_update: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description A unique integer value identifying this calendar event. */
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: {
+            content: {
+                "application/json": components["schemas"]["PatchedCalendarEventRequest"];
+                "application/x-www-form-urlencoded": components["schemas"]["PatchedCalendarEventRequest"];
+                "multipart/form-data": components["schemas"]["PatchedCalendarEventRequest"];
+            };
+        };
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["CalendarEvent"];
                 };
             };
         };
@@ -6307,6 +7473,17 @@ export interface operations {
         parameters: {
             query?: {
                 academic_year?: number;
+                class_group?: number | null;
+                level?: number | null;
+                /**
+                 * @description * `paid` - paid
+                 *     * `partial` - partial
+                 *     * `unpaid` - unpaid
+                 *     * `overdue` - overdue
+                 */
+                payment_status?: "paid" | "partial" | "unpaid" | "overdue" | "";
+                /** @description Defaults to today's term. */
+                term?: number | null;
             };
             header?: never;
             path?: never;
@@ -6322,6 +7499,126 @@ export interface operations {
                     "application/json": {
                         [key: string]: unknown;
                     };
+                };
+            };
+        };
+    };
+    departments_list: {
+        parameters: {
+            query?: {
+                /** @description Which field to use when ordering the results. */
+                ordering?: string;
+                /** @description A search term. */
+                search?: string;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Department"][];
+                };
+            };
+        };
+    };
+    departments_create: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["DepartmentRequest"];
+                "application/x-www-form-urlencoded": components["schemas"]["DepartmentRequest"];
+                "multipart/form-data": components["schemas"]["DepartmentRequest"];
+            };
+        };
+        responses: {
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Department"];
+                };
+            };
+        };
+    };
+    departments_retrieve: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description A unique integer value identifying this department. */
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Department"];
+                };
+            };
+        };
+    };
+    departments_destroy: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description A unique integer value identifying this department. */
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description No response body */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    departments_partial_update: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description A unique integer value identifying this department. */
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: {
+            content: {
+                "application/json": components["schemas"]["PatchedDepartmentRequest"];
+                "application/x-www-form-urlencoded": components["schemas"]["PatchedDepartmentRequest"];
+                "multipart/form-data": components["schemas"]["PatchedDepartmentRequest"];
+            };
+        };
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Department"];
                 };
             };
         };
@@ -7926,6 +9223,97 @@ export interface operations {
             };
         };
     };
+    issued_report_cards_list: {
+        parameters: {
+            query: {
+                /** @description Which field to use when ordering the results. */
+                ordering?: string;
+                /** @description A search term. */
+                search?: string;
+                student: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["IssuedReportCard"][];
+                };
+            };
+        };
+    };
+    issued_report_cards_download_retrieve: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description A unique integer value identifying this report card. */
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/pdf": string;
+                };
+            };
+        };
+    };
+    jobs_retrieve: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description A unique integer value identifying this job. */
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Job"];
+                };
+            };
+        };
+    };
+    jobs_download_retrieve: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description A unique integer value identifying this job. */
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/octet-stream": string;
+                };
+            };
+        };
+    };
     levels_list: {
         parameters: {
             query?: {
@@ -8103,6 +9491,158 @@ export interface operations {
             };
         };
     };
+    notifications_list: {
+        parameters: {
+            query?: {
+                /** @description Which field to use when ordering the results. */
+                ordering?: string;
+                /** @description A page number within the paginated result set. */
+                page?: number;
+                /** @description Number of results to return per page. */
+                page_size?: number;
+                /** @description A search term. */
+                search?: string;
+                /** @description Unread only. */
+                unread?: boolean;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PaginatedNotificationList"];
+                };
+            };
+        };
+    };
+    notifications_read_create: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description A unique integer value identifying this notification. */
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Notification"];
+                };
+            };
+        };
+    };
+    notifications_preferences_list: {
+        parameters: {
+            query?: {
+                /** @description Which field to use when ordering the results. */
+                ordering?: string;
+                /** @description A page number within the paginated result set. */
+                page?: number;
+                /** @description Number of results to return per page. */
+                page_size?: number;
+                /** @description A search term. */
+                search?: string;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PaginatedPreferenceList"];
+                };
+            };
+        };
+    };
+    notifications_preferences_partial_update: {
+        parameters: {
+            query?: {
+                /** @description Which field to use when ordering the results. */
+                ordering?: string;
+                /** @description A page number within the paginated result set. */
+                page?: number;
+                /** @description Number of results to return per page. */
+                page_size?: number;
+                /** @description A search term. */
+                search?: string;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["PreferenceRequest"][];
+                "application/x-www-form-urlencoded": components["schemas"]["PreferenceRequest"][];
+                "multipart/form-data": components["schemas"]["PreferenceRequest"][];
+            };
+        };
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PaginatedPreferenceList"];
+                };
+            };
+        };
+    };
+    notifications_read_all_create: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["UnreadCount"];
+                };
+            };
+        };
+    };
+    notifications_unread_count_retrieve: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["UnreadCount"];
+                };
+            };
+        };
+    };
     payments_list: {
         parameters: {
             query?: {
@@ -8264,6 +9804,75 @@ export interface operations {
                     "application/json": {
                         [key: string]: unknown;
                     };
+                };
+            };
+        };
+    };
+    platform_backups_list: {
+        parameters: {
+            query?: {
+                /** @description Which field to use when ordering the results. */
+                ordering?: string;
+                /** @description A page number within the paginated result set. */
+                page?: number;
+                /** @description Number of results to return per page. */
+                page_size?: number;
+                /** @description A search term. */
+                search?: string;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PaginatedBackupList"];
+                };
+            };
+        };
+    };
+    platform_backups_create: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            202: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Backup"];
+                };
+            };
+        };
+    };
+    platform_backups_download_retrieve: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description A unique integer value identifying this backup. */
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/octet-stream": string;
                 };
             };
         };
@@ -8543,6 +10152,31 @@ export interface operations {
             };
         };
     };
+    report_cards_jobs_create: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["ReportCardJobRequest"];
+                "application/x-www-form-urlencoded": components["schemas"]["ReportCardJobRequest"];
+                "multipart/form-data": components["schemas"]["ReportCardJobRequest"];
+            };
+        };
+        responses: {
+            202: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Job"];
+                };
+            };
+        };
+    };
     report_comments_list: {
         parameters: {
             query: {
@@ -8593,6 +10227,43 @@ export interface operations {
             };
         };
     };
+    reports_academic_retrieve: {
+        parameters: {
+            query?: {
+                /** @description Defaults to the term's year, else the class's, else the current year. */
+                academic_year?: number | null;
+                class_group?: number | null;
+                /**
+                 * @description * `pdf` - pdf
+                 *     * `xlsx` - xlsx
+                 *     * `csv` - csv
+                 */
+                export?: "pdf" | "xlsx" | "csv" | "";
+                level?: number | null;
+                /** @description Leave out for the year. */
+                term?: number | null;
+            };
+            header?: never;
+            path: {
+                key: "grades" | "ranking" | "subjects";
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description The report (JSON) or the exported file. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        [key: string]: unknown;
+                    };
+                };
+            };
+        };
+    };
     reports_finance_retrieve: {
         parameters: {
             query?: {
@@ -8636,6 +10307,44 @@ export interface operations {
             header?: never;
             path: {
                 key: "cash" | "expenses" | "outstanding" | "payments" | "summary";
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description The report (JSON) or the exported file. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        [key: string]: unknown;
+                    };
+                };
+            };
+        };
+    };
+    reports_school_retrieve: {
+        parameters: {
+            query?: {
+                /** @description Defaults to the current year. */
+                academic_year?: number | null;
+                class_group?: number | null;
+                /** @description Enrolment and attendance reports. */
+                date_from?: string | null;
+                date_to?: string | null;
+                /**
+                 * @description * `pdf` - pdf
+                 *     * `xlsx` - xlsx
+                 *     * `csv` - csv
+                 */
+                export?: "pdf" | "xlsx" | "csv" | "";
+                level?: number | null;
+            };
+            header?: never;
+            path: {
+                key: "attendance" | "classes" | "enrollment" | "statistics" | "teachers";
             };
             cookie?: never;
         };
@@ -8844,6 +10553,7 @@ export interface operations {
     staff_list: {
         parameters: {
             query?: {
+                department?: number;
                 has_access?: boolean;
                 /** @description Which field to use when ordering the results. */
                 ordering?: string;

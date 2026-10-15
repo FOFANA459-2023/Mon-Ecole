@@ -1,10 +1,11 @@
-import { Award, FileText, MessageSquareText, Printer } from "lucide-react";
+import { Award, FileText, Layers, MessageSquareText, Printer } from "lucide-react";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router";
 import { toast } from "sonner";
 
 import { EmptyState, PageHeader, QueryError, Spinner } from "@/components/common";
+import { useClass } from "@/features/academics/api";
 import { ClassSelect } from "@/components/pickers";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -13,6 +14,7 @@ import {
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
+  DropdownMenuSeparator,
 } from "@/components/ui/dropdown-menu";
 import { Card } from "@/components/ui/card";
 import { ApiError } from "@/lib/api/client";
@@ -22,8 +24,10 @@ import { toNumberOrNull, useUrlState } from "@/lib/useUrlState";
 import { cn } from "@/lib/utils";
 
 import { openReportCards, useAllTerms, useChosenTerm, useClassResults, useFormatMark } from "./api";
+import { BulkReportCardsDialog } from "./BulkReportCardsDialog";
 import { GradebookStatusBadge } from "./GradebookStatusBadge";
 import { ReportCommentsDialog } from "./ReportCommentsDialog";
+import { ResultsTabs } from "./ResultsTabs";
 import { TermSelect } from "./pickers";
 
 const DEFAULTS = { term: "", class: "" };
@@ -42,6 +46,8 @@ export function ClassResultsPage() {
   const canPrint = can("reportcards.generate");
   const termName = terms.find((term) => term.id === termId)?.name ?? "";
   const [commenting, setCommenting] = useState<"term" | "year" | null>(null);
+  const [bulk, setBulk] = useState(false);
+  const classGroup = useClass(classId ?? undefined).data;
   const print = (term: number | null, enrollment?: number) => {
     if (classId === null) return;
     openReportCards({ class_group: classId, term, enrollment }).catch((error) => toast.error(errorMessage(error, t)));
@@ -252,6 +258,10 @@ export function ClassResultsPage() {
                     <DropdownMenuItem onSelect={() => print(null)}>
                       <FileText /> {t("grades.cards.annual")}
                     </DropdownMenuItem>
+                    <DropdownMenuSeparator />
+                    <DropdownMenuItem onSelect={() => setBulk(true)} disabled={yearId === null || termId === null}>
+                      <Layers /> {t("grades.bulk.menu")}
+                    </DropdownMenuItem>
                   </DropdownMenuContent>
                 </DropdownMenu>
               )}
@@ -259,6 +269,7 @@ export function ClassResultsPage() {
           ) : undefined
         }
       />
+      <ResultsTabs />
       {canPrint && results.isSuccess && results.data.subjects.some((s) => s.status !== "published") && (
         <p className="text-muted-foreground mb-3 text-sm">{t("grades.cards.publishedOnly")}</p>
       )}
@@ -278,6 +289,16 @@ export function ClassResultsPage() {
         />
       </div>
       {body()}
+      {bulk && classId !== null && yearId !== null && termId !== null && (
+        <BulkReportCardsDialog
+          yearId={yearId}
+          classId={classId}
+          levelId={classGroup?.level ?? null}
+          termId={termId}
+          termName={termName}
+          onClose={() => setBulk(false)}
+        />
+      )}
       {commenting && classId !== null && (
         <ReportCommentsDialog
           classId={classId}

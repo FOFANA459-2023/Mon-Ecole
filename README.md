@@ -69,7 +69,7 @@ before each commit.
 | Suite | What it covers | Run locally |
 |---|---|---|
 | Unit + component | hooks, helpers, guards, menus and pages rendered with a fake API (Vitest, Testing Library, MSW); coverage floor | `npm test` / `npm run test:coverage` |
-| End to end | the real app against the real API: sign-in and session restore, deep links, role permissions, student search, the full enrolment wizard, global search, a phone-sized run (Playwright) | `E2E_PASSWORD=… npm run test:e2e` |
+| End to end | the real app against the real API: sign-in and session restore, deep links, role permissions, student search, the full enrolment wizard, global search, the academics journey (register on a phone → marks → submit → publish → report card, one student and a class in the background), a phone-sized run (Playwright) | `E2E_PASSWORD=… npm run test:e2e` |
 | Accessibility | axe (WCAG 2.1 AA) on the login page, dashboard, students, classes and the enrolment wizard; serious issues fail | part of `npm run test:e2e` |
 | Lint and types | ESLint (no warnings allowed), TypeScript (app, config and E2E code) | `npx eslint . && npm run typecheck` |
 | API contract | `schema.d.ts` must match the backend's `openapi.yaml` | `npm run gen:api` then `git diff` |

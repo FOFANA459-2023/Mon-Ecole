@@ -64,6 +64,16 @@ export type GuardianLink = Schemas["GuardianLink"];
 export type Staff = Schemas["Staff"];
 export type Enrollment = Schemas["Enrollment"];
 export type SchoolDocument = Schemas["Document"];
+export type Department = Schemas["Department"];
+export type Announcement = Schemas["Announcement"];
+export type AnnouncementPriority = Schemas["PriorityEnum"];
+export type CalendarEvent = Schemas["CalendarEvent"];
+export type CalendarEventKind = Schemas["CalendarEventKindEnum"];
+export type AppNotification = Schemas["Notification"];
+export type NotificationKind = Schemas["NotificationKindEnum"];
+export type NotificationPreference = Schemas["Preference"];
+export type Backup = Schemas["Backup"];
+export type BackupStatus = Schemas["BackupStatus"];
 export type PromoteResult = Schemas["PromoteResult"];
 export type FeeCategory = Schemas["FeeCategory"];
 export type FeeCategoryKind = Schemas["FeeCategoryKindEnum"];
@@ -108,6 +118,9 @@ export type ClassResults = Schemas["ClassResults"];
 export type Mention = Schemas["Mention"];
 export type ReportCommentRow = Schemas["ReportCommentRow"];
 export type StudentResults = Schemas["StudentResults"];
+export type IssuedReportCard = Schemas["IssuedReportCard"];
+export type Job = Schemas["Job"];
+export type JobStatus = Schemas["JobStatusEnum"];
 export type AttendanceStatus = Schemas["AttendanceStatusEnum"];
 export type StaffAttendanceStatus = Schemas["StaffAttendanceStatusEnum"];
 export type DayClass = Schemas["DayClass"];
@@ -117,9 +130,11 @@ export type ClassMonth = Schemas["ClassMonth"];
 export type AbsenceRow = Schemas["AbsenceRow"];
 export type StudentAttendance = Schemas["StudentAttendance"];
 export type StaffSheet = Schemas["StaffSheet"];
+export type AbsenceAlert = Schemas["AbsenceAlert"];
+export type AbsenceAlertStatus = Schemas["AbsenceAlertStatusEnum"];
 
-/** GET /reports/finance/{key}/: a report as titled sections of columns and rows. */
-export type ReportKind = "text" | "money" | "number" | "percent" | "date" | "datetime" | "auto";
+/** GET /reports/finance/{key}/ and /reports/academic/{key}/: a report as titled sections of columns and rows. */
+export type ReportKind = "text" | "money" | "number" | "percent" | "mark" | "date" | "datetime" | "auto";
 export type ReportCell = string | number | null;
 export type ReportRow = Record<string, ReportCell> & { kind?: ReportKind };
 export type ReportSection = {
@@ -132,6 +147,7 @@ export type ReportSection = {
   totals: ReportRow | null;
 };
 export type FinanceReport = { key: string; title: string; subtitle: string; currency: string; sections: ReportSection[] };
+export type AcademicReport = FinanceReport;
 export type PlatformSchool = Schemas["PlatformSchool"];
 export type RegisterSchoolRequest = Schemas["RegisterSchoolRequest"];
 export type AccountStatus = Schemas["AccountStatusEnum"];
@@ -162,6 +178,50 @@ export type DashboardSummary = {
     late: number;
     excused: number;
   } | null;
+  /** Open high-absenteeism alerts in the classes counted (null without attendance.view). */
+  absence_alerts?: number | null;
+  filters?: { term: number | null; term_name: string; level: number | null; class_group: number | null; payment_status: string };
+  by_class?: { class_group: number; class_name: string; count: number; capacity: number | null }[];
+  /** Money as decimal strings; null without finance.view. */
+  finance?: {
+    currency: string;
+    expected: string;
+    collected: string;
+    outstanding: string;
+    overdue: string;
+    students_with_balance: number;
+    students_overdue: number;
+    collection_rate: string | null;
+    by_month: { month: string; amount: string }[];
+    outstanding_by_class: { class_name: string; amount: string; students: number }[];
+    upcoming_deadlines: { invoices: number; amount: string; days: number };
+  } | null;
+  attendance?: {
+    date_from: string;
+    date_to: string;
+    rate: string | null;
+    present: number;
+    absent: number;
+    late: number;
+    excused: number;
+    days: { date: string; present: number; absent: number; late: number; excused: number; rate: string | null }[];
+  } | null;
+  performance?: {
+    term: { id: number; name: string };
+    counted: number;
+    passed: number;
+    pass_rate: string | null;
+    distribution: { label: string; count: number; below_pass?: boolean }[];
+    by_class: { class_name: string; average: string; pass_rate: string | null; counted: number }[];
+  } | null;
+  missing_grades?: {
+    term: { id: number; name: string; end_date: string };
+    open: number;
+    submitted: number;
+    published: number;
+  } | null;
+  upcoming_exams?: { id: number; title: string; start_date: string; end_date: string }[];
+  announcements?: { id: number; title: string; priority: string; pinned: boolean; publish_at: string }[];
 };
 
 export type SearchHit = { id: number; title: string; subtitle: string; status?: string; student_id?: number | null };
