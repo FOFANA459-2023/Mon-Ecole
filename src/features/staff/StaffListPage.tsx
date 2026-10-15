@@ -13,11 +13,12 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { useStaffList } from "@/features/people/api";
 import { useAuth } from "@/lib/auth/context";
 import { useDebouncedValue } from "@/lib/useDebouncedValue";
+import { useDepartments } from "@/features/administration/api";
 import { useUrlState } from "@/lib/useUrlState";
 
 import { StaffFormDialog } from "./StaffFormDialog";
 
-const DEFAULTS = { q: "", type: "", status: "active", page: "1" };
+const DEFAULTS = { q: "", type: "", status: "active", department: "", page: "1" };
 const PAGE_SIZE = 25;
 const TYPES = ["teacher", "administrative", "support"] as const;
 
@@ -26,6 +27,7 @@ export function StaffListPage() {
   const { can } = useAuth();
   const navigate = useNavigate();
   const [filters, setFilters] = useUrlState(DEFAULTS);
+  const departments = useDepartments();
   const [creating, setCreating] = useState(false);
   const search = useDebouncedValue(filters.q);
   const page = Number(filters.page);
@@ -33,6 +35,7 @@ export function StaffListPage() {
     search,
     staff_type: filters.type,
     status: filters.status === "all" ? undefined : filters.status,
+    department: filters.department || undefined,
     page,
     page_size: PAGE_SIZE,
   });
@@ -60,7 +63,7 @@ export function StaffListPage() {
           )
         }
       />
-      <div className="mb-4 grid gap-3 sm:grid-cols-[1fr_12rem_11rem]">
+      <div className="mb-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-[1fr_12rem_12rem_11rem]">
         <SearchInput value={filters.q} onChange={(q) => setFilters({ q })} />
         <OptionSelect
           value={(filters.type || null) as (typeof TYPES)[number] | null}
@@ -68,6 +71,13 @@ export function StaffListPage() {
           allLabel={t("staff.allTypes")}
           options={TYPES.map((v) => ({ value: v, label: t(`staffType.${v}`) }))}
           aria-label={t("staff.type")}
+        />
+        <OptionSelect
+          value={filters.department || null}
+          onChange={(v) => setFilters({ department: v ?? "", page: "1" })}
+          allLabel={t("staff.allDepartments")}
+          options={(departments.data ?? []).map((d) => ({ value: String(d.id), label: d.name }))}
+          aria-label={t("staff.department")}
         />
         <OptionSelect
           value={filters.status as "active" | "archived" | "all"}

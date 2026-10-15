@@ -135,6 +135,37 @@ const phase3Routes: RouteObject[] = [
   ]),
 ];
 
+const phase5Routes: RouteObject[] = [
+  gated(access("administration"), [
+    {
+      path: "administration",
+      lazy: () =>
+        import("@/features/administration/AdministrationLayout").then((m) => ({ Component: m.AdministrationLayout })),
+      children: [
+        {
+          index: true,
+          lazy: () =>
+            import("@/features/administration/AnnouncementsPage").then((m) => ({ Component: m.AnnouncementsPage })),
+        },
+        {
+          path: "calendar",
+          lazy: () => import("@/features/administration/CalendarPage").then((m) => ({ Component: m.CalendarPage })),
+        },
+        {
+          path: "departments",
+          lazy: () =>
+            import("@/features/administration/DepartmentsPage").then((m) => ({ Component: m.DepartmentsPage })),
+        },
+        {
+          path: "documents",
+          lazy: () =>
+            import("@/features/administration/SchoolDocumentsPage").then((m) => ({ Component: m.SchoolDocumentsPage })),
+        },
+      ],
+    },
+  ]),
+];
+
 const phase4Routes: RouteObject[] = [
   gated(access("attendance"), [
     {
@@ -228,6 +259,7 @@ const pages: RouteObject[] = [
           ...phase2Routes,
           ...phase3Routes,
           ...phase4Routes,
+          ...phase5Routes,
           {
             element: <RequirePlatformOwner />,
             children: [

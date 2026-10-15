@@ -53,7 +53,8 @@
     "name": "Name",
     "total": "Total",
     "required": "required",
-    "photoHint": "PNG, JPEG or WebP photo — 2 MB maximum."
+    "photoHint": "PNG, JPEG or WebP photo — 2 MB maximum.",
+    "deleted": "Deleted"
   },
   "languages": {
     "fr": "Français",
@@ -562,7 +563,9 @@
     "editTeaching": "Edit teaching",
     "teachingTitle": "Teaching — {{name}}",
     "teachingHint": "The class they lead and the subjects they teach this year. Another teacher already on one of these is replaced.",
-    "teachingSaved": "Teaching saved"
+    "teachingSaved": "Teaching saved",
+    "department": "Department",
+    "allDepartments": "All departments"
   },
   "students": {
     "title": "Students",
@@ -1514,6 +1517,88 @@
       "note": "What was done",
       "notePlaceholder": "Called the mother on 15/10: the child was ill.",
       "markFollowedUp": "Mark as followed up"
+    }
+  },
+  "administration": {
+    "title": "Administration",
+    "subtitle": "Announcements to staff, the school calendar, departments and official documents.",
+    "tabs": {
+      "announcements": "Announcements",
+      "calendar": "Calendar",
+      "departments": "Departments",
+      "documents": "Official documents"
+    },
+    "announcements": {
+      "new": "New announcement",
+      "edit": "Edit the announcement",
+      "hint": "Shown to the staff it is meant for, from its publication until its end date.",
+      "none": "No announcement",
+      "titleLabel": "Title",
+      "body": "Message",
+      "priority": "Priority",
+      "priorities": {
+        "normal": "Normal",
+        "important": "Important"
+      },
+      "important": "Important",
+      "pin": "Keep at the top",
+      "pinned": "Pinned",
+      "publishAt": "Published from",
+      "expiresOn": "Shown until",
+      "expiresHint": "Leave empty to keep it.",
+      "audience": "Who reads it",
+      "audienceHint": "Tick none for everyone in the school.",
+      "everyone": "Everyone",
+      "notShown": "Not shown now",
+      "deleteTitle": "Delete the announcement?",
+      "deleteHint": "“{{title}}” will no longer be shown to anyone."
+    },
+    "calendar": {
+      "new": "Add a date",
+      "edit": "Edit the date",
+      "hint": "Exams, holidays, meetings, events and deadlines — for the whole school or some levels.",
+      "none": "Nothing planned this month",
+      "previous": "Previous month",
+      "next": "Next month",
+      "today": "This month",
+      "kind": "Kind",
+      "allKinds": "All kinds",
+      "kinds": {
+        "exam": "Exam",
+        "holiday": "Holiday",
+        "meeting": "Meeting",
+        "event": "School event",
+        "deadline": "Deadline"
+      },
+      "titleLabel": "Title",
+      "location": "Place",
+      "startDate": "From",
+      "endDate": "To",
+      "endHint": "Leave empty for one day.",
+      "startTime": "Starts at",
+      "endTime": "Ends at",
+      "description": "Details",
+      "levels": "Levels concerned",
+      "levelsHint": "Tick none for the whole school.",
+      "wholeSchool": "Whole school",
+      "range": "{{from}} – {{to}}",
+      "deleteTitle": "Delete this date?",
+      "deleteHint": "“{{title}}” will be removed from the calendar."
+    },
+    "departments": {
+      "intro": "Group staff by department and name a head for each.",
+      "new": "New department",
+      "edit": "Edit the department",
+      "hint": "Staff are put in a department from their file.",
+      "none": "No department yet",
+      "head": "Head of department",
+      "staff": "Staff",
+      "description": "Description",
+      "deleteTitle": "Delete the department?",
+      "deleteHint": "Staff of “{{name}}” will no longer be in a department."
+    },
+    "documents": {
+      "intro": "The school's official documents: approvals, statutes, contracts, circulars…"
     }
   }
 }

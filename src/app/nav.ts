@@ -43,7 +43,7 @@ export const NAV_ITEMS: NavItem[] = [
   { key: "dashboard", to: "/", icon: LayoutDashboard, anyOf: [] },
   { key: "enrollments", to: "/enrollments", icon: UserPlus, anyOf: ["enrollments.view"] },
   { key: "students", to: "/students", icon: GraduationCap, anyOf: ["students.view"] },
-  { key: "administration", to: "/administration", icon: Building2, anyOf: ["administration.view"], phase: 5 },
+  { key: "administration", to: "/administration", icon: Building2, anyOf: ["administration.view"] },
   { key: "classes", to: "/classes", icon: School, anyOf: ["classes.view"] },
   { key: "subjects", to: "/subjects", icon: BookOpen, anyOf: ["subjects.view"] },
   { key: "teachers", to: "/teachers", icon: Users, anyOf: ["staff.view"] },

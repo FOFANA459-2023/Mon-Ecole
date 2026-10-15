@@ -53,7 +53,8 @@
     "name": "Nom",
     "total": "Total",
     "required": "obligatoire",
-    "photoHint": "Photo PNG, JPEG ou WebP — 2 Mo maximum."
+    "photoHint": "Photo PNG, JPEG ou WebP — 2 Mo maximum.",
+    "deleted": "Supprimé"
   },
   "languages": {
     "fr": "Français",
@@ -562,7 +563,9 @@
     "editTeaching": "Modifier l'enseignement",
     "teachingTitle": "Enseignement — {{name}}",
     "teachingHint": "La classe dont la personne est professeur principal et les matières qu'elle enseigne cette année. Un autre enseignant déjà affecté à l'un de ces postes est remplacé.",
-    "teachingSaved": "Enseignement enregistré"
+    "teachingSaved": "Enseignement enregistré",
+    "department": "Département",
+    "allDepartments": "Tous les départements"
   },
   "students": {
     "title": "Élèves",
@@ -1514,6 +1517,88 @@
       "note": "Ce qui a été fait",
       "notePlaceholder": "Appel à la mère le 15/10 : l'enfant était malade.",
       "markFollowedUp": "Marquer comme suivie"
+    }
+  },
+  "administration": {
+    "title": "Administration",
+    "subtitle": "Annonces au personnel, calendrier scolaire, départements et documents officiels.",
+    "tabs": {
+      "announcements": "Annonces",
+      "calendar": "Calendrier",
+      "departments": "Départements",
+      "documents": "Documents officiels"
+    },
+    "announcements": {
+      "new": "Nouvelle annonce",
+      "edit": "Modifier l'annonce",
+      "hint": "Affichée au personnel concerné, de sa publication jusqu'à sa date de fin.",
+      "none": "Aucune annonce",
+      "titleLabel": "Titre",
+      "body": "Message",
+      "priority": "Priorité",
+      "priorities": {
+        "normal": "Normale",
+        "important": "Importante"
+      },
+      "important": "Important",
+      "pin": "Garder en haut",
+      "pinned": "Épinglée",
+      "publishAt": "Publiée à partir du",
+      "expiresOn": "Affichée jusqu'au",
+      "expiresHint": "Laissez vide pour la garder.",
+      "audience": "Destinataires",
+      "audienceHint": "Ne cochez rien pour tout l'établissement.",
+      "everyone": "Tout le monde",
+      "notShown": "Non affichée actuellement",
+      "deleteTitle": "Supprimer l'annonce ?",
+      "deleteHint": "« {{title}} » ne sera plus affichée à personne."
+    },
+    "calendar": {
+      "new": "Ajouter une date",
+      "edit": "Modifier la date",
+      "hint": "Examens, congés, réunions, événements et échéances — pour tout l'établissement ou certains niveaux.",
+      "none": "Rien de prévu ce mois-ci",
+      "previous": "Mois précédent",
+      "next": "Mois suivant",
+      "today": "Ce mois-ci",
+      "kind": "Type",
+      "allKinds": "Tous les types",
+      "kinds": {
+        "exam": "Examen",
+        "holiday": "Congé",
+        "meeting": "Réunion",
+        "event": "Événement",
+        "deadline": "Échéance"
+      },
+      "titleLabel": "Intitulé",
+      "location": "Lieu",
+      "startDate": "Du",
+      "endDate": "Au",
+      "endHint": "Laissez vide pour une seule journée.",
+      "startTime": "Début",
+      "endTime": "Fin",
+      "description": "Précisions",
+      "levels": "Niveaux concernés",
+      "levelsHint": "Ne cochez rien pour tout l'établissement.",
+      "wholeSchool": "Tout l'établissement",
+      "range": "{{from}} – {{to}}",
+      "deleteTitle": "Supprimer cette date ?",
+      "deleteHint": "« {{title}} » sera retiré du calendrier."
+    },
+    "departments": {
+      "intro": "Regroupez le personnel par département et nommez un responsable pour chacun.",
+      "new": "Nouveau département",
+      "edit": "Modifier le département",
+      "hint": "Le personnel est rattaché à un département depuis sa fiche.",
+      "none": "Aucun département pour l'instant",
+      "head": "Responsable",
+      "staff": "Personnel",
+      "description": "Description",
+      "deleteTitle": "Supprimer le département ?",
+      "deleteHint": "Le personnel de « {{name}} » ne sera plus rattaché à un département."
+    },
+    "documents": {
+      "intro": "Les documents officiels de l'établissement : agréments, statuts, contrats, circulaires…"
     }
   }
 }
