@@ -246,7 +246,13 @@
       "attendance": "Attendance",
       "absenceThreshold": "Absences that raise an alert",
       "absenceThresholdHint": "Unexcused absences within the period below. 0 = no alerts.",
-      "absenceDays": "Period (days)"
+      "absenceDays": "Period (days)",
+      "parents": "Emails to parents",
+      "parentsHint": "Sent to the parent recorded as contact, when they have an email address. Each email counts against the school's monthly email allowance.",
+      "parentPayments": "Payment reminders",
+      "parentPaymentsHint": "Three days before an installment is due, and when it becomes overdue.",
+      "parentAbsences": "Absences",
+      "parentAbsencesHint": "The evening of a day their child was marked absent (not excused)."
     },
     "users": {
       "title": "Users",
@@ -1599,6 +1605,38 @@
     },
     "documents": {
       "intro": "The school's official documents: approvals, statutes, contracts, circulars…"
+    }
+  },
+  "notifications": {
+    "title": "Notifications",
+    "subtitle": "What happened in the school that concerns you.",
+    "bellUnread_one": "Notifications: {{count}} unread",
+    "bellUnread_other": "Notifications: {{count}} unread",
+    "markAllRead": "Mark all as read",
+    "seeAll": "See all notifications",
+    "none": "No notifications",
+    "unread": "unread",
+    "show": "Show",
+    "all": "All",
+    "unreadOnly": "Unread ({{count}})",
+    "kinds": {
+      "announcement": "Announcements",
+      "announcement_important": "Important announcements",
+      "grades_submitted": "Marks submitted for review",
+      "grades_sent_back": "Marks sent back or reopened",
+      "grades_published": "Marks published",
+      "absence_alert": "Students absent too often",
+      "payments_overdue": "Payments overdue",
+      "exam_soon": "Upcoming exams"
+    },
+    "preferences": {
+      "title": "Notifications",
+      "hint": "Choose what you are told of in the app and by email. You only receive what concerns your work.",
+      "kind": "About",
+      "inApp": "In the app",
+      "email": "By email",
+      "inAppOf": "{{kind}} in the app",
+      "emailOf": "{{kind}} by email"
     }
   }
 }

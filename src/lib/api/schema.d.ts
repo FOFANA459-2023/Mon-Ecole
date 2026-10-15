@@ -1833,6 +1833,92 @@ export interface paths {
         patch: operations["me_partial_update"];
         trace?: never;
     };
+    "/api/v1/notifications/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description The signed-in user's notifications in the current school, newest first. */
+        get: operations["notifications_list"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/notifications/{id}/read/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** @description The signed-in user's notifications in the current school, newest first. */
+        post: operations["notifications_read_create"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/notifications/preferences/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description What the user wants for each kind of notification: in the app, by email. */
+        get: operations["notifications_preferences_list"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        /** @description What the user wants for each kind of notification: in the app, by email. */
+        patch: operations["notifications_preferences_partial_update"];
+        trace?: never;
+    };
+    "/api/v1/notifications/read-all/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** @description The signed-in user's notifications in the current school, newest first. */
+        post: operations["notifications_read_all_create"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/notifications/unread-count/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description The signed-in user's notifications in the current school, newest first. */
+        get: operations["notifications_unread_count_retrieve"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/v1/payments/": {
         parameters: {
             query?: never;
@@ -4126,6 +4212,30 @@ export interface components {
             address?: string;
             notes?: string;
         };
+        Notification: {
+            readonly id: number;
+            kind: components["schemas"]["NotificationKindEnum"];
+            title: string;
+            body?: string;
+            /** @description A page of the web app, e.g. /assessments/12. */
+            link?: string;
+            /** Format: date-time */
+            read_at?: string | null;
+            /** Format: date-time */
+            readonly created_at: string;
+        };
+        /**
+         * @description * `announcement` - Announcements
+         *     * `announcement_important` - Important announcements
+         *     * `grades_submitted` - Marks submitted for review
+         *     * `grades_sent_back` - Marks sent back or reopened
+         *     * `grades_published` - Marks published
+         *     * `absence_alert` - Students absent too often
+         *     * `payments_overdue` - Payments overdue
+         *     * `exam_soon` - Upcoming exams
+         * @enum {string}
+         */
+        NotificationKindEnum: "announcement" | "announcement_important" | "grades_submitted" | "grades_sent_back" | "grades_published" | "absence_alert" | "payments_overdue" | "exam_soon";
         /** @enum {unknown} */
         NullEnum: null;
         /**
@@ -4361,6 +4471,21 @@ export interface components {
             previous?: string | null;
             results: components["schemas"]["Member"][];
         };
+        PaginatedNotificationList: {
+            /** @example 123 */
+            count: number;
+            /**
+             * Format: uri
+             * @example http://api.example.org/accounts/?page=4
+             */
+            next?: string | null;
+            /**
+             * Format: uri
+             * @example http://api.example.org/accounts/?page=2
+             */
+            previous?: string | null;
+            results: components["schemas"]["Notification"][];
+        };
         PaginatedPaymentListList: {
             /** @example 123 */
             count: number;
@@ -4390,6 +4515,21 @@ export interface components {
              */
             previous?: string | null;
             results: components["schemas"]["PlatformSchool"][];
+        };
+        PaginatedPreferenceList: {
+            /** @example 123 */
+            count: number;
+            /**
+             * Format: uri
+             * @example http://api.example.org/accounts/?page=4
+             */
+            next?: string | null;
+            /**
+             * Format: uri
+             * @example http://api.example.org/accounts/?page=2
+             */
+            previous?: string | null;
+            results: components["schemas"]["Preference"][];
         };
         PaginatedRefundList: {
             /** @example 123 */
@@ -4863,6 +5003,17 @@ export interface components {
             readonly member_count: number;
             readonly directors: components["schemas"]["Director"][];
         };
+        Preference: {
+            kind: components["schemas"]["NotificationKindEnum"];
+            readonly label: string;
+            in_app: boolean;
+            email: boolean;
+        };
+        PreferenceRequest: {
+            kind: components["schemas"]["NotificationKindEnum"];
+            in_app: boolean;
+            email: boolean;
+        };
         PrimaryGuardian: {
             id: number;
             full_name: string;
@@ -5193,6 +5344,10 @@ export interface components {
             absence_alert_threshold?: number;
             /** Format: int64 */
             absence_alert_days?: number;
+            /** @description Payment reminders and overdue notices. */
+            parent_email_payments?: boolean;
+            /** @description An email the evening of an absence. */
+            parent_email_absences?: boolean;
         };
         SchoolSettingsRequest: {
             /** Format: int64 */
@@ -5206,6 +5361,10 @@ export interface components {
             absence_alert_threshold?: number;
             /** Format: int64 */
             absence_alert_days?: number;
+            /** @description Payment reminders and overdue notices. */
+            parent_email_payments?: boolean;
+            /** @description An email the evening of an absence. */
+            parent_email_absences?: boolean;
         };
         /**
          * @description * `active` - Active
@@ -5565,6 +5724,9 @@ export interface components {
             absent: number;
             late: number;
             excused: number;
+        };
+        UnreadCount: {
+            unread: number;
         };
         VerifyEmailRequest: {
             token: string;
@@ -9162,6 +9324,158 @@ export interface operations {
                     "application/json": {
                         [key: string]: unknown;
                     };
+                };
+            };
+        };
+    };
+    notifications_list: {
+        parameters: {
+            query?: {
+                /** @description Which field to use when ordering the results. */
+                ordering?: string;
+                /** @description A page number within the paginated result set. */
+                page?: number;
+                /** @description Number of results to return per page. */
+                page_size?: number;
+                /** @description A search term. */
+                search?: string;
+                /** @description Unread only. */
+                unread?: boolean;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PaginatedNotificationList"];
+                };
+            };
+        };
+    };
+    notifications_read_create: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description A unique integer value identifying this notification. */
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Notification"];
+                };
+            };
+        };
+    };
+    notifications_preferences_list: {
+        parameters: {
+            query?: {
+                /** @description Which field to use when ordering the results. */
+                ordering?: string;
+                /** @description A page number within the paginated result set. */
+                page?: number;
+                /** @description Number of results to return per page. */
+                page_size?: number;
+                /** @description A search term. */
+                search?: string;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PaginatedPreferenceList"];
+                };
+            };
+        };
+    };
+    notifications_preferences_partial_update: {
+        parameters: {
+            query?: {
+                /** @description Which field to use when ordering the results. */
+                ordering?: string;
+                /** @description A page number within the paginated result set. */
+                page?: number;
+                /** @description Number of results to return per page. */
+                page_size?: number;
+                /** @description A search term. */
+                search?: string;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["PreferenceRequest"][];
+                "application/x-www-form-urlencoded": components["schemas"]["PreferenceRequest"][];
+                "multipart/form-data": components["schemas"]["PreferenceRequest"][];
+            };
+        };
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PaginatedPreferenceList"];
+                };
+            };
+        };
+    };
+    notifications_read_all_create: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["UnreadCount"];
+                };
+            };
+        };
+    };
+    notifications_unread_count_retrieve: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["UnreadCount"];
                 };
             };
         };

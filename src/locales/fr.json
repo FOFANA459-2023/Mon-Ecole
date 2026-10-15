@@ -246,7 +246,13 @@
       "attendance": "Présences",
       "absenceThreshold": "Absences qui lèvent une alerte",
       "absenceThresholdHint": "Absences non justifiées sur la période ci-dessous. 0 = pas d'alerte.",
-      "absenceDays": "Période (jours)"
+      "absenceDays": "Période (jours)",
+      "parents": "E-mails aux parents",
+      "parentsHint": "Envoyés au parent enregistré comme contact, s'il a une adresse e-mail. Chaque e-mail compte dans le quota mensuel d'e-mails de l'établissement.",
+      "parentPayments": "Rappels de paiement",
+      "parentPaymentsHint": "Trois jours avant une échéance, puis quand elle passe en retard.",
+      "parentAbsences": "Absences",
+      "parentAbsencesHint": "Le soir d'un jour où leur enfant a été noté absent (non excusé)."
     },
     "users": {
       "title": "Utilisateurs",
@@ -1599,6 +1605,38 @@
     },
     "documents": {
       "intro": "Les documents officiels de l'établissement : agréments, statuts, contrats, circulaires…"
+    }
+  },
+  "notifications": {
+    "title": "Notifications",
+    "subtitle": "Ce qui s'est passé dans l'établissement et qui vous concerne.",
+    "bellUnread_one": "Notifications : {{count}} non lue",
+    "bellUnread_other": "Notifications : {{count}} non lues",
+    "markAllRead": "Tout marquer comme lu",
+    "seeAll": "Voir toutes les notifications",
+    "none": "Aucune notification",
+    "unread": "non lue",
+    "show": "Afficher",
+    "all": "Toutes",
+    "unreadOnly": "Non lues ({{count}})",
+    "kinds": {
+      "announcement": "Annonces",
+      "announcement_important": "Annonces importantes",
+      "grades_submitted": "Notes soumises à validation",
+      "grades_sent_back": "Notes renvoyées ou rouvertes",
+      "grades_published": "Notes publiées",
+      "absence_alert": "Élèves trop souvent absents",
+      "payments_overdue": "Paiements en retard",
+      "exam_soon": "Examens à venir"
+    },
+    "preferences": {
+      "title": "Notifications",
+      "hint": "Choisissez ce qui vous est signalé dans l'application et par e-mail. Vous ne recevez que ce qui concerne votre travail.",
+      "kind": "Sujet",
+      "inApp": "Dans l'application",
+      "email": "Par e-mail",
+      "inAppOf": "{{kind}} dans l'application",
+      "emailOf": "{{kind}} par e-mail"
     }
   }
 }

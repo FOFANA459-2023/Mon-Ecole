@@ -275,6 +275,11 @@ const pages: RouteObject[] = [
             path: "account",
             lazy: () => import("@/features/account/AccountPage").then((m) => ({ Component: m.AccountPage })),
           },
+          {
+            path: "notifications",
+            lazy: () =>
+              import("@/features/notifications/NotificationsPage").then((m) => ({ Component: m.NotificationsPage })),
+          },
           gated(access("settings"), [
             {
               path: "settings",
