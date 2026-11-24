@@ -68,7 +68,8 @@
   --border: oklch(0.915 0.012 250);
   --input: oklch(0.9 0.013 250);
   --ring: oklch(0.55 0.1 255);
-  --chart-1: oklch(0.45 0.1 255);
+  /* Chart hues validated (dataviz validator) for colour-blind separation: navy + amber is the two-category pair. */
+  --chart-1: oklch(0.45 0.13 255);
   --chart-2: oklch(0.68 0.11 178);
   --chart-3: oklch(0.75 0.14 70);
   --chart-4: oklch(0.6 0.16 25);
@@ -104,9 +105,9 @@
   --border: oklch(1 0 0 / 10%);
   --input: oklch(1 0 0 / 15%);
   --ring: oklch(0.6 0.08 250);
-  --chart-1: oklch(0.7 0.1 250);
+  --chart-1: oklch(0.6 0.13 250);
   --chart-2: oklch(0.72 0.11 178);
-  --chart-3: oklch(0.8 0.14 75);
+  --chart-3: oklch(0.67 0.14 70);
   --chart-4: oklch(0.68 0.16 25);
   --chart-5: oklch(0.65 0.12 300);
   --sidebar: oklch(0.2 0.03 258);

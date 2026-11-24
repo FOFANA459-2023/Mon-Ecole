@@ -53,7 +53,8 @@
     "name": "Nom",
     "total": "Total",
     "required": "obligatoire",
-    "photoHint": "Photo PNG, JPEG ou WebP — 2 Mo maximum."
+    "photoHint": "Photo PNG, JPEG ou WebP — 2 Mo maximum.",
+    "deleted": "Supprimé"
   },
   "languages": {
     "fr": "Français",
@@ -153,8 +154,10 @@
       "myClasses": "Mes classes",
       "teachers": "Enseignants",
       "collected": "Recettes encaissées",
-      "outstanding": "Reste à recouvrer",
-      "presentToday": "Présents aujourd'hui"
+      "outstanding": "Reste à encaisser",
+      "presentToday": "Présents aujourd'hui",
+      "expected": "Recettes attendues",
+      "overdue": "En retard"
     },
     "availableIn": "Disponible en phase {{phase}}",
     "setupTitle": "Mise en route",
@@ -180,7 +183,61 @@
     "staffTotal": "{{count}} membres du personnel au total",
     "noYear": "Aucune année scolaire n'est configurée : les chiffres apparaîtront après la création de l'année et des classes.",
     "yearLabel": "Année {{name}}",
-    "attendanceCaption": "{{absent}} absent(s) · {{taken}} appel(s) sur {{classes}}"
+    "attendanceCaption": "{{absent}} absents · {{late}} retards · {{taken}} appel(s) sur {{classes}}",
+    "absenceAlerts_one": "{{count}} élève est trop souvent absent et doit être suivi.",
+    "absenceAlerts_other": "{{count}} élèves sont trop souvent absents et doivent être suivis.",
+    "followUp": "Voir les alertes",
+    "collectionRate": "{{rate}} des recettes attendues",
+    "studentsOwing_one": "{{count}} élève avec un solde impayé",
+    "studentsOwing_other": "{{count}} élèves avec un solde impayé",
+    "studentsLate_one": "{{count}} élève en retard de paiement",
+    "studentsLate_other": "{{count}} élèves en retard de paiement",
+    "filters": {
+      "label": "Filtres du tableau de bord",
+      "payment": "Statut de paiement",
+      "allPayments": "Tous les statuts de paiement"
+    },
+    "alerts": {
+      "title": "Alertes",
+      "overdue_one": "{{count}} élève est en retard de paiement ({{amount}} en retard).",
+      "overdue_other": "{{count}} élèves sont en retard de paiement ({{amount}} en retard).",
+      "deadlines_one": "{{count}} facture a une échéance dans les {{days}} prochains jours ({{amount}}).",
+      "deadlines_other": "{{count}} factures ont une échéance dans les {{days}} prochains jours ({{amount}}).",
+      "exam": "Examen : {{title}} — {{date}}",
+      "missingGrades_one": "{{count}} matière pas encore publiée pour {{term}} ({{submitted}} en attente de validation) ; la période se termine le {{date}}.",
+      "missingGrades_other": "{{count}} matières pas encore publiées pour {{term}} ({{submitted}} en attente de validation) ; la période se termine le {{date}}.",
+      "seeInvoices": "Factures",
+      "seeMarks": "Notes",
+      "calendar": "Calendrier"
+    },
+    "charts": {
+      "showTable": "Afficher en tableau",
+      "showChart": "Afficher en graphique",
+      "revenueByMonth": "Paiements reçus par mois",
+      "revenueByMonthHint": "Tous les paiements enregistrés, mois par mois, sur l'année scolaire.",
+      "month": "Mois",
+      "amount": "Montant",
+      "students": "Élèves",
+      "rate": "Taux de présence",
+      "passRate": "Taux de réussite",
+      "noPayments": "Aucun paiement enregistré cette année pour l'instant.",
+      "outstandingByClass": "Reste à encaisser",
+      "collectedVsOutstanding": "Encaissé et reste à encaisser, puis le solde dû par classe.",
+      "collected": "Encaissé",
+      "outstanding": "Reste à encaisser",
+      "nothingOwed": "Plus rien à encaisser.",
+      "attendance": "Présences",
+      "attendanceHint": "{{rate}} de présents (ou en retard), du {{from}} au {{to}}.",
+      "attendanceDetail": "{{absent}} absents · {{late}} retards",
+      "noRegisters": "Aucun appel fait sur cette période.",
+      "performance": "Résultats — {{term}}",
+      "performanceHint": "{{rate}} ont la moyenne · {{counted}} élèves avec des notes publiées.",
+      "belowPass": "Moins de {{mark}}",
+      "passedNoHonours": "Admis",
+      "noResults": "Aucune note publiée pour cette période pour l'instant.",
+      "byClass": "Élèves par classe",
+      "noClass": "Sans classe"
+    }
   },
   "modules": {
     "phase": "Phase {{phase}}",
@@ -238,7 +295,22 @@
       "idleTimeout": "Déconnexion automatique après inactivité (minutes)",
       "aiEnabled": "Activer les fonctions d'IA",
       "aiEnabledHint": "Assistant et suggestions d'appréciations (données anonymisées).",
-      "readOnlyNotice": "Seuls les administrateurs peuvent modifier ces informations."
+      "readOnlyNotice": "Seuls les administrateurs peuvent modifier ces informations.",
+      "attendance": "Présences",
+      "absenceThreshold": "Absences qui lèvent une alerte",
+      "absenceThresholdHint": "Absences non justifiées sur la période ci-dessous. 0 = pas d'alerte.",
+      "absenceDays": "Période (jours)",
+      "parents": "E-mails aux parents",
+      "parentsHint": "Envoyés au parent enregistré comme contact, s'il a une adresse e-mail. Chaque e-mail compte dans le quota mensuel d'e-mails de l'établissement.",
+      "parentPayments": "Rappels de paiement",
+      "parentPaymentsHint": "Trois jours avant une échéance, puis quand elle passe en retard.",
+      "parentAbsences": "Absences",
+      "parentAbsencesHint": "Le soir d'un jour où leur enfant a été noté absent (non excusé).",
+      "backups": "Sauvegardes",
+      "lastBackup": "Dernière sauvegarde : {{when}}.",
+      "noBackup": "Aucune sauvegarde pour l'instant.",
+      "backupFailing": "La dernière sauvegarde a échoué : l'équipe de la plateforme en est informée par ses journaux.",
+      "backupPolicy": "Toutes les données sont sauvegardées toutes les {{hours}} heures sur un stockage privé et chiffré, et conservées {{days}} jours."
     },
     "users": {
       "title": "Utilisateurs",
@@ -555,7 +627,9 @@
     "editTeaching": "Modifier l'enseignement",
     "teachingTitle": "Enseignement — {{name}}",
     "teachingHint": "La classe dont la personne est professeur principal et les matières qu'elle enseigne cette année. Un autre enseignant déjà affecté à l'un de ces postes est remplacé.",
-    "teachingSaved": "Enseignement enregistré"
+    "teachingSaved": "Enseignement enregistré",
+    "department": "Département",
+    "allDepartments": "Tous les départements"
   },
   "students": {
     "title": "Élèves",
@@ -1020,6 +1094,29 @@
       "CI": "Côte d'Ivoire",
       "SN": "Sénégal",
       "ML": "Mali"
+    },
+    "backups": {
+      "title": "Sauvegardes",
+      "subtitle": "Toute la base de données (tous les établissements), toutes les 4 heures automatiquement ou à la demande. Fichiers conservés 30 jours.",
+      "now": "Sauvegarder maintenant",
+      "running": "Sauvegarde en cours…",
+      "started": "Sauvegarde lancée",
+      "none": "Aucune sauvegarde pour l'instant",
+      "when": "Lancée le",
+      "kind": "Type",
+      "size": "Taille",
+      "download": "Télécharger la sauvegarde",
+      "kinds": {
+        "automatic": "Automatique",
+        "manual": "Manuelle"
+      },
+      "statuses": {
+        "running": "En cours",
+        "done": "Terminée",
+        "failed": "Échouée",
+        "expired": "Expirée (fichier supprimé)"
+      },
+      "restoreHint": "La restauration se fait hors de l'application, en suivant la procédure (docs/runbooks/restore.md du dépôt backend) : elle remplace les données de tous les établissements."
     }
   },
   "cash": {
@@ -1148,7 +1245,9 @@
     },
     "tabs": {
       "marks": "Notes",
-      "rules": "Règles de notation & évaluations"
+      "rules": "Règles de notation & évaluations",
+      "classes": "Résultats par classe",
+      "reports": "Rapports"
     },
     "steps": {
       "submit": "Soumettre pour validation",
@@ -1342,7 +1441,53 @@
       "rankOf": "{{rank}} sur {{of}}",
       "printCard": "Imprimer le bulletin — {{period}}"
     },
-    "student": "Élève"
+    "student": "Élève",
+    "bulk": {
+      "menu": "Plusieurs classes, en arrière-plan…",
+      "title": "Imprimer les bulletins",
+      "hint": "Les bulletins sont préparés en arrière-plan : un PDF par classe, dans un fichier ZIP s'il y a plusieurs classes. Les bulletins déjà émis et inchangés sont réutilisés.",
+      "scope": "Classes",
+      "thisClass": "Cette classe",
+      "level": "Toutes les classes d'un niveau",
+      "school": "Tout l'établissement",
+      "period": "Période",
+      "start": "Préparer les bulletins",
+      "queued": "En attente…",
+      "progress": "Avancement",
+      "progressCount": "{{done}} bulletins sur {{total}}",
+      "done_one": "{{count}} bulletin prêt ({{fresh}} nouvellement émis).",
+      "done_other": "{{count}} bulletins prêts ({{fresh}} nouvellement émis).",
+      "failed": "Les bulletins n'ont pas pu être préparés. Réessayez ; si cela échoue encore, contactez l'assistance.",
+      "download": "Télécharger"
+    },
+    "issued": {
+      "title": "Bulletins émis",
+      "hint": "Chaque bulletin remis est conservé. Si quelque chose change sur un bulletin, une nouvelle version est émise et l'ancienne reste ici.",
+      "period": "Période",
+      "average": "Moyenne",
+      "issued": "Émis",
+      "rank": "Rang {{rank}}",
+      "version": "Version {{version}}",
+      "replaced": "remplacée",
+      "open": "Ouvrir le bulletin — {{period}}, version {{version}}"
+    },
+    "reports": {
+      "subtitle": "Relevé de notes, classement et résultats par matière, à partir des notes publiées — à l'écran, en PDF, Excel ou CSV.",
+      "names": {
+        "grades": "Relevé de notes",
+        "ranking": "Classement",
+        "subjects": "Résultats par matière"
+      },
+      "descriptions": {
+        "grades": "Une classe : les notes de chaque élève, la moyenne, le rang et la décision",
+        "ranking": "Les classes comparées, et les élèves classés par classe ou par niveau",
+        "subjects": "Chaque matière de chaque classe, et ce qui n'est pas encore publié"
+      },
+      "period": "Période",
+      "thisTerm": "Cette période",
+      "allLevels": "Tous les niveaux",
+      "chooseClass": "Choisissez une classe"
+    }
   },
   "attendance": {
     "title": "Présences",
@@ -1350,7 +1495,8 @@
     "tabs": {
       "registers": "Appels",
       "reports": "Rapports",
-      "staff": "Personnel"
+      "staff": "Personnel",
+      "alerts": "Alertes"
     },
     "day": "Jour",
     "today": "aujourd'hui",
@@ -1432,6 +1578,173 @@
     "markRestPresent_one": "Marquer l'élève restant présent",
     "markRestPresent_other": "Marquer les {{count}} élèves restants présents",
     "staffToMark_one": "{{count}} personne non marquée ce jour.",
-    "staffToMark_other": "{{count}} personnes non marquées ce jour."
+    "staffToMark_other": "{{count}} personnes non marquées ce jour.",
+    "alerts": {
+      "intro": "Les élèves qui ont atteint le nombre d'absences non justifiées fixé par l'établissement sur sa période. Les alertes sont levées chaque soir à partir des registres ; clôturez-en une une fois la famille contactée.",
+      "show": "Afficher",
+      "statuses": {
+        "open": "À suivre",
+        "followed_up": "Suivies",
+        "cleared": "Plus d'actualité"
+      },
+      "none": {
+        "open": "Aucun élève à suivre",
+        "followed_up": "Aucune alerte suivie pour l'instant",
+        "cleared": "Aucune alerte levée d'elle-même"
+      },
+      "absences": "Absences",
+      "period": "Entre le",
+      "between": "{{from}} – {{to}}",
+      "raised": "Levée le",
+      "closed": "Clôturée",
+      "followUp": "Suivre",
+      "followUpTitle": "Suivi — {{name}}",
+      "followUpHint_one": "{{count}} absence non justifiée. Indiquez ce qui a été fait : appel à la famille, rendez-vous, motif donné…",
+      "followUpHint_other": "{{count}} absences non justifiées. Indiquez ce qui a été fait : appel à la famille, rendez-vous, motif donné…",
+      "note": "Ce qui a été fait",
+      "notePlaceholder": "Appel à la mère le 15/10 : l'enfant était malade.",
+      "markFollowedUp": "Marquer comme suivie"
+    }
+  },
+  "administration": {
+    "title": "Administration",
+    "subtitle": "Annonces au personnel, calendrier scolaire, départements, documents officiels et rapports de l'établissement.",
+    "tabs": {
+      "announcements": "Annonces",
+      "calendar": "Calendrier",
+      "departments": "Départements",
+      "documents": "Documents officiels",
+      "reports": "Rapports"
+    },
+    "announcements": {
+      "new": "Nouvelle annonce",
+      "edit": "Modifier l'annonce",
+      "hint": "Affichée au personnel concerné, de sa publication jusqu'à sa date de fin.",
+      "none": "Aucune annonce",
+      "titleLabel": "Titre",
+      "body": "Message",
+      "priority": "Priorité",
+      "priorities": {
+        "normal": "Normale",
+        "important": "Importante"
+      },
+      "important": "Important",
+      "pin": "Garder en haut",
+      "pinned": "Épinglée",
+      "publishAt": "Publiée à partir du",
+      "expiresOn": "Affichée jusqu'au",
+      "expiresHint": "Laissez vide pour la garder.",
+      "audience": "Destinataires",
+      "audienceHint": "Ne cochez rien pour tout l'établissement.",
+      "everyone": "Tout le monde",
+      "notShown": "Non affichée actuellement",
+      "deleteTitle": "Supprimer l'annonce ?",
+      "deleteHint": "« {{title}} » ne sera plus affichée à personne."
+    },
+    "calendar": {
+      "new": "Ajouter une date",
+      "edit": "Modifier la date",
+      "hint": "Examens, congés, réunions, événements et échéances — pour tout l'établissement ou certains niveaux.",
+      "none": "Rien de prévu ce mois-ci",
+      "previous": "Mois précédent",
+      "next": "Mois suivant",
+      "today": "Ce mois-ci",
+      "kind": "Type",
+      "allKinds": "Tous les types",
+      "kinds": {
+        "exam": "Examen",
+        "holiday": "Congé",
+        "meeting": "Réunion",
+        "event": "Événement",
+        "deadline": "Échéance"
+      },
+      "titleLabel": "Intitulé",
+      "location": "Lieu",
+      "startDate": "Du",
+      "endDate": "Au",
+      "endHint": "Laissez vide pour une seule journée.",
+      "startTime": "Début",
+      "endTime": "Fin",
+      "description": "Précisions",
+      "levels": "Niveaux concernés",
+      "levelsHint": "Ne cochez rien pour tout l'établissement.",
+      "wholeSchool": "Tout l'établissement",
+      "range": "{{from}} – {{to}}",
+      "deleteTitle": "Supprimer cette date ?",
+      "deleteHint": "« {{title}} » sera retiré du calendrier."
+    },
+    "departments": {
+      "intro": "Regroupez le personnel par département et nommez un responsable pour chacun.",
+      "new": "Nouveau département",
+      "edit": "Modifier le département",
+      "hint": "Le personnel est rattaché à un département depuis sa fiche.",
+      "none": "Aucun département pour l'instant",
+      "head": "Responsable",
+      "staff": "Personnel",
+      "description": "Description",
+      "deleteTitle": "Supprimer le département ?",
+      "deleteHint": "Le personnel de « {{name}} » ne sera plus rattaché à un département."
+    },
+    "documents": {
+      "intro": "Les documents officiels de l'établissement : agréments, statuts, contrats, circulaires…"
+    },
+    "reports": {
+      "names": {
+        "enrollment": "Inscriptions",
+        "classes": "Classes",
+        "teachers": "Enseignants",
+        "attendance": "Présences",
+        "statistics": "Statistiques des élèves"
+      },
+      "descriptions": {
+        "enrollment": "Nouveaux, réinscrits et transferts, par classe et un par un",
+        "classes": "Chaque classe : professeur principal, salle, remplissage, filles et garçons, matières",
+        "teachers": "Fiches du personnel, départements et charge de chaque enseignant",
+        "attendance": "Taux par classe, élèves les plus absents, présence du personnel",
+        "statistics": "Élèves par niveau, âge, nationalité et type d'inscription"
+      },
+      "elsewhere": "Les autres rapports",
+      "links": {
+        "payments": "Rapport des paiements",
+        "outstanding": "Rapport des soldes impayés",
+        "cash": "Rapport de caisse",
+        "financial": "Rapport financier",
+        "grades": "Relevé de notes",
+        "ranking": "Classement",
+        "reportCards": "Bulletins"
+      }
+    }
+  },
+  "notifications": {
+    "title": "Notifications",
+    "subtitle": "Ce qui s'est passé dans l'établissement et qui vous concerne.",
+    "bellUnread_one": "Notifications : {{count}} non lue",
+    "bellUnread_other": "Notifications : {{count}} non lues",
+    "markAllRead": "Tout marquer comme lu",
+    "seeAll": "Voir toutes les notifications",
+    "none": "Aucune notification",
+    "unread": "non lue",
+    "show": "Afficher",
+    "all": "Toutes",
+    "unreadOnly": "Non lues ({{count}})",
+    "kinds": {
+      "announcement": "Annonces",
+      "announcement_important": "Annonces importantes",
+      "grades_submitted": "Notes soumises à validation",
+      "grades_sent_back": "Notes renvoyées ou rouvertes",
+      "grades_published": "Notes publiées",
+      "absence_alert": "Élèves trop souvent absents",
+      "payments_overdue": "Paiements en retard",
+      "exam_soon": "Examens à venir"
+    },
+    "preferences": {
+      "title": "Notifications",
+      "hint": "Choisissez ce qui vous est signalé dans l'application et par e-mail. Vous ne recevez que ce qui concerne votre travail.",
+      "kind": "Sujet",
+      "inApp": "Dans l'application",
+      "email": "Par e-mail",
+      "inAppOf": "{{kind}} dans l'application",
+      "emailOf": "{{kind}} par e-mail"
+    }
   }
 }

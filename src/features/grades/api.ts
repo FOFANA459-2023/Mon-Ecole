@@ -12,6 +12,7 @@ import type {
   GradebookDetail,
   GradebookSheet,
   GradingScale,
+  IssuedReportCard,
   Term,
 } from "@/lib/api/types";
 import { openPdf } from "@/lib/files";
@@ -142,4 +143,18 @@ export function useReportComments(classId: number, termId: number | null, enable
 /** Open report cards as a PDF: a class or one student; a term, or the year when `term` is null. */
 export function openReportCards(params: { class_group: number; term: number | null; enrollment?: number }) {
   return openPdf("/report-cards/", { ...params, term: params.term ?? undefined });
+}
+
+/** Every report card issued to a student (all years, every version), newest first. */
+export function useIssuedReportCards(studentId: number) {
+  const schoolId = useSchoolId();
+  return useQuery({
+    queryKey: [GRADES_KEY, schoolId, "issued", studentId],
+    queryFn: ({ signal }) => api.get<IssuedReportCard[]>("/issued-report-cards/", { student: studentId }, signal),
+    enabled: schoolId !== null,
+  });
+}
+
+export function openIssuedReportCard(id: number) {
+  return openPdf(`/issued-report-cards/${id}/download/`);
 }

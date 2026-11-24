@@ -12,6 +12,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { NotificationsBell } from "@/features/notifications/NotificationsBell";
 import { SearchCommand } from "@/features/search/SearchCommand";
 import { api } from "@/lib/api/client";
 import type { Language } from "@/lib/api/types";
@@ -114,6 +115,8 @@ function UserMenu() {
 
 export function Topbar({ onOpenMenu }: { onOpenMenu: () => void }) {
   const { t } = useTranslation();
+  // School members get notifications; the platform owner, who is not a member, has none.
+  const { membership } = useAuth();
   return (
     <header className="bg-background/85 supports-[backdrop-filter]:bg-background/70 sticky top-0 z-30 flex h-14 items-center gap-2 border-b px-4 backdrop-blur sm:px-6 lg:px-8">
       <Button variant="ghost" size="icon" className="lg:hidden" onClick={onOpenMenu} aria-label={t("nav.menu")}>
@@ -121,6 +124,7 @@ export function Topbar({ onOpenMenu }: { onOpenMenu: () => void }) {
       </Button>
       <SearchCommand />
       <div className="flex-1" />
+      {membership && <NotificationsBell />}
       <LanguageMenu />
       <ThemeMenu />
       <UserMenu />

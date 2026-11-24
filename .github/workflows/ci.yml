@@ -201,7 +201,8 @@ jobs:
         env:
           THROTTLE_LOGIN: 1000/min # the suite signs in many times a minute
         run: |
-          docker compose up -d --build --wait db valkey backend
+          # The worker makes the report cards printed in the background (academics journey).
+          docker compose up -d --build --wait db valkey backend worker
           docker compose exec -T backend python manage.py migrate --noinput
           docker compose exec -T backend python manage.py seed_demo --password "$E2E_PASSWORD"
       - name: Serve the app (production image)

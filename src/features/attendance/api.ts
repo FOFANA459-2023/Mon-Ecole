@@ -1,8 +1,10 @@
 import { useQuery } from "@tanstack/react-query";
 
 import { useSchoolId } from "@/features/academics/api";
-import { api } from "@/lib/api/client";
+import { api, type Paginated } from "@/lib/api/client";
 import type {
+  AbsenceAlert,
+  AbsenceAlertStatus,
   AbsenceRow,
   AttendanceStatus,
   ClassMonth,
@@ -78,6 +80,20 @@ export function useStudentAttendance(studentId: number, yearId: number | null) {
       api.get<StudentAttendance>(`/attendance/students/${studentId}/`, { academic_year: yearId ?? undefined }, signal),
     enabled: schoolId !== null,
     retry: false,
+  });
+}
+
+export function useAbsenceAlerts(params: { status: AbsenceAlertStatus; class_group: number | null; page: number }) {
+  const schoolId = useSchoolId();
+  return useQuery({
+    queryKey: [ATTENDANCE_KEY, schoolId, "alerts", params],
+    queryFn: ({ signal }) =>
+      api.get<Paginated<AbsenceAlert>>(
+        "/attendance/alerts/",
+        { ...params, class_group: params.class_group ?? undefined },
+        signal,
+      ),
+    enabled: schoolId !== null,
   });
 }
 

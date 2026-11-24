@@ -1,10 +1,10 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { keepPreviousData, useQuery, useQueryClient } from "@tanstack/react-query";
-import { Building2, MoreHorizontal, Plus, Send, ShieldOff, ShieldCheck, ArrowRight } from "lucide-react";
+import { ArrowRight, Building2, DatabaseBackup, MoreHorizontal, Plus, Send, ShieldCheck, ShieldOff } from "lucide-react";
 import { useMemo, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
-import { useNavigate } from "react-router";
+import { Link, useNavigate } from "react-router";
 import { toast } from "sonner";
 import { z } from "zod";
 
@@ -243,9 +243,16 @@ export function PlatformSchoolsPage() {
         title={t("platform.title")}
         description={t("platform.subtitle")}
         actions={
-          <Button onClick={() => setRegistering(true)}>
-            <Plus /> {t("platform.registerTitle")}
-          </Button>
+          <>
+            <Button variant="outline" asChild>
+              <Link to="/platform/backups">
+                <DatabaseBackup /> {t("platform.backups.title")}
+              </Link>
+            </Button>
+            <Button onClick={() => setRegistering(true)}>
+              <Plus /> {t("platform.registerTitle")}
+            </Button>
+          </>
         }
       />
       <div className="mb-4 max-w-md">

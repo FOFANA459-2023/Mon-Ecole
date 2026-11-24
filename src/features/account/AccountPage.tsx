@@ -13,6 +13,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { ChangePasswordForm } from "@/features/auth/ChangePasswordForm";
 import { api } from "@/lib/api/client";
 import type { Me } from "@/lib/api/types";
+import { PreferencesCard } from "@/features/notifications/PreferencesCard";
 import { useAuth } from "@/lib/auth/context";
 import { applyApiErrors } from "@/lib/forms";
 
@@ -20,7 +21,7 @@ const FIELDS = ["first_name", "last_name", "phone", "language"] as const;
 
 export function AccountPage() {
   const { t, i18n } = useTranslation();
-  const { user, refreshUser } = useAuth();
+  const { user, membership, refreshUser } = useAuth();
 
   const schema = useMemo(
     () =>
@@ -113,6 +114,11 @@ export function AccountPage() {
             <ChangePasswordForm />
           </CardContent>
         </Card>
+        {membership && (
+          <div className="lg:col-span-2">
+            <PreferencesCard />
+          </div>
+        )}
       </div>
     </>
   );

@@ -53,7 +53,8 @@
     "name": "Name",
     "total": "Total",
     "required": "required",
-    "photoHint": "PNG, JPEG or WebP photo — 2 MB maximum."
+    "photoHint": "PNG, JPEG or WebP photo — 2 MB maximum.",
+    "deleted": "Deleted"
   },
   "languages": {
     "fr": "Français",
@@ -154,7 +155,9 @@
       "teachers": "Teachers",
       "collected": "Revenue collected",
       "outstanding": "Outstanding balance",
-      "presentToday": "Present today"
+      "presentToday": "Present today",
+      "expected": "Expected revenue",
+      "overdue": "Overdue"
     },
     "availableIn": "Available in phase {{phase}}",
     "setupTitle": "Getting started",
@@ -180,7 +183,61 @@
     "staffTotal": "{{count}} staff members in total",
     "noYear": "No school year is set up yet: figures will appear once the year and classes are created.",
     "yearLabel": "Year {{name}}",
-    "attendanceCaption": "{{absent}} absent · {{taken}} of {{classes}} registers taken"
+    "attendanceCaption": "{{absent}} absent · {{late}} late · {{taken}} of {{classes}} registers taken",
+    "absenceAlerts_one": "{{count}} student is absent too often and needs following up.",
+    "absenceAlerts_other": "{{count}} students are absent too often and need following up.",
+    "followUp": "See the alerts",
+    "collectionRate": "{{rate}} of the expected revenue",
+    "studentsOwing_one": "{{count}} student with a balance due",
+    "studentsOwing_other": "{{count}} students with a balance due",
+    "studentsLate_one": "{{count}} student behind with payments",
+    "studentsLate_other": "{{count}} students behind with payments",
+    "filters": {
+      "label": "Dashboard filters",
+      "payment": "Payment status",
+      "allPayments": "All payment statuses"
+    },
+    "alerts": {
+      "title": "Alerts",
+      "overdue_one": "{{count}} student is behind with payments ({{amount}} overdue).",
+      "overdue_other": "{{count}} students are behind with payments ({{amount}} overdue).",
+      "deadlines_one": "{{count}} invoice has an installment due in the next {{days}} days ({{amount}}).",
+      "deadlines_other": "{{count}} invoices have an installment due in the next {{days}} days ({{amount}}).",
+      "exam": "Exam: {{title}} — {{date}}",
+      "missingGrades_one": "{{count}} subject not published yet for {{term}} ({{submitted}} waiting for review); the term ends on {{date}}.",
+      "missingGrades_other": "{{count}} subjects not published yet for {{term}} ({{submitted}} waiting for review); the term ends on {{date}}.",
+      "seeInvoices": "Invoices",
+      "seeMarks": "Marks",
+      "calendar": "Calendar"
+    },
+    "charts": {
+      "showTable": "Show as a table",
+      "showChart": "Show as a chart",
+      "revenueByMonth": "Payments received by month",
+      "revenueByMonthHint": "Every payment recorded, month by month, over the school year.",
+      "month": "Month",
+      "amount": "Amount",
+      "students": "Students",
+      "rate": "Attendance rate",
+      "passRate": "Pass rate",
+      "noPayments": "No payment recorded this year yet.",
+      "outstandingByClass": "Still to collect",
+      "collectedVsOutstanding": "Collected and still to collect, then the balance due by class.",
+      "collected": "Collected",
+      "outstanding": "Still to collect",
+      "nothingOwed": "Nothing left to collect.",
+      "attendance": "Attendance",
+      "attendanceHint": "{{rate}} present (or late), {{from}} – {{to}}.",
+      "attendanceDetail": "{{absent}} absent · {{late}} late",
+      "noRegisters": "No register taken over this period.",
+      "performance": "Results — {{term}}",
+      "performanceHint": "{{rate}} reached the pass mark · {{counted}} students with published marks.",
+      "belowPass": "Below {{mark}}",
+      "passedNoHonours": "Passed",
+      "noResults": "No marks published for this term yet.",
+      "byClass": "Students by class",
+      "noClass": "No class"
+    }
   },
   "modules": {
     "phase": "Phase {{phase}}",
@@ -238,7 +295,22 @@
       "idleTimeout": "Automatic sign-out after inactivity (minutes)",
       "aiEnabled": "Enable AI features",
       "aiEnabledHint": "Assistant and suggested report-card comments (anonymised data).",
-      "readOnlyNotice": "Only administrators can change this information."
+      "readOnlyNotice": "Only administrators can change this information.",
+      "attendance": "Attendance",
+      "absenceThreshold": "Absences that raise an alert",
+      "absenceThresholdHint": "Unexcused absences within the period below. 0 = no alerts.",
+      "absenceDays": "Period (days)",
+      "parents": "Emails to parents",
+      "parentsHint": "Sent to the parent recorded as contact, when they have an email address. Each email counts against the school's monthly email allowance.",
+      "parentPayments": "Payment reminders",
+      "parentPaymentsHint": "Three days before an installment is due, and when it becomes overdue.",
+      "parentAbsences": "Absences",
+      "parentAbsencesHint": "The evening of a day their child was marked absent (not excused).",
+      "backups": "Backups",
+      "lastBackup": "Last backup: {{when}}.",
+      "noBackup": "No backup made yet.",
+      "backupFailing": "The latest backup failed: the platform team has been told in its logs.",
+      "backupPolicy": "All data is backed up every {{hours}} hours to private, encrypted storage and kept {{days}} days."
     },
     "users": {
       "title": "Users",
@@ -555,7 +627,9 @@
     "editTeaching": "Edit teaching",
     "teachingTitle": "Teaching — {{name}}",
     "teachingHint": "The class they lead and the subjects they teach this year. Another teacher already on one of these is replaced.",
-    "teachingSaved": "Teaching saved"
+    "teachingSaved": "Teaching saved",
+    "department": "Department",
+    "allDepartments": "All departments"
   },
   "students": {
     "title": "Students",
@@ -1020,6 +1094,29 @@
       "CI": "Côte d'Ivoire",
       "SN": "Senegal",
       "ML": "Mali"
+    },
+    "backups": {
+      "title": "Backups",
+      "subtitle": "The whole database (every school), every 4 hours on its own or now. Files are kept 30 days.",
+      "now": "Back up now",
+      "running": "Backing up…",
+      "started": "Backup started",
+      "none": "No backup yet",
+      "when": "Started",
+      "kind": "Kind",
+      "size": "Size",
+      "download": "Download the backup",
+      "kinds": {
+        "automatic": "Automatic",
+        "manual": "Manual"
+      },
+      "statuses": {
+        "running": "Running",
+        "done": "Done",
+        "failed": "Failed",
+        "expired": "Expired (file deleted)"
+      },
+      "restoreHint": "Restoring is done outside the app, following the runbook (docs/runbooks/restore.md in the backend repository): it replaces every school's data."
     }
   },
   "cash": {
@@ -1148,7 +1245,9 @@
     },
     "tabs": {
       "marks": "Marks",
-      "rules": "Grading rules & assessments"
+      "rules": "Grading rules & assessments",
+      "classes": "Class results",
+      "reports": "Reports"
     },
     "steps": {
       "submit": "Submit for review",
@@ -1342,7 +1441,53 @@
       "rankOf": "{{rank}} of {{of}}",
       "printCard": "Print the report card — {{period}}"
     },
-    "student": "Student"
+    "student": "Student",
+    "bulk": {
+      "menu": "Several classes, in the background…",
+      "title": "Print report cards",
+      "hint": "Report cards are made in the background: one PDF per class, in a ZIP file when there are several classes. Cards already issued and unchanged are reused.",
+      "scope": "Classes",
+      "thisClass": "This class",
+      "level": "Every class of a level",
+      "school": "The whole school",
+      "period": "Period",
+      "start": "Make the report cards",
+      "queued": "Waiting for its turn…",
+      "progress": "Progress",
+      "progressCount": "{{done}} of {{total}} report cards",
+      "done_one": "{{count}} report card ready ({{fresh}} newly issued).",
+      "done_other": "{{count}} report cards ready ({{fresh}} newly issued).",
+      "failed": "The report cards could not be made. Try again; if it fails again, contact support.",
+      "download": "Download"
+    },
+    "issued": {
+      "title": "Issued report cards",
+      "hint": "Every report card handed out is kept. When something changes on a card, a new version is issued and the old one stays here.",
+      "period": "Period",
+      "average": "Average",
+      "issued": "Issued",
+      "rank": "Rank {{rank}}",
+      "version": "Version {{version}}",
+      "replaced": "replaced",
+      "open": "Open the report card — {{period}}, version {{version}}"
+    },
+    "reports": {
+      "subtitle": "Grade report, ranking and results by subject, from published marks — on screen, PDF, Excel or CSV.",
+      "names": {
+        "grades": "Grade report",
+        "ranking": "Ranking",
+        "subjects": "Results by subject"
+      },
+      "descriptions": {
+        "grades": "One class: every student's marks, average, rank and decision",
+        "ranking": "Classes compared, and students ranked by class or by level",
+        "subjects": "Each subject of each class, and what is not published yet"
+      },
+      "period": "Period",
+      "thisTerm": "This term",
+      "allLevels": "All levels",
+      "chooseClass": "Choose a class"
+    }
   },
   "attendance": {
     "title": "Attendance",
@@ -1350,7 +1495,8 @@
     "tabs": {
       "registers": "Registers",
       "reports": "Reports",
-      "staff": "Staff"
+      "staff": "Staff",
+      "alerts": "Alerts"
     },
     "day": "Day",
     "today": "today",
@@ -1432,6 +1578,173 @@
     "markRestPresent_one": "Mark the remaining student present",
     "markRestPresent_other": "Mark the {{count}} remaining students present",
     "staffToMark_one": "{{count}} person not marked for this day.",
-    "staffToMark_other": "{{count}} people not marked for this day."
+    "staffToMark_other": "{{count}} people not marked for this day.",
+    "alerts": {
+      "intro": "Students who reached the school's number of unexcused absences within its period. Alerts are raised every evening from the registers; close one once the family has been contacted.",
+      "show": "Show",
+      "statuses": {
+        "open": "To follow up",
+        "followed_up": "Followed up",
+        "cleared": "No longer applies"
+      },
+      "none": {
+        "open": "No student to follow up",
+        "followed_up": "No alert followed up yet",
+        "cleared": "No alert cleared"
+      },
+      "absences": "Absences",
+      "period": "Between",
+      "between": "{{from}} – {{to}}",
+      "raised": "Raised on",
+      "closed": "Closed",
+      "followUp": "Follow up",
+      "followUpTitle": "Follow up — {{name}}",
+      "followUpHint_one": "{{count}} unexcused absence. Say what was done: a call to the family, a meeting, a reason given…",
+      "followUpHint_other": "{{count}} unexcused absences. Say what was done: a call to the family, a meeting, a reason given…",
+      "note": "What was done",
+      "notePlaceholder": "Called the mother on 15/10: the child was ill.",
+      "markFollowedUp": "Mark as followed up"
+    }
+  },
+  "administration": {
+    "title": "Administration",
+    "subtitle": "Announcements to staff, the school calendar, departments, official documents and the school reports.",
+    "tabs": {
+      "announcements": "Announcements",
+      "calendar": "Calendar",
+      "departments": "Departments",
+      "documents": "Official documents",
+      "reports": "Reports"
+    },
+    "announcements": {
+      "new": "New announcement",
+      "edit": "Edit the announcement",
+      "hint": "Shown to the staff it is meant for, from its publication until its end date.",
+      "none": "No announcement",
+      "titleLabel": "Title",
+      "body": "Message",
+      "priority": "Priority",
+      "priorities": {
+        "normal": "Normal",
+        "important": "Important"
+      },
+      "important": "Important",
+      "pin": "Keep at the top",
+      "pinned": "Pinned",
+      "publishAt": "Published from",
+      "expiresOn": "Shown until",
+      "expiresHint": "Leave empty to keep it.",
+      "audience": "Who reads it",
+      "audienceHint": "Tick none for everyone in the school.",
+      "everyone": "Everyone",
+      "notShown": "Not shown now",
+      "deleteTitle": "Delete the announcement?",
+      "deleteHint": "“{{title}}” will no longer be shown to anyone."
+    },
+    "calendar": {
+      "new": "Add a date",
+      "edit": "Edit the date",
+      "hint": "Exams, holidays, meetings, events and deadlines — for the whole school or some levels.",
+      "none": "Nothing planned this month",
+      "previous": "Previous month",
+      "next": "Next month",
+      "today": "This month",
+      "kind": "Kind",
+      "allKinds": "All kinds",
+      "kinds": {
+        "exam": "Exam",
+        "holiday": "Holiday",
+        "meeting": "Meeting",
+        "event": "School event",
+        "deadline": "Deadline"
+      },
+      "titleLabel": "Title",
+      "location": "Place",
+      "startDate": "From",
+      "endDate": "To",
+      "endHint": "Leave empty for one day.",
+      "startTime": "Starts at",
+      "endTime": "Ends at",
+      "description": "Details",
+      "levels": "Levels concerned",
+      "levelsHint": "Tick none for the whole school.",
+      "wholeSchool": "Whole school",
+      "range": "{{from}} – {{to}}",
+      "deleteTitle": "Delete this date?",
+      "deleteHint": "“{{title}}” will be removed from the calendar."
+    },
+    "departments": {
+      "intro": "Group staff by department and name a head for each.",
+      "new": "New department",
+      "edit": "Edit the department",
+      "hint": "Staff are put in a department from their file.",
+      "none": "No department yet",
+      "head": "Head of department",
+      "staff": "Staff",
+      "description": "Description",
+      "deleteTitle": "Delete the department?",
+      "deleteHint": "Staff of “{{name}}” will no longer be in a department."
+    },
+    "documents": {
+      "intro": "The school's official documents: approvals, statutes, contracts, circulars…"
+    },
+    "reports": {
+      "names": {
+        "enrollment": "Enrolment",
+        "classes": "Classes",
+        "teachers": "Teachers",
+        "attendance": "Attendance",
+        "statistics": "Student statistics"
+      },
+      "descriptions": {
+        "enrollment": "New, re-enrolled and transferred students, by class and one by one",
+        "classes": "Each class: teacher, room, fill rate, girls and boys, subjects",
+        "teachers": "Staff details, departments and each teacher's load",
+        "attendance": "Rates by class, students absent most, staff presence",
+        "statistics": "Students by level, age, nationality and type of enrolment"
+      },
+      "elsewhere": "The other reports",
+      "links": {
+        "payments": "Payments report",
+        "outstanding": "Outstanding balances report",
+        "cash": "Cash register report",
+        "financial": "Financial report",
+        "grades": "Grade report",
+        "ranking": "Ranking report",
+        "reportCards": "Report cards"
+      }
+    }
+  },
+  "notifications": {
+    "title": "Notifications",
+    "subtitle": "What happened in the school that concerns you.",
+    "bellUnread_one": "Notifications: {{count}} unread",
+    "bellUnread_other": "Notifications: {{count}} unread",
+    "markAllRead": "Mark all as read",
+    "seeAll": "See all notifications",
+    "none": "No notifications",
+    "unread": "unread",
+    "show": "Show",
+    "all": "All",
+    "unreadOnly": "Unread ({{count}})",
+    "kinds": {
+      "announcement": "Announcements",
+      "announcement_important": "Important announcements",
+      "grades_submitted": "Marks submitted for review",
+      "grades_sent_back": "Marks sent back or reopened",
+      "grades_published": "Marks published",
+      "absence_alert": "Students absent too often",
+      "payments_overdue": "Payments overdue",
+      "exam_soon": "Upcoming exams"
+    },
+    "preferences": {
+      "title": "Notifications",
+      "hint": "Choose what you are told of in the app and by email. You only receive what concerns your work.",
+      "kind": "About",
+      "inApp": "In the app",
+      "email": "By email",
+      "inAppOf": "{{kind}} in the app",
+      "emailOf": "{{kind}} by email"
+    }
   }
 }

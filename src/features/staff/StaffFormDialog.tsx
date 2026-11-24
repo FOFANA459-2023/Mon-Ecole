@@ -12,6 +12,7 @@ import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
+import { useDepartments } from "@/features/administration/api";
 import { useRoles } from "@/features/settings/api";
 import { api } from "@/lib/api/client";
 import type { Staff } from "@/lib/api/types";
@@ -35,6 +36,7 @@ const FIELDS = [
   "qualification",
   "specialization",
   "employment_date",
+  "department",
   "role_id",
 ] as const;
 
@@ -59,6 +61,7 @@ export function StaffFormDialog({ staff, onClose }: { staff?: Staff; onClose: (s
   const adding = !staff;
   const roles = (useRoles().data ?? []).filter((r) => r.key !== DIRECTOR && r.key !== "parent");
   const [teaching, setTeaching] = useState<Teaching>(emptyTeaching);
+  const departments = useDepartments().data ?? [];
   const schema = useMemo(
     () =>
       z.object({
@@ -78,6 +81,7 @@ export function StaffFormDialog({ staff, onClose }: { staff?: Staff; onClose: (s
         qualification: z.string().trim().max(150),
         specialization: z.string().trim().max(150),
         employment_date: z.string().nullable(),
+        department: z.number().nullable(),
       }),
     [t, adding],
   );
@@ -98,6 +102,7 @@ export function StaffFormDialog({ staff, onClose }: { staff?: Staff; onClose: (s
       qualification: staff?.qualification ?? "",
       specialization: staff?.specialization ?? "",
       employment_date: staff?.employment_date ?? null,
+      department: staff?.department ?? null,
       role_id: undefined,
     },
   });
@@ -210,6 +215,21 @@ export function StaffFormDialog({ staff, onClose }: { staff?: Staff; onClose: (s
           {text("qualification", t("staff.qualification"))}
           {text("specialization", t("staff.specialization"))}
           {text("employment_date", t("staff.employmentDate"), { type: "date" })}
+          <Field label={t("staff.department")} htmlFor="st-department">
+            <Controller
+              control={form.control}
+              name="department"
+              render={({ field }) => (
+                <OptionSelect
+                  id="st-department"
+                  value={field.value !== null ? String(field.value) : null}
+                  onChange={(v) => field.onChange(v ? Number(v) : null)}
+                  allLabel={t("common.none")}
+                  options={departments.map((d) => ({ value: String(d.id), label: d.name }))}
+                />
+              )}
+            />
+          </Field>
           {!staff && (
             <Field
               label={t("staff.number")}

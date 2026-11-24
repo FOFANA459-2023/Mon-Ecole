@@ -22,6 +22,7 @@ import { localeFor } from "@/lib/format";
 import { applyApiErrors, errorMessage } from "@/lib/forms";
 
 import { keys, useSchool } from "./api";
+import { BackupStatusCard } from "./BackupStatusCard";
 
 const COUNTRIES = ["GN", "LR", "SL", "CI", "SN", "ML"];
 const TIMEZONES = [
@@ -54,6 +55,10 @@ const FIELD_NAMES = [
   "settings.invoice_prefix",
   "settings.receipt_prefix",
   "settings.ai_enabled",
+  "settings.absence_alert_threshold",
+  "settings.absence_alert_days",
+  "settings.parent_email_payments",
+  "settings.parent_email_absences",
 ] as const;
 
 function useSchoolSchema() {
@@ -88,6 +93,18 @@ function useSchoolSchema() {
         invoice_prefix: prefix,
         receipt_prefix: prefix,
         ai_enabled: z.boolean(),
+        absence_alert_threshold: z
+          .number(t("validation.required"))
+          .int()
+          .min(0, t("validation.range", { min: 0, max: 60 }))
+          .max(60, t("validation.range", { min: 0, max: 60 })),
+        absence_alert_days: z
+          .number(t("validation.required"))
+          .int()
+          .min(7, t("validation.range", { min: 7, max: 120 }))
+          .max(120, t("validation.range", { min: 7, max: 120 })),
+        parent_email_payments: z.boolean(),
+        parent_email_absences: z.boolean(),
       }),
     });
   }, [t]);
@@ -115,6 +132,10 @@ function toValues(school: School): Values {
       invoice_prefix: s.invoice_prefix ?? "INV",
       receipt_prefix: s.receipt_prefix ?? "REC",
       ai_enabled: s.ai_enabled ?? false,
+      absence_alert_threshold: s.absence_alert_threshold ?? 3,
+      absence_alert_days: s.absence_alert_days ?? 30,
+      parent_email_payments: s.parent_email_payments ?? false,
+      parent_email_absences: s.parent_email_absences ?? false,
     },
   };
 }
@@ -376,6 +397,62 @@ export function SchoolProfilePage() {
         ))}
       </Section>
 
+      <Section title={t("settings.school.attendance")}>
+        <Field
+          label={t("settings.school.absenceThreshold")}
+          htmlFor="absence_alert_threshold"
+          error={errors.settings?.absence_alert_threshold?.message}
+          hint={t("settings.school.absenceThresholdHint")}
+        >
+          <Input
+            id="absence_alert_threshold"
+            type="number"
+            min={0}
+            max={60}
+            {...form.register("settings.absence_alert_threshold", { valueAsNumber: true })}
+          />
+        </Field>
+        <Field
+          label={t("settings.school.absenceDays")}
+          htmlFor="absence_alert_days"
+          error={errors.settings?.absence_alert_days?.message}
+        >
+          <Input
+            id="absence_alert_days"
+            type="number"
+            min={7}
+            max={120}
+            {...form.register("settings.absence_alert_days", { valueAsNumber: true })}
+          />
+        </Field>
+      </Section>
+
+      <Section title={t("settings.school.parents")}>
+        <p className="text-muted-foreground text-sm sm:col-span-2">{t("settings.school.parentsHint")}</p>
+        {(
+          [
+            ["parent_email_payments", "parentPayments"],
+            ["parent_email_absences", "parentAbsences"],
+          ] as const
+        ).map(([name, label]) => (
+          <div key={name} className="flex items-start justify-between gap-4 rounded-lg border p-3">
+            <div>
+              <label htmlFor={name} className="text-sm font-medium">
+                {t(`settings.school.${label}`)}
+              </label>
+              <p className="text-muted-foreground text-xs">{t(`settings.school.${label}Hint`)}</p>
+            </div>
+            <Controller
+              control={form.control}
+              name={`settings.${name}`}
+              render={({ field }) => (
+                <Switch id={name} checked={field.value} onCheckedChange={field.onChange} disabled={field.disabled} />
+              )}
+            />
+          </div>
+        ))}
+      </Section>
+
       <Section title={t("settings.school.security")}>
         <Field
           label={t("settings.school.idleTimeout")}
@@ -406,6 +483,8 @@ export function SchoolProfilePage() {
           />
         </div>
       </Section>
+
+      {!readOnly && <BackupStatusCard />}
 
       {!readOnly && (
         <div className="bg-background/90 sticky bottom-0 -mx-1 flex justify-end gap-2 border-t px-1 py-3 backdrop-blur">

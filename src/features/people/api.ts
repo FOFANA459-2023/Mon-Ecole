@@ -73,7 +73,7 @@ export function useStaffMember(id: number | undefined) {
   });
 }
 
-export function useDocuments(ownerType: "student" | "staff", ownerId: number | undefined) {
+export function useDocuments(ownerType: "student" | "staff" | "school", ownerId: number | undefined) {
   const schoolId = useSchoolId();
   return useQuery({
     queryKey: ["documents", schoolId, ownerType, ownerId],

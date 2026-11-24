@@ -135,6 +135,43 @@ const phase3Routes: RouteObject[] = [
   ]),
 ];
 
+const phase5Routes: RouteObject[] = [
+  gated(access("administration"), [
+    {
+      path: "administration",
+      lazy: () =>
+        import("@/features/administration/AdministrationLayout").then((m) => ({ Component: m.AdministrationLayout })),
+      children: [
+        {
+          index: true,
+          lazy: () =>
+            import("@/features/administration/AnnouncementsPage").then((m) => ({ Component: m.AnnouncementsPage })),
+        },
+        {
+          path: "calendar",
+          lazy: () => import("@/features/administration/CalendarPage").then((m) => ({ Component: m.CalendarPage })),
+        },
+        {
+          path: "departments",
+          lazy: () =>
+            import("@/features/administration/DepartmentsPage").then((m) => ({ Component: m.DepartmentsPage })),
+        },
+        {
+          path: "documents",
+          lazy: () =>
+            import("@/features/administration/SchoolDocumentsPage").then((m) => ({ Component: m.SchoolDocumentsPage })),
+        },
+        gated(["reports.view"], [
+          {
+            path: "reports",
+            lazy: () => import("@/features/administration/ReportsPage").then((m) => ({ Component: m.ReportsPage })),
+          },
+        ]),
+      ],
+    },
+  ]),
+];
+
 const phase4Routes: RouteObject[] = [
   gated(access("attendance"), [
     {
@@ -153,6 +190,11 @@ const phase4Routes: RouteObject[] = [
               import("@/features/attendance/AttendanceReportsPage").then((m) => ({
                 Component: m.AttendanceReportsPage,
               })),
+          },
+          {
+            path: "alerts",
+            lazy: () =>
+              import("@/features/attendance/AbsenceAlertsPage").then((m) => ({ Component: m.AbsenceAlertsPage })),
           },
         ]),
         gated(["attendance.staff"], [
@@ -185,6 +227,10 @@ const phase4Routes: RouteObject[] = [
     {
       path: "results",
       lazy: () => import("@/features/grades/ClassResultsPage").then((m) => ({ Component: m.ClassResultsPage })),
+    },
+    {
+      path: "results/reports",
+      lazy: () => import("@/features/grades/AcademicReportsPage").then((m) => ({ Component: m.AcademicReportsPage })),
     },
   ]),
 ];
@@ -219,6 +265,7 @@ const pages: RouteObject[] = [
           ...phase2Routes,
           ...phase3Routes,
           ...phase4Routes,
+          ...phase5Routes,
           {
             element: <RequirePlatformOwner />,
             children: [
@@ -227,12 +274,22 @@ const pages: RouteObject[] = [
                 lazy: () =>
                   import("@/features/platform/PlatformSchoolsPage").then((m) => ({ Component: m.PlatformSchoolsPage })),
               },
+              {
+                path: "platform/backups",
+                lazy: () =>
+                  import("@/features/platform/PlatformBackupsPage").then((m) => ({ Component: m.PlatformBackupsPage })),
+              },
             ],
           },
           ...comingSoonRoutes,
           {
             path: "account",
             lazy: () => import("@/features/account/AccountPage").then((m) => ({ Component: m.AccountPage })),
+          },
+          {
+            path: "notifications",
+            lazy: () =>
+              import("@/features/notifications/NotificationsPage").then((m) => ({ Component: m.NotificationsPage })),
           },
           gated(access("settings"), [
             {
