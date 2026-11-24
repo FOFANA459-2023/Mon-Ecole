@@ -40,6 +40,8 @@ import type { AcademicYear, Level, Term } from "@/lib/api/types";
 import { useAuth } from "@/lib/auth/context";
 import { applyApiErrors, errorMessage } from "@/lib/forms";
 
+import { StartYearDialog } from "./StartYearDialog";
+
 const CYCLES = ["preschool", "primary", "lower_secondary", "upper_secondary", "other"] as const;
 
 function useRefresh() {
@@ -349,6 +351,7 @@ type DialogState =
 
 export function AcademicSettingsPage() {
   const { t } = useTranslation();
+  const queryClient = useQueryClient();
   const { can } = useAuth();
   const canEdit = can("settings.manage");
   const years = useAcademicYears();
@@ -356,15 +359,28 @@ export function AcademicSettingsPage() {
   const refresh = useRefresh();
   const formatDate = useFormatDate();
   const [dialog, setDialog] = useState<DialogState>(null);
+  const [starting, setStarting] = useState<AcademicYear | null>(null);
 
-  const setCurrent = async (year: AcademicYear) => {
+  const setCurrent = async (year: AcademicYear, continuingStaffIds?: number[]) => {
     try {
-      await api.post(`/academic-years/${year.id}/set-current/`);
+      await api.post(
+        `/academic-years/${year.id}/set-current/`,
+        continuingStaffIds ? { continuing_staff_ids: continuingStaffIds } : {},
+      );
       await refresh();
+      await queryClient.invalidateQueries({ queryKey: ["staff"] });
       toast.success(t("academics.currentSet"));
     } catch (error) {
       toast.error(errorMessage(error, t));
     }
+  };
+
+  /** Moving on to a later year renews the team (if the user manages staff); going back does not. */
+  const makeCurrent = (year: AcademicYear) => {
+    const current = years.data?.find((y) => y.is_current);
+    const movingOn = !current || year.start_date > current.start_date;
+    if (movingOn && can("staff.archive")) setStarting(year);
+    else void setCurrent(year);
   };
 
   const remove = async (path: string) => {
@@ -426,7 +442,7 @@ export function AcademicSettingsPage() {
                     </DropdownMenuTrigger>
                     <DropdownMenuContent align="end">
                       {!year.is_current && (
-                        <DropdownMenuItem onSelect={() => void setCurrent(year)}>
+                        <DropdownMenuItem onSelect={() => makeCurrent(year)}>
                           <CheckCircle2 /> {t("academics.setCurrent")}
                         </DropdownMenuItem>
                       )}
@@ -567,6 +583,13 @@ export function AcademicSettingsPage() {
           confirmLabel={t("common.delete")}
           destructive
           onConfirm={() => remove(dialog.path)}
+        />
+      )}
+      {starting && (
+        <StartYearDialog
+          year={starting}
+          onClose={() => setStarting(null)}
+          onStart={(continuingStaffIds) => setCurrent(starting, continuingStaffIds)}
         />
       )}
     </div>

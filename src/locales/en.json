@@ -329,15 +329,18 @@
       "editTitle": "Edit user",
       "resendInvite": "Resend invitation",
       "inviteSent": "Invitation sent",
-      "deactivate": "Remove access",
+      "deactivate": "Suspend",
       "reactivate": "Restore access",
-      "deactivated": "Access removed",
+      "deactivated": "Access suspended",
       "reactivated": "Access restored",
-      "confirmDeactivate": "Remove {{name}}'s access to this school? Their history is kept.",
+      "confirmDeactivate": "Suspend {{name}}? They can no longer sign in to this school until you restore their access. Nothing is deleted.",
       "empty": "No users match your search.",
       "filterStatus": "Status",
       "inviteExplained": "They will receive an email with a link to confirm their address and a temporary password (valid 7 days). At first sign-in they choose their own password.",
-      "directorLocked": "Only the platform owner can change a Director's roles."
+      "directorLocked": "Only the platform owner can change a Director's roles.",
+      "remove": "Remove from the school",
+      "removed": "{{name}} was removed from the school",
+      "confirmRemove": "Remove {{name}} from this school for good? Their account ends here and their staff record is archived; everything they did stays on record. To bring them back later, add them again."
     },
     "roles": {
       "title": "Roles and permissions",
@@ -414,7 +417,8 @@
     "invite_expired": "Invitation expired",
     "posted": "Recorded",
     "reversed": "Reversed",
-    "recorded": "Recorded"
+    "recorded": "Recorded",
+    "deleting": "Being deleted"
   },
   "gender": {
     "M": "Male",
@@ -503,7 +507,20 @@
     "noYearWarning": "No school year has been set up yet.",
     "setupLink": "Set up the school year",
     "yearStatus": "Year status",
-    "confirmDeleteLevel": "Delete the level {{name}}?"
+    "confirmDeleteLevel": "Delete the level {{name}}?",
+    "startYear": {
+      "title": "Start {{year}}: who continues?",
+      "hint": "A new school year starts with an up-to-date team. Untick the teachers and staff who are not coming back: they are archived as having left and can no longer sign in. Their past registers, marks and payments stay on record.",
+      "summary": "{{stay}} continue · {{leave}} leave",
+      "everyoneStays": "Everyone continues",
+      "nobodyStays": "Untick everyone",
+      "noStaff": "No active staff yet.",
+      "directorStays": "Director · always continues",
+      "leaves": "Leaves",
+      "newcomers": "New teachers, administrators or accountants for this year? Add them in",
+      "goToStaff": "Teachers & staff",
+      "confirm": "Start {{year}}"
+    }
   },
   "classes": {
     "title": "Classes",
@@ -595,7 +612,7 @@
     "restore": "Restore",
     "archived": "Record archived",
     "restored": "Record restored",
-    "confirmArchive": "Archive {{name}}'s record? Their history is kept.",
+    "confirmArchive": "Archive {{name}}'s record? They have left the school: their sign-in to this school is suspended. Their history is kept, and restoring the record restores their access.",
     "assignments": "Assignments this year",
     "homeroom": "Class teacher of",
     "teaches": "Teaches",
@@ -1054,7 +1071,7 @@
   },
   "platform": {
     "title": "All schools",
-    "subtitle": "Every school on Mon École. Register a school with its Director, open any school, or suspend one.",
+    "subtitle": "Every school on Mon École. Register a school, manage its Directors, open it to look around, suspend or delete it. Teachers and staff are managed by each school's Director.",
     "registerTitle": "Register a school",
     "registerHint": "The Director receives an invitation email with a verification link and a temporary password.",
     "register": "Register the school",
@@ -1117,6 +1134,34 @@
         "expired": "Expired (file deleted)"
       },
       "restoreHint": "Restoring is done outside the app, following the runbook (docs/runbooks/restore.md in the backend repository): it replaces every school's data."
+    },
+    "directors": {
+      "menu": "Directors / Principals",
+      "title": "Directors of {{school}}",
+      "hint": "Directors run their school: they add, suspend and remove its teachers and staff. You manage the Directors.",
+      "none": "This school has no Director.",
+      "add": "Add a Director",
+      "invite": "Send the invitation",
+      "added": "Invitation sent to {{email}}",
+      "suspend": "Suspend",
+      "restore": "Restore",
+      "remove": "Remove the Director",
+      "removeOf": "Remove {{name}}",
+      "confirmRemove": "Remove {{name}} as Director of {{school}}? Their access to the school ends; everything they did stays on record. A school always keeps at least one active Director.",
+      "done": {
+        "suspend": "{{name}} suspended",
+        "restore": "{{name}}'s access restored",
+        "remove": "{{name}} removed from the school"
+      }
+    },
+    "delete": {
+      "menu": "Delete the school",
+      "title": "Delete {{name}}?",
+      "hint": "Every record of this school is erased for good: {{students}} students, {{users}} users with access, finances, marks, attendance and documents. This cannot be undone. People's accounts stay if they belong to other schools.",
+      "typeCode": "Type the school's code ({{code}}) to confirm",
+      "confirm": "Delete for good",
+      "deleting": "Deleting…",
+      "started": "{{name}} is being deleted. It disappears from the list when done."
     }
   },
   "cash": {

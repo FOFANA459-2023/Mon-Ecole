@@ -1,6 +1,17 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { keepPreviousData, useQuery, useQueryClient } from "@tanstack/react-query";
-import { ArrowRight, Building2, DatabaseBackup, MoreHorizontal, Plus, Send, ShieldCheck, ShieldOff } from "lucide-react";
+import {
+  ArrowRight,
+  Building2,
+  DatabaseBackup,
+  MoreHorizontal,
+  Plus,
+  Send,
+  ShieldCheck,
+  ShieldOff,
+  Trash2,
+  UserCog,
+} from "lucide-react";
 import { useMemo, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
@@ -19,6 +30,7 @@ import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
+  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Input } from "@/components/ui/input";
@@ -28,6 +40,8 @@ import type { Language, PlatformSchool } from "@/lib/api/types";
 import { useAuth } from "@/lib/auth/context";
 import { applyApiErrors, errorMessage } from "@/lib/forms";
 import { useDebouncedValue } from "@/lib/useDebouncedValue";
+
+import { DeleteSchoolDialog, DirectorsDialog } from "./PlatformSchoolDialogs";
 
 /** Countries the schools are in, with the defaults a new school starts from (all editable). */
 const COUNTRIES = [
@@ -47,6 +61,8 @@ function usePlatformSchools(search: string) {
     queryKey: ["platform-schools", search],
     queryFn: ({ signal }) => api.get<Paginated<PlatformSchool>>("/platform/schools/", { search, page_size: 100 }, signal),
     placeholderData: keepPreviousData,
+    // A school being deleted disappears on its own: look again until it has.
+    refetchInterval: (query) => (query.state.data?.results.some((s) => s.status === "deleting") ? 5000 : false),
   });
 }
 
@@ -221,6 +237,9 @@ export function PlatformSchoolsPage() {
   const schools = usePlatformSchools(search);
   const [registering, setRegistering] = useState(false);
   const [suspending, setSuspending] = useState<PlatformSchool | null>(null);
+  const [directorsOf, setDirectorsOf] = useState<number | null>(null);
+  const [deleting, setDeleting] = useState<PlatformSchool | null>(null);
+  const directorsSchool = schools.data?.results.find((s) => s.id === directorsOf);
 
   const run = async (action: () => Promise<unknown>, success: string) => {
     try {
@@ -304,7 +323,11 @@ export function PlatformSchoolsPage() {
                                 {d.full_name}
                                 <span className="text-muted-foreground block text-xs">{d.email}</span>
                               </span>
-                              {d.account_status !== "active" && <StatusBadge status={`invite_${d.account_status}`} />}
+                              {!d.is_active ? (
+                                <StatusBadge status="suspended" />
+                              ) : (
+                                d.account_status !== "active" && <StatusBadge status={`invite_${d.account_status}`} />
+                              )}
                             </span>
                           ))
                         )}
@@ -315,48 +338,61 @@ export function PlatformSchoolsPage() {
                         <StatusBadge status={school.status} />
                       </TableCell>
                       <TableCell>
-                        <DropdownMenu>
-                          <DropdownMenuTrigger asChild>
-                            <Button variant="ghost" size="icon" aria-label={t("common.actions")}>
-                              <MoreHorizontal />
-                            </Button>
-                          </DropdownMenuTrigger>
-                          <DropdownMenuContent align="end">
-                            {school.status === "active" && (
-                              <DropdownMenuItem onSelect={() => open(school)}>
-                                <ArrowRight /> {t("platform.open")}
+                        {school.status !== "deleting" && (
+                          <DropdownMenu>
+                            <DropdownMenuTrigger asChild>
+                              <Button variant="ghost" size="icon" aria-label={t("common.actions")}>
+                                <MoreHorizontal />
+                              </Button>
+                            </DropdownMenuTrigger>
+                            <DropdownMenuContent align="end">
+                              {school.status === "active" && (
+                                <DropdownMenuItem onSelect={() => open(school)}>
+                                  <ArrowRight /> {t("platform.open")}
+                                </DropdownMenuItem>
+                              )}
+                              <DropdownMenuItem onSelect={() => setDirectorsOf(school.id)}>
+                                <UserCog /> {t("platform.directors.menu")}
                               </DropdownMenuItem>
-                            )}
-                            {pendingDirector && (
-                              <DropdownMenuItem
-                                onSelect={() =>
-                                  void run(
-                                    () => api.post(`/platform/schools/${school.id}/resend-invitation/`),
-                                    t("platform.inviteResent"),
-                                  )
-                                }
-                              >
-                                <Send /> {t("platform.resendInvite")}
-                              </DropdownMenuItem>
-                            )}
-                            {school.status === "active" ? (
-                              <DropdownMenuItem variant="destructive" onSelect={() => setSuspending(school)}>
-                                <ShieldOff /> {t("platform.suspend")}
-                              </DropdownMenuItem>
-                            ) : (
-                              <DropdownMenuItem
-                                onSelect={() =>
-                                  void run(async () => {
-                                    await api.post(`/platform/schools/${school.id}/status/`, { status: "active" });
-                                    await refreshUser();
-                                  }, t("platform.reactivated", { name: school.name }))
-                                }
-                              >
-                                <ShieldCheck /> {t("platform.reactivate")}
-                              </DropdownMenuItem>
-                            )}
-                          </DropdownMenuContent>
-                        </DropdownMenu>
+                              {pendingDirector && (
+                                <DropdownMenuItem
+                                  onSelect={() =>
+                                    void run(
+                                      () => api.post(`/platform/schools/${school.id}/resend-invitation/`),
+                                      t("platform.inviteResent"),
+                                    )
+                                  }
+                                >
+                                  <Send /> {t("platform.resendInvite")}
+                                </DropdownMenuItem>
+                              )}
+                              {school.status === "active" ? (
+                                <DropdownMenuItem variant="destructive" onSelect={() => setSuspending(school)}>
+                                  <ShieldOff /> {t("platform.suspend")}
+                                </DropdownMenuItem>
+                              ) : (
+                                <DropdownMenuItem
+                                  onSelect={() =>
+                                    void run(async () => {
+                                      await api.post(`/platform/schools/${school.id}/status/`, { status: "active" });
+                                      await refreshUser();
+                                    }, t("platform.reactivated", { name: school.name }))
+                                  }
+                                >
+                                  <ShieldCheck /> {t("platform.reactivate")}
+                                </DropdownMenuItem>
+                              )}
+                              {school.status === "suspended" && (
+                                <>
+                                  <DropdownMenuSeparator />
+                                  <DropdownMenuItem variant="destructive" onSelect={() => setDeleting(school)}>
+                                    <Trash2 /> {t("platform.delete.menu")}
+                                  </DropdownMenuItem>
+                                </>
+                              )}
+                            </DropdownMenuContent>
+                          </DropdownMenu>
+                        )}
                       </TableCell>
                     </TableRow>
                   );
@@ -367,6 +403,8 @@ export function PlatformSchoolsPage() {
         </Card>
       )}
       {registering && <RegisterSchoolDialog onClose={() => setRegistering(false)} />}
+      {directorsSchool && <DirectorsDialog school={directorsSchool} onClose={() => setDirectorsOf(null)} />}
+      {deleting && <DeleteSchoolDialog school={deleting} onClose={() => setDeleting(null)} />}
       <ConfirmDialog
         open={suspending !== null}
         onOpenChange={(isOpen) => !isOpen && setSuspending(null)}
