@@ -12,7 +12,11 @@ ARG VITE_API_URL=/api/v1
 ENV VITE_API_URL=$VITE_API_URL
 RUN npm run build
 
-FROM nginxinc/nginx-unprivileged:stable-alpine
+# Mainline: security fixes reach it first (stable-alpine kept a vulnerable nginx for weeks).
+FROM nginxinc/nginx-unprivileged:alpine
+# Alpine fixes published since the base image was built (brotli, curl...).
+USER 0
+RUN apk upgrade --no-cache
 # API_UPSTREAM is substituted into the template when the container starts.
 ENV API_UPSTREAM=http://host.docker.internal:8000
 COPY nginx/security-headers.conf /etc/nginx/security-headers.conf
