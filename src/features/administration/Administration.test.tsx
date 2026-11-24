@@ -111,6 +111,7 @@ describe("CalendarPage", () => {
     expect(screen.queryByRole("button", { name: /Add a date/ })).not.toBeInTheDocument();
   });
 
+  // A past month: in the current month the dialog starts on today, which would make the test depend on the date.
   it("lets a manager add a one-day date", async () => {
     let body: Record<string, unknown> | null = null;
     server.use(
@@ -122,7 +123,7 @@ describe("CalendarPage", () => {
       }),
     );
     renderPage(<CalendarPage />, {
-      path: "/administration/calendar?month=2026-11",
+      path: "/administration/calendar?month=2025-03",
       permissions: ["administration.manage"],
     });
     await userEvent.click(await screen.findByRole("button", { name: /Add a date/ }));
@@ -133,8 +134,8 @@ describe("CalendarPage", () => {
     expect(body).toMatchObject({
       title: "Réunion des parents",
       kind: "event",
-      start_date: "2026-11-01",
-      end_date: "2026-11-01",
+      start_date: "2025-03-01",
+      end_date: "2025-03-01",
       start_time: null,
       levels: [],
     });
