@@ -67,7 +67,7 @@
     "administration": "Administration",
     "classes": "Classes",
     "subjects": "Subjects",
-    "teachers": "Teachers",
+    "teachers": "Teachers & staff",
     "finance": "Finance",
     "cashRegister": "Cash register",
     "attendance": "Attendance",
@@ -78,7 +78,15 @@
     "logout": "Sign out",
     "switchSchool": "Switch school",
     "menu": "Menu",
-    "platform": "All schools"
+    "platform": "All schools",
+    "groups": {
+      "schoolLife": "Students",
+      "teaching": "Teaching",
+      "money": "Money",
+      "office": "School office"
+    },
+    "ownerView": "You are viewing {{school}} as the platform owner. Its teachers and staff are managed by its Director.",
+    "backToPlatform": "All schools"
   },
   "auth": {
     "signInTitle": "Sign in",
@@ -237,6 +245,16 @@
       "noResults": "No marks published for this term yet.",
       "byClass": "Students by class",
       "noClass": "No class"
+    },
+    "quick": {
+      "label": "Quick actions",
+      "enrol": "Enrol a student",
+      "register": "Take today's register",
+      "marks": "Enter marks",
+      "payment": "Record a payment",
+      "cash": "Cash register",
+      "staff": "Add a teacher or staff",
+      "announce": "Post an announcement"
     }
   },
   "modules": {

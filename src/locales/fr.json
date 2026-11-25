@@ -67,7 +67,7 @@
     "administration": "Administration",
     "classes": "Classes",
     "subjects": "Matières",
-    "teachers": "Enseignants",
+    "teachers": "Enseignants et personnel",
     "finance": "Finances",
     "cashRegister": "Caisse",
     "attendance": "Présences",
@@ -78,7 +78,15 @@
     "logout": "Se déconnecter",
     "switchSchool": "Changer d'établissement",
     "menu": "Menu",
-    "platform": "Tous les établissements"
+    "platform": "Tous les établissements",
+    "groups": {
+      "schoolLife": "Élèves",
+      "teaching": "Enseignement",
+      "money": "Finances",
+      "office": "Secrétariat"
+    },
+    "ownerView": "Vous consultez {{school}} en tant que propriétaire de la plateforme. Ses enseignants et son personnel sont gérés par son directeur.",
+    "backToPlatform": "Tous les établissements"
   },
   "auth": {
     "signInTitle": "Connexion",
@@ -237,6 +245,16 @@
       "noResults": "Aucune note publiée pour cette période pour l'instant.",
       "byClass": "Élèves par classe",
       "noClass": "Sans classe"
+    },
+    "quick": {
+      "label": "Actions rapides",
+      "enrol": "Inscrire un élève",
+      "register": "Faire l'appel du jour",
+      "marks": "Saisir des notes",
+      "payment": "Enregistrer un paiement",
+      "cash": "Caisse",
+      "staff": "Ajouter un enseignant ou un membre du personnel",
+      "announce": "Publier une annonce"
     }
   },
   "modules": {

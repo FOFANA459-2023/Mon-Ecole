@@ -38,6 +38,7 @@ import { toNumberOrNull, useUrlState } from "@/lib/useUrlState";
 import { cn } from "@/lib/utils";
 
 import { BarList, ChartCard, ColumnChart, EmptyChart, RateLineChart, SplitBar } from "./charts";
+import { QuickActions } from "./QuickActions";
 
 const SETUP_STEPS = [
   { key: "setupProfile", to: "/settings/school", permission: "settings.manage", icon: Building2 },
@@ -240,6 +241,8 @@ export function DashboardPage() {
           )
         }
       />
+
+      <QuickActions />
 
       {noYear && (
         <Card className="mb-4 border-dashed">

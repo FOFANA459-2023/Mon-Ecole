@@ -28,8 +28,13 @@ export type ModuleKey =
   | "assessments"
   | "results";
 
+/** Menu sections, in order: the menu reads as the school's day rather than a list of modules. */
+export const NAV_GROUPS = ["overview", "schoolLife", "teaching", "money", "office"] as const;
+export type NavGroup = (typeof NAV_GROUPS)[number];
+
 export type NavItem = {
   key: "dashboard" | "settings" | ModuleKey;
+  group: NavGroup;
   to: string;
   icon: LucideIcon;
   /** Visible when the user has any of these permissions. Empty = everyone. */
@@ -38,21 +43,33 @@ export type NavItem = {
   phase?: number;
 };
 
-// Menu order follows the Terms of Reference (§4).
+// Every module of the Terms of Reference (§4), grouped by task.
 export const NAV_ITEMS: NavItem[] = [
-  { key: "dashboard", to: "/", icon: LayoutDashboard, anyOf: [] },
-  { key: "enrollments", to: "/enrollments", icon: UserPlus, anyOf: ["enrollments.view"] },
-  { key: "students", to: "/students", icon: GraduationCap, anyOf: ["students.view"] },
-  { key: "administration", to: "/administration", icon: Building2, anyOf: ["administration.view"] },
-  { key: "classes", to: "/classes", icon: School, anyOf: ["classes.view"] },
-  { key: "subjects", to: "/subjects", icon: BookOpen, anyOf: ["subjects.view"] },
-  { key: "teachers", to: "/teachers", icon: Users, anyOf: ["staff.view"] },
-  { key: "finance", to: "/finance", icon: Wallet, anyOf: ["finance.view"] },
-  { key: "cashRegister", to: "/cash-register", icon: Landmark, anyOf: ["cash.view"] },
-  { key: "attendance", to: "/attendance", icon: CalendarCheck, anyOf: ["attendance.view", "attendance.staff"] },
-  { key: "assessments", to: "/assessments", icon: ClipboardPen, anyOf: ["grades.view"] },
-  { key: "results", to: "/results", icon: Award, anyOf: ["grades.view"] },
-  { key: "settings", to: "/settings", icon: Settings, anyOf: ["settings.manage", "users.manage", "audit.view"] },
+  { key: "dashboard", group: "overview", to: "/", icon: LayoutDashboard, anyOf: [] },
+  { key: "enrollments", group: "schoolLife", to: "/enrollments", icon: UserPlus, anyOf: ["enrollments.view"] },
+  { key: "students", group: "schoolLife", to: "/students", icon: GraduationCap, anyOf: ["students.view"] },
+  {
+    key: "attendance",
+    group: "schoolLife",
+    to: "/attendance",
+    icon: CalendarCheck,
+    anyOf: ["attendance.view", "attendance.staff"],
+  },
+  { key: "classes", group: "teaching", to: "/classes", icon: School, anyOf: ["classes.view"] },
+  { key: "subjects", group: "teaching", to: "/subjects", icon: BookOpen, anyOf: ["subjects.view"] },
+  { key: "teachers", group: "teaching", to: "/teachers", icon: Users, anyOf: ["staff.view"] },
+  { key: "assessments", group: "teaching", to: "/assessments", icon: ClipboardPen, anyOf: ["grades.view"] },
+  { key: "results", group: "teaching", to: "/results", icon: Award, anyOf: ["grades.view"] },
+  { key: "finance", group: "money", to: "/finance", icon: Wallet, anyOf: ["finance.view"] },
+  { key: "cashRegister", group: "money", to: "/cash-register", icon: Landmark, anyOf: ["cash.view"] },
+  { key: "administration", group: "office", to: "/administration", icon: Building2, anyOf: ["administration.view"] },
+  {
+    key: "settings",
+    group: "office",
+    to: "/settings",
+    icon: Settings,
+    anyOf: ["settings.manage", "users.manage", "audit.view"],
+  },
 ];
 
 export const SETTINGS_TABS = [
