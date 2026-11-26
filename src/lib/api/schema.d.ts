@@ -71,9 +71,8 @@ export interface paths {
         get?: never;
         put?: never;
         /**
-         * @description CRUD for school-owned records: scoped to the current school, audited on every write.
-         *
-         *     Subclasses set `queryset`, `serializer_class`, `required_permissions` and `audit_module`.
+         * @description Make this the current year. With `continuing_staff_ids`, it also renews the team: active staff
+         *     not in the list are archived as having left and lose their access (needs staff.archive).
          */
         post: operations["academic_years_set_current_create"];
         delete?: never;
@@ -2103,6 +2102,57 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/v1/platform/schools/{id}/delete/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** @description Delete a suspended school and all its data, in the background. Cannot be undone. */
+        post: operations["platform_schools_delete_create"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/platform/schools/{id}/directors/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** @description Give the school another Director (an invitation is sent). */
+        post: operations["platform_schools_directors_create"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/platform/schools/{id}/directors/change/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** @description Suspend a Director (they can no longer sign in to this school), restore them, or remove them. */
+        post: operations["platform_schools_directors_change_create"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/v1/platform/schools/{id}/resend-invitation/": {
         parameters: {
             query?: never;
@@ -2982,7 +3032,8 @@ export interface paths {
         get: operations["users_retrieve"];
         put?: never;
         post?: never;
-        delete?: never;
+        /** @description Remove from the school for good (to suspend, set is_active to false instead). */
+        delete: operations["users_destroy"];
         options?: never;
         head?: never;
         /** @description People who can sign in to the current school, with their roles. */
@@ -3080,6 +3131,13 @@ export interface components {
          * @enum {string}
          */
         AccountStatusEnum: "active" | "pending" | "expired";
+        /**
+         * @description * `suspend` - suspend
+         *     * `restore` - restore
+         *     * `remove` - remove
+         * @enum {string}
+         */
+        ActionEnum: "suspend" | "restore" | "remove";
         Announcement: {
             readonly id: number;
             title: string;
@@ -3515,6 +3573,10 @@ export interface components {
             date: string;
             status: components["schemas"]["AttendanceStatusEnum"];
         };
+        DeleteSchoolRequest: {
+            /** @description The school's code, typed again. */
+            confirm_code: string;
+        };
         Department: {
             readonly id: number;
             name: string;
@@ -3535,6 +3597,13 @@ export interface components {
             email: string;
             phone: string;
             account_status: components["schemas"]["AccountStatusEnum"];
+            /** @description False: suspended by the platform owner. */
+            is_active: boolean;
+        };
+        DirectorActionRequest: {
+            /** @description The Director's id, as listed in `directors`. */
+            user_id: number;
+            action: components["schemas"]["ActionEnum"];
         };
         /**
          * @description * `percent` - Percentage
@@ -5502,12 +5571,19 @@ export interface components {
         /**
          * @description * `active` - Active
          *     * `suspended` - Suspended
+         *     * `deleting` - Being deleted
          * @enum {string}
          */
-        SchoolStatusEnum: "active" | "suspended";
+        SchoolStatusEnum: "active" | "suspended" | "deleting";
         SchoolStatusRequest: {
-            status: components["schemas"]["SchoolStatusEnum"];
+            status: components["schemas"]["SchoolStatusStatusEnum"];
         };
+        /**
+         * @description * `active` - active
+         *     * `suspended` - suspended
+         * @enum {string}
+         */
+        SchoolStatusStatusEnum: "active" | "suspended";
         SheetAssessment: {
             assessment: number;
             marked: number;
@@ -5572,6 +5648,8 @@ export interface components {
             readonly status: components["schemas"]["ArchiveStatusEnum"];
             readonly photo_url: string | null;
             readonly has_access: boolean;
+            /** @description Directors stay from one year to the next: only the platform owner changes their access. */
+            readonly is_director: boolean;
             readonly assignments: components["schemas"]["Assignments"];
             /** Format: date-time */
             readonly archived_at: string | null;
@@ -5648,6 +5726,10 @@ export interface components {
          * @enum {string}
          */
         StaffTypeEnum: "teacher" | "administrative" | "support";
+        StartYearRequest: {
+            /** @description Staff who stay this year. Omit to change the current year without touching the team. */
+            continuing_staff_ids?: number[];
+        };
         Stats: {
             /** Format: decimal */
             average: string | null;
@@ -6010,7 +6092,13 @@ export interface operations {
             };
             cookie?: never;
         };
-        requestBody?: never;
+        requestBody?: {
+            content: {
+                "application/json": components["schemas"]["StartYearRequest"];
+                "application/x-www-form-urlencoded": components["schemas"]["StartYearRequest"];
+                "multipart/form-data": components["schemas"]["StartYearRequest"];
+            };
+        };
         responses: {
             200: {
                 headers: {
@@ -9892,8 +9980,9 @@ export interface operations {
                 /**
                  * @description * `active` - Active
                  *     * `suspended` - Suspended
+                 *     * `deleting` - Being deleted
                  */
-                status?: "active" | "suspended";
+                status?: "active" | "deleting" | "suspended";
             };
             header?: never;
             path?: never;
@@ -9947,6 +10036,90 @@ export interface operations {
             cookie?: never;
         };
         requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PlatformSchool"];
+                };
+            };
+        };
+    };
+    platform_schools_delete_create: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description A unique integer value identifying this school. */
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["DeleteSchoolRequest"];
+                "application/x-www-form-urlencoded": components["schemas"]["DeleteSchoolRequest"];
+                "multipart/form-data": components["schemas"]["DeleteSchoolRequest"];
+            };
+        };
+        responses: {
+            202: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PlatformSchool"];
+                };
+            };
+        };
+    };
+    platform_schools_directors_create: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description A unique integer value identifying this school. */
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["NewDirectorRequest"];
+                "application/x-www-form-urlencoded": components["schemas"]["NewDirectorRequest"];
+                "multipart/form-data": components["schemas"]["NewDirectorRequest"];
+            };
+        };
+        responses: {
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PlatformSchool"];
+                };
+            };
+        };
+    };
+    platform_schools_directors_change_create: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description A unique integer value identifying this school. */
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["DirectorActionRequest"];
+                "application/x-www-form-urlencoded": components["schemas"]["DirectorActionRequest"];
+                "multipart/form-data": components["schemas"]["DirectorActionRequest"];
+            };
+        };
         responses: {
             200: {
                 headers: {
@@ -11669,6 +11842,27 @@ export interface operations {
                 content: {
                     "application/json": components["schemas"]["Member"];
                 };
+            };
+        };
+    };
+    users_destroy: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description A unique integer value identifying this membership. */
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description No response body */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
             };
         };
     };

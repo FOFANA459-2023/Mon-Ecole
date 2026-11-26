@@ -1,5 +1,5 @@
 import { useQueryClient } from "@tanstack/react-query";
-import { MailPlus, MoreHorizontal, Pencil, Plus, Search, UserCheck, UserX } from "lucide-react";
+import { MailPlus, MoreHorizontal, Pencil, Plus, Search, UserCheck, UserMinus, UserX } from "lucide-react";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { toast } from "sonner";
@@ -42,6 +42,7 @@ export function UsersPage() {
   const [page, setPage] = useState(1);
   const [dialog, setDialog] = useState<{ open: boolean; member?: Member }>({ open: false });
   const [toDeactivate, setToDeactivate] = useState<Member | null>(null);
+  const [toRemove, setToRemove] = useState<Member | null>(null);
   const debouncedSearch = useDebouncedValue(search);
 
   const members = useMembers({
@@ -58,6 +59,18 @@ export function UsersPage() {
       toast.success(isActive ? t("settings.users.reactivated") : t("settings.users.deactivated"));
       await queryClient.invalidateQueries({ queryKey: ["members"] });
       await queryClient.invalidateQueries({ queryKey: ["roles"] });
+    } catch (error) {
+      toast.error(errorMessage(error, t));
+    }
+  };
+
+  const remove = async (member: Member) => {
+    try {
+      await api.delete(`/users/${member.id}/`);
+      toast.success(t("settings.users.removed", { name: member.user.full_name }));
+      await queryClient.invalidateQueries({ queryKey: ["members"] });
+      await queryClient.invalidateQueries({ queryKey: ["roles"] });
+      await queryClient.invalidateQueries({ queryKey: ["staff"] });
     } catch (error) {
       toast.error(errorMessage(error, t));
     }
@@ -134,6 +147,9 @@ export function UsersPage() {
                 <TableBody>
                   {members.data.results.map((member) => {
                     const isSelf = member.user.id === currentUser?.id;
+                    // Only the platform owner suspends or removes a Director (Platform → Schools).
+                    const isDirector = member.roles.some((role) => role.key === "director");
+                    const canChangeAccess = !isSelf && !isDirector;
                     return (
                       <TableRow key={member.id}>
                         <TableCell>
@@ -186,10 +202,10 @@ export function UsersPage() {
                                   <MailPlus /> {t("settings.users.resendInvite")}
                                 </DropdownMenuItem>
                               )}
-                              {!isSelf && <DropdownMenuSeparator />}
-                              {!isSelf &&
+                              {canChangeAccess && <DropdownMenuSeparator />}
+                              {canChangeAccess &&
                                 (member.is_active ? (
-                                  <DropdownMenuItem variant="destructive" onSelect={() => setToDeactivate(member)}>
+                                  <DropdownMenuItem onSelect={() => setToDeactivate(member)}>
                                     <UserX /> {t("settings.users.deactivate")}
                                   </DropdownMenuItem>
                                 ) : (
@@ -197,6 +213,11 @@ export function UsersPage() {
                                     <UserCheck /> {t("settings.users.reactivate")}
                                   </DropdownMenuItem>
                                 ))}
+                              {canChangeAccess && (
+                                <DropdownMenuItem variant="destructive" onSelect={() => setToRemove(member)}>
+                                  <UserMinus /> {t("settings.users.remove")}
+                                </DropdownMenuItem>
+                              )}
                             </DropdownMenuContent>
                           </DropdownMenu>
                         </TableCell>
@@ -225,6 +246,15 @@ export function UsersPage() {
         confirmLabel={t("settings.users.deactivate")}
         destructive
         onConfirm={() => (toDeactivate ? setActive(toDeactivate, false) : undefined)}
+      />
+      <ConfirmDialog
+        open={toRemove !== null}
+        onOpenChange={(open) => !open && setToRemove(null)}
+        title={t("settings.users.remove")}
+        description={t("settings.users.confirmRemove", { name: toRemove?.user.full_name ?? "" })}
+        confirmLabel={t("settings.users.remove")}
+        destructive
+        onConfirm={() => (toRemove ? remove(toRemove) : undefined)}
       />
     </>
   );

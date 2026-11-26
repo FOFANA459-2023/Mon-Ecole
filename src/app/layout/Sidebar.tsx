@@ -16,7 +16,7 @@ import { useAuth } from "@/lib/auth/context";
 import { initials } from "@/lib/format";
 import { cn } from "@/lib/utils";
 
-import { NAV_ITEMS } from "../nav";
+import { NAV_GROUPS, NAV_ITEMS } from "../nav";
 
 function SchoolBadge({ school, className }: { school: SchoolSummary; className?: string }) {
   if (school.logo_url) {
@@ -119,33 +119,45 @@ export function SidebarContent({ onNavigate }: { onNavigate?: () => void }) {
         <SchoolSwitcher onNavigate={onNavigate} />
       </div>
       <nav className="flex-1 overflow-y-auto px-3 pb-6" aria-label={t("nav.menu")}>
-        <ul className="grid gap-0.5">
-          {items.map((item) => (
-            <li key={item.key}>
-              <NavLink
-                to={item.to}
-                end={item.to === "/"}
-                onClick={onNavigate}
-                className={linkClass}
-              >
-                {({ isActive }) => (
-                  <>
-                    <item.icon className={cn("size-4 shrink-0", isActive && "text-sidebar-primary")} />
-                    <span className="flex-1 truncate">{t(`nav.${item.key}`)}</span>
-                    {item.phase && (
-                      <span
-                        aria-hidden="true"
-                        className="text-sidebar-foreground/80 rounded bg-white/5 px-1.5 py-0.5 text-[10px] font-medium"
-                      >
-                        P{item.phase}
-                      </span>
-                    )}
-                  </>
-                )}
-              </NavLink>
-            </li>
-          ))}
-        </ul>
+        {NAV_GROUPS.map((group) => {
+          const groupItems = items.filter((item) => item.group === group);
+          if (groupItems.length === 0) return null;
+          const heading = group === "overview" ? undefined : `nav-${group}`;
+          return (
+            <div key={group} className="mb-3 last:mb-0">
+              {heading && (
+                <p
+                  id={heading}
+                  className="text-sidebar-foreground/50 px-3 pt-2 pb-1 text-[11px] font-semibold tracking-wider uppercase"
+                >
+                  {t(`nav.groups.${group}`)}
+                </p>
+              )}
+              <ul className="grid gap-0.5" aria-labelledby={heading}>
+                {groupItems.map((item) => (
+                  <li key={item.key}>
+                    <NavLink to={item.to} end={item.to === "/"} onClick={onNavigate} className={linkClass}>
+                      {({ isActive }) => (
+                        <>
+                          <item.icon className={cn("size-4 shrink-0", isActive && "text-sidebar-primary")} />
+                          <span className="flex-1 truncate">{t(`nav.${item.key}`)}</span>
+                          {item.phase && (
+                            <span
+                              aria-hidden="true"
+                              className="text-sidebar-foreground/80 rounded bg-white/5 px-1.5 py-0.5 text-[10px] font-medium"
+                            >
+                              P{item.phase}
+                            </span>
+                          )}
+                        </>
+                      )}
+                    </NavLink>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          );
+        })}
       </nav>
     </div>
   );

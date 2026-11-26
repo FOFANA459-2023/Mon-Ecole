@@ -67,7 +67,7 @@
     "administration": "Administration",
     "classes": "Classes",
     "subjects": "Matières",
-    "teachers": "Enseignants",
+    "teachers": "Enseignants et personnel",
     "finance": "Finances",
     "cashRegister": "Caisse",
     "attendance": "Présences",
@@ -78,7 +78,15 @@
     "logout": "Se déconnecter",
     "switchSchool": "Changer d'établissement",
     "menu": "Menu",
-    "platform": "Tous les établissements"
+    "platform": "Tous les établissements",
+    "groups": {
+      "schoolLife": "Élèves",
+      "teaching": "Enseignement",
+      "money": "Finances",
+      "office": "Secrétariat"
+    },
+    "ownerView": "Vous consultez {{school}} en tant que propriétaire de la plateforme. Ses enseignants et son personnel sont gérés par son directeur.",
+    "backToPlatform": "Tous les établissements"
   },
   "auth": {
     "signInTitle": "Connexion",
@@ -237,6 +245,16 @@
       "noResults": "Aucune note publiée pour cette période pour l'instant.",
       "byClass": "Élèves par classe",
       "noClass": "Sans classe"
+    },
+    "quick": {
+      "label": "Actions rapides",
+      "enrol": "Inscrire un élève",
+      "register": "Faire l'appel du jour",
+      "marks": "Saisir des notes",
+      "payment": "Enregistrer un paiement",
+      "cash": "Caisse",
+      "staff": "Ajouter un enseignant ou un membre du personnel",
+      "announce": "Publier une annonce"
     }
   },
   "modules": {
@@ -329,15 +347,18 @@
       "editTitle": "Modifier l'utilisateur",
       "resendInvite": "Renvoyer l'invitation",
       "inviteSent": "Invitation envoyée",
-      "deactivate": "Retirer l'accès",
+      "deactivate": "Suspendre",
       "reactivate": "Rétablir l'accès",
-      "deactivated": "Accès retiré",
+      "deactivated": "Accès suspendu",
       "reactivated": "Accès rétabli",
-      "confirmDeactivate": "Retirer l'accès de {{name}} à cet établissement ? Son historique est conservé.",
+      "confirmDeactivate": "Suspendre {{name}} ? La personne ne pourra plus se connecter à cet établissement jusqu'à ce que vous rétablissiez son accès. Rien n'est supprimé.",
       "empty": "Aucun utilisateur ne correspond à votre recherche.",
       "filterStatus": "Statut",
       "inviteExplained": "La personne recevra un e-mail avec un lien pour confirmer son adresse et un mot de passe temporaire (valables 7 jours). À la première connexion, elle choisit son propre mot de passe.",
-      "directorLocked": "Seul le propriétaire de la plateforme peut modifier les rôles d'un directeur."
+      "directorLocked": "Seul le propriétaire de la plateforme peut modifier les rôles d'un directeur.",
+      "remove": "Retirer de l'établissement",
+      "removed": "{{name}} a été retiré(e) de l'établissement",
+      "confirmRemove": "Retirer définitivement {{name}} de cet établissement ? Son accès prend fin et sa fiche est archivée ; tout ce que la personne a fait reste enregistré. Pour la faire revenir plus tard, ajoutez-la de nouveau."
     },
     "roles": {
       "title": "Rôles et autorisations",
@@ -414,7 +435,8 @@
     "invite_expired": "Invitation expirée",
     "posted": "Enregistré",
     "reversed": "Annulé",
-    "recorded": "Enregistrée"
+    "recorded": "Enregistrée",
+    "deleting": "Suppression en cours"
   },
   "gender": {
     "M": "Masculin",
@@ -503,7 +525,20 @@
     "noYearWarning": "Aucune année scolaire n'est encore configurée.",
     "setupLink": "Configurer l'année scolaire",
     "yearStatus": "Statut de l'année",
-    "confirmDeleteLevel": "Supprimer le niveau {{name}} ?"
+    "confirmDeleteLevel": "Supprimer le niveau {{name}} ?",
+    "startYear": {
+      "title": "Démarrer {{year}} : qui continue ?",
+      "hint": "Une nouvelle année scolaire commence avec une équipe à jour. Décochez les enseignants et le personnel qui ne reviennent pas : ils sont archivés comme partis et ne peuvent plus se connecter. Leurs registres, notes et paiements passés restent enregistrés.",
+      "summary": "{{stay}} continuent · {{leave}} partent",
+      "everyoneStays": "Tout le monde continue",
+      "nobodyStays": "Tout décocher",
+      "noStaff": "Aucun membre du personnel actif.",
+      "directorStays": "Directeur · continue toujours",
+      "leaves": "Part",
+      "newcomers": "De nouveaux enseignants, administratifs ou comptables cette année ? Ajoutez-les dans",
+      "goToStaff": "Enseignants et personnel",
+      "confirm": "Démarrer {{year}}"
+    }
   },
   "classes": {
     "title": "Classes",
@@ -595,7 +630,7 @@
     "restore": "Réactiver",
     "archived": "Fiche archivée",
     "restored": "Fiche réactivée",
-    "confirmArchive": "Archiver la fiche de {{name}} ? L'historique est conservé.",
+    "confirmArchive": "Archiver la fiche de {{name}} ? La personne a quitté l'établissement : son accès est suspendu. L'historique est conservé, et réactiver la fiche rétablit son accès.",
     "assignments": "Affectations cette année",
     "homeroom": "Professeur principal",
     "teaches": "Enseigne",
@@ -1054,7 +1089,7 @@
   },
   "platform": {
     "title": "Tous les établissements",
-    "subtitle": "Tous les établissements de Mon École. Inscrivez un établissement avec son directeur, ouvrez-en un ou suspendez-le.",
+    "subtitle": "Tous les établissements de Mon École. Inscrivez un établissement, gérez ses directeurs, ouvrez-le pour le consulter, suspendez-le ou supprimez-le. Les enseignants et le personnel sont gérés par le directeur de chaque établissement.",
     "registerTitle": "Inscrire un établissement",
     "registerHint": "Le directeur reçoit un e-mail d'invitation avec un lien de vérification et un mot de passe temporaire.",
     "register": "Inscrire l'établissement",
@@ -1117,6 +1152,34 @@
         "expired": "Expirée (fichier supprimé)"
       },
       "restoreHint": "La restauration se fait hors de l'application, en suivant la procédure (docs/runbooks/restore.md du dépôt backend) : elle remplace les données de tous les établissements."
+    },
+    "directors": {
+      "menu": "Directeurs",
+      "title": "Directeurs de {{school}}",
+      "hint": "Le directeur dirige son établissement : il ajoute, suspend et retire les enseignants et le personnel. Vous gérez les directeurs.",
+      "none": "Cet établissement n'a pas de directeur.",
+      "add": "Ajouter un directeur",
+      "invite": "Envoyer l'invitation",
+      "added": "Invitation envoyée à {{email}}",
+      "suspend": "Suspendre",
+      "restore": "Rétablir",
+      "remove": "Retirer le directeur",
+      "removeOf": "Retirer {{name}}",
+      "confirmRemove": "Retirer {{name}} de la direction de {{school}} ? Son accès à l'établissement prend fin ; tout ce qu'il ou elle a fait reste enregistré. Un établissement garde toujours au moins un directeur actif.",
+      "done": {
+        "suspend": "{{name}} suspendu(e)",
+        "restore": "Accès de {{name}} rétabli",
+        "remove": "{{name}} retiré(e) de l'établissement"
+      }
+    },
+    "delete": {
+      "menu": "Supprimer l'établissement",
+      "title": "Supprimer {{name}} ?",
+      "hint": "Toutes les données de cet établissement sont effacées définitivement : {{students}} élèves, {{users}} utilisateurs avec accès, finances, notes, présences et documents. Impossible à annuler. Les comptes des personnes sont conservés s'ils appartiennent à d'autres établissements.",
+      "typeCode": "Tapez le code de l'établissement ({{code}}) pour confirmer",
+      "confirm": "Supprimer définitivement",
+      "deleting": "Suppression…",
+      "started": "{{name}} est en cours de suppression. Il disparaîtra de la liste une fois terminé."
     }
   },
   "cash": {
