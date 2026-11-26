@@ -404,40 +404,6 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/api/v1/auth/password/reset/": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /** @description Endpoints reached without an access token. Keeps 401 (not 403) for failed authentication. */
-        post: operations["auth_password_reset_create"];
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/api/v1/auth/password/reset/confirm/": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /** @description Endpoints reached without an access token. Keeps 401 (not 403) for failed authentication. */
-        post: operations["auth_password_reset_confirm_create"];
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
     "/api/v1/auth/refresh/": {
         parameters: {
             query?: never;
@@ -2153,6 +2119,23 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/v1/platform/schools/{id}/directors/reset-password/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** @description A Director forgot their password: set a temporary one, handed over in person (never by email). */
+        post: operations["platform_schools_directors_reset_password_create"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/v1/platform/schools/{id}/resend-invitation/": {
         parameters: {
             query?: never;
@@ -3040,6 +3023,26 @@ export interface paths {
         patch: operations["users_partial_update"];
         trace?: never;
     };
+    "/api/v1/users/{id}/reset-password/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * @description Give someone who forgot their password a temporary one, handed over in person (never by email).
+         *     They choose their own at the next sign-in. Not for Directors: the platform owner resets theirs.
+         */
+        post: operations["users_reset_password_create"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/v1/users/{id}/send-invite/": {
         parameters: {
             query?: never;
@@ -3604,6 +3607,12 @@ export interface components {
             /** @description The Director's id, as listed in `directors`. */
             user_id: number;
             action: components["schemas"]["ActionEnum"];
+        };
+        DirectorPasswordRequest: {
+            /** @description The Director's id, as listed in `directors`. */
+            user_id: number;
+            /** @description A temporary password, handed over in person; changed at next sign-in. */
+            new_password: string;
         };
         /**
          * @description * `percent` - Percentage
@@ -4808,15 +4817,6 @@ export interface components {
             previous?: string | null;
             results: components["schemas"]["Subject"][];
         };
-        PasswordResetConfirmRequest: {
-            uid: string;
-            token: string;
-            new_password: string;
-        };
-        PasswordResetRequestRequest: {
-            /** Format: email */
-            email: string;
-        };
         PatchedAcademicYearRequest: {
             /** @description e.g. 2026-2027 */
             name?: string;
@@ -5427,6 +5427,10 @@ export interface components {
             student: number;
             student_name: string;
             comment: string;
+        };
+        ResetPasswordRequest: {
+            /** @description A temporary password, handed over in person; changed at next sign-in. */
+            new_password: string;
         };
         ResultMark: {
             class_subject: number;
@@ -6731,54 +6735,6 @@ export interface operations {
                         [key: string]: unknown;
                     };
                 };
-            };
-        };
-    };
-    auth_password_reset_create: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody: {
-            content: {
-                "application/json": components["schemas"]["PasswordResetRequestRequest"];
-                "application/x-www-form-urlencoded": components["schemas"]["PasswordResetRequestRequest"];
-                "multipart/form-data": components["schemas"]["PasswordResetRequestRequest"];
-            };
-        };
-        responses: {
-            /** @description No response body */
-            204: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-        };
-    };
-    auth_password_reset_confirm_create: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody: {
-            content: {
-                "application/json": components["schemas"]["PasswordResetConfirmRequest"];
-                "application/x-www-form-urlencoded": components["schemas"]["PasswordResetConfirmRequest"];
-                "multipart/form-data": components["schemas"]["PasswordResetConfirmRequest"];
-            };
-        };
-        responses: {
-            /** @description No response body */
-            204: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
             };
         };
     };
@@ -10131,6 +10087,33 @@ export interface operations {
             };
         };
     };
+    platform_schools_directors_reset_password_create: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description A unique integer value identifying this school. */
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["DirectorPasswordRequest"];
+                "application/x-www-form-urlencoded": components["schemas"]["DirectorPasswordRequest"];
+                "multipart/form-data": components["schemas"]["DirectorPasswordRequest"];
+            };
+        };
+        responses: {
+            /** @description No response body */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
     platform_schools_resend_invitation_create: {
         parameters: {
             query?: never;
@@ -11891,6 +11874,33 @@ export interface operations {
                 content: {
                     "application/json": components["schemas"]["Member"];
                 };
+            };
+        };
+    };
+    users_reset_password_create: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description A unique integer value identifying this membership. */
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["ResetPasswordRequest"];
+                "application/x-www-form-urlencoded": components["schemas"]["ResetPasswordRequest"];
+                "multipart/form-data": components["schemas"]["ResetPasswordRequest"];
+            };
+        };
+        responses: {
+            /** @description No response body */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
             };
         };
     };

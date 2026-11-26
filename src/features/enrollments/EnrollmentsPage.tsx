@@ -7,7 +7,7 @@ import { toast } from "sonner";
 import { EmptyState, PageHeader, Pagination, QueryError, Spinner } from "@/components/common";
 import { PersonAvatar, SearchInput, StatusBadge } from "@/components/display";
 import { useFormatDate } from "@/lib/dates";
-import { ClassSelect, OptionSelect, YearSelect } from "@/components/pickers";
+import { ClassSelect, OptionSelect } from "@/components/pickers";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import {
@@ -27,7 +27,7 @@ import { toNumberOrNull, useUrlState } from "@/lib/useUrlState";
 import { useEnrollments } from "./api";
 import { EnrollmentActionDialog, type EnrollmentAction, type EnrollmentRef } from "./EnrollmentActionDialogs";
 
-const DEFAULTS = { year: "", class: "", status: "active", q: "", page: "1" };
+const DEFAULTS = { class: "", status: "active", q: "", page: "1" };
 const PAGE_SIZE = 25;
 const STATUSES = ["active", "class_changed", "withdrawn", "completed", "cancelled"] as const;
 
@@ -38,7 +38,7 @@ export function EnrollmentsPage() {
   const currentYear = useCurrentYear();
   const [filters, setFilters] = useUrlState(DEFAULTS);
   const [action, setAction] = useState<{ kind: EnrollmentAction; ref: EnrollmentRef } | null>(null);
-  const yearId = toNumberOrNull(filters.year) ?? currentYear?.id ?? null;
+  const yearId = currentYear?.id ?? null;
   const search = useDebouncedValue(filters.q);
   const page = Number(filters.page);
   const enrollments = useEnrollments(
@@ -77,12 +77,7 @@ export function EnrollmentsPage() {
           )
         }
       />
-      <div className="mb-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-[11rem_12rem_12rem_1fr]">
-        <YearSelect
-          value={yearId}
-          onChange={(v) => setFilters({ year: v ? String(v) : "", class: "" })}
-          aria-label={t("classes.year")}
-        />
+      <div className="mb-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-[12rem_12rem_1fr]">
         <ClassSelect
           yearId={yearId}
           value={toNumberOrNull(filters.class)}

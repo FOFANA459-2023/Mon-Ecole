@@ -102,19 +102,11 @@
     "tooManyAttempts": "Trop de tentatives. Réessayez dans une minute.",
     "sessionExpired": "Votre session a expiré. Veuillez vous reconnecter.",
     "idleLogout": "Vous avez été déconnecté après une période d'inactivité.",
-    "forgotTitle": "Mot de passe oublié",
-    "forgotSubtitle": "Saisissez votre adresse e-mail : nous vous enverrons un lien pour choisir un nouveau mot de passe.",
     "email": "Adresse e-mail",
-    "sendLink": "Envoyer le lien",
-    "linkSent": "Si un compte correspond à cette adresse, un e-mail vient d'être envoyé. Pensez à vérifier vos courriers indésirables.",
-    "backToLogin": "Retour à la connexion",
-    "resetTitle": "Choisir un mot de passe",
-    "resetSubtitle": "Choisissez un mot de passe d'au moins 10 caractères.",
     "newPassword": "Nouveau mot de passe",
     "confirmPassword": "Confirmer le mot de passe",
     "currentPassword": "Mot de passe actuel",
     "setPassword": "Enregistrer le mot de passe",
-    "resetDone": "Votre mot de passe a été enregistré. Vous pouvez maintenant vous connecter.",
     "invalidLink": "Ce lien est invalide ou a expiré. Demandez un nouveau lien.",
     "changeTitle": "Choisissez votre mot de passe",
     "changeForced": "Bienvenue ! Remplacez le mot de passe temporaire par votre propre mot de passe.",
@@ -124,7 +116,8 @@
     "emailNotVerified": "Confirmez d'abord votre adresse e-mail avec le lien reçu dans l'invitation.",
     "invitationExpired": "Votre mot de passe temporaire a expiré. Demandez à votre établissement de renvoyer l'invitation.",
     "verifyTitle": "Confirmez votre e-mail",
-    "verifyDone": "{{email}} est confirmé. Connectez-vous maintenant avec cet e-mail et le mot de passe temporaire de l'invitation ; vous choisirez ensuite votre propre mot de passe."
+    "verifyDone": "{{email}} est confirmé. Connectez-vous maintenant avec cet e-mail et le mot de passe temporaire de l'invitation ; vous choisirez ensuite votre propre mot de passe.",
+    "forgotHelp": "Demandez un mot de passe temporaire au directeur de votre école. Directeurs : demandez-le à l'administrateur de la plateforme Mon École. Vous choisirez un nouveau mot de passe juste après la connexion."
   },
   "validation": {
     "required": "Ce champ est obligatoire.",
@@ -538,7 +531,9 @@
       "newcomers": "De nouveaux enseignants, administratifs ou comptables cette année ? Ajoutez-les dans",
       "goToStaff": "Enseignants et personnel",
       "confirm": "Démarrer {{year}}"
-    }
+    },
+    "workingYear": "Année scolaire affichée sur toutes les pages",
+    "notCurrent": "pas en cours"
   },
   "classes": {
     "title": "Classes",
@@ -1809,5 +1804,18 @@
       "inAppOf": "{{kind}} dans l'application",
       "emailOf": "{{kind}} par e-mail"
     }
+  },
+  "passwordReset": {
+    "action": "Réinitialiser le mot de passe",
+    "short": "Mot de passe",
+    "actionFor": "Réinitialiser le mot de passe de {{name}}",
+    "title": "Réinitialiser le mot de passe de {{name}}",
+    "hint": "Choisissez un mot de passe temporaire (ou gardez la suggestion) et remettez-le en main propre à {{name}}. Cette personne choisira le sien dès sa connexion, et ses autres appareils sont déconnectés.",
+    "doneHint": "C'est fait. Remettez ce mot de passe temporaire à {{name}}. Il est valable 7 jours, jusqu'à ce que cette personne choisisse le sien.",
+    "temporary": "Mot de passe temporaire",
+    "suggest": "Suggérer",
+    "submit": "Enregistrer le mot de passe",
+    "copy": "Copier",
+    "copied": "Copié"
   }
 }

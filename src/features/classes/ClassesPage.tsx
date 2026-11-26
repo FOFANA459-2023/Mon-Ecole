@@ -5,7 +5,7 @@ import { Link, useNavigate } from "react-router";
 
 import { EmptyState, PageHeader, Pagination, QueryError, Spinner } from "@/components/common";
 import { SearchInput } from "@/components/display";
-import { LevelSelect, YearSelect } from "@/components/pickers";
+import { LevelSelect } from "@/components/pickers";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
@@ -17,7 +17,7 @@ import { toNumberOrNull, useUrlState } from "@/lib/useUrlState";
 
 import { ClassFormDialog } from "./ClassFormDialog";
 
-const DEFAULTS = { year: "", level: "", q: "", page: "1" };
+const DEFAULTS = { level: "", q: "", page: "1" };
 const PAGE_SIZE = 50;
 
 export function ClassesPage() {
@@ -27,7 +27,7 @@ export function ClassesPage() {
   const currentYear = useCurrentYear();
   const [filters, setFilters] = useUrlState(DEFAULTS);
   const [creating, setCreating] = useState(false);
-  const yearId = toNumberOrNull(filters.year) ?? currentYear?.id ?? null;
+  const yearId = currentYear?.id ?? null;
   const search = useDebouncedValue(filters.q);
   const page = Number(filters.page);
 
@@ -49,8 +49,7 @@ export function ClassesPage() {
           )
         }
       />
-      <div className="mb-4 grid gap-3 sm:grid-cols-[12rem_12rem_1fr]">
-        <YearSelect value={yearId} onChange={(v) => setFilters({ year: v ? String(v) : "" })} aria-label={t("classes.year")} />
+      <div className="mb-4 grid gap-3 sm:grid-cols-[12rem_1fr]">
         <LevelSelect
           value={toNumberOrNull(filters.level)}
           onChange={(v) => setFilters({ level: v ? String(v) : "" })}

@@ -24,11 +24,11 @@ import { useTranslation } from "react-i18next";
 import { Link } from "react-router";
 
 import { PageHeader } from "@/components/common";
-import { ClassSelect, LevelSelect, OptionSelect, YearSelect } from "@/components/pickers";
+import { ClassSelect, LevelSelect, OptionSelect } from "@/components/pickers";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
-import { useAcademicYears, useSchoolId } from "@/features/academics/api";
+import { useCurrentYear, useSchoolId } from "@/features/academics/api";
 import { api, type Query } from "@/lib/api/client";
 import type { DashboardSummary } from "@/lib/api/types";
 import { useAuth } from "@/lib/auth/context";
@@ -47,7 +47,7 @@ const SETUP_STEPS = [
   { key: "setupAudit", to: "/settings/audit", permission: "audit.view", icon: History },
 ];
 const PAYMENT_STATUSES = ["paid", "partial", "unpaid", "overdue"] as const;
-const DEFAULTS = { year: "", term: "", level: "", class: "", payment: "" };
+const DEFAULTS = { term: "", level: "", class: "", payment: "" };
 
 function Kpi({
   label,
@@ -113,12 +113,10 @@ export function DashboardPage() {
   const { user, membership, can } = useAuth();
   const schoolId = useSchoolId();
   const formatDate = useFormatDate();
-  const years = useAcademicYears().data ?? [];
+  const year = useCurrentYear();
   const [filters, setFilters] = useUrlState(DEFAULTS);
-  const yearId = toNumberOrNull(filters.year);
-  const year = years.find((y) => y.id === yearId) ?? years.find((y) => y.is_current);
   const params: Query = {
-    academic_year: yearId ?? undefined,
+    academic_year: year?.id ?? undefined,
     term: filters.term || undefined,
     level: filters.level || undefined,
     class_group: filters.class || undefined,
@@ -258,12 +256,7 @@ export function DashboardPage() {
       )}
 
       {can("dashboard.view") && !noYear && (
-        <div className="mb-4 grid gap-2 sm:grid-cols-2 lg:grid-cols-5" role="group" aria-label={t("dashboard.filters.label")}>
-          <YearSelect
-            aria-label={t("classes.year")}
-            value={year?.id ?? null}
-            onChange={(v) => setFilters({ year: v ? String(v) : "", term: "", class: "" })}
-          />
+        <div className="mb-4 grid gap-2 sm:grid-cols-2 lg:grid-cols-4" role="group" aria-label={t("dashboard.filters.label")}>
           <OptionSelect
             aria-label={t("grades.term")}
             value={filters.term || (data?.filters?.term ? String(data.filters.term) : null)}

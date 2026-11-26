@@ -5,7 +5,7 @@ import { useNavigate } from "react-router";
 
 import { EmptyState, Pagination, QueryError, Spinner } from "@/components/common";
 import { SearchInput, StatusBadge } from "@/components/display";
-import { ClassSelect, OptionSelect, YearSelect } from "@/components/pickers";
+import { ClassSelect, OptionSelect } from "@/components/pickers";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
@@ -19,7 +19,7 @@ import { toNumberOrNull, useUrlState } from "@/lib/useUrlState";
 import { useInvoices, useMoney } from "./api";
 import { GenerateInvoicesDialog, ManualInvoiceDialog } from "./InvoiceDialogs";
 
-const DEFAULTS = { q: "", year: "", class: "", status: "", page: "1" };
+const DEFAULTS = { q: "", class: "", status: "", page: "1" };
 const PAGE_SIZE = 50;
 const PAYMENT_STATUSES: PaymentStatus[] = ["unpaid", "partial", "overdue", "paid", "cancelled"];
 
@@ -32,7 +32,7 @@ export function InvoicesPage() {
   const currentYear = useCurrentYear();
   const [filters, setFilters] = useUrlState(DEFAULTS);
   const search = useDebouncedValue(filters.q);
-  const yearId = toNumberOrNull(filters.year) ?? currentYear?.id ?? null;
+  const yearId = currentYear?.id ?? null;
   const page = Number(filters.page);
   const invoices = useInvoices(
     {
@@ -62,13 +62,8 @@ export function InvoicesPage() {
           </div>
         )}
       </div>
-      <div className="mb-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-[1fr_12rem_12rem_12rem]">
+      <div className="mb-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-[1fr_12rem_12rem]">
         <SearchInput value={filters.q} onChange={(q) => setFilters({ q })} placeholder={t("finance.searchInvoices")} />
-        <YearSelect
-          value={yearId}
-          onChange={(v) => setFilters({ year: v ? String(v) : "", class: "" })}
-          aria-label={t("classes.year")}
-        />
         <ClassSelect
           yearId={yearId}
           value={toNumberOrNull(filters.class)}

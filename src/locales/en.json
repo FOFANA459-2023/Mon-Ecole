@@ -102,19 +102,11 @@
     "tooManyAttempts": "Too many attempts. Try again in a minute.",
     "sessionExpired": "Your session has ended. Please sign in again.",
     "idleLogout": "You were signed out after a period of inactivity.",
-    "forgotTitle": "Forgot password",
-    "forgotSubtitle": "Enter your email address and we will send you a link to choose a new password.",
     "email": "Email address",
-    "sendLink": "Send link",
-    "linkSent": "If an account matches this address, an email is on its way. Remember to check your spam folder.",
-    "backToLogin": "Back to sign in",
-    "resetTitle": "Choose a password",
-    "resetSubtitle": "Choose a password of at least 10 characters.",
     "newPassword": "New password",
     "confirmPassword": "Confirm password",
     "currentPassword": "Current password",
     "setPassword": "Save password",
-    "resetDone": "Your password has been saved. You can now sign in.",
     "invalidLink": "This link is invalid or has expired. Ask for a new one.",
     "changeTitle": "Choose your password",
     "changeForced": "Welcome! Replace the temporary password with a password of your own.",
@@ -124,7 +116,8 @@
     "emailNotVerified": "Confirm your email address first, with the link in the invitation email.",
     "invitationExpired": "Your temporary password has expired. Ask your school to send the invitation again.",
     "verifyTitle": "Confirm your email",
-    "verifyDone": "{{email}} is confirmed. Now sign in with this email and the temporary password from the invitation; you will then choose your own password."
+    "verifyDone": "{{email}} is confirmed. Now sign in with this email and the temporary password from the invitation; you will then choose your own password.",
+    "forgotHelp": "Ask your school's principal for a temporary password. Principals: ask the Mon École platform administrator. You will choose a new password right after signing in."
   },
   "validation": {
     "required": "This field is required.",
@@ -538,7 +531,9 @@
       "newcomers": "New teachers, administrators or accountants for this year? Add them in",
       "goToStaff": "Teachers & staff",
       "confirm": "Start {{year}}"
-    }
+    },
+    "workingYear": "School year shown on every page",
+    "notCurrent": "not current"
   },
   "classes": {
     "title": "Classes",
@@ -1809,5 +1804,18 @@
       "inAppOf": "{{kind}} in the app",
       "emailOf": "{{kind}} by email"
     }
+  },
+  "passwordReset": {
+    "action": "Reset password",
+    "short": "Password",
+    "actionFor": "Reset the password of {{name}}",
+    "title": "Reset the password of {{name}}",
+    "hint": "Choose a temporary password (or keep the suggestion) and give it to {{name}} in person. They will choose their own as soon as they sign in, and are signed out of their other devices.",
+    "doneHint": "Done. Give {{name}} this temporary password. It works for 7 days, until they choose their own.",
+    "temporary": "Temporary password",
+    "suggest": "Suggest",
+    "submit": "Set the password",
+    "copy": "Copy",
+    "copied": "Copied"
   }
 }

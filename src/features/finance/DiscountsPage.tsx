@@ -5,7 +5,6 @@ import { Link } from "react-router";
 
 import { EmptyState, Pagination, QueryError, Spinner } from "@/components/common";
 import { SearchInput, StatusBadge } from "@/components/display";
-import { YearSelect } from "@/components/pickers";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
@@ -13,12 +12,12 @@ import { useCurrentYear } from "@/features/academics/api";
 import type { StudentDiscount } from "@/lib/api/types";
 import { useAuth } from "@/lib/auth/context";
 import { useDebouncedValue } from "@/lib/useDebouncedValue";
-import { toNumberOrNull, useUrlState } from "@/lib/useUrlState";
+import { useUrlState } from "@/lib/useUrlState";
 
 import { useDiscountLabel, useStudentDiscounts } from "./api";
 import { DiscountDialog } from "./DiscountDialog";
 
-const DEFAULTS = { q: "", year: "", page: "1" };
+const DEFAULTS = { q: "", page: "1" };
 const PAGE_SIZE = 50;
 
 export function DiscountsPage() {
@@ -29,7 +28,7 @@ export function DiscountsPage() {
   const currentYear = useCurrentYear();
   const [filters, setFilters] = useUrlState(DEFAULTS);
   const search = useDebouncedValue(filters.q);
-  const yearId = toNumberOrNull(filters.year) ?? currentYear?.id ?? null;
+  const yearId = currentYear?.id ?? null;
   const page = Number(filters.page);
   const discounts = useStudentDiscounts(
     { search, academic_year: yearId ?? undefined, page, page_size: PAGE_SIZE },
@@ -47,9 +46,8 @@ export function DiscountsPage() {
           </Button>
         )}
       </div>
-      <div className="mb-4 grid gap-3 sm:grid-cols-[1fr_14rem]">
+      <div className="mb-4">
         <SearchInput value={filters.q} onChange={(q) => setFilters({ q })} />
-        <YearSelect value={yearId} onChange={(v) => setFilters({ year: v ? String(v) : "" })} aria-label={t("classes.year")} />
       </div>
       {discounts.isError ? (
         <QueryError onRetry={() => void discounts.refetch()} />

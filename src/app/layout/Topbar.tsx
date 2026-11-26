@@ -12,6 +12,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { YearSwitcher } from "@/features/academics/YearSwitcher";
 import { NotificationsBell } from "@/features/notifications/NotificationsBell";
 import { SearchCommand } from "@/features/search/SearchCommand";
 import { api } from "@/lib/api/client";
@@ -122,6 +123,7 @@ export function Topbar({ onOpenMenu }: { onOpenMenu: () => void }) {
       <Button variant="ghost" size="icon" className="lg:hidden" onClick={onOpenMenu} aria-label={t("nav.menu")}>
         <Menu />
       </Button>
+      {membership && <YearSwitcher />}
       <SearchCommand />
       <div className="flex-1" />
       {membership && <NotificationsBell />}
