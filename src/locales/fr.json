@@ -85,7 +85,7 @@
       "money": "Finances",
       "office": "Secrétariat"
     },
-    "ownerView": "Vous consultez {{school}} en tant que propriétaire de la plateforme. Ses enseignants et son personnel sont gérés par son directeur.",
+    "ownerView": "Vous êtes dans {{school}} en tant qu'administrateur de la plateforme : vous pouvez tout faire comme son directeur, et aussi gérer ses directeurs.",
     "backToPlatform": "Tous les établissements"
   },
   "auth": {

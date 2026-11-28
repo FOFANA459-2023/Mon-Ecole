@@ -8,7 +8,7 @@ import { LoginPage } from "@/features/auth/LoginPage";
 import { ClassesPage } from "@/features/classes/ClassesPage";
 import { DirectorsDialog } from "@/features/platform/PlatformSchoolDialogs";
 import type { PlatformSchool } from "@/lib/api/types";
-import { authValue } from "@/test/auth";
+import { authValue, makeUser } from "@/test/auth";
 import { renderPage } from "@/test/render";
 import { api, page, server } from "@/test/server";
 
@@ -61,6 +61,21 @@ describe("UsersPage", () => {
     const dialog = await screen.findByRole("dialog");
     await userEvent.click(within(dialog).getByRole("button", { name: "Remove from the school" }));
     await waitFor(() => expect(removed).toBe(true));
+  });
+});
+
+describe("UsersPage — platform administrator", () => {
+  it("can also suspend, remove or reset the password of a Director", async () => {
+    server.use(
+      http.get(api("/users/"), () => HttpResponse.json(page([member(2, "Awa Diallo", "director", "Director")]))),
+      http.get(api("/roles/"), () => HttpResponse.json([])),
+    );
+    renderPage(<UsersPage />, { auth: authValue(makeUser(["users.manage"], { is_platform_admin: true })) });
+    const director = (await screen.findByText("Awa Diallo")).closest("tr")!;
+    await userEvent.click(within(director).getByRole("button", { name: "Actions" }));
+    expect(await screen.findByRole("menuitem", { name: /Suspend/ })).toBeInTheDocument();
+    expect(screen.getByRole("menuitem", { name: /Remove from the school/ })).toBeInTheDocument();
+    expect(screen.getByRole("menuitem", { name: /Reset password/ })).toBeInTheDocument();
   });
 });
 

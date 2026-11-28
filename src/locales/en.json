@@ -85,7 +85,7 @@
       "money": "Money",
       "office": "School office"
     },
-    "ownerView": "You are viewing {{school}} as the platform owner. Its teachers and staff are managed by its Director.",
+    "ownerView": "You are in {{school}} as the platform administrator: you can do everything its Director can, and also manage its Directors.",
     "backToPlatform": "All schools"
   },
   "auth": {

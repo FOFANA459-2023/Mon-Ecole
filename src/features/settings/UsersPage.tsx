@@ -149,9 +149,9 @@ export function UsersPage() {
                 <TableBody>
                   {members.data.results.map((member) => {
                     const isSelf = member.user.id === currentUser?.id;
-                    // Only the platform owner suspends or removes a Director (Platform → Schools).
+                    // A Director cannot touch another Director; the platform owner can.
                     const isDirector = member.roles.some((role) => role.key === "director");
-                    const canChangeAccess = !isSelf && !isDirector;
+                    const canChangeAccess = !isSelf && (!isDirector || Boolean(currentUser?.is_platform_admin));
                     return (
                       <TableRow key={member.id}>
                         <TableCell>
@@ -204,7 +204,7 @@ export function UsersPage() {
                                   <MailPlus /> {t("settings.users.resendInvite")}
                                 </DropdownMenuItem>
                               )}
-                              {/* A Director's password is reset by the platform owner; your own, from My account. */}
+                              {/* Your own password is changed from My account. */}
                               {canChangeAccess && member.is_active && (
                                 <DropdownMenuItem onSelect={() => setToReset(member)}>
                                   <KeyRound /> {t("passwordReset.action")}
