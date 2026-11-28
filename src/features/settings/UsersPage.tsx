@@ -1,5 +1,5 @@
 import { useQueryClient } from "@tanstack/react-query";
-import { MailPlus, MoreHorizontal, Pencil, Plus, Search, UserCheck, UserMinus, UserX } from "lucide-react";
+import { KeyRound, MailPlus, MoreHorizontal, Pencil, Plus, Search, UserCheck, UserMinus, UserX } from "lucide-react";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { toast } from "sonner";
@@ -21,6 +21,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import { ResetPasswordDialog } from "@/features/auth/ResetPasswordDialog";
 import { api } from "@/lib/api/client";
 import type { Member } from "@/lib/api/types";
 import { useAuth } from "@/lib/auth/context";
@@ -43,6 +44,7 @@ export function UsersPage() {
   const [dialog, setDialog] = useState<{ open: boolean; member?: Member }>({ open: false });
   const [toDeactivate, setToDeactivate] = useState<Member | null>(null);
   const [toRemove, setToRemove] = useState<Member | null>(null);
+  const [toReset, setToReset] = useState<Member | null>(null);
   const debouncedSearch = useDebouncedValue(search);
 
   const members = useMembers({
@@ -147,9 +149,9 @@ export function UsersPage() {
                 <TableBody>
                   {members.data.results.map((member) => {
                     const isSelf = member.user.id === currentUser?.id;
-                    // Only the platform owner suspends or removes a Director (Platform → Schools).
+                    // A Director cannot touch another Director; the platform owner can.
                     const isDirector = member.roles.some((role) => role.key === "director");
-                    const canChangeAccess = !isSelf && !isDirector;
+                    const canChangeAccess = !isSelf && (!isDirector || Boolean(currentUser?.is_platform_admin));
                     return (
                       <TableRow key={member.id}>
                         <TableCell>
@@ -202,6 +204,12 @@ export function UsersPage() {
                                   <MailPlus /> {t("settings.users.resendInvite")}
                                 </DropdownMenuItem>
                               )}
+                              {/* Your own password is changed from My account. */}
+                              {canChangeAccess && member.is_active && (
+                                <DropdownMenuItem onSelect={() => setToReset(member)}>
+                                  <KeyRound /> {t("passwordReset.action")}
+                                </DropdownMenuItem>
+                              )}
                               {canChangeAccess && <DropdownMenuSeparator />}
                               {canChangeAccess &&
                                 (member.is_active ? (
@@ -238,6 +246,13 @@ export function UsersPage() {
         member={dialog.member}
         onOpenChange={(open) => setDialog((d) => ({ ...d, open }))}
       />
+      {toReset && (
+        <ResetPasswordDialog
+          name={toReset.user.full_name}
+          onSubmit={(password) => api.post(`/users/${toReset.id}/reset-password/`, { new_password: password })}
+          onClose={() => setToReset(null)}
+        />
+      )}
       <ConfirmDialog
         open={toDeactivate !== null}
         onOpenChange={(open) => !open && setToDeactivate(null)}

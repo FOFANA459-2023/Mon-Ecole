@@ -14,9 +14,11 @@ RUN npm run build
 
 # Mainline: security fixes reach it first (stable-alpine kept a vulnerable nginx for weeks).
 FROM nginxinc/nginx-unprivileged:alpine
-# Alpine fixes published since the base image was built (brotli, curl...).
+# Alpine fixes published since the base image was built (brotli, curl...). CI passes today's date so this
+# step re-runs once a day instead of being reused from an old build cache.
+ARG SECURITY_UPDATES=manual
 USER 0
-RUN apk upgrade --no-cache
+RUN echo "Alpine security updates: ${SECURITY_UPDATES}" && apk upgrade --no-cache
 # API_UPSTREAM is substituted into the template when the container starts.
 ENV API_UPSTREAM=http://host.docker.internal:8000
 COPY nginx/security-headers.conf /etc/nginx/security-headers.conf

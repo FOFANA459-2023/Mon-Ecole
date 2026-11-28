@@ -4,6 +4,8 @@ import { api, type Paginated, type Query } from "@/lib/api/client";
 import type { AcademicYear, ClassGroup, ClassSubject, Level, Subject } from "@/lib/api/types";
 import { useAuth } from "@/lib/auth/context";
 
+import { useWorkingYearId } from "./workingYear";
+
 export function useSchoolId(): number | null {
   return useAuth().membership?.school.id ?? null;
 }
@@ -18,10 +20,19 @@ export function useAcademicYears() {
   });
 }
 
-/** The school's current academic year (or the most recent one when none is marked current). */
-export function useCurrentYear(): AcademicYear | null {
+/** The school's official current academic year (or the most recent one when none is marked current). */
+export function useSchoolCurrentYear(): AcademicYear | null {
   const years = useAcademicYears().data ?? [];
   return years.find((y) => y.is_current) ?? years[0] ?? null;
+}
+
+/** The academic year the person is working in: the one picked in the top bar, else the school's current
+ * year. Every page that shows one year's data follows it. */
+export function useCurrentYear(): AcademicYear | null {
+  const schoolId = useSchoolId();
+  const picked = useWorkingYearId(schoolId);
+  const years = useAcademicYears().data ?? [];
+  return years.find((y) => y.id === picked) ?? years.find((y) => y.is_current) ?? years[0] ?? null;
 }
 
 export function useLevels() {

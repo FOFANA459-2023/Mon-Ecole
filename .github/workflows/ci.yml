@@ -116,12 +116,16 @@ jobs:
       - name: Hadolint
         run: docker run --rm -v "$PWD:/w" -w /w hadolint/hadolint:latest-debian hadolint Dockerfile
       - uses: docker/setup-buildx-action@v4
+      - name: Today's date (refreshes the image's security updates once a day)
+        id: day
+        run: echo "date=$(date -u +%F)" >> "$GITHUB_OUTPUT"
       - name: Build (amd64)
         uses: docker/build-push-action@v7
         with:
           context: .
           load: true
           tags: mon-ecole-frontend:ci
+          build-args: SECURITY_UPDATES=${{ steps.day.outputs.date }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
       - name: Smoke test
@@ -154,11 +158,15 @@ jobs:
     steps:
       - uses: actions/checkout@v7
       - uses: docker/setup-buildx-action@v4
+      - name: Today's date (refreshes the image's security updates once a day)
+        id: day
+        run: echo "date=$(date -u +%F)" >> "$GITHUB_OUTPUT"
       - uses: docker/build-push-action@v7
         with:
           context: .
           load: true
           tags: mon-ecole-frontend:ci
+          build-args: SECURITY_UPDATES=${{ steps.day.outputs.date }}
           cache-from: type=gha
       - name: Serve the app
         run: docker run -d --name web -p 8080:8080 -e API_UPSTREAM=http://127.0.0.1:9 mon-ecole-frontend:ci

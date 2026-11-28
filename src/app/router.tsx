@@ -1,8 +1,6 @@
 import { createBrowserRouter, Navigate, type RouteObject } from "react-router";
 
-import { ForgotPasswordPage } from "@/features/auth/ForgotPasswordPage";
 import { LoginPage } from "@/features/auth/LoginPage";
-import { ResetPasswordPage } from "@/features/auth/ResetPasswordPage";
 import { DashboardPage } from "@/features/dashboard/DashboardPage";
 import { ComingSoonPage } from "@/features/modules/ComingSoonPage";
 import { NotFoundPage } from "@/features/modules/NotFoundPage";
@@ -244,8 +242,6 @@ const pages: RouteObject[] = [
       </PublicOnly>
     ),
   },
-  { path: "/forgot-password", element: <ForgotPasswordPage /> },
-  { path: "/reset-password", element: <ResetPasswordPage /> },
   {
     path: "/verify-email",
     lazy: () => import("@/features/auth/VerifyEmailPage").then((m) => ({ Component: m.VerifyEmailPage })),

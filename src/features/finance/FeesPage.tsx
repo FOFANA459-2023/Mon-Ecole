@@ -10,7 +10,7 @@ import { z } from "zod";
 import { EmptyState, Field, QueryError, Spinner } from "@/components/common";
 import { ConfirmDialog } from "@/components/ConfirmDialog";
 import { StatusBadge } from "@/components/display";
-import { OptionSelect, YearSelect } from "@/components/pickers";
+import { OptionSelect } from "@/components/pickers";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -31,7 +31,6 @@ import { useAuth } from "@/lib/auth/context";
 import { useFormatDate } from "@/lib/dates";
 import { currencyDecimals } from "@/lib/format";
 import { applyApiErrors, errorMessage } from "@/lib/forms";
-import { toNumberOrNull, useUrlState } from "@/lib/useUrlState";
 
 import { FINANCE_KEY, useFeeCategories, useFeeSchedules, useMoney } from "./api";
 
@@ -333,8 +332,7 @@ export function FeesPage() {
   const money = useMoney();
   const manage = can("finance.fees.manage");
   const currentYear = useCurrentYear();
-  const [filters, setFilters] = useUrlState({ year: "" });
-  const yearId = toNumberOrNull(filters.year) ?? currentYear?.id ?? null;
+  const yearId = currentYear?.id ?? null;
   const categories = useFeeCategories();
   const levels = (useLevels().data ?? []).filter((l) => l.is_active);
   const schedules = useFeeSchedules(yearId);
@@ -389,9 +387,6 @@ export function FeesPage() {
         <div>
           <h2 className="text-lg font-semibold">{t("finance.schedules")}</h2>
           <p className="text-muted-foreground text-sm">{t("finance.schedulesHint")}</p>
-        </div>
-        <div className="w-56">
-          <YearSelect value={yearId} onChange={(v) => setFilters({ year: v ? String(v) : "" })} aria-label={t("classes.year")} />
         </div>
       </div>
 

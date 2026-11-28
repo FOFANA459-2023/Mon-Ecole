@@ -1,6 +1,6 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useQueryClient } from "@tanstack/react-query";
-import { UserCheck, UserMinus, UserPlus, UserX } from "lucide-react";
+import { KeyRound, UserCheck, UserMinus, UserPlus, UserX } from "lucide-react";
 import { useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
@@ -14,6 +14,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
+import { ResetPasswordDialog } from "@/features/auth/ResetPasswordDialog";
 import { api } from "@/lib/api/client";
 import type { PlatformSchool } from "@/lib/api/types";
 import { applyApiErrors, errorMessage } from "@/lib/forms";
@@ -28,6 +29,7 @@ export function DirectorsDialog({ school, onClose }: { school: PlatformSchool; o
   const queryClient = useQueryClient();
   const [adding, setAdding] = useState(false);
   const [removing, setRemoving] = useState<Director | null>(null);
+  const [resetting, setResetting] = useState<Director | null>(null);
   const [busy, setBusy] = useState(false);
 
   const change = async (director: Director, action: DirectorAction) => {
@@ -68,6 +70,17 @@ export function DirectorsDialog({ school, onClose }: { school: PlatformSchool; o
                 <Badge className="bg-success/15 text-success border-transparent">{t("common.active")}</Badge>
               )}
               <div className="flex gap-1">
+                {director.is_active && (
+                  <Button
+                    size="sm"
+                    variant="outline"
+                    disabled={busy}
+                    onClick={() => setResetting(director)}
+                    aria-label={t("passwordReset.actionFor", { name: director.full_name })}
+                  >
+                    <KeyRound /> {t("passwordReset.short")}
+                  </Button>
+                )}
                 {director.is_active ? (
                   <Button size="sm" variant="outline" disabled={busy} onClick={() => void change(director, "suspend")}>
                     <UserX /> {t("platform.directors.suspend")}
@@ -112,6 +125,18 @@ export function DirectorsDialog({ school, onClose }: { school: PlatformSchool; o
           destructive
           onConfirm={() => (removing ? change(removing, "remove") : undefined)}
         />
+        {resetting && (
+          <ResetPasswordDialog
+            name={resetting.full_name}
+            onSubmit={(password) =>
+              api.post(`/platform/schools/${school.id}/directors/reset-password/`, {
+                user_id: resetting.id,
+                new_password: password,
+              })
+            }
+            onClose={() => setResetting(null)}
+          />
+        )}
       </DialogContent>
     </Dialog>
   );

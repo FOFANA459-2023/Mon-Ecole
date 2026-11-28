@@ -3,6 +3,12 @@ import userEvent from "@testing-library/user-event";
 import { http, HttpResponse } from "msw";
 import { describe, expect, it } from "vitest";
 
+import { YearSwitcher } from "@/features/academics/YearSwitcher";
+import { LoginPage } from "@/features/auth/LoginPage";
+import { ClassesPage } from "@/features/classes/ClassesPage";
+import { DirectorsDialog } from "@/features/platform/PlatformSchoolDialogs";
+import type { PlatformSchool } from "@/lib/api/types";
+import { authValue, makeUser } from "@/test/auth";
 import { renderPage } from "@/test/render";
 import { api, page, server } from "@/test/server";
 
@@ -55,6 +61,117 @@ describe("UsersPage", () => {
     const dialog = await screen.findByRole("dialog");
     await userEvent.click(within(dialog).getByRole("button", { name: "Remove from the school" }));
     await waitFor(() => expect(removed).toBe(true));
+  });
+});
+
+describe("UsersPage — platform administrator", () => {
+  it("can also suspend, remove or reset the password of a Director", async () => {
+    server.use(
+      http.get(api("/users/"), () => HttpResponse.json(page([member(2, "Awa Diallo", "director", "Director")]))),
+      http.get(api("/roles/"), () => HttpResponse.json([])),
+    );
+    renderPage(<UsersPage />, { auth: authValue(makeUser(["users.manage"], { is_platform_admin: true })) });
+    const director = (await screen.findByText("Awa Diallo")).closest("tr")!;
+    await userEvent.click(within(director).getByRole("button", { name: "Actions" }));
+    expect(await screen.findByRole("menuitem", { name: /Suspend/ })).toBeInTheDocument();
+    expect(screen.getByRole("menuitem", { name: /Remove from the school/ })).toBeInTheDocument();
+    expect(screen.getByRole("menuitem", { name: /Reset password/ })).toBeInTheDocument();
+  });
+});
+
+describe("Forgotten passwords: reset by hand, never by email", () => {
+  it("lets the principal give a teacher a temporary password, but not another Director", async () => {
+    let body: Record<string, unknown> | null = null;
+    server.use(
+      http.get(api("/users/"), () =>
+        HttpResponse.json(page([member(1, "Fanta Camara", "teacher", "Teacher"), member(2, "Awa Diallo", "director", "Director")])),
+      ),
+      http.get(api("/roles/"), () => HttpResponse.json([])),
+      http.post(api("/users/1/reset-password/"), async ({ request }) => {
+        body = (await request.json()) as Record<string, unknown>;
+        return new HttpResponse(null, { status: 204 });
+      }),
+    );
+    renderPage(<UsersPage />, { permissions: ["users.manage"] });
+
+    const director = (await screen.findByText("Awa Diallo")).closest("tr")!;
+    await userEvent.click(within(director).getByRole("button", { name: "Actions" }));
+    expect(screen.queryByRole("menuitem", { name: /Reset password/ })).not.toBeInTheDocument();
+    await userEvent.keyboard("{Escape}");
+
+    const teacher = screen.getByText("Fanta Camara").closest("tr")!;
+    await userEvent.click(within(teacher).getByRole("button", { name: "Actions" }));
+    await userEvent.click(await screen.findByRole("menuitem", { name: /Reset password/ }));
+    const dialog = await screen.findByRole("dialog", { name: /Reset the password of Fanta Camara/ });
+    const input = within(dialog).getByLabelText("Temporary password");
+    await userEvent.clear(input);
+    await userEvent.type(input, "Bienvenue-2026");
+    await userEvent.click(within(dialog).getByRole("button", { name: "Set the password" }));
+    await waitFor(() => expect(body).toEqual({ new_password: "Bienvenue-2026" }));
+    expect(await within(dialog).findByText("Bienvenue-2026")).toBeInTheDocument();
+  });
+
+  it("lets the platform administrator reset a principal's password", async () => {
+    let body: Record<string, unknown> | null = null;
+    server.use(
+      http.post(api("/platform/schools/5/directors/reset-password/"), async ({ request }) => {
+        body = (await request.json()) as Record<string, unknown>;
+        return new HttpResponse(null, { status: 204 });
+      }),
+    );
+    const school = {
+      id: 5,
+      name: "Les Palmiers",
+      directors: [
+        { id: 42, full_name: "Awa Diallo", email: "awa@test.local", phone: "", account_status: "active", is_active: true },
+      ],
+    } as unknown as PlatformSchool;
+    renderPage(<DirectorsDialog school={school} onClose={() => undefined} />);
+    await userEvent.click(await screen.findByRole("button", { name: "Reset the password of Awa Diallo" }));
+    const dialog = await screen.findByRole("dialog", { name: /Reset the password of Awa Diallo/ });
+    await userEvent.click(within(dialog).getByRole("button", { name: "Set the password" }));
+    await waitFor(() => expect(body).toMatchObject({ user_id: 42 }));
+    expect(String(body!["new_password"])).toMatch(/^\w{4}-\w{4}-\w{4}$/);
+  });
+
+  it("tells someone who forgot their password who to ask, without any email link", async () => {
+    renderPage(<LoginPage />, { auth: authValue(null) });
+    await userEvent.click(await screen.findByText("Forgot your password?"));
+    expect(screen.getByText(/Ask your school's principal for a temporary password/)).toBeVisible();
+    expect(screen.queryByRole("link", { name: /Forgot/ })).not.toBeInTheDocument();
+  });
+});
+
+describe("YearSwitcher", () => {
+  it("switches every page to the school year picked in the top bar", async () => {
+    localStorage.clear();
+    const years = [
+      { id: 1, name: "2026-2027", start_date: "2026-09-01", end_date: "2027-06-30", is_current: true, status: "open", terms: [] },
+      { id: 2, name: "2025-2026", start_date: "2025-09-01", end_date: "2026-06-30", is_current: false, status: "closed", terms: [] },
+    ];
+    const asked: (string | null)[] = [];
+    server.use(
+      http.get(api("/academic-years/"), () => HttpResponse.json(years)),
+      http.get(api("/levels/"), () => HttpResponse.json([])),
+      http.get(api("/classes/"), ({ request }) => {
+        asked.push(new URL(request.url).searchParams.get("academic_year"));
+        return HttpResponse.json(page([]));
+      }),
+    );
+    renderPage(
+      <>
+        <YearSwitcher />
+        <ClassesPage />
+      </>,
+      { permissions: ["classes.view_all"] },
+    );
+    const switcher = await screen.findByRole("combobox", { name: "School year shown on every page" });
+    await waitFor(() => expect(asked).toContain("1"));
+    await userEvent.click(switcher);
+    await userEvent.click(await screen.findByRole("option", { name: "2025-2026" }));
+    await waitFor(() => expect(asked.at(-1)).toBe("2"));
+    expect(switcher).toHaveTextContent("not current");
+    localStorage.clear();
   });
 });
 

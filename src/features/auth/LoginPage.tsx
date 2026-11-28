@@ -3,7 +3,7 @@ import { AlertCircle } from "lucide-react";
 import { useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
-import { Link, useLocation, useNavigate, useSearchParams } from "react-router";
+import { useLocation, useNavigate, useSearchParams } from "react-router";
 import { z } from "zod";
 
 import { Field } from "@/components/common";
@@ -84,11 +84,14 @@ export function LoginPage() {
         <Field label={t("auth.password")} htmlFor="password" error={errors.password?.message}>
           <PasswordInput id="password" autoComplete="current-password" {...form.register("password")} />
         </Field>
-        <div className="-mt-2 text-right">
-          <Link to="/forgot-password" className="text-primary text-sm hover:underline">
+        {/* No reset by email: the school's principal (or, for a principal, the platform administrator)
+            gives a temporary password in person. */}
+        <details className="group -mt-2 text-sm">
+          <summary className="text-primary ml-auto w-fit cursor-pointer list-none hover:underline">
             {t("auth.forgotPassword")}
-          </Link>
-        </div>
+          </summary>
+          <p className="text-muted-foreground bg-muted mt-2 rounded-md p-3">{t("auth.forgotHelp")}</p>
+        </details>
         <Button type="submit" size="lg" disabled={isSubmitting}>
           {isSubmitting ? t("auth.signingIn") : t("auth.signIn")}
         </Button>
